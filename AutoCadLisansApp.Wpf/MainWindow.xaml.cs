@@ -60,6 +60,7 @@ namespace MaterialDesignColors.WpfExample
             DemoItem item =(DemoItem) DemoItemsListBox.SelectedItem;
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = item;
+
         }
     } 
 }
