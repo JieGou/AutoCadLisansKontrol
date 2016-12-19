@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AUTOCADLICENSEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Computer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="1000" />
+          <Property Name="Ip" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="PyshicalAddress" Type="varchar" MaxLength="1000" />
+          <Property Name="IsRootMachine" Type="bit" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="IsComputer" Type="bit" />
+          <Property Name="FirmId" Type="int" />
+          <Property Name="Visibility" Type="bit" />
+        </EntityType>
+        <EntityType Name="Firm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Operation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirmId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="OperationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ComputerId" Type="int" />
+          <Property Name="Output" Type="text" />
+          <Property Name="IsUnlicensed" Type="int" />
+          <Property Name="CheckDate" Type="datetime" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="OperationId" Type="int" />
+        </EntityType>
+        <Association Name="FK_Computer_Firm">
+          <End Role="Firm" Type="Self.Firm" Multiplicity="0..1" />
+          <End Role="Computer" Type="Self.Computer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Firm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Computer">
+              <PropertyRef Name="FirmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Operation_Firm">
+          <End Role="Firm" Type="Self.Firm" Multiplicity="0..1" />
+          <End Role="Operation" Type="Self.Operation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Firm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Operation">
+              <PropertyRef Name="FirmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationDetail_Operation">
+          <End Role="Operation" Type="Self.Operation" Multiplicity="0..1" />
+          <End Role="OperationDetail" Type="Self.OperationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Operation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationDetail">
+              <PropertyRef Name="OperationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AUTOCADLICENSEModelStoreContainer">
+          <EntitySet Name="Computer" EntityType="Self.Computer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Firm" EntityType="Self.Firm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Operation" EntityType="Self.Operation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OperationDetail" EntityType="Self.OperationDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Computer_Firm" Association="Self.FK_Computer_Firm">
+            <End Role="Firm" EntitySet="Firm" />
+            <End Role="Computer" EntitySet="Computer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Operation_Firm" Association="Self.FK_Operation_Firm">
+            <End Role="Firm" EntitySet="Firm" />
+            <End Role="Operation" EntitySet="Operation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationDetail_Operation" Association="Self.FK_OperationDetail_Operation">
+            <End Role="Operation" EntitySet="Operation" />
+            <End Role="OperationDetail" EntitySet="OperationDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AUTOCADLICENSEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Computer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Ip" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PyshicalAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="IsRootMachine" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsComputer" Type="Boolean" />
+          <Property Name="FirmId" Type="Int32" />
+          <Property Name="Visibility" Type="Boolean" />
+          <NavigationProperty Name="Firm" Relationship="Self.FK_Computer_Firm" FromRole="Computer" ToRole="Firm" />
+        </EntityType>
+        <EntityType Name="Firm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Computer" Relationship="Self.FK_Computer_Firm" FromRole="Firm" ToRole="Computer" />
+          <NavigationProperty Name="Operation" Relationship="Self.FK_Operation_Firm" FromRole="Firm" ToRole="Operation" />
+        </EntityType>
+        <EntityType Name="Operation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirmId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Firm" Relationship="Self.FK_Operation_Firm" FromRole="Operation" ToRole="Firm" />
+          <NavigationProperty Name="OperationDetail" Relationship="Self.FK_OperationDetail_Operation" FromRole="Operation" ToRole="OperationDetail" />
+        </EntityType>
+        <EntityType Name="OperationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComputerId" Type="Int32" />
+          <Property Name="Output" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsUnlicensed" Type="Int32" />
+          <Property Name="CheckDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="OperationId" Type="Int32" />
+          <NavigationProperty Name="Operation" Relationship="Self.FK_OperationDetail_Operation" FromRole="OperationDetail" ToRole="Operation" />
+        </EntityType>
+        <Association Name="FK_Computer_Firm">
+          <End Role="Firm" Type="Self.Firm" Multiplicity="0..1" />
+          <End Role="Computer" Type="Self.Computer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Firm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Computer">
+              <PropertyRef Name="FirmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Operation_Firm">
+          <End Role="Firm" Type="Self.Firm" Multiplicity="0..1" />
+          <End Role="Operation" Type="Self.Operation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Firm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Operation">
+              <PropertyRef Name="FirmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationDetail_Operation">
+          <End Role="Operation" Type="Self.Operation" Multiplicity="0..1" />
+          <End Role="OperationDetail" Type="Self.OperationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Operation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OperationDetail">
+              <PropertyRef Name="OperationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AUTOCADLICENSEEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Computer" EntityType="Self.Computer" />
+          <EntitySet Name="Firm" EntityType="Self.Firm" />
+          <EntitySet Name="Operation" EntityType="Self.Operation" />
+          <EntitySet Name="OperationDetail" EntityType="Self.OperationDetail" />
+          <AssociationSet Name="FK_Computer_Firm" Association="Self.FK_Computer_Firm">
+            <End Role="Firm" EntitySet="Firm" />
+            <End Role="Computer" EntitySet="Computer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Operation_Firm" Association="Self.FK_Operation_Firm">
+            <End Role="Firm" EntitySet="Firm" />
+            <End Role="Operation" EntitySet="Operation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationDetail_Operation" Association="Self.FK_OperationDetail_Operation">
+            <End Role="Operation" EntitySet="Operation" />
+            <End Role="OperationDetail" EntitySet="OperationDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AUTOCADLICENSEModelStoreContainer" CdmEntityContainer="AUTOCADLICENSEEntities1">
+          <EntitySetMapping Name="Computer">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Computer">
+              <MappingFragment StoreEntitySet="Computer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Ip" ColumnName="Ip" />
+                <ScalarProperty Name="PyshicalAddress" ColumnName="PyshicalAddress" />
+                <ScalarProperty Name="IsRootMachine" ColumnName="IsRootMachine" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsComputer" ColumnName="IsComputer" />
+                <ScalarProperty Name="FirmId" ColumnName="FirmId" />
+                <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Firm">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Firm">
+              <MappingFragment StoreEntitySet="Firm">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Operation">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Operation">
+              <MappingFragment StoreEntitySet="Operation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirmId" ColumnName="FirmId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OperationDetail">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.OperationDetail">
+              <MappingFragment StoreEntitySet="OperationDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ComputerId" ColumnName="ComputerId" />
+                <ScalarProperty Name="Output" ColumnName="Output" />
+                <ScalarProperty Name="IsUnlicensed" ColumnName="IsUnlicensed" />
+                <ScalarProperty Name="CheckDate" ColumnName="CheckDate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="OperationId" ColumnName="OperationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

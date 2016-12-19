@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="MaterialDesignColors.WpfExample.Computer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+   
+    <ScrollViewer>
+       
+        <StackPanel>
+            <StackPanel>
+                <materialDesign:Chip Content="{Binding Firm.Name}" 
+                             Icon="F" 
+                             Margin="0 0 4 4" />
+                <materialDesign:Chip Content="{Binding Operation.Name}" 
+                             Icon="O" 
+                             Margin="0 0 4 4" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="190"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding buttonClicked}">
+                Generate From Network
+            </Button>
+            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="120"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding AddItemClicked}">
+                Add Item
+            </Button>
+            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="155"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding LoadDbClicked}">
+                LoadFromDb
+            </Button>
+                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="155"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding SaveClicked}">
+                    Save
+                </Button>
+            </StackPanel>
+            <GroupBox Grid.Column="0" Grid.Row="0" Header="Bilgisayar Listesi" Margin="16">
+            <DataGrid  Margin="0 8 0 0" ItemsSource="{Binding Computers,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
+                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Binding="{Binding IsComputer,Mode=TwoWay}" 
+                                            Header="IsComputer"
+                                            ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                            >
+                        </DataGridCheckBoxColumn>
+                    <DataGridTextColumn Binding="{Binding Ip}"
+                                        Header="Ip"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                    <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
+                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name}"
+                                                               Header="Name"                                                        
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
+                                                               />
+                    <!-- set a max length to get an indicator in the editor -->
+                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding PyshicalAddress}"
+                                                               Header="Fiziksel Adres"                                                        
+                                                               MaxLength="255" 
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
+                    <!-- set a max length to get an indicator in the editor -->
+                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Type,Mode=TwoWay}"
+                                                               Header="Tip"                                                        
+                                                               MaxLength="255" 
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
+
+                    <DataGridTemplateColumn Header="Statu" Width="SizeToCells" 
+ IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding SetVisibility(Visibility)}"
+                        Margin="0 0 8 0" HorizontalAlignment="Left"
+                        ToolTip="Online">
+
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
+                    <!--<materialDesign:MaterialDataGridComboBoxColumn Header="Food"        
+                                                                   SelectedValueBinding="{Binding Food}"-->
+                    <!--ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Foods}" />-->
+                </DataGrid.Columns>
+            </DataGrid>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
