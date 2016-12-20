@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AUTOCADLICENSEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AUTOCADLICENSEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Computer">
           <Key>
             <PropertyRef Name="Id" />
@@ -18,6 +18,7 @@
           <Property Name="IsComputer" Type="bit" />
           <Property Name="FirmId" Type="int" />
           <Property Name="Visibility" Type="bit" />
+          <Property Name="InsertDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Firm">
           <Key>
@@ -25,6 +26,10 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="200" />
+          <Property Name="Address" Type="text" />
+          <Property Name="Contact" Type="varchar" MaxLength="200" />
+          <Property Name="PhoneNo" Type="varchar" MaxLength="50" />
+          <Property Name="InsertDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Operation">
           <Key>
@@ -100,8 +105,7 @@
             <End Role="OperationDetail" EntitySet="OperationDetail" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AUTOCADLICENSEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -119,6 +123,7 @@
           <Property Name="FirmId" Type="Int32" />
           <Property Name="Visibility" Type="Boolean" />
           <NavigationProperty Name="Firm" Relationship="Self.FK_Computer_Firm" FromRole="Computer" ToRole="Firm" />
+          <Property Name="InsertDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Firm">
           <Key>
@@ -128,6 +133,10 @@
           <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Computer" Relationship="Self.FK_Computer_Firm" FromRole="Firm" ToRole="Computer" />
           <NavigationProperty Name="Operation" Relationship="Self.FK_Operation_Firm" FromRole="Firm" ToRole="Operation" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InsertDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Operation">
           <Key>
@@ -215,6 +224,7 @@
           <EntitySetMapping Name="Computer">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Computer">
               <MappingFragment StoreEntitySet="Computer">
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Ip" ColumnName="Ip" />
@@ -230,6 +240,10 @@
           <EntitySetMapping Name="Firm">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Firm">
               <MappingFragment StoreEntitySet="Firm">
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>

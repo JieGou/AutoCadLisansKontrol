@@ -13,10 +13,10 @@ namespace AutoCadLisansKontrol.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AUTOCADLICENSEEntities : DbContext
+    public partial class AUTOCADLICENSEEntities1 : DbContext
     {
-        public AUTOCADLICENSEEntities()
-            : base("name=AUTOCADLICENSEEntities")
+        public AUTOCADLICENSEEntities1()
+            : base("name=AUTOCADLICENSEEntities1")
         {
         }
     

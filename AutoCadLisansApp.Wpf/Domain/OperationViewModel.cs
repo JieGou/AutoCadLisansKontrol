@@ -14,11 +14,11 @@ namespace MaterialDesignDemo.Domain
         public ICommand SaveClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand RefreshClicked { get; set; }
-
-        public ICommand RunComputerDetectClicked { get; set; }
-
-        public ICommand RunAutoCadDetectClicked { get; set; }
-
+        private AutoCadLisansKontrol.DAL.Firm _selectedfirm;
+        public AutoCadLisansKontrol.DAL.Firm SelectedFirm { get { return _selectedfirm; } set {
+                _selectedfirm = value;
+                OnPropertyChanged("SelectedFirm");
+            } }
         public ObservableCollection<AutoCadLisansKontrol.DAL.Firm> Firm { get { return new ObservableCollection<AutoCadLisansKontrol.DAL.Firm>(dbAccess.ListFirm()); } }
         public ObservableCollection<AutoCadLisansKontrol.DAL.Operation> Operation
         {
@@ -29,16 +29,22 @@ namespace MaterialDesignDemo.Domain
                 OnPropertyChanged("Operation");
             }
         }
+
         public OperationViewModel()
         {
-            RunComputerDetectClicked = new DelegateCommand(RunComputerDetectCommand);
-            RunAutoCadDetectClicked = new DelegateCommand(RunAutoCadDetectCommand);
             RefreshClicked = new DelegateCommand(RefreshCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             SaveClicked = new DelegateCommand(SaveCommand);
             Operation = new ObservableCollection<AutoCadLisansKontrol.DAL.Operation>(dbAccess.ListOperation());
         }
-
+        public OperationViewModel(int firmid)
+        {
+            SelectedFirm = dbAccess.GetFirm(firmid);
+            RefreshClicked = new DelegateCommand(RefreshCommand);
+            AddItemClicked = new DelegateCommand(AddItemCommand);
+            SaveClicked = new DelegateCommand(SaveCommand);
+            Operation = new ObservableCollection<AutoCadLisansKontrol.DAL.Operation>(dbAccess.ListOperation(firmid));
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -61,17 +67,8 @@ namespace MaterialDesignDemo.Domain
         }
         public void RefreshCommand()
         {
+            SelectedFirm = new AutoCadLisansKontrol.DAL.Firm();
             Operation = new ObservableCollection<AutoCadLisansKontrol.DAL.Operation>(dbAccess.ListOperation());
-        }
-
-        public void RunComputerDetectCommand()
-        {
-            
-        }
-
-        public void RunAutoCadDetectCommand()
-        {
-
         }
     }
 }

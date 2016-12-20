@@ -27,9 +27,9 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image Source="Resources/ms-icon-310x310.png" Stretch="Uniform" Width="100" Height="100" />
+            <Image Source="img/rsz_autocadicon.png" Stretch="Uniform" Width="100" Height="100" />
             <StackPanel Grid.Column="1" Margin="24 0 0 0" VerticalAlignment="Center">
-                <TextBlock Style="{StaticResource MaterialDesignDisplay1TextBlock}" TextWrapping="Wrap">Welcome to Material Design In XAML Toolkit</TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignDisplay1TextBlock}" TextWrapping="Wrap">Welcome to AutoDesk License Control Toolkit</TextBlock>
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                         Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}">
                     <StackPanel Orientation="Horizontal">

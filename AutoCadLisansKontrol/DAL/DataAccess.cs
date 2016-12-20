@@ -9,7 +9,7 @@ namespace AutoCadLisansKontrol.DAL
 
     public class DataAccess
     {
-        AUTOCADLICENSEEntities dbaccess = new AUTOCADLICENSEEntities();
+        AUTOCADLICENSEEntities1 dbaccess = new AUTOCADLICENSEEntities1();
 
         public void UpsertFirm(Firm firm)
         {
@@ -107,6 +107,10 @@ namespace AutoCadLisansKontrol.DAL
         public List<Operation> ListOperation()
         {
             return dbaccess.Operation.ToList();
+        }
+        public List<Operation> ListOperation(int firmid)
+        {
+            return dbaccess.Operation.Where(x=>x.FirmId== firmid).ToList();
         }
         public void DeleteOperation(Operation opr)
         {

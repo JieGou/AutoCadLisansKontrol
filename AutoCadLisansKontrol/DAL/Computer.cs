@@ -23,6 +23,7 @@ namespace AutoCadLisansKontrol.DAL
         public Nullable<bool> IsComputer { get; set; }
         public Nullable<int> FirmId { get; set; }
         public Nullable<bool> Visibility { get; set; }
+        public Nullable<System.DateTime> InsertDate { get; set; }
     
         public virtual Firm Firm { get; set; }
     }
