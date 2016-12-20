@@ -91,6 +91,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>AUTOCADLICENSE.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="BatFile\detectcomputer.bat" />
     <None Include="DAL\AUTOCADLICENSE.edmx.diagram">
       <DependentUpon>AUTOCADLICENSE.edmx</DependentUpon>
     </None>

@@ -43,6 +43,11 @@
                     Save
                 </Button>
             </StackPanel>
+            <Grid>
+                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
+                     x:Name="DeterminateCircularProgress"
+                     Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12 12 12 12" />
+            </Grid>
             <GroupBox Grid.Column="0" Grid.Row="0" Header="Bilgisayar Listesi" Margin="16">
             <DataGrid  Margin="0 8 0 0" ItemsSource="{Binding Computers,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                       materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">

@@ -3,12 +3,15 @@ using AutoCadLisansKontrol.DAL;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AutoCadLisansKontrol.Controller
 {
@@ -32,7 +35,7 @@ namespace AutoCadLisansKontrol.Controller
             // Redirect the output stream of the child process.
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.FileName = @"c:\users\hikmet\desktop\detectcomputer.bat";
+            p.StartInfo.FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\detectcomputer.bat";
             p.Start();
             // Do not wait for the child process to exit before
             // reading to the end of its redirected stream.

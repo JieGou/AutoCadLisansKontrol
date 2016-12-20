@@ -106,7 +106,16 @@ namespace AutoCadLisansKontrol.DAL
         }
         public List<Operation> ListOperation()
         {
-            return dbaccess.Operation.ToList();
+            try
+            {
+                return dbaccess.Operation.ToList();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public List<Operation> ListOperation(int firmid)
         {
