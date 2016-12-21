@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignThemes.Wpf;
+using System.Windows.Threading;
 
 namespace MaterialDesignColors.WpfExample
 {
@@ -15,6 +16,7 @@ namespace MaterialDesignColors.WpfExample
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
         public MainWindow()
         {
             InitializeComponent();            

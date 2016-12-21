@@ -86,12 +86,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="DAL\AUTOCADLICENSE.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>AUTOCADLICENSE.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="BatFile\detectcomputer.bat" />
     <None Include="DAL\AUTOCADLICENSE.edmx.diagram">
       <DependentUpon>AUTOCADLICENSE.edmx</DependentUpon>
     </None>

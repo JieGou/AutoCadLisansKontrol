@@ -7,21 +7,54 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using System.Windows;
 using AutoCadLisansKontrol.DAL;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Threading;
+using System.Windows.Data;
+using System.Collections;
+using System.Threading;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
     public class ComputerViewModel : INotifyPropertyChanged
     {
+
+        CheckAutoCadLicense license = new CheckAutoCadLicense();
+        private int _totalComputer = 0;
+        public int TotalComputer { get { return _totalComputer; } set { _totalComputer = value; OnPropertyChanged("TotalComputer"); } }
+        private int _executedComputer = 0;
+        public int ExecutedComputer { get { return _executedComputer; } set { _executedComputer = value; OnPropertyChanged("ExecutedComputer"); } }
+
         DataAccess dbAccess = new DataAccess();
         public ICommand buttonClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand LoadDbClicked { get; set; }
         public ICommand SaveClicked { get; set; }
         private int operationId;
-        
+
+        private PagingCollectionView _cview;
+        public PagingCollectionView Cview
+        {
+            get { return _cview; }
+            set
+            {
+                _cview = value;
+                OnPropertyChanged("Cview");
+            }
+        }
+
         private ObservableCollection<AutoCadLisansKontrol.DAL.Computer> _computers;
         private bool? _isAllItems3Selected;
-        
+        private Visibility _progressbar = Visibility.Hidden;
+        public Visibility ProgressBar
+        {
+            get { return _progressbar; }
+            set
+            {
+                _progressbar = value;
+                OnPropertyChanged("ProgressBar");
+            }
+        }
 
         public ComputerViewModel()
         {
@@ -64,14 +97,13 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
 
-        private static ObservableCollection<AutoCadLisansKontrol.DAL.Computer> GenerateDataFromNetwork()
+        private ObservableCollection<AutoCadLisansKontrol.DAL.Computer> GenerateDataFromNetwork()
         {
 
-            CheckAutoCadLicense license = new CheckAutoCadLicense();
-
-            return new ObservableCollection<AutoCadLisansKontrol.DAL.Computer>(license.GetComputerInfoOnNetwork());
+            var list = license.GetComputerInfoOnNetwork();
+            return new ObservableCollection<AutoCadLisansKontrol.DAL.Computer>(list);
         }
-        
+
         public ObservableCollection<AutoCadLisansKontrol.DAL.Computer> Computers
         {
             get
@@ -106,10 +138,49 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             if (PropertyChanged != null)
                 //PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public void GenerateCommand() {
+        public void GenerateCommand()
+        {
+            ProgressBar = Visibility.Visible;
+            UpdateData();
+
+
+        }
+        private async void UpdateData()
+        {
+            //I assume BitmapFromUri is the slow step.
+
+            //Now that we have our bitmap, now go to the main thread.
+
             Computers = GenerateDataFromNetwork();
+            TotalComputer = Computers.Count;
+
+
+            foreach (var item in Computers)
+            {
+                await Task.Run(() => new CheckAutoCadLicense().ExecuteComputer(item));
+
+
+                ExecutedComputer++;
+            }
+
+            ProgressBar = Visibility.Hidden;
+
+
+            Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+            {
+                foreach (var item in Computers)
+                {
+                    item.Ip = item.Ip;
+                }
+            }));
+
+
+        }
+        public void RefreshComputerList()
+        {
+
         }
 
         public void LoadComputerFromDb()
@@ -118,6 +189,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         }
         public void AddItemCommand()
         {
+            Computers = Computers;
             if (Computers == null) Computers = new ObservableCollection<AutoCadLisansKontrol.DAL.Computer>();
             Computers.Add(new AutoCadLisansKontrol.DAL.Computer());
         }
@@ -130,29 +202,103 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
+    }
+    public class PagingCollectionView : CollectionView
+    {
+        private readonly IList _innerList;
+        private readonly int _itemsPerPage;
 
+        private int _currentPage = 1;
 
-        public Visibility SetVisibility(bool isonline) {
-
-            switch (isonline)
-            {
-                case true:
-                    return Visibility.Visible;
-                case false:
-                    return Visibility.Hidden;
-                default:
-                    return Visibility.Hidden;
-            }
+        public PagingCollectionView(IList innerList, int itemsPerPage)
+            : base(innerList)
+        {
+            this._innerList = innerList;
+            this._itemsPerPage = itemsPerPage;
         }
-        public IEnumerable<string> Foods
+
+        public override int Count
         {
             get
             {
-                yield return "Burger";
-                yield return "Fries";
-                yield return "Shake";
-                yield return "Lettuce";
+                if (this._innerList.Count == 0) return 0;
+                if (this._currentPage < this.PageCount) // page 1..n-1
+                {
+                    return this._itemsPerPage;
+                }
+                else // page n
+                {
+                    var itemsLeft = this._innerList.Count % this._itemsPerPage;
+                    if (0 == itemsLeft)
+                    {
+                        return this._itemsPerPage; // exactly itemsPerPage left
+                    }
+                    else
+                    {
+                        // return the remaining items
+                        return itemsLeft;
+                    }
+                }
             }
+        }
+
+        public int CurrentPage
+        {
+            get { return this._currentPage; }
+            set
+            {
+                this._currentPage = value;
+                this.OnPropertyChanged(new PropertyChangedEventArgs("CurrentPage"));
+            }
+        }
+
+        public int ItemsPerPage { get { return this._itemsPerPage; } }
+
+        public int PageCount
+        {
+            get
+            {
+                return (this._innerList.Count + this._itemsPerPage - 1)
+                    / this._itemsPerPage;
+            }
+        }
+
+        private int EndIndex
+        {
+            get
+            {
+                var end = this._currentPage * this._itemsPerPage - 1;
+                return (end > this._innerList.Count) ? this._innerList.Count : end;
+            }
+        }
+
+        private int StartIndex
+        {
+            get { return (this._currentPage - 1) * this._itemsPerPage; }
+        }
+
+        public override object GetItemAt(int index)
+        {
+            var offset = index % (this._itemsPerPage);
+            return this._innerList[this.StartIndex + offset];
+        }
+
+        public void MoveToNextPage()
+        {
+            if (this._currentPage < this.PageCount)
+            {
+                this.CurrentPage += 1;
+            }
+            this.Refresh();
+        }
+
+        public void MoveToPreviousPage()
+        {
+            if (this._currentPage > 1)
+            {
+                this.CurrentPage -= 1;
+            }
+            this.Refresh();
         }
     }
 }

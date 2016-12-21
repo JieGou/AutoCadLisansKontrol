@@ -10,14 +10,24 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Button">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-   
+
     <ScrollViewer>
-       
+
         <StackPanel>
-            <StackPanel>
+          
+                <StackPanel>
                 <materialDesign:Chip Content="{Binding Firm.Name}" 
                              Icon="F" 
                              Margin="0 0 4 4" />
@@ -43,13 +53,15 @@
                     Save
                 </Button>
             </StackPanel>
-            <Grid>
-                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
-                     x:Name="DeterminateCircularProgress"
-                     Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12 12 12 12" />
-            </Grid>
-            <GroupBox Grid.Column="0" Grid.Row="0" Header="Bilgisayar Listesi" Margin="16">
-            <DataGrid  Margin="0 8 0 0" ItemsSource="{Binding Computers,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
+            <ProgressBar IsIndeterminate="True" Margin="24" Visibility="{Binding ProgressBar,Mode=TwoWay}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding TotalComputer,Mode=TwoWay}"></TextBlock>
+            <TextBlock Text="/"></TextBlock>
+            <TextBlock Text="{Binding ExecutedComputer,Mode=TwoWay}"></TextBlock>
+            </StackPanel>
+            <GroupBox  Header="Bilgisayar Listesi" Margin="16">
+
+                <DataGrid  Margin="0 8 0 0" ItemsSource="{Binding Computers,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                       materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
                 <DataGrid.Columns>
                         <DataGridCheckBoxColumn Binding="{Binding IsComputer,Mode=TwoWay}" 
@@ -62,12 +74,12 @@
                                         Header="Ip"
                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                     <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
-                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name}"
+                        <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name,Mode=TwoWay}"
                                                                Header="Name"                                                        
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                                                />
                     <!-- set a max length to get an indicator in the editor -->
-                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding PyshicalAddress}"
+                        <materialDesign:MaterialDataGridTextColumn Binding="{Binding PyshicalAddress,Mode=TwoWay}"
                                                                Header="Fiziksel Adres"                                                        
                                                                MaxLength="255" 
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
@@ -81,11 +93,12 @@
  IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding SetVisibility(Visibility)}"
+                                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Visibility,Mode=TwoWay}"
                         Margin="0 0 8 0" HorizontalAlignment="Left"
                         ToolTip="Online">
+                                      
 
-                                </Button>
+                                    </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

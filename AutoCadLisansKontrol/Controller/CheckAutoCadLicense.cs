@@ -51,7 +51,7 @@ namespace AutoCadLisansKontrol.Controller
 
             p.WaitForExit();
 
-            return networkmachine;
+            return networkmachine.Take(2).ToList();
         }
         private List<Computer> GetNetworkMachine(string[] lines)
         {
@@ -66,9 +66,7 @@ namespace AutoCadLisansKontrol.Controller
                     Ip = machineinfo[0],
                     PyshicalAddress = machineinfo[1],
                     Type = machineinfo[2],
-                    //Name = GetMachineNameFromIPAddress(machineinfo[0]),
-                    IsRootMachine = false,
-                    Visibility= PingHost(machineinfo[0])
+                    IsRootMachine = false
                 });
             }
 
@@ -87,6 +85,15 @@ namespace AutoCadLisansKontrol.Controller
                 PyshicalAddress = "",
             };
 
+        }
+        public void ExecuteComputer(Computer comp)
+        {
+            comp.Ip = "xx";
+            comp.Name = GetMachineNameFromIPAddress(comp.Ip);
+            comp.IsComputer = true;
+            comp.IsRootMachine = false;
+            comp.PyshicalAddress = "xx";
+            comp.Visibility = PingHost(comp.Ip);
         }
         private static string GetMachineNameFromIPAddress(string ipAdress)
         {
