@@ -48,7 +48,10 @@ namespace AutoCadLisansKontrol.DAL
         {
             var item = dbaccess.Computer.Where(x => x.Id == comp.Id).FirstOrDefault<Computer>();
             if (item == null)
-                dbaccess.Computer.Add(comp);
+            {
+                item = new Computer { Id = comp.Id, Ip = comp.Ip, IsComputer = comp.IsComputer, IsRootMachine = comp.IsRootMachine, IsVisible = comp.IsVisible, Name = comp.Name, PyshicalAddress = comp.PyshicalAddress, FirmId = comp.FirmId, Type = comp.Type, InsertDate = comp.InsertDate } ;
+                dbaccess.Computer.Add(item);
+            }
             else
             {
                 item.Ip = comp.Ip;
@@ -56,7 +59,7 @@ namespace AutoCadLisansKontrol.DAL
                 item.IsRootMachine = comp.IsRootMachine;
                 item.Name = comp.Name;
                 item.PyshicalAddress = comp.PyshicalAddress;
-                item.Visibility = comp.Visibility;
+                item.IsVisible = comp.IsVisible;
             }
             dbaccess.SaveChanges();
         }
@@ -88,7 +91,7 @@ namespace AutoCadLisansKontrol.DAL
             item.IsRootMachine = comp.IsRootMachine;
             item.Name = comp.Name;
             item.PyshicalAddress = comp.PyshicalAddress;
-            item.Visibility = comp.Visibility;
+            item.IsVisible = comp.IsVisible;
             dbaccess.SaveChanges();
         }
 
@@ -137,11 +140,11 @@ namespace AutoCadLisansKontrol.DAL
             dbaccess.SaveChanges();
         }
 
-        public void UpsertOperationDetail(OperationDetail oprdetail)
+        public void UpsertOperationDetail(CheckLicense oprdetail)
         {
-            var item = dbaccess.OperationDetail.Where(x => x.Id == oprdetail.Id).FirstOrDefault<OperationDetail>();
+            var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicense>();
             if (item == null)
-                dbaccess.OperationDetail.Add(oprdetail);
+                dbaccess.CheckLicense.Add(oprdetail);
             else
             {
                 item.IsUnlicensed = oprdetail.IsUnlicensed;
@@ -152,20 +155,20 @@ namespace AutoCadLisansKontrol.DAL
             dbaccess.SaveChanges();
         }
 
-        public List<OperationDetail> ListOprDetail()
+        public List<CheckLicense> ListOprDetail()
         {
-            return dbaccess.OperationDetail.ToList();
+            return dbaccess.CheckLicense.ToList();
         }
 
-        public void DeleteOprDetail(OperationDetail oprdetail)
+        public void DeleteOprDetail(CheckLicense oprdetail)
         {
-            dbaccess.OperationDetail.Remove(oprdetail);
+            dbaccess.CheckLicense.Remove(oprdetail);
             dbaccess.SaveChanges();
         }
 
-        public void UpdateOprDetail(OperationDetail oprdetail)
+        public void UpdateOprDetail(CheckLicense oprdetail)
         {
-            var item = dbaccess.OperationDetail.Where(x => x.Id == oprdetail.Id).FirstOrDefault<OperationDetail>();
+            var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicense>();
             item.IsUnlicensed = oprdetail.IsUnlicensed;
             item.Output = oprdetail.Output;
             item.CheckDate = oprdetail.CheckDate;

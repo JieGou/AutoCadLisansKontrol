@@ -13,6 +13,7 @@ using System.Windows.Threading;
 using System.Windows.Data;
 using System.Collections;
 using System.Threading;
+using MaterialDesignDemo.Model;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -30,20 +31,11 @@ namespace MaterialDesignColors.WpfExample.Domain
         public ICommand AddItemClicked { get; set; }
         public ICommand LoadDbClicked { get; set; }
         public ICommand SaveClicked { get; set; }
-        private int operationId;
+        private int FirmId;
 
-        private PagingCollectionView _cview;
-        public PagingCollectionView Cview
-        {
-            get { return _cview; }
-            set
-            {
-                _cview = value;
-                OnPropertyChanged("Cview");
-            }
-        }
+      
 
-        private ObservableCollection<AutoCadLisansKontrol.DAL.Computer> _computers;
+        private ObservableCollection<ComputerModel> _computers;
         private bool? _isAllItems3Selected;
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -64,13 +56,13 @@ namespace MaterialDesignColors.WpfExample.Domain
             SaveClicked = new DelegateCommand(SaveCommand);
         }
 
-        public ComputerViewModel(int opr)
+        public ComputerViewModel(int firmId)
         {
             buttonClicked = new DelegateCommand(GenerateCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             LoadDbClicked = new DelegateCommand(LoadComputerFromDb);
             SaveClicked = new DelegateCommand(SaveCommand);
-            operationId = opr;
+            FirmId = firmId;
         }
 
         public bool? IsAllItems3Selected
@@ -89,7 +81,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
 
-        private void SelectAll(bool select, IEnumerable<AutoCadLisansKontrol.DAL.Computer> models)
+        private void SelectAll(bool select, IEnumerable<ComputerModel> models)
         {
             foreach (var model in models)
             {
@@ -97,14 +89,14 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
 
-        private ObservableCollection<AutoCadLisansKontrol.DAL.Computer> GenerateDataFromNetwork()
+        private ObservableCollection<ComputerModel> GenerateDataFromNetwork()
         {
 
-            var list = license.GetComputerInfoOnNetwork();
-            return new ObservableCollection<AutoCadLisansKontrol.DAL.Computer>(list);
+            List<ComputerModel> list = license.GetComputerInfoOnNetwork().ConvertAll(x=>new ComputerModel { Id=x.Id,Ip=x.Ip,IsComputer=x.IsComputer,IsRootMachine=x.IsRootMachine,IsVisible=x.IsVisible,Name=x.Name,PyshicalAddress=x.PyshicalAddress,FirmId=x.FirmId,Type=x.Type,InsertDate=x.InsertDate});
+            return new ObservableCollection<ComputerModel>(list);
         }
 
-        public ObservableCollection<AutoCadLisansKontrol.DAL.Computer> Computers
+        public ObservableCollection<ComputerModel> Computers
         {
             get
             {
@@ -121,15 +113,8 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             get
             {
-                if (Operation == null) return null;
-                return dbAccess.GetFirm(Operation.FirmId);
-            }
-        }
-        public Operation Operation
-        {
-            get
-            {
-                return dbAccess.GetOperation(operationId);
+                if (FirmId == 0) return null;
+                return dbAccess.GetFirm(FirmId);
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -149,34 +134,34 @@ namespace MaterialDesignColors.WpfExample.Domain
         }
         private async void UpdateData()
         {
+            ProgressBar = Visibility.Visible;
+            TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            ObservableCollection<ComputerModel> computers= new ObservableCollection<ComputerModel>();
+            Action DoInBackground = new Action(() =>
+            {
+                computers = GenerateDataFromNetwork();
+                TotalComputer = computers.Count;
+                foreach (var item in computers)
+                {
+                     new CheckAutoCadLicense().ExecuteComputer(item);
+                    ExecutedComputer++;
+                }
+                ProgressBar = Visibility.Hidden;
+            });
+
+            Action DoOnUiThread = new Action(() =>
+            {
+                Computers = computers;
+            });
+
+            // start the background task
+            var t1 = Task.Factory.StartNew(() => DoInBackground());
+            // when t1 is done run t1..on the Ui thread.
+            var t2 = t1.ContinueWith(t => DoOnUiThread(), _uiScheduler);
             //I assume BitmapFromUri is the slow step.
 
             //Now that we have our bitmap, now go to the main thread.
-
-            Computers = GenerateDataFromNetwork();
-            TotalComputer = Computers.Count;
-
-
-            foreach (var item in Computers)
-            {
-                await Task.Run(() => new CheckAutoCadLicense().ExecuteComputer(item));
-
-
-                ExecutedComputer++;
-            }
-
-            ProgressBar = Visibility.Hidden;
-
-
-            Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-            {
-                foreach (var item in Computers)
-                {
-                    item.Ip = item.Ip;
-                }
-            }));
-
-
+            
         }
         public void RefreshComputerList()
         {
@@ -185,19 +170,20 @@ namespace MaterialDesignColors.WpfExample.Domain
 
         public void LoadComputerFromDb()
         {
-            Computers = new ObservableCollection<AutoCadLisansKontrol.DAL.Computer>(dbAccess.ListComputer(Operation.FirmId));
+            Computers = new ObservableCollection<ComputerModel>(dbAccess.ListComputer(FirmId).ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate }));
         }
         public void AddItemCommand()
         {
             Computers = Computers;
-            if (Computers == null) Computers = new ObservableCollection<AutoCadLisansKontrol.DAL.Computer>();
-            Computers.Add(new AutoCadLisansKontrol.DAL.Computer());
+            if (Computers == null) Computers = new ObservableCollection<ComputerModel>();
+            Computers.Add(new ComputerModel());
         }
 
         public void SaveCommand()
         {
             foreach (var item in Computers)
             {
+                item.FirmId = FirmId;
                 dbAccess.UpsertComputer(item);
             }
 

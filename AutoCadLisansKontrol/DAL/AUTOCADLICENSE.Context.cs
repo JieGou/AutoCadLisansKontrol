@@ -28,6 +28,6 @@ namespace AutoCadLisansKontrol.DAL
         public virtual DbSet<Computer> Computer { get; set; }
         public virtual DbSet<Firm> Firm { get; set; }
         public virtual DbSet<Operation> Operation { get; set; }
-        public virtual DbSet<OperationDetail> OperationDetail { get; set; }
+        public virtual DbSet<CheckLicense> CheckLicense { get; set; }
     }
 }

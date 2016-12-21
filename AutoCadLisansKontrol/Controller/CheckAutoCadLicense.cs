@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace AutoCadLisansKontrol.Controller
             // Read the output stream first and then wait.
             string output = p.StandardOutput.ReadToEnd();
 
-            string[] lines = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Where(x => x != "").ToArray() ;
+            string[] lines = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Where(x => x != "").ToArray();
 
             Computer root = GetRootMachine(lines);
             List<Computer> networkmachine = GetNetworkMachine(lines);
@@ -51,8 +52,25 @@ namespace AutoCadLisansKontrol.Controller
 
             p.WaitForExit();
 
-            return networkmachine.Take(2).ToList();
+            //except            
+            var defaultgateway = GetDefaultGateway().ToString();
+            var subnetmask = GetSubnetMask(28);
+            var networkaddress = GetNetworkAddress(IPAddress.Parse(root.Ip), IPAddress.Parse(subnetmask));
+            var broadcastAddress = GetBroadcastAddress(IPAddress.Parse(root.Ip), IPAddress.Parse(subnetmask));
+
+            networkmachine.RemoveAll(x => x.Ip.Contains(defaultgateway) ||
+            x.Ip.Contains(subnetmask) ||
+            x.Ip.Contains(networkaddress.ToString()) ||
+            x.Ip.StartsWith("224.") ||
+            x.Ip.StartsWith("239.") ||
+            x.Ip.StartsWith("255.") ||
+            x.Ip.StartsWith("230.") ||
+            x.Ip.Contains(broadcastAddress.ToString())
+            );
+
+            return networkmachine.Take(12).ToList();
         }
+
         private List<Computer> GetNetworkMachine(string[] lines)
         {
             var startpoint = Array.FindIndex(lines, x => x.Contains("Internet Address")) + 1;
@@ -70,8 +88,56 @@ namespace AutoCadLisansKontrol.Controller
                 });
             }
 
+
             return networkmachine;
 
+        }
+        public IPAddress GetDefaultGateway()
+        {
+
+            foreach (NetworkInterface f in NetworkInterface.GetAllNetworkInterfaces())
+                if (f.OperationalStatus == OperationalStatus.Up)
+                    foreach (GatewayIPAddressInformation d in f.GetIPProperties().GatewayAddresses)
+                    {
+                        return d.Address;
+                    }
+            return null;
+        }
+        public IPAddress GetNetworkAddress(IPAddress address, IPAddress subnetMask)
+        {
+            byte[] ipAdressBytes = address.GetAddressBytes();
+            byte[] subnetMaskBytes = subnetMask.GetAddressBytes();
+
+            if (ipAdressBytes.Length != subnetMaskBytes.Length)
+                throw new ArgumentException("Lengths of IP address and subnet mask do not match.");
+
+            byte[] broadcastAddress = new byte[ipAdressBytes.Length];
+            for (int i = 0; i < broadcastAddress.Length; i++)
+            {
+                broadcastAddress[i] = (byte)(ipAdressBytes[i] & (subnetMaskBytes[i]));
+            }
+            return new IPAddress(broadcastAddress);
+        }
+        public IPAddress GetBroadcastAddress(IPAddress address, IPAddress subnetMask)
+        {
+            byte[] ipAdressBytes = address.GetAddressBytes();
+            byte[] subnetMaskBytes = subnetMask.GetAddressBytes();
+
+            if (ipAdressBytes.Length != subnetMaskBytes.Length)
+                throw new ArgumentException("Lengths of IP address and subnet mask do not match.");
+
+            byte[] broadcastAddress = new byte[ipAdressBytes.Length];
+            for (int i = 0; i < broadcastAddress.Length; i++)
+            {
+                broadcastAddress[i] = (byte)(ipAdressBytes[i] | (subnetMaskBytes[i] ^ 255));
+            }
+            return new IPAddress(broadcastAddress);
+        }
+        public string GetSubnetMask(byte subnet)
+        {
+            long mask = (0xffffffffL << (32 - subnet)) & 0xffffffffL;
+            mask = IPAddress.HostToNetworkOrder((int)mask);
+            return new IPAddress((UInt32)mask).ToString();
         }
         private Computer GetRootMachine(string[] lines)
         {
@@ -79,21 +145,23 @@ namespace AutoCadLisansKontrol.Controller
 
             return new Computer
             {
-                Ip = rootmachineline,
+                Ip = rootmachineline.Split(' ')[1],
                 IsRootMachine = true,
-                Name = GetMachineNameFromIPAddress(rootmachineline),
+                Name = GetMachineNameFromIPAddress(rootmachineline.Split(' ')[1]),
                 PyshicalAddress = "",
+                IsComputer = true,
+                IsVisible = true,
+                Type = "root"
             };
 
         }
         public void ExecuteComputer(Computer comp)
         {
-            comp.Ip = "xx";
+
             comp.Name = GetMachineNameFromIPAddress(comp.Ip);
             comp.IsComputer = true;
             comp.IsRootMachine = false;
-            comp.PyshicalAddress = "xx";
-            comp.Visibility = PingHost(comp.Ip);
+            comp.IsVisible = PingHost(comp.Ip);
         }
         private static string GetMachineNameFromIPAddress(string ipAdress)
         {

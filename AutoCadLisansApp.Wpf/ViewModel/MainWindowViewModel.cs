@@ -16,13 +16,13 @@ namespace MaterialDesignColors.WpfExample.Domain
         private DemoItem _demoitem;
         public MainWindowViewModel()
         {
-            DemoItem = new DemoItem("Operation", new Operation { DataContext = new OperationViewModel() });
             DemoItems = new ObservableCollection<DemoItem>
             {
+                new DemoItem("Home", new Home()),
                 new DemoItem("Operation", new Operation { DataContext = new OperationViewModel()}),
                 new DemoItem("Firma", new Firm { DataContext = new FirmViewModel()}),
                 new DemoItem("Bilgisayar", new Computer { DataContext = new ComputerViewModel()}),
-                new DemoItem("Home", new Home()),
+         
                 new DemoItem("Palette", new PaletteSelector { DataContext = new PaletteSelectorViewModel() }),
                 new DemoItem("Buttons & Toggles", new Buttons()),
                 new DemoItem("Fields", new TextFields()),

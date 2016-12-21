@@ -29,19 +29,12 @@ namespace MaterialDesignDemo
             InitializeComponent();
         }
 
-        private void OperationButton_Click(object sender, RoutedEventArgs e)
+        private void CheckLicenseButton_Click(object sender, RoutedEventArgs e)
         {
             int opr = (int)(((Button)sender).CommandParameter);
             
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = new DemoItem("Operation", new Operation { DataContext = new OperationViewModel() });
-        }
-        private void ComputerButton_Click(object sender, RoutedEventArgs e)
-        {
-            int opr = (int)(((Button)sender).CommandParameter);
-            
-            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
-            mainwindowviewmodel.DemoItem = new DemoItem("Computer", new Computer { DataContext = new ComputerViewModel(opr) });
         }
     }
 }

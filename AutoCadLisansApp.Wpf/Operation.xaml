@@ -92,22 +92,11 @@
                         ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Firm}" />
 
 
-                        <DataGridTemplateColumn Header="Computer">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Click="ComputerButton_Click" CommandParameter="{Binding Id}"
-                                            Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" Width="70" ToolTip="Resource name: MaterialDesignRaisedButton">
-                                        Run
-                                    </Button>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-
-                        <DataGridTemplateColumn Header="Operation">
+                        <DataGridTemplateColumn Header="CheckLicense">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
 
-                                    <Button Click="OperationButton_Click" CommandParameter="{Binding Id}"
+                                    <Button Click="CheckLicenseButton_Click" CommandParameter="{Binding Id}"
                                                     Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" Width="70" ToolTip="Resource name: MaterialDesignRaisedButton">
                                                               Run
                                              </Button>

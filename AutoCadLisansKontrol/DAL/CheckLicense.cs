@@ -12,7 +12,7 @@ namespace AutoCadLisansKontrol.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class OperationDetail
+    public partial class CheckLicense
     {
         public int Id { get; set; }
         public Nullable<int> ComputerId { get; set; }

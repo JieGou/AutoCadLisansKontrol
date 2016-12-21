@@ -1,4 +1,5 @@
-﻿using MaterialDesignColors.WpfExample.Domain;
+﻿using MaterialDesignColors.WpfExample;
+using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Domain;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,14 @@ namespace MaterialDesignDemo
             int firmid = (int)(((Button)sender).CommandParameter);
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = new DemoItem("Operation", new Operation { DataContext = new OperationViewModel(firmid) });
+        }
+
+        private void ComputerButton_Click(object sender, RoutedEventArgs e)
+        {
+            int FirmId = (int)(((Button)sender).CommandParameter);
+
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = new DemoItem("Computer", new Computer { DataContext = new ComputerViewModel(FirmId) });
         }
     }
 }

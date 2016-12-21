@@ -8,10 +8,10 @@
         <EntityTypeShape EntityType="AUTOCADLICENSEModel.Computer" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AUTOCADLICENSEModel.Firm" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AUTOCADLICENSEModel.Operation" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AUTOCADLICENSEModel.OperationDetail" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
         <AssociationConnector Association="AUTOCADLICENSEModel.FK_Computer_Firm" ManuallyRouted="false" />
         <AssociationConnector Association="AUTOCADLICENSEModel.FK_Operation_Firm" ManuallyRouted="false" />
-        <AssociationConnector Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AUTOCADLICENSEModel.CheckLicense" Width="1.5" PointX="5.25" PointY="8.875" />
+        <AssociationConnector Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
