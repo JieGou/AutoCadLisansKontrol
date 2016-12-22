@@ -38,7 +38,7 @@ namespace MaterialDesignDemo
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.SelectedIndex = 1;
             int firmid = (int)(((Button)sender).CommandParameter);
-            
+
             mainwindowviewmodel.DemoItem = new DemoItem("Operation", new Operation { DataContext = new OperationViewModel(firmid) });
         }
 
@@ -47,23 +47,29 @@ namespace MaterialDesignDemo
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.SelectedIndex = 3;
             int FirmId = (int)(((Button)sender).CommandParameter);
-            
+
             mainwindowviewmodel.DemoItem = new DemoItem("Computer", new MaterialDesignColors.WpfExample.Computer { DataContext = new ComputerViewModel(FirmId) });
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             FirmId = (int)(((Button)sender).CommandParameter);
-            
+
             ShowDialog();
-            
+
         }
-        
+
 
         private void ShowDialog()
         {
+            if (FirmId == 0)
+            {
+                MessageBox.Show("Data must be saved before delete operation", "Delete Firm");
+                return;
+            }
+
             var userviewmodel = (FirmViewModel)this.DataContext;
-            MessageBoxResult result = MessageBox.Show("Would you like to greet the world with a \"Hello, world\"?", "My App", MessageBoxButton.YesNoCancel);
+            MessageBoxResult result = MessageBox.Show("Are you sure to want to delete firm\"?", "Delete Firm", MessageBoxButton.YesNoCancel);
             switch (result)
             {
                 case MessageBoxResult.Yes:
@@ -77,16 +83,34 @@ namespace MaterialDesignDemo
                     }
                     catch (Exception ex)
                     {
+                        if (ex.InnerException != null)
+                        {
 
-                        MessageBox.Show(ex.InnerException.InnerException.Message, "Delete Operation");
+                            if (ex.InnerException.InnerException != null)
+                            {
+                                MessageBox.Show(ex.InnerException.InnerException.Message, "Delete Operation");
+                            }
+                            else
+                            {
+                                MessageBox.Show(ex.InnerException.Message, "Delete Operation");
+                            }
+                        }
+                        else
+                            MessageBox.Show(ex.Message, "Delete Operation");
                     }
-                   
+
                     break;
                 case MessageBoxResult.No:
                     break;
                 case MessageBoxResult.Cancel:
                     break;
             }
+        }
+
+        private void SnackbarMessage_HideSnackClick(object sender, RoutedEventArgs e)
+        {
+            var userviewmodel = (FirmViewModel)this.DataContext;
+            userviewmodel.NotificationIsVisible = false;
         }
     }
 }

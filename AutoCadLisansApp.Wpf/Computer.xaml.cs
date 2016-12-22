@@ -50,7 +50,7 @@ namespace MaterialDesignColors.WpfExample
 
 
             var userviewmodel = (ComputerViewModel)this.DataContext;
-            MessageBoxResult result = MessageBox.Show("Would you like to greet the world with a \"Hello, world\"?", "My App", MessageBoxButton.YesNoCancel);
+            MessageBoxResult result = MessageBox.Show("Are you sure to want to delete ?", "Delete Computer", MessageBoxButton.YesNoCancel);
             switch (result)
             {
                 case MessageBoxResult.Yes:

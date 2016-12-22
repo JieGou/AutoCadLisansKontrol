@@ -181,9 +181,12 @@ namespace MaterialDesignColors.WpfExample.Domain
 
         public void SaveCommand()
         {
+            dbAccess.DeleteAllComputerBaseFormid(FirmId);
+
             foreach (var item in Computers)
             {
                 item.FirmId = FirmId;
+
                 dbAccess.UpsertComputer(item);
             }
 

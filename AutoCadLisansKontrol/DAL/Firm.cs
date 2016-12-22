@@ -26,7 +26,7 @@ namespace AutoCadLisansKontrol.DAL
         public string Address { get; set; }
         public string Contact { get; set; }
         public string PhoneNo { get; set; }
-        public Nullable<System.DateTime> InsertDate { get; set; }
+        public System.DateTime InsertDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Computer> Computer { get; set; }

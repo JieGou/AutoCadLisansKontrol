@@ -20,10 +20,10 @@ namespace AutoCadLisansKontrol.DAL
         public string PyshicalAddress { get; set; }
         public bool IsRootMachine { get; set; }
         public string Type { get; set; }
-        public Nullable<bool> IsComputer { get; set; }
-        public Nullable<int> FirmId { get; set; }
-        public Nullable<System.DateTime> InsertDate { get; set; }
-        public Nullable<bool> IsVisible { get; set; }
+        public bool IsComputer { get; set; }
+        public int FirmId { get; set; }
+        public bool IsVisible { get; set; }
+        public System.DateTime InsertDate { get; set; }
     
         public virtual Firm Firm { get; set; }
     }

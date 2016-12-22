@@ -21,11 +21,11 @@ namespace AutoCadLisansKontrol.DAL
         }
     
         public int Id { get; set; }
-        public Nullable<int> FirmId { get; set; }
+        public int FirmId { get; set; }
         public string Name { get; set; }
     
-        public virtual Firm Firm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CheckLicense> CheckLicense { get; set; }
+        public virtual Firm Firm { get; set; }
     }
 }
