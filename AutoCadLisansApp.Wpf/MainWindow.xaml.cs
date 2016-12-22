@@ -30,7 +30,7 @@ namespace MaterialDesignColors.WpfExample
             {
                 //note you can use the message queue from any thread, but just for the demo here we 
                 //need to get the message queue from the snackbar, so need to be on the dispatcher
-                MainSnackbar.MessageQueue.Enqueue("Welcome to Material Design In XAML Tookit");
+                MainSnackbar.MessageQueue.Enqueue("Welcome to Application License Control Tookit");
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }        
 
@@ -63,6 +63,34 @@ namespace MaterialDesignColors.WpfExample
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = item;
 
+        }
+
+        private void DemoItemsListBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
+        }
+
+        private void DemoItemsListBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
+        }
+
+        private void DemoItemsListBox_Click(object sender, RoutedEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
+        }
+
+        private void DemoItemsListBox_SelectionTouch(object sender, TouchEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
         }
     } 
 }

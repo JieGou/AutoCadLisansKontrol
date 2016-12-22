@@ -49,15 +49,22 @@
             <StackPanel>
           
             <StackPanel Orientation="Horizontal">
-            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
+            <Button 
+                    Style="{DynamicResource MaterialDesignRaisedButton}"
+                    Margin="16 0 0 0"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
                     ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding AddItemClicked}">
                 Add Item
             </Button>
-            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
+                <Button  Style="{DynamicResource MaterialDesignRaisedButton}"
+                    Margin="16 0 0 0"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
                     ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding SaveClicked}">
                 Save
             </Button>
-                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
+                <Button  Style="{DynamicResource MaterialDesignRaisedButton}"
+                    Margin="16 0 0 0"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
                     ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding RefreshClicked}">
                     Refresh
                 </Button>
@@ -96,8 +103,8 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Click="ComputerButton_Click" CommandParameter="{Binding Id}"
-                                            Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" Width="70" ToolTip="Resource name: MaterialDesignRaisedButton">
-                                        Run
+                                            Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0"  ToolTip="Computer List">
+                                        Computer List
                                     </Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -108,10 +115,22 @@
                                 <DataTemplate>
 
                                     <Button Click="OperationListButton_Click" CommandParameter="{Binding Id}"
-                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" Width="70" ToolTip="Resource name: MaterialDesignRaisedButton">
+                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0"  ToolTip="Operation List">
                                         Operation List
                                     </Button>
 
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteButton_Click"  CommandParameter="{Binding Id}"
+                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" ToolTip="Sil">
+                                        <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
+                                    </Button>
+                                    
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

@@ -26,6 +26,5 @@ namespace AutoCadLisansKontrol.DAL
         public Nullable<bool> IsVisible { get; set; }
     
         public virtual Firm Firm { get; set; }
-
     }
 }

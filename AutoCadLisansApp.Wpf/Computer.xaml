@@ -99,7 +99,19 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
+
+                        <DataGridTemplateColumn >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteButton_Click"  CommandParameter="{Binding Ip}"
+                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" ToolTip="Sil">
+                                        <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
+                                    </Button>
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
                     <!--<materialDesign:MaterialDataGridComboBoxColumn Header="Food"        
                                                                    SelectedValueBinding="{Binding Food}"-->
                     <!--ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Foods}" />-->

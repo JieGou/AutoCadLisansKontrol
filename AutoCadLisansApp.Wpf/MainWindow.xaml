@@ -7,7 +7,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
         xmlns:materialDesignDemo="clr-namespace:MaterialDesignDemo"
-        Title="AutoCad Lisans Kontrol" Height="800" Width="1100"
+        Title="AutoCad Lisans Kontrol"
+    WindowStartupLocation="CenterScreen" WindowState="Maximized"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -43,7 +44,7 @@
                                     DockPanel.Dock="Top"
                                     HorizontalAlignment="Right" Margin="16"
                                     IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                    <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="0" SelectionChanged="DemoItemsListBox_SelectionChanged"                      
+                    <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="{Binding SelectedIndex}" SelectionChanged="DemoItemsListBox_SelectionChanged"                      
                              ItemsSource="{Binding DemoItems,Mode=TwoWay}"
                              PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
                         <ListBox.ItemTemplate>

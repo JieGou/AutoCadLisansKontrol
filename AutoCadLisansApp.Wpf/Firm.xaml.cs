@@ -1,6 +1,8 @@
-﻿using MaterialDesignColors.WpfExample;
+﻿using AutoCadLisansKontrol.DAL;
+using MaterialDesignColors.WpfExample;
 using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Domain;
+using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +25,8 @@ namespace MaterialDesignDemo
     /// </summary>
     public partial class Firm : UserControl
     {
+        DataAccess dbAccess = new DataAccess();
+        int FirmId;
         public Firm()
         {
             InitializeComponent();
@@ -30,17 +34,59 @@ namespace MaterialDesignDemo
 
         private void OperationListButton_Click(object sender, RoutedEventArgs e)
         {
-            int firmid = (int)(((Button)sender).CommandParameter);
+
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.SelectedIndex = 1;
+            int firmid = (int)(((Button)sender).CommandParameter);
+            
             mainwindowviewmodel.DemoItem = new DemoItem("Operation", new Operation { DataContext = new OperationViewModel(firmid) });
         }
 
         private void ComputerButton_Click(object sender, RoutedEventArgs e)
         {
-            int FirmId = (int)(((Button)sender).CommandParameter);
-
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
-            mainwindowviewmodel.DemoItem = new DemoItem("Computer", new Computer { DataContext = new ComputerViewModel(FirmId) });
+            mainwindowviewmodel.SelectedIndex = 3;
+            int FirmId = (int)(((Button)sender).CommandParameter);
+            
+            mainwindowviewmodel.DemoItem = new DemoItem("Computer", new MaterialDesignColors.WpfExample.Computer { DataContext = new ComputerViewModel(FirmId) });
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            FirmId = (int)(((Button)sender).CommandParameter);
+            
+            ShowDialog();
+            
+        }
+        
+
+        private void ShowDialog()
+        {
+            var userviewmodel = (FirmViewModel)this.DataContext;
+            MessageBoxResult result = MessageBox.Show("Would you like to greet the world with a \"Hello, world\"?", "My App", MessageBoxButton.YesNoCancel);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    try
+                    {
+                        dbAccess.DeleteFirm(FirmId);
+
+                        var removeditem = userviewmodel.Firm.SingleOrDefault(x => x.Id == FirmId);
+
+                        userviewmodel.Firm.Remove(removeditem);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        MessageBox.Show(ex.InnerException.InnerException.Message, "Delete Operation");
+                    }
+                   
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
     }
 }

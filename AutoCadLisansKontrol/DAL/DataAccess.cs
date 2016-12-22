@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,9 +32,11 @@ namespace AutoCadLisansKontrol.DAL
             return dbaccess.Firm.ToList();
         }
 
-        public void DeleteFirm(Firm firm)
-        {
-            dbaccess.Firm.Remove(firm);
+        public void DeleteFirm(int firmid)
+        { 
+            var item = dbaccess.Firm.SingleOrDefault(x => x.Id == firmid);
+            if (item!=null)
+                dbaccess.Entry(item).State = EntityState.Deleted;
             dbaccess.SaveChanges();
         }
 
@@ -78,9 +81,12 @@ namespace AutoCadLisansKontrol.DAL
         {
             return dbaccess.Computer.Where(x=>x.FirmId==firmId).ToList();
         }
-        public void DeleteComputer(Computer comp)
+        public void DeleteComputer(string Ip)
         {
-            dbaccess.Computer.Remove(comp);
+            var item=dbaccess.Computer.SingleOrDefault(x=>x.Ip.Contains(Ip));
+            
+            if (item!=null)
+            dbaccess.Computer.Remove(item);
             dbaccess.SaveChanges();
         }
         public void UpdateComputer(Computer comp)
