@@ -16,9 +16,15 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace AutoCadLisansKontrol.Controller
 {
-    public class CheckAutoCadLicense
+    public class ComputerDetection
     {
-
+        public static List<Computer> Execute()
+        {
+            var arp = GetComputerFromNetView();
+            var net = GetComputerFromArpTable();
+            arp.AddRange(net);
+            return arp;
+        }
         public void ManageCommandPrompt()
         {
             ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
@@ -30,13 +36,13 @@ namespace AutoCadLisansKontrol.Controller
             Process p = Process.Start(info);
             p.WaitForExit();
         }
-        public List<Computer> GetComputerInfoOnNetwork()
+        private static List<Computer> GetComputerFromNetView()
         {
             Process p = new Process();
             // Redirect the output stream of the child process.
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\detectcomputer.bat";
+            p.StartInfo.FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\newview.bat";
             p.Start();
             // Do not wait for the child process to exit before
             // reading to the end of its redirected stream.
@@ -56,70 +62,100 @@ namespace AutoCadLisansKontrol.Controller
             }
             lines = lines.Where(x => !multiple.Contains(x)).ToList();
 
-            List<Computer> networkmachine = GetNetworkMachine(lines);
-
-            p.WaitForExit();
-
-            return networkmachine.ToList();
-        }
-
-        private List<Computer> GetNetworkMachine(List<string> lines)
-        {
             List<Computer> networkmachine = new List<Computer>();
 
             for (int i = 0; i < lines.Count; i++)
             {
                 networkmachine.Add(new Computer
                 {
+                    // Ip= GetIpAddressFromName(lines[i]),
                     Name = lines[i],
-                    // Type = machineinfo[2],
+                    Type = "NetView",
+                    //PyshicalAddress="",
                     IsRootMachine = false,
                     IsComputer = true
                 });
             }
+            p.WaitForExit();
 
-
-            return networkmachine;
-
+            return networkmachine.ToList();
         }
-        public string GetMacAddress(string ipAddress)
+
+        private static List<Computer> GetComputerFromArpTable()
         {
+            Process p = new Process();
+            // Redirect the output stream of the child process.
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\getarptable.bat";
+            p.Start();
+            // Do not wait for the child process to exit before
+            // reading to the end of its redirected stream.
+            // p.WaitForExit();
+            // Read the output stream first and then wait.
+            string output = p.StandardOutput.ReadToEnd();
+
+            List<string> lines = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Where(x => x != "").ToList();
+            var startpoint = lines.FindIndex(x => x.Contains("Internet Address"));
+            List<Computer> networkmachine = new List<Computer>();
+            for (int i = startpoint + 1; i < lines.Count; i++)
+            {
+                var compline = lines[i].Split(' ').Where(x => x != "").ToList();
+
+
+                networkmachine.Add(new Computer
+                {
+                    Ip = compline[0],
+                    //Name = compline[1],
+                    PyshicalAddress = compline[1],
+                    Type = "ArpTable",
+                    IsRootMachine = false,
+                    IsComputer = true
+                });
+
+            }
+
+
+            p.WaitForExit();
+
+            return networkmachine.ToList();
+        }
+
+        private static string GetMacAddress(string ipAddress)
+        {
+            var filelocation = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\getmacaddress.bat"; ;
             string macAddress = string.Empty;
             //ADDED THIS
-            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.System);
-            ProcessStartInfo pi = new ProcessStartInfo()
-            {
-                //CHANGED THIS LINE
-                FileName = filePath + "\\nbtstat.exe",
-                Arguments = "-A " + ipAddress,
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = false
-            };
-            var strOutput = "";
-            using (Process p = Process.Start(pi))
-            {
-                p.WaitForExit();
-                strOutput = p.StandardOutput.ReadToEnd();
-            }
-           
-                
+            System.IO.StreamWriter file = new System.IO.StreamWriter(filelocation);
+            file.WriteLine("nbtstat -A " + ipAddress);
+            file.Close();
+            Process p = new Process();
+            // Redirect the output stream of the child process.
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.FileName = filelocation;
+            p.Start();
+            // Do not wait for the child process to exit before
+            // reading to the end of its redirected stream.
+            // p.WaitForExit();
+            // Read the output stream first and then wait.
+            string output = p.StandardOutput.ReadToEnd();
+            //var subnet = GetSubnetMask(28);
 
-
-                string[] lines = strOutput.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                var line = lines.Where(x => x.Contains(ipAddress)).First();
-                if (line != null)
-                {
-                    var substrings = line.Split(' ').Where(x => x != "").ToList();
-                    return substrings[1];
-                }
-                else
-                {
-                    return "not found";
-                }
-
-            }
-        public string GetIpAddressFromName(string name)
+            //string[] lines = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            //    var line = lines.Where(x => x.Contains(ipAddress)).First();
+            //    if (line != null)
+            //    {
+            //        var substrings = line.Split(' ').Where(x => x != "").ToList();
+            //        return substrings[1];
+            //    }
+            //    else
+            //    {
+            //        return "not found";
+            //    }
+            return "";
+        }
+        private static string GetIpAddressFromName(string name)
         {
             try
             {
@@ -138,7 +174,7 @@ namespace AutoCadLisansKontrol.Controller
 
         }
 
-        public IPAddress GetNetworkAddress(IPAddress address, IPAddress subnetMask)
+        private static IPAddress GetNetworkAddress(IPAddress address, IPAddress subnetMask)
         {
             byte[] ipAdressBytes = address.GetAddressBytes();
             byte[] subnetMaskBytes = subnetMask.GetAddressBytes();
@@ -153,7 +189,7 @@ namespace AutoCadLisansKontrol.Controller
             }
             return new IPAddress(broadcastAddress);
         }
-        public IPAddress GetDefaultGateway()
+        private static IPAddress GetDefaultGateway()
         {
 
             foreach (NetworkInterface f in NetworkInterface.GetAllNetworkInterfaces())
@@ -165,7 +201,7 @@ namespace AutoCadLisansKontrol.Controller
             return null;
         }
 
-        public IPAddress GetBroadcastAddress(IPAddress address, IPAddress subnetMask)
+        private static IPAddress GetBroadcastAddress(IPAddress address, IPAddress subnetMask)
         {
             byte[] ipAdressBytes = address.GetAddressBytes();
             byte[] subnetMaskBytes = subnetMask.GetAddressBytes();
@@ -180,18 +216,26 @@ namespace AutoCadLisansKontrol.Controller
             }
             return new IPAddress(broadcastAddress);
         }
-        public string GetSubnetMask(byte subnet)
+        private static string GetSubnetMask(byte subnet)
         {
             long mask = (0xffffffffL << (32 - subnet)) & 0xffffffffL;
             mask = IPAddress.HostToNetworkOrder((int)mask);
             return new IPAddress((UInt32)mask).ToString();
         }
-        public void ExecuteComputer(Computer comp)
+        public static void GetAdditionalInfo(Computer comp)
         {
+            if (comp.Type == "ArpTable")
+            {
+                comp.Name = GetMachineNameFromIPAddress(comp.Ip);
+                comp.IsVisible = PingHost(comp.Ip);
+            }
+            else if (comp.Type == "NetView")
+            {
+                comp.Ip = GetIpAddressFromName(comp.Name);
+                comp.PyshicalAddress = GetMacAddress(comp.Ip);
+                comp.IsVisible = PingHost(comp.Ip);
+            }
 
-            comp.Ip = GetIpAddressFromName(comp.Name);
-            comp.PyshicalAddress = GetMacAddress(comp.Ip);
-            comp.IsVisible = PingHost(comp.Ip);
         }
         private static string GetMachineNameFromIPAddress(string ipAdress)
         {
@@ -208,7 +252,7 @@ namespace AutoCadLisansKontrol.Controller
             }
             return machineName;
         }
-        public static bool PingHost(string nameOrAddress)
+        private static bool PingHost(string nameOrAddress)
         {
             bool pingable = false;
             Ping pinger = new Ping();

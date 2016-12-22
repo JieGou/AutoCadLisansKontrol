@@ -11,8 +11,6 @@ namespace AutoCadLisansKontrol
     {
         static void Main(string[] args)
         {
-            CheckAutoCadLicense obj = new CheckAutoCadLicense();
-            obj.GetComputerInfoOnNetwork();
         }
     }
 }

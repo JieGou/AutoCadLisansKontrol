@@ -138,7 +138,7 @@ namespace AutoCadLisansKontrol.DAL
                 var item = dbaccess.Computer.Where(x => x.Id == c.Id).FirstOrDefault<Computer>();
                 if (item == null)
                 {
-                    item = new Computer { Id = c.Id, Ip = c.Ip, IsComputer = c.IsComputer, IsRootMachine = c.IsRootMachine, IsVisible = c.IsVisible, Name = c.Name, PyshicalAddress = c.PyshicalAddress, FirmId = c.FirmId, Type = c.Type, InsertDate = c.InsertDate };
+                    item = new Computer { Id = c.Id, Ip = c.Ip, IsComputer = c.IsComputer, IsRootMachine = c.IsRootMachine, IsVisible = c.IsVisible, Name = c.Name, PyshicalAddress = c.PyshicalAddress, FirmId = c.FirmId, Type = c.Type, InsertDate = DateTime.Now };
                     dbaccess.Computer.Add(item);
                 }
                 else

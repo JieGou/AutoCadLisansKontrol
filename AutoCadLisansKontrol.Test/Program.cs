@@ -11,13 +11,7 @@ namespace AutoCadLisansKontrol.Test
     {
         static void Main(string[] args)
         {
-            CheckAutoCadLicense license = new CheckAutoCadLicense();
-            var list = license.GetComputerInfoOnNetwork();
-
-            foreach (var item in list)
-            {
-                license.ExecuteComputer(item);
-            }
+            var listarp = ComputerDetection.Execute();
         }
     }
 }

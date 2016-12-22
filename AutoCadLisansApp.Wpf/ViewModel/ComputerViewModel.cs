@@ -19,8 +19,6 @@ namespace MaterialDesignColors.WpfExample.Domain
 {
     public class ComputerViewModel : INotifyPropertyChanged
     {
-
-        CheckAutoCadLicense license = new CheckAutoCadLicense();
         private int _totalComputer = 0;
         public int TotalComputer { get { return _totalComputer; } set { _totalComputer = value; OnPropertyChanged("TotalComputer"); } }
         private int _executedComputer = 0;
@@ -89,12 +87,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
 
-        private ObservableCollection<ComputerModel> GenerateDataFromNetwork()
-        {
-
-            List<ComputerModel> list = license.GetComputerInfoOnNetwork().ConvertAll(x=>new ComputerModel { Id=x.Id,Ip=x.Ip,IsComputer=x.IsComputer,IsRootMachine=x.IsRootMachine,IsVisible=x.IsVisible,Name=x.Name,PyshicalAddress=x.PyshicalAddress,FirmId=x.FirmId,Type=x.Type,InsertDate=x.InsertDate});
-            return new ObservableCollection<ComputerModel>(list);
-        }
+        
 
         public ObservableCollection<ComputerModel> Computers
         {
@@ -128,22 +121,15 @@ namespace MaterialDesignColors.WpfExample.Domain
         public void GenerateCommand()
         {
             ProgressBar = Visibility.Visible;
-            UpdateData();
-
-
-        }
-        private async void UpdateData()
-        {
-            ProgressBar = Visibility.Visible;
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            ObservableCollection<ComputerModel> computers= new ObservableCollection<ComputerModel>();
+            ObservableCollection<ComputerModel> computers = new ObservableCollection<ComputerModel>();
             Action DoInBackground = new Action(() =>
             {
                 computers = GenerateDataFromNetwork();
                 TotalComputer = computers.Count;
                 foreach (var item in computers)
                 {
-                     new CheckAutoCadLicense().ExecuteComputer(item);
+                    ComputerDetection.GetAdditionalInfo(item);
                     ExecutedComputer++;
                 }
                 ProgressBar = Visibility.Hidden;
@@ -161,7 +147,14 @@ namespace MaterialDesignColors.WpfExample.Domain
             //I assume BitmapFromUri is the slow step.
 
             //Now that we have our bitmap, now go to the main thread.
-            
+
+
+        }
+        private ObservableCollection<ComputerModel> GenerateDataFromNetwork()
+        {
+
+            List<ComputerModel> list = ComputerDetection.Execute().ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate });
+            return new ObservableCollection<ComputerModel>(list);
         }
         public void RefreshComputerList()
         {
