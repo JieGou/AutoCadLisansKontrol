@@ -1,5 +1,6 @@
 ﻿using AutoCadLisansKontrol.DAL;
 using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,8 +10,12 @@ namespace MaterialDesignDemo.Domain
 {
     public class FirmViewModel : INotifyPropertyChanged
     {
+
+        
+
         DataAccess dbAccess = new DataAccess();
         private ObservableCollection<AutoCadLisansKontrol.DAL.Firm> _firm;
+        public ICommand DeleteClicked { get; set; }
         public ICommand SaveClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand RefreshClicked { get; set; }
@@ -25,7 +30,6 @@ namespace MaterialDesignDemo.Domain
         
         public FirmViewModel()
         {
-
             RefreshClicked = new DelegateCommand(RefreshCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             SaveClicked = new DelegateCommand(SaveCommand);
@@ -55,5 +59,7 @@ namespace MaterialDesignDemo.Domain
         {
            Firm= new ObservableCollection<AutoCadLisansKontrol.DAL.Firm>(dbAccess.ListFirm());
         }
+
+        
     }
 }

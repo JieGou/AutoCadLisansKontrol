@@ -149,8 +149,10 @@
           <NavigationProperty Name="CheckLicense" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation1" FromRole="Operation" ToRole="CheckLicense" />
         </EntityType>
         <Association Name="FK_Computer_Firm">
-          <End Role="Firm" Type="Self.Firm" Multiplicity="0..1" />
-          <End Role="Computer" Type="Self.Computer" Multiplicity="*" />
+          <End Role="Firm" Type="Self.Firm" Multiplicity="0..1" >
+          </End>
+          <End Role="Computer" Type="Self.Computer" Multiplicity="*" >
+          </End>
           <ReferentialConstraint>
             <Principal Role="Firm">
               <PropertyRef Name="Id" />
@@ -161,8 +163,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Operation_Firm">
-          <End Role="Firm" Type="Self.Firm" Multiplicity="0..1" />
-          <End Role="Operation" Type="Self.Operation" Multiplicity="*" />
+          <End Role="Firm" Type="Self.Firm" Multiplicity="0..1" >
+          </End>
+          <End Role="Operation" Type="Self.Operation" Multiplicity="*" >
+          </End>
           <ReferentialConstraint>
             <Principal Role="Firm">
               <PropertyRef Name="Id" />
