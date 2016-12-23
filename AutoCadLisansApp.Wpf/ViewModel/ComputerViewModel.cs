@@ -7,13 +7,14 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using System.Windows;
 using AutoCadLisansKontrol.DAL;
-using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Windows.Data;
 using System.Collections;
 using System.Threading;
 using MaterialDesignDemo.Model;
+
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -122,10 +123,13 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             ProgressBar = Visibility.Visible;
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            ObservableCollection<ComputerModel> computers = new ObservableCollection<ComputerModel>();
-            Action DoInBackground = new Action(() =>
+
+            List<ComputerModel> computers = new List<ComputerModel>();
+
+            System.Action DoInBackground = new System.Action(() =>
             {
                 computers = GenerateDataFromNetwork();
+                
                 TotalComputer = computers.Count;
                 foreach (var item in computers)
                 {
@@ -135,9 +139,10 @@ namespace MaterialDesignColors.WpfExample.Domain
                 ProgressBar = Visibility.Hidden;
             });
 
-            Action DoOnUiThread = new Action(() =>
+            System.Action DoOnUiThread = new System.Action(() =>
             {
-                Computers = computers;
+                computers=computers.DistinctBy(p => p.Ip).ToList();
+                Computers = new ObservableCollection<ComputerModel>(computers);
             });
 
             // start the background task
@@ -150,12 +155,13 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
         }
-        private ObservableCollection<ComputerModel> GenerateDataFromNetwork()
+        private List<ComputerModel> GenerateDataFromNetwork()
         {
-
+            
             List<ComputerModel> list = ComputerDetection.Execute().ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate });
-            return new ObservableCollection<ComputerModel>(list);
+            return list;
         }
+       
         public void RefreshComputerList()
         {
 

@@ -87,7 +87,7 @@ namespace AutoCadLisansKontrol.Controller
             // Redirect the output stream of the child process.
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\getarptable.bat";
+            p.StartInfo.FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\arptable.bat";
             p.Start();
             // Do not wait for the child process to exit before
             // reading to the end of its redirected stream.
