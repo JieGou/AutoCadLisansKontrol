@@ -54,7 +54,13 @@ namespace MaterialDesignDemo
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             FirmId = (int)(((Button)sender).CommandParameter);
-
+            var localfirm = (AutoCadLisansKontrol.DAL.Firm)grdfirm.SelectedItem;
+            if (localfirm.Id == 0)
+            {
+                var userviewmodel = (FirmViewModel)this.DataContext;
+                userviewmodel.Firm.Remove(localfirm);
+                return;
+            }
             ShowDialog();
 
         }
@@ -62,11 +68,7 @@ namespace MaterialDesignDemo
 
         private void ShowDialog()
         {
-            if (FirmId == 0)
-            {
-                MessageBox.Show("Data must be saved before delete operation", "Delete Firm");
-                return;
-            }
+
 
             var userviewmodel = (FirmViewModel)this.DataContext;
             MessageBoxResult result = MessageBox.Show("Are you sure to want to delete firm\"?", "Delete Firm", MessageBoxButton.YesNoCancel);
@@ -88,15 +90,15 @@ namespace MaterialDesignDemo
 
                             if (ex.InnerException.InnerException != null)
                             {
-                                MessageBox.Show(ex.InnerException.InnerException.Message, "Delete Operation");
+                                MessageBox.Show(ex.InnerException.InnerException.Message, "Delete Firm");
                             }
                             else
                             {
-                                MessageBox.Show(ex.InnerException.Message, "Delete Operation");
+                                MessageBox.Show(ex.InnerException.Message, "Delete Firm");
                             }
                         }
                         else
-                            MessageBox.Show(ex.Message, "Delete Operation");
+                            MessageBox.Show(ex.Message, "Delete Firm");
                     }
 
                     break;

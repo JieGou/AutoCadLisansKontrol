@@ -1,6 +1,8 @@
 ﻿using AutoCadLisansKontrol.Controller;
 using AutoCadLisansKontrol.DAL;
 using MaterialDesignColors.WpfExample.Domain;
+using MaterialDesignDemo.Domain;
+using MaterialDesignDemo.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,20 +37,19 @@ namespace MaterialDesignColors.WpfExample
         {
             ip = (string)(((Button)sender).CommandParameter);
 
+            var localcomputer = (ComputerModel)grdComputer.SelectedItem;
+            if (localcomputer.Id == 0)
+            {
+                var userviewmodel = (ComputerViewModel)this.DataContext;
+                userviewmodel.Computers.Remove(localcomputer);
+                return;
+            }
             ShowDialog();
 
         }
-
-
+       
         private void ShowDialog()
-        {
-            if (ip == "")
-            {
-                MessageBox.Show("Data must be saved before delete operation", "Delete Operation");
-                return;
-            }
-
-
+        {        
             var userviewmodel = (ComputerViewModel)this.DataContext;
             MessageBoxResult result = MessageBox.Show("Are you sure to want to delete ?", "Delete Computer", MessageBoxButton.YesNoCancel);
             switch (result)
@@ -65,9 +66,22 @@ namespace MaterialDesignColors.WpfExample
                     }
                     catch (Exception ex)
                     {
+                        if (ex.InnerException != null)
+                        {
 
-                        MessageBox.Show(ex.InnerException.InnerException.Message, "Delete Operation");
+                            if (ex.InnerException.InnerException != null)
+                            {
+                                MessageBox.Show(ex.InnerException.InnerException.Message, "Delete Operation");
+                            }
+                            else
+                            {
+                                MessageBox.Show(ex.InnerException.Message, "Delete Operation");
+                            }
+                        }
+                        else
+                            MessageBox.Show(ex.Message, "Delete Operation");
                     }
+
 
                     break;
                 case MessageBoxResult.No:
@@ -75,6 +89,18 @@ namespace MaterialDesignColors.WpfExample
                 case MessageBoxResult.Cancel:
                     break;
             }
+        }
+
+        private void SnackbarMessage_HideSnackClick(object sender, RoutedEventArgs e)
+        {
+            var userviewmodel = (ComputerViewModel)DataContext;
+            userviewmodel.NotificationIsVisible = false;
+        }
+
+        private void Chip_Click(object sender, RoutedEventArgs e)
+        {
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = new DemoItem("Firma", new MaterialDesignDemo.Firm { DataContext = new FirmViewModel() });
         }
     }
 }

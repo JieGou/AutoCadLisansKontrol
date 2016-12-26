@@ -55,7 +55,7 @@ namespace MaterialDesignDemo.Domain
 
         public void SaveCommand()
         {
-            NotificationIsVisible = true;
+            NotificationIsVisible = false;
             try
             {
                 foreach (var item in Firm)
@@ -66,10 +66,11 @@ namespace MaterialDesignDemo.Domain
             }
             catch (System.Exception ex)
             {
+                NotificationIsVisible = true;
                 NotificationContent = ex.Message;
                 return;
             }
-
+            NotificationIsVisible = true;
             NotificationContent = "Success";
         }
         public void AddItemCommand()
@@ -78,7 +79,10 @@ namespace MaterialDesignDemo.Domain
         }
         public void RefreshCommand()
         {
+            NotificationIsVisible = false;
             Firm = new ObservableCollection<AutoCadLisansKontrol.DAL.Firm>(dbAccess.ListFirm());
+            NotificationIsVisible = true;
+            NotificationContent = "Success";
         }
 
 

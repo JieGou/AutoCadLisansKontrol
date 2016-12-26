@@ -12,6 +12,7 @@ namespace AutoCadLisansKontrol.DAL
     public class DataAccess
     {
         AUTOCADLICENSEEntities1 dbaccess = new AUTOCADLICENSEEntities1();
+        MssqlDbAccess mssqldbaccess = new MssqlDbAccess();
 
         public void UpsertFirm(Firm firm)
         {
@@ -19,11 +20,13 @@ namespace AutoCadLisansKontrol.DAL
             {
                 var item = dbaccess.Firm.Where(x => x.Id == firm.Id).FirstOrDefault<Firm>();
 
-                if (item == null) {
+                if (item == null)
+                {
                     firm.InsertDate = DateTime.Now;
                     dbaccess.Firm.Add(firm);
                 }
-                else { 
+                else
+                {
                     item.Name = firm.Name;
                     item.Contact = firm.Contact;
                     item.Address = firm.Address;
@@ -36,7 +39,7 @@ namespace AutoCadLisansKontrol.DAL
                 string validationerror = "";
                 foreach (var eve in ex.EntityValidationErrors)
                 {
-                    validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \""+ eve.Entry.State + "\" has the following validation errors:";
+                    validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
                     foreach (var ve in eve.ValidationErrors)
                     {
                         validationerror += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
@@ -79,33 +82,11 @@ namespace AutoCadLisansKontrol.DAL
             try
             {
 
+                mssqldbaccess.ExecuteNonQuery("SP_DELETE_FIRM",new List<System.Data.SqlClient.SqlParameter>() {
 
-                var item = dbaccess.Firm.SingleOrDefault(x => x.Id == firmid);
-                var computers = item.Computer.ToList().GetRange(0, item.Computer.Count);
-                var operations = item.Operation.ToList().GetRange(0, item.Operation.Count);
-                if (item != null)
-                {
-                    if (item.Computer.Count > 0)
-                    {
-                        foreach (var comp in computers)
-                        {
-                            dbaccess.Computer.Remove(comp);
-                            dbaccess.SaveChanges();
-                        }
-                    }
-
-                    if (item.Operation.Count > 0)
-                    {
-                        foreach (var opr in operations)
-                        {
-                            dbaccess.Operation.Remove(opr);
-                            dbaccess.SaveChanges();
-                        }
-                    }
-
-                    dbaccess.Entry(item).State = EntityState.Deleted;
-                    dbaccess.SaveChanges();
-                }
+                    new System.Data.SqlClient.SqlParameter("@FIRMID",firmid)
+                });
+                
             }
             catch (Exception)
             {
@@ -154,9 +135,36 @@ namespace AutoCadLisansKontrol.DAL
 
                 dbaccess.SaveChanges();
             }
-            catch (Exception ex)
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-                throw ex;
+                string validationerror = "";
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        validationerror += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
+                    }
+                }
+
+                throw new Exception(validationerror);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
             }
 
         }
@@ -217,11 +225,38 @@ namespace AutoCadLisansKontrol.DAL
                 }
                 dbaccess.SaveChanges();
             }
-            catch (Exception ex)
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-                throw ex;
+                string validationerror = "";
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        validationerror += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
+                    }
+                }
+
+                throw new Exception(validationerror);
             }
-          
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
+            }
+
         }
         public List<Operation> ListOperation()
         {
@@ -242,8 +277,7 @@ namespace AutoCadLisansKontrol.DAL
         }
         public void DeleteOperation(Operation opr)
         {
-            dbaccess.Operation.Remove(opr);
-            dbaccess.SaveChanges();
+            mssqldbaccess.ExecuteNonQuery("SP_DELETE_OPERATION", new List<System.Data.SqlClient.SqlParameter> { new System.Data.SqlClient.SqlParameter("@OPRID", opr.Id) });
         }
 
 
@@ -258,20 +292,55 @@ namespace AutoCadLisansKontrol.DAL
 
         public void UpsertCheckLicense(CheckLicense oprdetail)
         {
-            var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicense>();
-            if (item == null)
-                dbaccess.CheckLicense.Add(oprdetail);
-            else
+            try
             {
-                item.IsUnlicensed = oprdetail.IsUnlicensed;
-                item.Output = oprdetail.Output;
-                item.CheckDate = oprdetail.CheckDate;
-                item.UpdateDate = DateTime.Now;
+                var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicense>();
+                if (item == null)
+                    dbaccess.CheckLicense.Add(oprdetail);
+                else
+                {
+                    item.IsUnlicensed = oprdetail.IsUnlicensed;
+                    item.Output = oprdetail.Output;
+                    item.CheckDate = oprdetail.CheckDate;
+                    item.UpdateDate = DateTime.Now;
+                }
+                dbaccess.SaveChanges();
             }
-            dbaccess.SaveChanges();
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                string validationerror = "";
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        validationerror += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
+                    }
+                }
+
+                throw new Exception(validationerror);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
+            }
+
         }
 
-        public List<CheckLicense> ListOprDetail()
+        public List<CheckLicense> ListCheckLicense()
         {
             return dbaccess.CheckLicense.ToList();
         }
@@ -295,13 +364,30 @@ namespace AutoCadLisansKontrol.DAL
 
         public void DeleteAllComputerBaseFormid(int firmId)
         {
-            var comps = dbaccess.Computer.Where(x => x.FirmId == firmId).ToList();
-
-            foreach (var item in comps)
+            try
             {
-                dbaccess.Computer.Remove(item);
+                mssqldbaccess.ExecuteNonQuery("SP_DELETE_COMPUTER", new List<System.Data.SqlClient.SqlParameter> {
+
+                    new System.Data.SqlClient.SqlParameter("@FIRMID",firmId)
+                });
             }
-            dbaccess.SaveChanges();
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
+            }
         }
     }
 }

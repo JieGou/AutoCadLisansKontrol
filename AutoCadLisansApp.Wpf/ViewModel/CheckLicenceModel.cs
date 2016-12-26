@@ -18,7 +18,7 @@ using MaterialDesignDemo.Model;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
-    public class ComputerViewModel : INotifyPropertyChanged
+    public class CheckLicenseViewModel : INotifyPropertyChanged
     {
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
@@ -52,9 +52,9 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
 
-        public ComputerViewModel(int firmId)
+        public CheckLicenseViewModel(int firmId)
         {
-            buttonClicked = new DelegateCommand(GenerateCommand);
+            buttonClicked = new DelegateCommand(CheckLicenseCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             LoadDbClicked = new DelegateCommand(LoadComputerFromDb);
             SaveClicked = new DelegateCommand(SaveCommand);
@@ -62,29 +62,6 @@ namespace MaterialDesignColors.WpfExample.Domain
             LoadComputerFromDb();
         }
 
-        public bool? IsAllItems3Selected
-        {
-            get { return _isAllItems3Selected; }
-            set
-            {
-                if (_isAllItems3Selected == value) return;
-
-                _isAllItems3Selected = value;
-
-                if (_isAllItems3Selected.HasValue)
-                    SelectAll(_isAllItems3Selected.Value, Computers);
-
-                OnPropertyChanged();
-            }
-        }
-
-        private void SelectAll(bool select, IEnumerable<ComputerModel> models)
-        {
-            foreach (var model in models)
-            {
-                model.IsRootMachine = select;
-            }
-        }
 
 
 
@@ -117,7 +94,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 //PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public void GenerateCommand()
+        public void CheckLicenseCommand()
         {
             IsButtonEnable = false;
             _executedComputer = 0;
@@ -131,13 +108,8 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 try
                 {
-                    computers = GenerateDataFromNetwork();
                     
-                    foreach (var item in computers)
-                    {
-                        ComputerDetection.GetAdditionalInfo(item);
-                        ExecutedComputer++;
-                    }
+                    
                     ProgressBar = Visibility.Hidden;
                 }
                 catch (System.Exception ex)
@@ -167,19 +139,10 @@ namespace MaterialDesignColors.WpfExample.Domain
             //I assume BitmapFromUri is the slow step.
 
             //Now that we have our bitmap, now go to the main thread.
-
-
+            
         }
-        private List<ComputerModel> GenerateDataFromNetwork()
-        {
-
-            List<ComputerModel> list = ComputerDetection.Execute().ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate });
-            return list;
-        }
-
         public void LoadComputerFromDb()
         {
-            
             NotificationIsVisible = false;
             IsButtonEnable = false;
             ProgressBar = Visibility.Visible;
@@ -224,104 +187,6 @@ namespace MaterialDesignColors.WpfExample.Domain
                 NotificationContent = ex.Message;
             }
 
-        }
-    }
-    public class PagingCollectionView : CollectionView
-    {
-        private readonly IList _innerList;
-        private readonly int _itemsPerPage;
-
-        private int _currentPage = 1;
-
-        public PagingCollectionView(IList innerList, int itemsPerPage)
-            : base(innerList)
-        {
-            this._innerList = innerList;
-            this._itemsPerPage = itemsPerPage;
-        }
-
-        public override int Count
-        {
-            get
-            {
-                if (this._innerList.Count == 0) return 0;
-                if (this._currentPage < this.PageCount) // page 1..n-1
-                {
-                    return this._itemsPerPage;
-                }
-                else // page n
-                {
-                    var itemsLeft = this._innerList.Count % this._itemsPerPage;
-                    if (0 == itemsLeft)
-                    {
-                        return this._itemsPerPage; // exactly itemsPerPage left
-                    }
-                    else
-                    {
-                        // return the remaining items
-                        return itemsLeft;
-                    }
-                }
-            }
-        }
-
-        public int CurrentPage
-        {
-            get { return this._currentPage; }
-            set
-            {
-                this._currentPage = value;
-                this.OnPropertyChanged(new PropertyChangedEventArgs("CurrentPage"));
-            }
-        }
-
-        public int ItemsPerPage { get { return this._itemsPerPage; } }
-
-        public int PageCount
-        {
-            get
-            {
-                return (this._innerList.Count + this._itemsPerPage - 1)
-                    / this._itemsPerPage;
-            }
-        }
-
-        private int EndIndex
-        {
-            get
-            {
-                var end = this._currentPage * this._itemsPerPage - 1;
-                return (end > this._innerList.Count) ? this._innerList.Count : end;
-            }
-        }
-
-        private int StartIndex
-        {
-            get { return (this._currentPage - 1) * this._itemsPerPage; }
-        }
-
-        public override object GetItemAt(int index)
-        {
-            var offset = index % (this._itemsPerPage);
-            return this._innerList[this.StartIndex + offset];
-        }
-
-        public void MoveToNextPage()
-        {
-            if (this._currentPage < this.PageCount)
-            {
-                this.CurrentPage += 1;
-            }
-            this.Refresh();
-        }
-
-        public void MoveToPreviousPage()
-        {
-            if (this._currentPage > 1)
-            {
-                this.CurrentPage -= 1;
-            }
-            this.Refresh();
         }
     }
 }

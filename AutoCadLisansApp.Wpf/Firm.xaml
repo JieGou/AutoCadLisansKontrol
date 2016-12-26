@@ -53,19 +53,19 @@
                     Style="{DynamicResource MaterialDesignRaisedButton}"
                     Margin="16 0 0 0"
                     materialDesign:ShadowAssist.ShadowDepth="Depth4"
-                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding AddItemClicked}">
-                    Add Item
+                    ToolTip="New Firm" Command="{Binding AddItemClicked}" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}">
+                    New Firm
                 </Button>
                 <Button  Style="{DynamicResource MaterialDesignRaisedButton}"
                     Margin="16 0 0 0"
                     materialDesign:ShadowAssist.ShadowDepth="Depth4"
-                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding SaveClicked}">
+                    ToolTip="Save" Command="{Binding SaveClicked}" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}">
                     Save
                 </Button>
                 <Button  Style="{DynamicResource MaterialDesignRaisedButton}"
                     Margin="16 0 0 0"
                     materialDesign:ShadowAssist.ShadowDepth="Depth4"
-                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{Binding RefreshClicked}">
+                    ToolTip="Refresh" Command="{Binding RefreshClicked}" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}">
                     Refresh
                 </Button>
             </StackPanel>
@@ -76,7 +76,7 @@
             <GroupBox Grid.Column="0" Grid.Row="0" Header="Firma Listesi" Margin="16">
 
 
-                <DataGrid  Margin="0 8 0 0" ItemsSource="{Binding Firm,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
+                <DataGrid Name="grdfirm" Margin="0 8 0 0" ItemsSource="{Binding Firm,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                       materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
                     <DataGrid.Columns>
                         <materialDesign:MaterialDataGridTextColumn Binding="{Binding Id,Mode=TwoWay}" 

@@ -21,9 +21,9 @@ namespace MaterialDesignColors.WpfExample.Domain
             DemoItems = new ObservableCollection<DemoItem>
             {
                 new DemoItem("Home", new Home()),
-                new DemoItem("Operation", new Operation { DataContext = new OperationViewModel()}),
+                //new DemoItem("Operation", new Operation { DataContext = new OperationViewModel()}),
                 new DemoItem("Firma", new Firm { DataContext = new FirmViewModel()}),
-                new DemoItem("Bilgisayar", new Computer { DataContext = new ComputerViewModel()}),
+                //new DemoItem("Bilgisayar", new Computer { DataContext = new ComputerViewModel()}),
          
                 //new DemoItem("Palette", new PaletteSelector { DataContext = new PaletteSelectorViewModel() }),
                 //new DemoItem("Buttons & Toggles", new Buttons()),

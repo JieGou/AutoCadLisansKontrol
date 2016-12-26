@@ -17,10 +17,11 @@ namespace MaterialDesignColors.WpfExample
     public partial class MainWindow : Window
     {
         public static Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
+       
         public MainWindow()
         {
-            InitializeComponent();            
-
+            InitializeComponent();
+            EventManager.RegisterClassHandler(typeof(ListBoxItem),ListBoxItem.MouseLeftButtonDownEvent,new RoutedEventHandler(this.MouseLeftButtonDownClassHandler));
             DataContext = new MainWindowViewModel();
 
             Task.Factory.StartNew(() =>
@@ -32,8 +33,13 @@ namespace MaterialDesignColors.WpfExample
                 //need to get the message queue from the snackbar, so need to be on the dispatcher
                 MainSnackbar.MessageQueue.Enqueue("Welcome to Application License Control Tookit");
             }, TaskScheduler.FromCurrentSynchronizationContext());
-        }        
-
+        }
+        private void MouseLeftButtonDownClassHandler(object sender, RoutedEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
+        }
         private void UIElement_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //until we had a StaysOpen glag to Drawer, this will help with scroll bars
