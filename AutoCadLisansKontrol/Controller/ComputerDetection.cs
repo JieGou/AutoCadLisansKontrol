@@ -20,8 +20,9 @@ namespace AutoCadLisansKontrol.Controller
     {
         public static List<Computer> Execute()
         {
-            var arp = GetComputerFromNetView();
             var net = GetComputerFromArpTable();
+            var arp = GetComputerFromNetView();
+           
             arp.AddRange(net);
             return arp;
         }
@@ -42,7 +43,7 @@ namespace AutoCadLisansKontrol.Controller
             // Redirect the output stream of the child process.
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\newview.bat";
+            p.StartInfo.FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\netview.bat";
             p.Start();
             // Do not wait for the child process to exit before
             // reading to the end of its redirected stream.

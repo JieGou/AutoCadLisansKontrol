@@ -34,10 +34,10 @@ namespace MaterialDesignDemo
 
         private void CheckLicenseButton_Click(object sender, RoutedEventArgs e)
         {
-            int opr = (int)(((Button)sender).CommandParameter);
-            
+            var localoperation = (AutoCadLisansKontrol.DAL.Operation)grdOperation.SelectedItem;
+
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
-            mainwindowviewmodel.DemoItem = new DemoItem("Operation", new Operation { DataContext = new OperationViewModel() });
+            mainwindowviewmodel.DemoItem = new DemoItem("CheckLicense", new CheckLicense { DataContext = new CheckLicenseViewModel(localoperation.Id) });
         }
 
         private void SnackbarMessage_HideSnackClick(object sender, RoutedEventArgs e)

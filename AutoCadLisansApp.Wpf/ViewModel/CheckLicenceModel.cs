@@ -35,12 +35,10 @@ namespace MaterialDesignColors.WpfExample.Domain
         public ICommand AddItemClicked { get; set; }
         public ICommand LoadDbClicked { get; set; }
         public ICommand SaveClicked { get; set; }
-        private int FirmId;
-
-
+        private int OprId;
 
         private ObservableCollection<ComputerModel> _computers;
-        private bool? _isAllItems3Selected;
+
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
         {
@@ -52,13 +50,13 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
 
-        public CheckLicenseViewModel(int firmId)
+        public CheckLicenseViewModel(int oprId)
         {
             buttonClicked = new DelegateCommand(CheckLicenseCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             LoadDbClicked = new DelegateCommand(LoadComputerFromDb);
             SaveClicked = new DelegateCommand(SaveCommand);
-            FirmId = firmId;
+            OprId = oprId;
             LoadComputerFromDb();
         }
 
@@ -82,8 +80,10 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             get
             {
-                if (FirmId == 0) return null;
-                return dbAccess.GetFirm(FirmId);
+                if (OprId == 0) return null;
+
+                var opr = dbAccess.GetOperation(OprId);
+                return dbAccess.GetFirm(opr.FirmId);
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -108,8 +108,8 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 try
                 {
-                    
-                    
+
+
                     ProgressBar = Visibility.Hidden;
                 }
                 catch (System.Exception ex)
@@ -139,14 +139,15 @@ namespace MaterialDesignColors.WpfExample.Domain
             //I assume BitmapFromUri is the slow step.
 
             //Now that we have our bitmap, now go to the main thread.
-            
+
         }
         public void LoadComputerFromDb()
         {
+            
             NotificationIsVisible = false;
             IsButtonEnable = false;
             ProgressBar = Visibility.Visible;
-            Computers = new ObservableCollection<ComputerModel>(dbAccess.ListComputer(FirmId).ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate }));
+            Computers = new ObservableCollection<ComputerModel>(dbAccess.ListComputer(Firm.Id).ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate }));
             NotificationContent = "Success";
             NotificationIsVisible = true;
             ProgressBar = Visibility.Hidden;
@@ -167,15 +168,10 @@ namespace MaterialDesignColors.WpfExample.Domain
                 ProgressBar = Visibility.Visible;
 
                 NotificationIsVisible = false;
-                dbAccess.DeleteAllComputerBaseFormid(FirmId);
 
-                foreach (var item in Computers)
-                {
-                    item.FirmId = FirmId;
 
-                    dbAccess.UpsertComputer(item);
-                }
-                LoadComputerFromDb();
+
+
                 NotificationIsVisible = true;
                 NotificationContent = "Success";
                 IsButtonEnable = true;
