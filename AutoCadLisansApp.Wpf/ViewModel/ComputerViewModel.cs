@@ -27,6 +27,10 @@ namespace MaterialDesignColors.WpfExample.Domain
         public string NotificationContent { get { return _notificationContent; } set { _notificationContent = value; OnPropertyChanged("NotificationContent"); } }
         public bool NotificationIsVisible { get { return _notificationIsVisible; } set { _notificationIsVisible = value; OnPropertyChanged("NotificationIsVisible"); } }
 
+        private int _totalComputer = 0;
+        public int TotalComputer { get { return _totalComputer; } set { _totalComputer = value; OnPropertyChanged("TotalComputer"); } }
+
+
         private int _executedComputer = 0;
         public int ExecutedComputer { get { return _executedComputer; } set { _executedComputer = value; OnPropertyChanged("ExecutedComputer"); } }
 
@@ -121,6 +125,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             IsButtonEnable = false;
             _executedComputer = 0;
+            _totalComputer = 0;
             NotificationIsVisible = false;
             ProgressBar = Visibility.Visible;
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
@@ -132,7 +137,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 try
                 {
                     computers = GenerateDataFromNetwork();
-                    
+                    TotalComputer = computers.Count;
                     foreach (var item in computers)
                     {
                         ComputerDetection.GetAdditionalInfo(item);
@@ -188,12 +193,18 @@ namespace MaterialDesignColors.WpfExample.Domain
             NotificationIsVisible = true;
             ProgressBar = Visibility.Hidden;
             IsButtonEnable = true;
+            _executedComputer = Computers.Count;
+            _totalComputer = Computers.Count;
         }
         public void AddItemCommand()
         {
+
             Computers = Computers;
             if (Computers == null) Computers = new ObservableCollection<ComputerModel>();
             Computers.Add(new ComputerModel());
+
+            _executedComputer = Computers.Count;
+            _totalComputer = Computers.Count;
         }
 
         public void SaveCommand()

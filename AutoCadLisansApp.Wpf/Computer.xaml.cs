@@ -42,6 +42,9 @@ namespace MaterialDesignColors.WpfExample
             {
                 var userviewmodel = (ComputerViewModel)this.DataContext;
                 userviewmodel.Computers.Remove(localcomputer);
+
+                userviewmodel.ExecutedComputer = userviewmodel.Computers.Count;
+                userviewmodel.TotalComputer = userviewmodel.Computers.Count;
                 return;
             }
             ShowDialog();

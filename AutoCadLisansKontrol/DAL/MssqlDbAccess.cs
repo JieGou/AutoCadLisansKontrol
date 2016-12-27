@@ -24,7 +24,7 @@ namespace AutoCadLisansKontrol.DAL
             {
                 lock (_lock)
                 {
-                    return (@"data source=195.87.11.40;initial catalog=AUTOCADLICENSE;persist security info=True;user id=sa;password=BIMED2000;MultipleActiveResultSets=True;App=EntityFramework");
+                    return (@"data source=.\;initial catalog=AUTOCADLICENSE;persist security info=True;user id=sa;password=sa123;MultipleActiveResultSets=True;App=EntityFramework");
                 }
             }
         }
