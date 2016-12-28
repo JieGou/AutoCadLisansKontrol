@@ -13,10 +13,10 @@ namespace AutoCadLisansKontrol.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AUTOCADLICENSEEntities : DbContext
+    public partial class AUTOCADLICENSEEntities1 : DbContext
     {
-        public AUTOCADLICENSEEntities()
-            : base("name=AUTOCADLICENSEEntities")
+        public AUTOCADLICENSEEntities1()
+            : base("name=AUTOCADLICENSEEntities1")
         {
         }
     
@@ -25,9 +25,9 @@ namespace AutoCadLisansKontrol.DAL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<CheckLicense> CheckLicense { get; set; }
         public virtual DbSet<Computer> Computer { get; set; }
         public virtual DbSet<Firm> Firm { get; set; }
         public virtual DbSet<Operation> Operation { get; set; }
-        public virtual DbSet<OperationDetail> OperationDetail { get; set; }
     }
 }

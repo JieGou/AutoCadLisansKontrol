@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MaterialDesignColors.WpfExample.Domain;
+using MaterialDesignDemo;
+using MaterialDesignDemo.Domain;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -48,7 +51,14 @@ namespace MaterialDesignColors.WpfExample
 
         private void DonateButton_OnClick(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://pledgie.com/campaigns/31029");
+            Process.Start("http://www.autodesk.com.tr/");
+        }       
+
+        private void Button_Click_Start(object sender, RoutedEventArgs e)
+        {
+           
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = new DemoItem("Firma", new Firm { DataContext = new FirmViewModel() });
         }
     }
 }

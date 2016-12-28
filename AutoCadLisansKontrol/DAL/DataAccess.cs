@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,20 +11,64 @@ namespace AutoCadLisansKontrol.DAL
 
     public class DataAccess
     {
-        AUTOCADLICENSEEntities dbaccess = new AUTOCADLICENSEEntities();
+        AUTOCADLICENSEEntities1 dbaccess = new AUTOCADLICENSEEntities1();
+        MssqlDbAccess mssqldbaccess = new MssqlDbAccess();
 
         public void UpsertFirm(Firm firm)
         {
-            var item = dbaccess.Firm.Where(x => x.Id == firm.Id).FirstOrDefault<Firm>();
+            try
+            {
+                var item = dbaccess.Firm.Where(x => x.Id == firm.Id).FirstOrDefault<Firm>();
 
-            if (item == null)
-                dbaccess.Firm.Add(firm);
-            else
-                item.Name = firm.Name;
+                if (item == null)
+                {
+                    firm.InsertDate = DateTime.Now;
+                    dbaccess.Firm.Add(firm);
+                }
+                else
+                {
+                    item.Name = firm.Name;
+                    item.Contact = firm.Contact;
+                    item.Address = firm.Address;
+                    item.PhoneNo = firm.PhoneNo;
+                }
+                dbaccess.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                string validationerror = "";
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        validationerror += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
+                    }
+                }
 
-            dbaccess.SaveChanges();
+                throw new Exception(validationerror);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
+            }
+
         }
-        public Firm GetFirm(int? firmId) {
+        public Firm GetFirm(int? firmId)
+        {
             var item = dbaccess.Firm.Where(x => x.Id == firmId).FirstOrDefault<Firm>();
             return item;
         }
@@ -31,34 +77,96 @@ namespace AutoCadLisansKontrol.DAL
             return dbaccess.Firm.ToList();
         }
 
-        public void DeleteFirm(Firm firm)
+        public void DeleteFirm(int firmid)
         {
-            dbaccess.Firm.Remove(firm);
-            dbaccess.SaveChanges();
+            try
+            {
+
+                mssqldbaccess.ExecuteNonQuery("SP_DELETE_FIRM",new List<System.Data.SqlClient.SqlParameter>() {
+
+                    new System.Data.SqlClient.SqlParameter("@FIRMID",firmid)
+                });
+                
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void UpdateFirm(Firm firm)
         {
-            var item = dbaccess.Firm.Where(x => x.Id == firm.Id).FirstOrDefault<Firm>();
-            item.Name = firm.Name;
-            dbaccess.SaveChanges();
+            try
+            {
+                var item = dbaccess.Firm.Where(x => x.Id == firm.Id).FirstOrDefault<Firm>();
+                item.Name = firm.Name;
+                dbaccess.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
-        public void UpsertComputer(Computer comp)
+        public void UpsertComputer(Computer c)
         {
-            var item = dbaccess.Computer.Where(x => x.Id == comp.Id).FirstOrDefault<Computer>();
-            if (item == null)
-                dbaccess.Computer.Add(comp);
-            else
+
+            try
             {
-                item.Ip = comp.Ip;
-                item.IsComputer = comp.IsComputer;
-                item.IsRootMachine = comp.IsRootMachine;
-                item.Name = comp.Name;
-                item.PyshicalAddress = comp.PyshicalAddress;
-                item.Visibility = comp.Visibility;
+                var item = dbaccess.Computer.Where(x => x.Id == c.Id).FirstOrDefault<Computer>();
+                if (item == null)
+                {
+                    item = new Computer { Id = c.Id, Ip = c.Ip, IsComputer = c.IsComputer, IsRootMachine = c.IsRootMachine, IsVisible = c.IsVisible, Name = c.Name, PyshicalAddress = c.PyshicalAddress, FirmId = c.FirmId, Type = c.Type, InsertDate = DateTime.Now };
+                    dbaccess.Computer.Add(item);
+                }
+                else
+                {
+                    item.Ip = c.Ip;
+                    item.IsComputer = c.IsComputer;
+                    item.IsRootMachine = c.IsRootMachine;
+                    item.Name = c.Name;
+                    item.PyshicalAddress = c.PyshicalAddress;
+                    item.IsVisible = c.IsVisible;
+                }
+
+
+                dbaccess.SaveChanges();
             }
-            dbaccess.SaveChanges();
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                string validationerror = "";
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        validationerror += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
+                    }
+                }
+
+                throw new Exception(validationerror);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
+            }
+
         }
 
         public Operation GetOperation(int opr)
@@ -73,12 +181,23 @@ namespace AutoCadLisansKontrol.DAL
         }
         public List<Computer> ListComputer(int? firmId)
         {
-            return dbaccess.Computer.Where(x=>x.FirmId==firmId).ToList();
+            return dbaccess.Computer.Where(x => x.FirmId == firmId).ToList();
         }
-        public void DeleteComputer(Computer comp)
+        public void DeleteComputer(string Ip)
         {
-            dbaccess.Computer.Remove(comp);
-            dbaccess.SaveChanges();
+            try
+            {
+                var item = dbaccess.Computer.SingleOrDefault(x => x.Ip.Contains(Ip));
+
+                if (item != null)
+                    dbaccess.Computer.Remove(item);
+                dbaccess.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public void UpdateComputer(Computer comp)
         {
@@ -88,33 +207,80 @@ namespace AutoCadLisansKontrol.DAL
             item.IsRootMachine = comp.IsRootMachine;
             item.Name = comp.Name;
             item.PyshicalAddress = comp.PyshicalAddress;
-            item.Visibility = comp.Visibility;
+            item.IsVisible = comp.IsVisible;
             dbaccess.SaveChanges();
         }
 
         public void UpsertOperation(Operation opr)
         {
-            var item = dbaccess.Operation.Where(x => x.Id == opr.Id).FirstOrDefault<Operation>();
-            if (item == null)
-                dbaccess.Operation.Add(opr);
-            else
+            try
             {
-                item.Id = opr.Id;
-                item.Name = opr.Name;
+                var item = dbaccess.Operation.Where(x => x.Id == opr.Id).FirstOrDefault<Operation>();
+                if (item == null)
+                    dbaccess.Operation.Add(opr);
+                else
+                {
+                    item.Id = opr.Id;
+                    item.Name = opr.Name;
+                }
+                dbaccess.SaveChanges();
             }
-            dbaccess.SaveChanges();
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                string validationerror = "";
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        validationerror += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
+                    }
+                }
+
+                throw new Exception(validationerror);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
+            }
+
         }
         public List<Operation> ListOperation()
         {
-            return dbaccess.Operation.ToList();
+            try
+            {
+                return dbaccess.Operation.ToList();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<Operation> ListOperation(int firmid)
+        {
+            return dbaccess.Operation.Where(x => x.FirmId == firmid).ToList();
         }
         public void DeleteOperation(Operation opr)
         {
-            dbaccess.Operation.Remove(opr);
-            dbaccess.SaveChanges();
+            mssqldbaccess.ExecuteNonQuery("SP_DELETE_OPERATION", new List<System.Data.SqlClient.SqlParameter> { new System.Data.SqlClient.SqlParameter("@OPRID", opr.Id) });
         }
 
-       
+
 
         public void UpdateOperation(Operation opr)
         {
@@ -124,41 +290,104 @@ namespace AutoCadLisansKontrol.DAL
             dbaccess.SaveChanges();
         }
 
-        public void UpsertOperationDetail(OperationDetail oprdetail)
+        public void UpsertCheckLicense(CheckLicense oprdetail)
         {
-            var item = dbaccess.OperationDetail.Where(x => x.Id == oprdetail.Id).FirstOrDefault<OperationDetail>();
-            if (item == null)
-                dbaccess.OperationDetail.Add(oprdetail);
-            else
+            try
             {
-                item.IsUnlicensed = oprdetail.IsUnlicensed;
-                item.Output = oprdetail.Output;
-                item.CheckDate = oprdetail.CheckDate;
-                item.UpdateDate = DateTime.Now;
+                var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicense>();
+                if (item == null)
+                    dbaccess.CheckLicense.Add(oprdetail);
+                else
+                {
+                    item.IsUnlicensed = oprdetail.IsUnlicensed;
+                    item.Output = oprdetail.Output;
+                    item.CheckDate = oprdetail.CheckDate;
+                    item.UpdateDate = DateTime.Now;
+                }
+                dbaccess.SaveChanges();
             }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                string validationerror = "";
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        validationerror += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
+                    }
+                }
+
+                throw new Exception(validationerror);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
+            }
+
+        }
+
+        public List<CheckLicense> ListCheckLicense()
+        {
+            return dbaccess.CheckLicense.ToList();
+        }
+
+        public void DeleteCheckLicense(CheckLicense oprdetail)
+        {
+            dbaccess.CheckLicense.Remove(oprdetail);
             dbaccess.SaveChanges();
         }
 
-        public List<OperationDetail> ListOprDetail()
+        public void UpdateCheckLicense(CheckLicense oprdetail)
         {
-            return dbaccess.OperationDetail.ToList();
-        }
-
-        public void DeleteOprDetail(OperationDetail oprdetail)
-        {
-            dbaccess.OperationDetail.Remove(oprdetail);
-            dbaccess.SaveChanges();
-        }
-
-        public void UpdateOprDetail(OperationDetail oprdetail)
-        {
-            var item = dbaccess.OperationDetail.Where(x => x.Id == oprdetail.Id).FirstOrDefault<OperationDetail>();
+            var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicense>();
             item.IsUnlicensed = oprdetail.IsUnlicensed;
             item.Output = oprdetail.Output;
             item.CheckDate = oprdetail.CheckDate;
             item.UpdateDate = DateTime.Now;
 
             dbaccess.SaveChanges();
+        }
+
+        public void DeleteAllComputerBaseFormid(int firmId)
+        {
+            try
+            {
+                mssqldbaccess.ExecuteNonQuery("SP_DELETE_COMPUTER", new List<System.Data.SqlClient.SqlParameter> {
+
+                    new System.Data.SqlClient.SqlParameter("@FIRMID",firmId)
+                });
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
+            }
         }
     }
 }

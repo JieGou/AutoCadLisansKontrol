@@ -27,14 +27,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image Source="Resources/ms-icon-310x310.png" Stretch="Uniform" Width="100" Height="100" />
             <StackPanel Grid.Column="1" Margin="24 0 0 0" VerticalAlignment="Center">
-                <TextBlock Style="{StaticResource MaterialDesignDisplay1TextBlock}" TextWrapping="Wrap">Welcome to Material Design In XAML Toolkit</TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignDisplay1TextBlock}" TextWrapping="Wrap">Welcome to License Control Toolkit</TextBlock>
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
-                        Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}">
+                        Click="Button_Click_Start">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Binoculars" />
-                        <TextBlock Margin="8 0 0 0">EXPLORE</TextBlock>
+                        <TextBlock Margin="8 0 0 0">LET'S START</TextBlock>
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -109,11 +108,11 @@
                                 <ColumnDefinition Width="200" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <materialDesign:PackIcon Kind="GithubCircle" Width="160" Height="160" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Image Source="img/rsz_autocadicon.png" Stretch="Uniform" Width="100" Height="100" />
                             <StackPanel Grid.Column="1">
-                                <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Margin="16 16 16 8">Open Source</TextBlock>
+                                <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Margin="16 16 16 8">AutoDesk</TextBlock>
                                 <TextBlock TextWrapping="Wrap" Margin="16 0 16 8" Foreground="{DynamicResource MaterialDesignBodyLight}"
-                                           VerticalAlignment="Top">This project is completely open source. If you like it and want to say thanks you could hit the GitHub Star button, tweet or post about it, or tell your mum about it!</TextBlock>
+                                           VerticalAlignment="Top">Enable to check of Autodesk applications and subapplications license via License Application Toolkit</TextBlock>
                             </StackPanel>
                             <Border Grid.Row="1" Grid.ColumnSpan="2" BorderThickness="0 1 0 0" BorderBrush="{DynamicResource MaterialDesignDivider}" Padding="8">
                                 <DockPanel>
@@ -135,7 +134,7 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-        <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+        <!--<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                                  HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                  Margin="32" Grid.Row="1">
             <StackPanel>
@@ -148,7 +147,7 @@
                     <materialDesign:PackIcon Kind="Twitter" />
                 </Button>
                 <Button ToolTip="Chat" Click="ChatButton_OnClick">
-                    <!-- mix up the colours by brinking in a named palette (see merged dictionaries at top) -->
+                    --><!-- mix up the colours by brinking in a named palette (see merged dictionaries at top) --><!--
                     <Button.Background>
                         <SolidColorBrush Color="{StaticResource GreenPrimary500}" />
                     </Button.Background>
@@ -174,6 +173,6 @@
                     <materialDesign:PackIcon Kind="Gift" />
                 </Button>
             </StackPanel>
-        </materialDesign:PopupBox>
+        </materialDesign:PopupBox>-->
     </Grid>
 </UserControl>

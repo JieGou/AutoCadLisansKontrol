@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="MaterialDesignDemo.CheckLicense"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MaterialDesignDemo"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <GroupBox Grid.Column="0" Grid.Row="1" Header="Accent Header" Style="{DynamicResource MaterialDesignGroupBox}" Margin="16" materialDesign:ColorZoneAssist.Mode="Accent">
+            <StackPanel Orientation="Horizontal">
+            <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="Account" Foreground="{Binding ElementName=NameTextBox, Path=BorderBrush}" />
+            <TextBox Grid.Row="1" Grid.Column="1" 
+				    x:Name="NameTextBox"
+				    materialDesign:HintAssist.Hint="Name" Width="83">
+                <TextBox.Text>
+                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+                <materialDesign:PackIcon Grid.Row="3" Grid.Column="2" Kind="Key" Foreground="{Binding ElementName=PasswordBox, Path=BorderBrush}" HorizontalAlignment="Right" />
+                <PasswordBox Grid.Row="3" Grid.Column="3" 		
+                     x:Name="PasswordBox"
+                     materialDesign:HintAssist.Hint="Password" Width="83" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox  Header="Bilgisayar Listesi" Margin="16">
+
+            <DataGrid  Margin="0 8 0 0" Name="grdComputer" ItemsSource="{Binding Computers,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
+                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding IsRootMachine}" 
+                                            ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                            >
+                        <DataGridCheckBoxColumn.Header>
+                            <!--padding to allow hit test to pass thru for sorting -->
+                            <Border Background="Transparent" Padding="6 0 6 0" HorizontalAlignment="Center">
+                                <CheckBox HorizontalAlignment="Center"                                               
+                                          DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"
+                                          IsChecked="{Binding IsAllItems3Selected}" />
+                            </Border>
+                        </DataGridCheckBoxColumn.Header>
+                    </DataGridCheckBoxColumn>
+
+                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Id,Mode=TwoWay}" 
+                                            Header="Id"
+                                 EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
+                                            ></materialDesign:MaterialDataGridTextColumn>
+
+
+
+                    <DataGridTemplateColumn Header="Ip" Width="SizeToCells">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Grid.Row="1" Grid.Column="1" 
+				    x:Name="NameTextBox"
+				    materialDesign:HintAssist.Hint="Ip">
+                                    <TextBox.Text>
+                                        <Binding Path="Ip" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
+                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name,Mode=TwoWay}" Width="SizeToCells"
+                                                               Header="Name"                                                        
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
+                                                               >
+
+                    </materialDesign:MaterialDataGridTextColumn>
+                    <!-- set a max length to get an indicator in the editor -->
+                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding PyshicalAddress,Mode=TwoWay}" Width="SizeToCells"
+                                                               Header="Fiziksel Adres"                                                        
+                                                               MaxLength="255" 
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
+                    <!-- set a max length to get an indicator in the editor -->
+                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Type,Mode=TwoWay}" Width="125"
+                                                               
+                                                               Header="Tip"                                                        
+                                                               MaxLength="255" 
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
+
+                    <DataGridTemplateColumn Header="Progress" Width="SizeToCells" 
+ IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card UniformCornerRadius="14" 
+                      VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12 12 12 12">
+                                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
+                         Value="50"
+                         IsIndeterminate="True"  />
+                                </materialDesign:Card>
+
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                
+
+
+                    <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
+                    <!--<materialDesign:MaterialDataGridComboBoxColumn Header="Food"        
+                                                                   SelectedValueBinding="{Binding Food}"-->
+                    <!--ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Foods}" />-->
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+    </StackPanel>
+</UserControl>

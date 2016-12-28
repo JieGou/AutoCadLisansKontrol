@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadLisansKontrolLibrary
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialDesignDemo", "AutoCadLisansApp.Wpf\MaterialDesignDemo.csproj", "{CF0A27A8-EF82-44E5-B673-ECCC150C48ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadLisansKontrol.Test", "AutoCadLisansKontrol.Test\AutoCadLisansKontrol.Test.csproj", "{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AppVeyor|Any CPU = AppVeyor|Any CPU
@@ -61,6 +63,26 @@ Global
 		{CF0A27A8-EF82-44E5-B673-ECCC150C48ED}.Release451|Any CPU.Build.0 = Release|Any CPU
 		{CF0A27A8-EF82-44E5-B673-ECCC150C48ED}.Release452|Any CPU.ActiveCfg = Release|Any CPU
 		{CF0A27A8-EF82-44E5-B673-ECCC150C48ED}.Release452|Any CPU.Build.0 = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Debug35|Any CPU.ActiveCfg = Debug|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Debug35|Any CPU.Build.0 = Debug|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.R46|Any CPU.ActiveCfg = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.R46|Any CPU.Build.0 = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release35|Any CPU.ActiveCfg = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release35|Any CPU.Build.0 = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release40|Any CPU.ActiveCfg = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release40|Any CPU.Build.0 = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release45|Any CPU.ActiveCfg = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release45|Any CPU.Build.0 = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release451|Any CPU.ActiveCfg = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release451|Any CPU.Build.0 = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release452|Any CPU.ActiveCfg = Release|Any CPU
+		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release452|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

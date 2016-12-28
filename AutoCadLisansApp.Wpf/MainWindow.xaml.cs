@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignThemes.Wpf;
+using System.Windows.Threading;
 
 namespace MaterialDesignColors.WpfExample
 {
@@ -15,10 +16,12 @@ namespace MaterialDesignColors.WpfExample
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
+       
         public MainWindow()
         {
-            InitializeComponent();            
-
+            InitializeComponent();
+            EventManager.RegisterClassHandler(typeof(ListBoxItem),ListBoxItem.MouseLeftButtonDownEvent,new RoutedEventHandler(this.MouseLeftButtonDownClassHandler));
             DataContext = new MainWindowViewModel();
 
             Task.Factory.StartNew(() =>
@@ -28,10 +31,15 @@ namespace MaterialDesignColors.WpfExample
             {
                 //note you can use the message queue from any thread, but just for the demo here we 
                 //need to get the message queue from the snackbar, so need to be on the dispatcher
-                MainSnackbar.MessageQueue.Enqueue("Welcome to Material Design In XAML Tookit");
+                MainSnackbar.MessageQueue.Enqueue("Welcome to Application License Control Tookit");
             }, TaskScheduler.FromCurrentSynchronizationContext());
-        }        
-
+        }
+        private void MouseLeftButtonDownClassHandler(object sender, RoutedEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
+        }
         private void UIElement_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //until we had a StaysOpen glag to Drawer, this will help with scroll bars
@@ -61,6 +69,34 @@ namespace MaterialDesignColors.WpfExample
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = item;
 
+        }
+
+        private void DemoItemsListBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
+        }
+
+        private void DemoItemsListBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
+        }
+
+        private void DemoItemsListBox_Click(object sender, RoutedEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
+        }
+
+        private void DemoItemsListBox_SelectionTouch(object sender, TouchEventArgs e)
+        {
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = item;
         }
     } 
 }
