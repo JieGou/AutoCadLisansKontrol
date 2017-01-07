@@ -20,7 +20,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             DemoItems = new ObservableCollection<DemoItem>
             {
-                new DemoItem("CheckLicense", new CheckLicense { DataContext = new CheckLicenseViewModel(6)}),
+                new DemoItem("CheckLicense", new CheckLicense { DataContext = new CheckLicenseViewModel(1)}),
                 new DemoItem("Home", new Home()),
                 //new DemoItem("Operation", new Operation { DataContext = new OperationViewModel()}),
                 new DemoItem("Firma", new Firm { DataContext = new FirmViewModel()}),

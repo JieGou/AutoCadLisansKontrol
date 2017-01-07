@@ -1,5 +1,4 @@
-﻿using AutoCadLisansKontrol.DAL;
-using MaterialDesignColors.WpfExample;
+﻿using MaterialDesignColors.WpfExample;
 using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Domain;
 using System;
@@ -25,7 +24,7 @@ namespace MaterialDesignDemo
     public partial class Operation : UserControl
     {
 
-        DataAccess dbaccess = new DataAccess();
+        autocad.masterkey.ws.Service1Client client = new autocad.masterkey.ws.Service1Client();
         public Operation()
         {
 
@@ -34,7 +33,7 @@ namespace MaterialDesignDemo
 
         private void CheckLicenseButton_Click(object sender, RoutedEventArgs e)
         {
-            var localoperation = (AutoCadLisansKontrol.DAL.Operation)grdOperation.SelectedItem;
+            var localoperation = (autocad.masterkey.ws.Operation)grdOperation.SelectedItem;
 
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = new DemoItem("CheckLicense", new CheckLicense { DataContext = new CheckLicenseViewModel(localoperation.Id) });
@@ -49,7 +48,7 @@ namespace MaterialDesignDemo
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             
-            var localoperation = (AutoCadLisansKontrol.DAL.Operation)grdOperation.SelectedItem;
+            var localoperation = (autocad.masterkey.ws.Operation)grdOperation.SelectedItem;
             if (localoperation.Id == 0)
             {
                 var userviewmodel = (OperationViewModel)this.DataContext;
@@ -58,7 +57,7 @@ namespace MaterialDesignDemo
             }
             ShowDialog(localoperation);
         }
-        private void ShowDialog(AutoCadLisansKontrol.DAL.Operation opr)
+        private void ShowDialog(autocad.masterkey.ws.Operation opr)
         {
 
 
@@ -69,7 +68,7 @@ namespace MaterialDesignDemo
                 case MessageBoxResult.Yes:
                     try
                     {
-                        dbaccess.DeleteOperation(opr);
+                        client.DeleteOperation(opr);
 
                         var removeditem = userviewmodel.Operation.SingleOrDefault(x => x.Id == opr.Id);
 

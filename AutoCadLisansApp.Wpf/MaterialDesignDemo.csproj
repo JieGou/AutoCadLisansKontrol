@@ -97,6 +97,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -129,10 +130,18 @@
     <Compile Include="ColorZones.xaml.cs">
       <DependentUpon>ColorZones.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controller\ComputerDetection.cs" />
+    <Compile Include="Controller\LicenseDetection.cs" />
     <Compile Include="Dialogs.xaml.cs">
       <DependentUpon>Dialogs.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\ComputerModel.cs" />
+    <Compile Include="Service References\autocad.masterkey.ws\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CheckLicenceModel.cs" />
     <Compile Include="ViewModel\ExtenstionMethod.cs" />
     <Compile Include="RelayCommand.cs" />
@@ -474,6 +483,28 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\autocad.masterkey.ws\AutoCadLisansKontrol.DAL.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\autocad.masterkey.ws\MaterialDesignDemo.autocad.masterkey.ws.CheckLicense.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\autocad.masterkey.ws\MaterialDesignDemo.autocad.masterkey.ws.Computer.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\autocad.masterkey.ws\MaterialDesignDemo.autocad.masterkey.ws.Firm.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\autocad.masterkey.ws\MaterialDesignDemo.autocad.masterkey.ws.Operation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\autocad.masterkey.ws\service.wsdl" />
+    <None Include="Service References\autocad.masterkey.ws\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\autocad.masterkey.ws\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -497,12 +528,6 @@
     <Resource Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoCadLisansKontrol\AutoCadLisansKontrolLibrary.csproj">
-      <Project>{4fe772c3-5004-4e61-97cd-817e82fe37e2}</Project>
-      <Name>AutoCadLisansKontrolLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
@@ -513,6 +538,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\license-application.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\autocad.masterkey.ws\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\autocad.masterkey.ws\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\autocad.masterkey.ws\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\autocad.masterkey.ws\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

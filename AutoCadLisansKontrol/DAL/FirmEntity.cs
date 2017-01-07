@@ -12,20 +12,25 @@ namespace AutoCadLisansKontrol.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Operation
+    public partial class FirmEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Operation()
+        public FirmEntity()
         {
-            this.CheckLicense = new HashSet<CheckLicense>();
+            this.Computer = new HashSet<ComputerEntity>();
+            this.Operation = new HashSet<OperationEntity>();
         }
     
         public int Id { get; set; }
-        public int FirmId { get; set; }
         public string Name { get; set; }
+        public string Address { get; set; }
+        public string Contact { get; set; }
+        public string PhoneNo { get; set; }
+        public System.DateTime InsertDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CheckLicense> CheckLicense { get; set; }
-        public virtual Firm Firm { get; set; }
+        public virtual ICollection<ComputerEntity> Computer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OperationEntity> Operation { get; set; }
     }
 }

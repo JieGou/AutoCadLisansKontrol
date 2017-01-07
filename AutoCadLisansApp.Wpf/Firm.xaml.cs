@@ -1,4 +1,4 @@
-﻿using AutoCadLisansKontrol.DAL;
+﻿
 using MaterialDesignColors.WpfExample;
 using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Domain;
@@ -25,7 +25,7 @@ namespace MaterialDesignDemo
     /// </summary>
     public partial class Firm : UserControl
     {
-        DataAccess dbAccess = new DataAccess();
+        autocad.masterkey.ws.Service1Client client = new autocad.masterkey.ws.Service1Client();
         int FirmId;
         public Firm()
         {
@@ -54,7 +54,7 @@ namespace MaterialDesignDemo
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             FirmId = (int)(((Button)sender).CommandParameter);
-            var localfirm = (AutoCadLisansKontrol.DAL.Firm)grdfirm.SelectedItem;
+            var localfirm = (autocad.masterkey.ws.Firm)grdfirm.SelectedItem;
             if (localfirm.Id == 0)
             {
                 var userviewmodel = (FirmViewModel)this.DataContext;
@@ -77,7 +77,7 @@ namespace MaterialDesignDemo
                 case MessageBoxResult.Yes:
                     try
                     {
-                        dbAccess.DeleteFirm(FirmId);
+                        client.DeleteFirm(FirmId);
 
                         var removeditem = userviewmodel.Firm.SingleOrDefault(x => x.Id == FirmId);
 

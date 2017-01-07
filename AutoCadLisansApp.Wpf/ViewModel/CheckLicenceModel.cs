@@ -2,11 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using AutoCadLisansKontrol.Controller;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using System.Windows;
-using AutoCadLisansKontrol.DAL;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -14,12 +12,13 @@ using System.Windows.Data;
 using System.Collections;
 using System.Threading;
 using MaterialDesignDemo.Model;
-
+using MaterialDesignDemo.ViewModel;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
-    public class CheckLicenseViewModel : INotifyPropertyChanged
+    public class CheckLicenseViewModel : BaseViewModel,INotifyPropertyChanged
     {
+
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
         private string _notificationContent;
@@ -30,7 +29,6 @@ namespace MaterialDesignColors.WpfExample.Domain
         private int _executedComputer = 0;
         public int ExecutedComputer { get { return _executedComputer; } set { _executedComputer = value; OnPropertyChanged("ExecutedComputer"); } }
 
-        DataAccess dbAccess = new DataAccess();
         public ICommand buttonClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand LoadDbClicked { get; set; }
@@ -49,7 +47,9 @@ namespace MaterialDesignColors.WpfExample.Domain
                 OnPropertyChanged("ProgressBar");
             }
         }
-
+        public CheckLicenseViewModel()
+        {
+        }
         public CheckLicenseViewModel(int oprId)
         {
             buttonClicked = new DelegateCommand(CheckLicenseCommand);
@@ -76,14 +76,14 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
-        public AutoCadLisansKontrol.DAL.Firm Firm
+        public MaterialDesignDemo.autocad.masterkey.ws.Firm Firm
         {
             get
             {
                 if (OprId == 0) return null;
 
-                var opr = dbAccess.GetOperation(OprId);
-                return dbAccess.GetFirm(opr.FirmId);
+                var opr = client.GetOperation(OprId);
+                return client.GetFirm(opr.FirmId);
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -147,7 +147,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             NotificationIsVisible = false;
             IsButtonEnable = false;
             ProgressBar = Visibility.Visible;
-            Computers = new ObservableCollection<ComputerModel>(dbAccess.ListComputer(Firm.Id).ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate }));
+            Computers = new ObservableCollection<ComputerModel>(client.ListComputer(Firm.Id).ToList().ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate }));
             NotificationContent = "Success";
             NotificationIsVisible = true;
             ProgressBar = Visibility.Hidden;
@@ -186,4 +186,3 @@ namespace MaterialDesignColors.WpfExample.Domain
         }
     }
 }
-

@@ -1,4 +1,5 @@
-﻿using AutoCadLisansKontrol.DAL;
+﻿
+using MaterialDesignDemo.ViewModel;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using System.Collections.ObjectModel;
@@ -8,7 +9,7 @@ using System.Windows.Input;
 
 namespace MaterialDesignDemo.Domain
 {
-    public class FirmViewModel : INotifyPropertyChanged
+    public class FirmViewModel :BaseViewModel, INotifyPropertyChanged
     {
 
 
@@ -20,14 +21,14 @@ namespace MaterialDesignDemo.Domain
         public bool NotificationIsVisible { get { return _notificationIsVisible; } set { _notificationIsVisible = value; OnPropertyChanged("NotificationIsVisible"); } }
 
 
-        DataAccess dbAccess = new DataAccess();
-        private ObservableCollection<AutoCadLisansKontrol.DAL.Firm> _firm;
+        
+        private ObservableCollection<autocad.masterkey.ws.Firm> _firm;
         public ICommand DeleteClicked { get; set; }
         public ICommand SaveClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand RefreshClicked { get; set; }
 
-        public ObservableCollection<AutoCadLisansKontrol.DAL.Firm> Firm
+        public ObservableCollection<autocad.masterkey.ws.Firm> Firm
         {
             get { return _firm; }
             set
@@ -42,7 +43,7 @@ namespace MaterialDesignDemo.Domain
             RefreshClicked = new DelegateCommand(RefreshCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             SaveClicked = new DelegateCommand(SaveCommand);
-            Firm = new ObservableCollection<AutoCadLisansKontrol.DAL.Firm>(dbAccess.ListFirm());
+            Firm = new ObservableCollection<autocad.masterkey.ws.Firm>(client.ListFirm());
         }
 
 
@@ -60,7 +61,7 @@ namespace MaterialDesignDemo.Domain
             {
                 foreach (var item in Firm)
                 {
-                    dbAccess.UpsertFirm(item);
+                    client.UpsertFirm(item);
                 }
                 RefreshCommand();
             }
@@ -75,12 +76,12 @@ namespace MaterialDesignDemo.Domain
         }
         public void AddItemCommand()
         {
-            Firm.Add(new AutoCadLisansKontrol.DAL.Firm());
+            Firm.Add(new autocad.masterkey.ws.Firm());
         }
         public void RefreshCommand()
         {
             NotificationIsVisible = false;
-            Firm = new ObservableCollection<AutoCadLisansKontrol.DAL.Firm>(dbAccess.ListFirm());
+            Firm = new ObservableCollection<autocad.masterkey.ws.Firm>(client.ListFirm());
             NotificationIsVisible = true;
             NotificationContent = "Success";
         }

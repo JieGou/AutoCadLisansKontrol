@@ -1,4 +1,5 @@
 ﻿using AutoCadLisansKontrol.Controller;
+using AutoCadLisansKontrol.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace AutoCadLisansKontrol
     {
         static void Main(string[] args)
         {
+            DataAccess dbaccess = new DataAccess();
+            var list =dbaccess.ListFirm();
+            var firm = list;
         }
     }
 }

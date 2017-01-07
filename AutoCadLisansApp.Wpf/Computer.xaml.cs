@@ -1,5 +1,4 @@
-﻿using AutoCadLisansKontrol.Controller;
-using AutoCadLisansKontrol.DAL;
+﻿
 using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Domain;
 using MaterialDesignDemo.Model;
@@ -27,8 +26,8 @@ namespace MaterialDesignColors.WpfExample
     /// </summary>
     public partial class Computer : UserControl
     {
-        DataAccess dbAccess = new DataAccess();
         private string ip;
+        private MaterialDesignDemo.autocad.masterkey.ws.Service1Client client = new MaterialDesignDemo.autocad.masterkey.ws.Service1Client();
         public Computer()
         {
             InitializeComponent();
@@ -61,7 +60,7 @@ namespace MaterialDesignColors.WpfExample
                     try
                     {
 
-                        dbAccess.DeleteComputer(ip);
+                        client.DeleteComputer(ip);
 
                         var removeditem = userviewmodel.Computers.SingleOrDefault(x => x.Ip.Contains(ip));
 

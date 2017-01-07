@@ -24,7 +24,7 @@ namespace AutoCadLisansKontrol.DAL
             {
                 lock (_lock)
                 {
-                    return (@"data source=.\;initial catalog=AUTOCADLICENSE;persist security info=True;user id=sa;password=sa123;MultipleActiveResultSets=True;App=EntityFramework");
+                    return (@"data source=195.87.11.40;initial catalog=AUTOCADLICENSE;persist security info=True;user id=sa;password=BIMED2000;MultipleActiveResultSets=True;App=EntityFramework");
                 }
             }
         }
@@ -88,7 +88,7 @@ namespace AutoCadLisansKontrol.DAL
                     comm.CommandText = string.Format(procName);
                     foreach (var o in parameter)
                     {
-                        comm.Parameters.Add(o.ParameterName, o.Value);
+                        comm.Parameters.AddWithValue(o.ParameterName, o.Value);
                     }
                     var list = MapData<T>(comm.ExecuteReader());
                     if (list.Count > 0) item = list[0];
@@ -108,7 +108,7 @@ namespace AutoCadLisansKontrol.DAL
                     comm.CommandText = string.Format(procName);
                     foreach (var o in parameters)
                     {
-                        comm.Parameters.Add(o.ParameterName, o.Value);
+                        comm.Parameters.AddWithValue(o.ParameterName, o.Value);
                     }
                     comm.ExecuteNonQuery();
                     CloseConnection(conn);

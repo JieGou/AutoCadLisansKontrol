@@ -87,6 +87,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_DELETE_COMPUTER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FIRMID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_DELETE_FIRM" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FIRMID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_DELETE_OPERATION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OPRID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="AUTOCADLICENSEModelStoreContainer">
           <EntitySet Name="CheckLicense" EntityType="Self.CheckLicense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Computer" EntityType="Self.Computer" Schema="dbo" store:Type="Tables" />
@@ -110,10 +119,10 @@
     <edmx:ConceptualModels>
       <Schema Namespace="AUTOCADLICENSEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AUTOCADLICENSEEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CheckLicense" EntityType="AUTOCADLICENSEModel.CheckLicense" />
-          <EntitySet Name="Computer" EntityType="AUTOCADLICENSEModel.Computer" />
-          <EntitySet Name="Firm" EntityType="AUTOCADLICENSEModel.Firm" />
-          <EntitySet Name="Operation" EntityType="AUTOCADLICENSEModel.Operation" />
+          <EntitySet Name="CheckLicense" EntityType="AUTOCADLICENSEModel.CheckLicenseEntity" />
+          <EntitySet Name="Computer" EntityType="AUTOCADLICENSEModel.ComputerEntity" />
+          <EntitySet Name="Firm" EntityType="AUTOCADLICENSEModel.FirmEntity" />
+          <EntitySet Name="Operation" EntityType="AUTOCADLICENSEModel.OperationEntity" />
           <AssociationSet Name="FK_OperationDetail_Operation" Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation">
             <End Role="Operation" EntitySet="Operation" />
             <End Role="CheckLicense" EntitySet="CheckLicense" />
@@ -126,8 +135,17 @@
             <End Role="Firm" EntitySet="Firm" />
             <End Role="Operation" EntitySet="Operation" />
           </AssociationSet>
+          <FunctionImport Name="SP_DELETE_COMPUTER">
+            <Parameter Name="FIRMID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_FIRM">
+            <Parameter Name="FIRMID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_OPERATION">
+            <Parameter Name="OPRID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
-        <EntityType Name="CheckLicense">
+        <EntityType Name="CheckLicenseEntity">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -140,7 +158,7 @@
           <Property Name="OperationId" Type="Int32" />
           <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="Operation" />
         </EntityType>
-        <EntityType Name="Computer">
+        <EntityType Name="ComputerEntity">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -156,7 +174,7 @@
           <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Firm" Relationship="AUTOCADLICENSEModel.FK_Computer_Firm" FromRole="Computer" ToRole="Firm" />
         </EntityType>
-        <EntityType Name="Firm">
+        <EntityType Name="FirmEntity">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -169,7 +187,7 @@
           <NavigationProperty Name="Computer" Relationship="AUTOCADLICENSEModel.FK_Computer_Firm" FromRole="Firm" ToRole="Computer" />
           <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_Operation_Firm" FromRole="Firm" ToRole="Operation" />
         </EntityType>
-        <EntityType Name="Operation">
+        <EntityType Name="OperationEntity">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -180,8 +198,8 @@
           <NavigationProperty Name="Firm" Relationship="AUTOCADLICENSEModel.FK_Operation_Firm" FromRole="Operation" ToRole="Firm" />
         </EntityType>
         <Association Name="FK_OperationDetail_Operation">
-          <End Type="AUTOCADLICENSEModel.Operation" Role="Operation" Multiplicity="0..1" />
-          <End Type="AUTOCADLICENSEModel.CheckLicense" Role="CheckLicense" Multiplicity="*" />
+          <End Type="AUTOCADLICENSEModel.OperationEntity" Role="Operation" Multiplicity="0..1" />
+          <End Type="AUTOCADLICENSEModel.CheckLicenseEntity" Role="CheckLicense" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Operation">
               <PropertyRef Name="Id" />
@@ -192,8 +210,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Computer_Firm">
-          <End Type="AUTOCADLICENSEModel.Firm" Role="Firm" Multiplicity="1" />
-          <End Type="AUTOCADLICENSEModel.Computer" Role="Computer" Multiplicity="*" />
+          <End Type="AUTOCADLICENSEModel.FirmEntity" Role="Firm" Multiplicity="1" />
+          <End Type="AUTOCADLICENSEModel.ComputerEntity" Role="Computer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Firm">
               <PropertyRef Name="Id" />
@@ -204,8 +222,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Operation_Firm">
-          <End Type="AUTOCADLICENSEModel.Firm" Role="Firm" Multiplicity="1" />
-          <End Type="AUTOCADLICENSEModel.Operation" Role="Operation" Multiplicity="*" />
+          <End Type="AUTOCADLICENSEModel.FirmEntity" Role="Firm" Multiplicity="1" />
+          <End Type="AUTOCADLICENSEModel.OperationEntity" Role="Operation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Firm">
               <PropertyRef Name="Id" />
@@ -222,7 +240,7 @@
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AUTOCADLICENSEModelStoreContainer" CdmEntityContainer="AUTOCADLICENSEEntities1">
           <EntitySetMapping Name="CheckLicense">
-            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicense">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicenseEntity">
               <MappingFragment StoreEntitySet="CheckLicense">
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
@@ -235,7 +253,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Computer">
-            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Computer">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.ComputerEntity">
               <MappingFragment StoreEntitySet="Computer">
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
@@ -251,7 +269,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Firm">
-            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Firm">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.FirmEntity">
               <MappingFragment StoreEntitySet="Firm">
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
@@ -263,7 +281,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Operation">
-            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Operation">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.OperationEntity">
               <MappingFragment StoreEntitySet="Operation">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FirmId" ColumnName="FirmId" />
@@ -271,6 +289,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_DELETE_COMPUTER" FunctionName="AUTOCADLICENSEModel.Store.SP_DELETE_COMPUTER" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_FIRM" FunctionName="AUTOCADLICENSEModel.Store.SP_DELETE_FIRM" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_OPERATION" FunctionName="AUTOCADLICENSEModel.Store.SP_DELETE_OPERATION" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

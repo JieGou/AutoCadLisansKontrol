@@ -74,6 +74,7 @@ namespace AutoCadLisansKontrol.DAL
         }
         public List<Firm> ListFirm()
         {
+
             return dbaccess.Firm.ToList();
         }
 

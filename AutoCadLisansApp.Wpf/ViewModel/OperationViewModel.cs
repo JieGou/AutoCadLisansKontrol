@@ -1,4 +1,5 @@
-﻿using AutoCadLisansKontrol.DAL;
+﻿
+using MaterialDesignDemo.ViewModel;
 using Microsoft.Practices.Prism.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,22 +8,19 @@ using System.Windows.Input;
 
 namespace MaterialDesignDemo.Domain
 {
-    public class OperationViewModel : INotifyPropertyChanged
+    public class OperationViewModel :BaseViewModel, INotifyPropertyChanged
     {
         private string _notificationContent;
         private bool _notificationIsVisible;
         public string NotificationContent { get { return _notificationContent; } set { _notificationContent = value; OnPropertyChanged("NotificationContent"); } }
         public bool NotificationIsVisible { get { return _notificationIsVisible; } set { _notificationIsVisible = value; OnPropertyChanged("NotificationIsVisible"); } }
-
-
-
-        DataAccess dbAccess = new DataAccess();
-        private ObservableCollection<AutoCadLisansKontrol.DAL.Operation> _opr;
+        
+        private ObservableCollection<autocad.masterkey.ws.Operation> _opr;
         public ICommand SaveClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand RefreshClicked { get; set; }
-        private AutoCadLisansKontrol.DAL.Firm _selectedfirm;
-        public AutoCadLisansKontrol.DAL.Firm SelectedFirm
+        private autocad.masterkey.ws.Firm _selectedfirm;
+        public autocad.masterkey.ws.Firm SelectedFirm
         {
             get { return _selectedfirm; }
             set
@@ -31,8 +29,8 @@ namespace MaterialDesignDemo.Domain
                 OnPropertyChanged("SelectedFirm");
             }
         }
-        public ObservableCollection<AutoCadLisansKontrol.DAL.Firm> Firm { get { return new ObservableCollection<AutoCadLisansKontrol.DAL.Firm>(dbAccess.ListFirm()); } }
-        public ObservableCollection<AutoCadLisansKontrol.DAL.Operation> Operation
+        public ObservableCollection<autocad.masterkey.ws.Firm> Firm { get { return new ObservableCollection<autocad.masterkey.ws.Firm>(client.ListFirm()); } }
+        public ObservableCollection<autocad.masterkey.ws.Operation> Operation
         {
             get { return _opr; }
             set
@@ -47,15 +45,15 @@ namespace MaterialDesignDemo.Domain
             RefreshClicked = new DelegateCommand(RefreshCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             SaveClicked = new DelegateCommand(SaveCommand);
-            Operation = new ObservableCollection<AutoCadLisansKontrol.DAL.Operation>(dbAccess.ListOperation());
+            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(client.ListAllOperation());
         }
         public OperationViewModel(int firmid)
         {
-            SelectedFirm = dbAccess.GetFirm(firmid);
+            SelectedFirm = client.GetFirm(firmid);
             RefreshClicked = new DelegateCommand(RefreshCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             SaveClicked = new DelegateCommand(SaveCommand);
-            Operation = new ObservableCollection<AutoCadLisansKontrol.DAL.Operation>(dbAccess.ListOperation(firmid));
+            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(client.ListOperation(firmid));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -73,7 +71,7 @@ namespace MaterialDesignDemo.Domain
                 foreach (var item in Operation)
                 {
                     item.FirmId = SelectedFirm.Id;
-                    dbAccess.UpsertOperation(item);
+                    client.UpsertOperation(item);
                 }
                 RefreshCommand();
                 NotificationIsVisible = true;
@@ -87,11 +85,11 @@ namespace MaterialDesignDemo.Domain
         }
         public void AddItemCommand()
         {
-            Operation.Add(new AutoCadLisansKontrol.DAL.Operation() { Firm=SelectedFirm});
+            Operation.Add(new autocad.masterkey.ws.Operation() { Firm=SelectedFirm});
         }
         public void RefreshCommand()
         {
-            Operation = new ObservableCollection<AutoCadLisansKontrol.DAL.Operation>(dbAccess.ListOperation(SelectedFirm.Id));
+            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(client.ListOperation(SelectedFirm.Id));
         }
     }
 }

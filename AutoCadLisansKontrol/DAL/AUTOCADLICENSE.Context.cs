@@ -12,6 +12,8 @@ namespace AutoCadLisansKontrol.DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class AUTOCADLICENSEEntities1 : DbContext
     {
@@ -25,9 +27,36 @@ namespace AutoCadLisansKontrol.DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CheckLicense> CheckLicense { get; set; }
-        public virtual DbSet<Computer> Computer { get; set; }
-        public virtual DbSet<Firm> Firm { get; set; }
-        public virtual DbSet<Operation> Operation { get; set; }
+        public virtual DbSet<CheckLicenseEntity> CheckLicense { get; set; }
+        public virtual DbSet<ComputerEntity> Computer { get; set; }
+        public virtual DbSet<FirmEntity> Firm { get; set; }
+        public virtual DbSet<OperationEntity> Operation { get; set; }
+    
+        public virtual int SP_DELETE_COMPUTER(Nullable<int> fIRMID)
+        {
+            var fIRMIDParameter = fIRMID.HasValue ?
+                new ObjectParameter("FIRMID", fIRMID) :
+                new ObjectParameter("FIRMID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_COMPUTER", fIRMIDParameter);
+        }
+    
+        public virtual int SP_DELETE_FIRM(Nullable<int> fIRMID)
+        {
+            var fIRMIDParameter = fIRMID.HasValue ?
+                new ObjectParameter("FIRMID", fIRMID) :
+                new ObjectParameter("FIRMID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_FIRM", fIRMIDParameter);
+        }
+    
+        public virtual int SP_DELETE_OPERATION(Nullable<int> oPRID)
+        {
+            var oPRIDParameter = oPRID.HasValue ?
+                new ObjectParameter("OPRID", oPRID) :
+                new ObjectParameter("OPRID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_OPERATION", oPRIDParameter);
+        }
     }
 }

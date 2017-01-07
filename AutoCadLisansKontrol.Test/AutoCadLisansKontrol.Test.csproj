@@ -49,12 +49,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AutoCadLisansKontrol\AutoCadLisansKontrolLibrary.csproj">
-      <Project>{4fe772c3-5004-4e61-97cd-817e82fe37e2}</Project>
-      <Name>AutoCadLisansKontrolLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

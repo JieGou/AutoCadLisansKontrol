@@ -52,7 +52,7 @@
                              Margin="0 0 4 4" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
+                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="134"
                      Command="{Binding AddItemClicked}">
                     New Operation
                 </Button>

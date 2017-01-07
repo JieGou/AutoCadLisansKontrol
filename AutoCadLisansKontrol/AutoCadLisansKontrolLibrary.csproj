@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4FE772C3-5004-4E61-97CD-817E82FE37E2}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AutoCadLisansKontrol</RootNamespace>
     <AssemblyName>AutoCadLisansKontrol</AssemblyName>
@@ -73,18 +73,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AUTOCADLICENSE.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DAL\CheckLicense.cs">
+    <Compile Include="DAL\CheckLicenseEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Computer.cs">
+    <Compile Include="DAL\ComputerEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\DataAccess.cs" />
-    <Compile Include="DAL\Firm.cs">
+    <Compile Include="DAL\FirmEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\MssqlDbAccess.cs" />
-    <Compile Include="DAL\Operation.cs">
+    <Compile Include="DAL\OperationEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
