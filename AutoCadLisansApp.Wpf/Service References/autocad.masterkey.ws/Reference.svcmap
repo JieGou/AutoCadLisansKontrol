@@ -22,10 +22,10 @@
     <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="64e0a98b-a4f4-41c3-885f-9e0ab28fe6f3" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="bd020d8e-9db9-4078-b384-8fdc425b3493" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="477962df-2c52-4156-8f36-fa01786b3481" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
-    <MetadataFile FileName="autocad.masterkey.ws.xsd" MetadataType="Schema" ID="37d93451-a8ad-40bf-8edc-36098aaff64e" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="a789fcfc-5c45-485f-b6e0-2fc3e10dce50" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="21b32aac-d0ed-4e29-b962-1cd7949cdd8d" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c458c262-83cc-46d0-8ec2-faccea7c4c72" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="AutoCadWs.xsd" MetadataType="Schema" ID="b5ce989b-ba35-4811-8bb7-01c475987fa9" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

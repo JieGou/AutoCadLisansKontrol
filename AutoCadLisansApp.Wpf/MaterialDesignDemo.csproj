@@ -135,7 +135,6 @@
     <Compile Include="Dialogs.xaml.cs">
       <DependentUpon>Dialogs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\ComputerModel.cs" />
     <Compile Include="Service References\autocad.masterkey.ws\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -484,6 +483,9 @@
     </None>
     <AppDesigner Include="Properties\" />
     <None Include="Service References\autocad.masterkey.ws\AutoCadLisansKontrol.DAL.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\autocad.masterkey.ws\AutoCadWs.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\autocad.masterkey.ws\MaterialDesignDemo.autocad.masterkey.ws.CheckLicense.datasource">

@@ -8,13 +8,13 @@ using System.Windows.Input;
 
 namespace MaterialDesignDemo.Domain
 {
-    public class OperationViewModel :BaseViewModel, INotifyPropertyChanged
+    public class OperationViewModel : BaseViewModel, INotifyPropertyChanged
     {
         private string _notificationContent;
         private bool _notificationIsVisible;
         public string NotificationContent { get { return _notificationContent; } set { _notificationContent = value; OnPropertyChanged("NotificationContent"); } }
         public bool NotificationIsVisible { get { return _notificationIsVisible; } set { _notificationIsVisible = value; OnPropertyChanged("NotificationIsVisible"); } }
-        
+
         private ObservableCollection<autocad.masterkey.ws.Operation> _opr;
         public ICommand SaveClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
@@ -39,21 +39,19 @@ namespace MaterialDesignDemo.Domain
                 OnPropertyChanged("Operation");
             }
         }
-
-        public OperationViewModel()
-        {
-            RefreshClicked = new DelegateCommand(RefreshCommand);
-            AddItemClicked = new DelegateCommand(AddItemCommand);
-            SaveClicked = new DelegateCommand(SaveCommand);
-            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(client.ListAllOperation());
-        }
         public OperationViewModel(int firmid)
         {
             SelectedFirm = client.GetFirm(firmid);
             RefreshClicked = new DelegateCommand(RefreshCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             SaveClicked = new DelegateCommand(SaveCommand);
-            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(client.ListOperation(firmid));
+            var list = client.ListOperation(firmid);
+            foreach (var item in list)
+            {
+                item.Firm = SelectedFirm;
+            }
+            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(list);
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -85,11 +83,16 @@ namespace MaterialDesignDemo.Domain
         }
         public void AddItemCommand()
         {
-            Operation.Add(new autocad.masterkey.ws.Operation() { Firm=SelectedFirm});
+            Operation.Add(new autocad.masterkey.ws.Operation() { FirmId = SelectedFirm.Id,Firm=SelectedFirm });
         }
         public void RefreshCommand()
         {
-            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(client.ListOperation(SelectedFirm.Id));
+            var list = client.ListOperation(SelectedFirm.Id);
+            foreach (var item in list)
+            {
+                item.Firm = SelectedFirm;
+            }
+            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(list);
         }
     }
 }

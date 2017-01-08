@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4FE772C3-5004-4E61-97CD-817E82FE37E2}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AutoCadLisansKontrol</RootNamespace>
     <AssemblyName>AutoCadLisansKontrol</AssemblyName>
@@ -46,6 +46,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -56,8 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\LicenseDetection.cs" />
-    <Compile Include="Controller\ComputerDetection.cs" />
     <Compile Include="DAL\AUTOCADLICENSE.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

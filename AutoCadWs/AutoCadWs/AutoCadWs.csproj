@@ -65,9 +65,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AutoCadLisansKontrol\AutoCadLisansKontrolLibrary.csproj">
+    <ProjectReference Include="..\..\AutoCadLisansKontrol\AutoCadDAL.csproj">
       <Project>{4fe772c3-5004-4e61-97cd-817e82fe37e2}</Project>
-      <Name>AutoCadLisansKontrolLibrary</Name>
+      <Name>AutoCadDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

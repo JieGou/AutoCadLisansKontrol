@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Windows.Data;
 using System.Collections;
-using System.Threading;
-using MaterialDesignDemo.Model;
 using MaterialDesignDemo.ViewModel;
 using AutoCadLisansKontrol.Controller;
+using System;
+using System.Globalization;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
-    public class ComputerViewModel : BaseViewModel,INotifyPropertyChanged
+    public class ComputerViewModel : BaseViewModel, INotifyPropertyChanged
     {
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
@@ -41,7 +41,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
 
-        private ObservableCollection<ComputerModel> _computers;
+        private ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> _computers;
         private bool? _isAllItems3Selected;
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -80,7 +80,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
 
-        private void SelectAll(bool select, IEnumerable<ComputerModel> models)
+        private void SelectAll(bool select, IEnumerable<MaterialDesignDemo.autocad.masterkey.ws.Computer> models)
         {
             foreach (var model in models)
             {
@@ -90,7 +90,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
 
-        public ObservableCollection<ComputerModel> Computers
+        public ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> Computers
         {
             get
             {
@@ -124,11 +124,12 @@ namespace MaterialDesignColors.WpfExample.Domain
             IsButtonEnable = false;
             _executedComputer = 0;
             _totalComputer = 0;
-            NotificationIsVisible = false;
-            ProgressBar = Visibility.Visible;
+
+            StartNotification();
+
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            List<ComputerModel> computers = new List<ComputerModel>();
+            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers = new List<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
 
             System.Action DoInBackground = new System.Action(() =>
             {
@@ -145,8 +146,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 }
                 catch (System.Exception ex)
                 {
-                    NotificationIsVisible = true;
-                    NotificationContent = ex.Message;
+                    EndNotification(ex.Message);
                     return;
                 }
 
@@ -157,10 +157,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                 if (NotificationIsVisible == true)
                     return;
                 computers = computers.DistinctBy(p => p.Ip).ToList();
-                Computers = new ObservableCollection<ComputerModel>(computers);
-                NotificationIsVisible = true;
-                NotificationContent = "Success";
-                IsButtonEnable = true;
+                Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(computers);
+                EndNotification("Success");
             });
 
             // start the background task
@@ -173,24 +171,26 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
         }
-        private List<ComputerModel> GenerateDataFromNetwork()
+        private List<MaterialDesignDemo.autocad.masterkey.ws.Computer> GenerateDataFromNetwork()
         {
 
-            List<ComputerModel> list = ComputerDetection.Execute().ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate });
+            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> list = ComputerDetection.Execute();
             return list;
         }
 
         public void LoadComputerFromDb()
         {
-            
-            NotificationIsVisible = false;
-            IsButtonEnable = false;
-            ProgressBar = Visibility.Visible;
-            Computers = new ObservableCollection<ComputerModel>(client.ListComputer(FirmId).ToList().ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate }));
-            NotificationContent = "Success";
-            NotificationIsVisible = true;
-            ProgressBar = Visibility.Hidden;
-            IsButtonEnable = true;
+            try
+            {
+                StartNotification();
+                Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(client.ListComputer(FirmId).ToList());
+                EndNotification("Success");
+            }
+            catch (System.Exception ex)
+            {
+                EndNotification(ex.Message);
+            }
+
             _executedComputer = Computers.Count;
             _totalComputer = Computers.Count;
         }
@@ -198,8 +198,8 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
 
             Computers = Computers;
-            if (Computers == null) Computers = new ObservableCollection<ComputerModel>();
-            Computers.Add(new ComputerModel());
+            if (Computers == null) Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
+            Computers.Add(new MaterialDesignDemo.autocad.masterkey.ws.Computer());
 
             _executedComputer = Computers.Count;
             _totalComputer = Computers.Count;
@@ -209,10 +209,8 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             try
             {
-                IsButtonEnable = false;
-                ProgressBar = Visibility.Visible;
+                StartNotification();
 
-                NotificationIsVisible = false;
                 client.DeleteAllComputerBaseFormid(FirmId);
 
                 foreach (var item in Computers)
@@ -222,19 +220,33 @@ namespace MaterialDesignColors.WpfExample.Domain
                     client.UpsertComputer(item);
                 }
                 LoadComputerFromDb();
-                NotificationIsVisible = true;
-                NotificationContent = "Success";
-                IsButtonEnable = true;
-                ProgressBar = Visibility.Hidden;
+                EndNotification("Success");
             }
             catch (System.Exception ex)
             {
-                NotificationIsVisible = true;
-                NotificationContent = ex.Message;
+                EndNotification(ex.Message);
             }
+        }
+        public void StartNotification()
+        {
+            IsButtonEnable = false;
+            ProgressBar = Visibility.Visible;
+            NotificationIsVisible = false;
+        }
+        public void EndNotification(string content)
+        {
+            NotificationIsVisible = true;
+            NotificationContent = content;
+            IsButtonEnable = true;
+            ProgressBar = Visibility.Hidden;
 
         }
+        public Visibility IsVisible(bool isVisible)
+        {
+            
+        }
     }
+
     public class PagingCollectionView : CollectionView
     {
         private readonly IList _innerList;

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/AutoCadWs" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/AutoCadWs" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="Firm">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Contact" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InsertDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PhoneNo" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Firm" nillable="true" type="tns:Firm" />
+  <xs:complexType name="ArrayOfFirm">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Firm" nillable="true" type="tns:Firm" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFirm" nillable="true" type="tns:ArrayOfFirm" />
+  <xs:complexType name="Computer">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FirmId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="InsertDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsComputer" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRootMachine" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsVisible" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PyshicalAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Computer" nillable="true" type="tns:Computer" />
+  <xs:complexType name="Operation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Firm" nillable="true" type="tns:Firm" />
+      <xs:element minOccurs="0" name="FirmId" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Operation" nillable="true" type="tns:Operation" />
+  <xs:complexType name="ArrayOfComputer">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Computer" nillable="true" type="tns:Computer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfComputer" nillable="true" type="tns:ArrayOfComputer" />
+  <xs:complexType name="ArrayOfOperation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Operation" nillable="true" type="tns:Operation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOperation" nillable="true" type="tns:ArrayOfOperation" />
+  <xs:complexType name="CheckLicense">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CheckDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ComputerId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsUnlicensed" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="OperationId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Output" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UpdateDate" nillable="true" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckLicense" nillable="true" type="tns:CheckLicense" />
+  <xs:complexType name="ArrayOfCheckLicense">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CheckLicense" nillable="true" type="tns:CheckLicense" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCheckLicense" nillable="true" type="tns:ArrayOfCheckLicense" />
+</xs:schema>

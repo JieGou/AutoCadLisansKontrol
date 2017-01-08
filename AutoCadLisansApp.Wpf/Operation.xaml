@@ -100,7 +100,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
 
-                                    <Button Click="CheckLicenseButton_Click" CommandParameter="{Binding Id}"
+                                    <Button Click="CheckLicenseButton_Click" CommandParameter="{Binding Id}" IsEnabled="False"
                                                     Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" Width="70" ToolTip="Resource name: MaterialDesignRaisedButton">
                                                               Run
                                              </Button>

@@ -21,4 +21,5 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
     }
+    
 }

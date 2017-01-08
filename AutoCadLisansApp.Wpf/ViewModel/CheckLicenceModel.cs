@@ -11,7 +11,6 @@ using System.Windows.Threading;
 using System.Windows.Data;
 using System.Collections;
 using System.Threading;
-using MaterialDesignDemo.Model;
 using MaterialDesignDemo.ViewModel;
 
 namespace MaterialDesignColors.WpfExample.Domain
@@ -35,7 +34,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         public ICommand SaveClicked { get; set; }
         private int OprId;
 
-        private ObservableCollection<ComputerModel> _computers;
+        private ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> _computers;
 
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -63,7 +62,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
 
-        public ObservableCollection<ComputerModel> Computers
+        public ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> Computers
         {
             get
             {
@@ -102,7 +101,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             ProgressBar = Visibility.Visible;
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            List<ComputerModel> computers = new List<ComputerModel>();
+            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers = new List<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
 
             System.Action DoInBackground = new System.Action(() =>
             {
@@ -126,7 +125,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 if (NotificationIsVisible == true)
                     return;
                 computers = computers.DistinctBy(p => p.Ip).ToList();
-                Computers = new ObservableCollection<ComputerModel>(computers);
+                Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(computers);
                 NotificationIsVisible = true;
                 NotificationContent = "Success";
                 IsButtonEnable = true;
@@ -147,7 +146,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             NotificationIsVisible = false;
             IsButtonEnable = false;
             ProgressBar = Visibility.Visible;
-            Computers = new ObservableCollection<ComputerModel>(client.ListComputer(Firm.Id).ToList().ConvertAll(x => new ComputerModel { Id = x.Id, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, FirmId = x.FirmId, Type = x.Type, InsertDate = x.InsertDate }));
+            Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(client.ListComputer(Firm.Id).ToList());
             NotificationContent = "Success";
             NotificationIsVisible = true;
             ProgressBar = Visibility.Hidden;
@@ -156,8 +155,8 @@ namespace MaterialDesignColors.WpfExample.Domain
         public void AddItemCommand()
         {
             Computers = Computers;
-            if (Computers == null) Computers = new ObservableCollection<ComputerModel>();
-            Computers.Add(new ComputerModel());
+            if (Computers == null) Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
+            Computers.Add(new MaterialDesignDemo.autocad.masterkey.ws.Computer());
         }
 
         public void SaveCommand()

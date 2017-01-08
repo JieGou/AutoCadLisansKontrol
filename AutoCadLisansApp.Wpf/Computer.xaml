@@ -5,15 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
+             xmlns:local="clr-namespace:MaterialDesignColors.WpfExample.Domain"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+   
     <UserControl.Resources>
+       
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+        
     </UserControl.Resources>
 
     <ScrollViewer>
@@ -126,7 +130,7 @@
  IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Visibility}"
+                                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility=""
                         Margin="0 0 8 0" HorizontalAlignment="Left"
                         ToolTip="Online">
                                     </Button>

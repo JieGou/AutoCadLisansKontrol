@@ -5,7 +5,7 @@
         xmlns:domain="clr-namespace:MaterialDesignColors.WpfExample.Domain"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
+        xmlns:local="clr-namespace:MaterialDesignColors.WpfExample"
         xmlns:materialDesignDemo="clr-namespace:MaterialDesignDemo"
         Title="AutoCad Lisans Kontrol"
     WindowStartupLocation="CenterScreen" WindowState="Maximized"
@@ -17,7 +17,8 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{StaticResource MaterialDesignFont}" Icon="img/rsz_autocadicon.png">
     <Window.Resources>
-        <ResourceDictionary>
+        <local:ComputerOnlineConverter x:Key="ComputerOnlineConverter" />
+        <ResourceDictionary x:Key="ResourceDictionary">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />

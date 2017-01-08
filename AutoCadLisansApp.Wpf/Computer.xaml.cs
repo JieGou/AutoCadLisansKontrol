@@ -1,7 +1,7 @@
 ﻿
 using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Domain;
-using MaterialDesignDemo.Model;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +26,6 @@ namespace MaterialDesignColors.WpfExample
     /// </summary>
     public partial class Computer : UserControl
     {
-        private string ip;
         private MaterialDesignDemo.autocad.masterkey.ws.Service1Client client = new MaterialDesignDemo.autocad.masterkey.ws.Service1Client();
         public Computer()
         {
@@ -34,9 +33,8 @@ namespace MaterialDesignColors.WpfExample
         }
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            ip = (string)(((Button)sender).CommandParameter);
 
-            var localcomputer = (ComputerModel)grdComputer.SelectedItem;
+            var localcomputer = (MaterialDesignDemo.autocad.masterkey.ws.Computer)grdComputer.SelectedItem;
             if (localcomputer.Id == 0)
             {
                 var userviewmodel = (ComputerViewModel)this.DataContext;
@@ -46,11 +44,11 @@ namespace MaterialDesignColors.WpfExample
                 userviewmodel.TotalComputer = userviewmodel.Computers.Count;
                 return;
             }
-            ShowDialog();
+            ShowDialog(localcomputer.Id);
 
         }
        
-        private void ShowDialog()
+        private void ShowDialog(int id)
         {        
             var userviewmodel = (ComputerViewModel)this.DataContext;
             MessageBoxResult result = MessageBox.Show("Are you sure to want to delete ?", "Delete Computer", MessageBoxButton.YesNoCancel);
@@ -60,9 +58,9 @@ namespace MaterialDesignColors.WpfExample
                     try
                     {
 
-                        client.DeleteComputer(ip);
+                        client.DeleteComputer(id);
 
-                        var removeditem = userviewmodel.Computers.SingleOrDefault(x => x.Ip.Contains(ip));
+                        var removeditem = userviewmodel.Computers.SingleOrDefault(x => x.Id==(id));
 
                         userviewmodel.Computers.Remove(removeditem);
                     }

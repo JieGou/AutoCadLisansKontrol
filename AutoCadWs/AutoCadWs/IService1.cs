@@ -31,7 +31,7 @@ namespace AutoCadWs
         [OperationContract]
         List<Computer> ListComputer(int? firmId);
         [OperationContract]
-        void DeleteComputer(string Ip);
+        void DeleteComputer(int Id);
         [OperationContract]
         void UpdateComputer(Computer comp);
         [OperationContract]

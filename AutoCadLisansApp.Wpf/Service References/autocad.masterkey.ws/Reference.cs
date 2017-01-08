@@ -15,7 +15,7 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Firm", Namespace="http://schemas.datacontract.org/2004/07/AutoCadLisansKontrol.DAL")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Firm", Namespace="http://schemas.datacontract.org/2004/07/AutoCadWs")]
     [System.SerializableAttribute()]
     public partial class Firm : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -24,9 +24,6 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string AddressField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MaterialDesignDemo.autocad.masterkey.ws.Computer[] ComputerField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ContactField;
@@ -39,9 +36,6 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string NameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MaterialDesignDemo.autocad.masterkey.ws.Operation[] OperationField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PhoneNoField;
@@ -65,19 +59,6 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
                 if ((object.ReferenceEquals(this.AddressField, value) != true)) {
                     this.AddressField = value;
                     this.RaisePropertyChanged("Address");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public MaterialDesignDemo.autocad.masterkey.ws.Computer[] Computer {
-            get {
-                return this.ComputerField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ComputerField, value) != true)) {
-                    this.ComputerField = value;
-                    this.RaisePropertyChanged("Computer");
                 }
             }
         }
@@ -135,19 +116,6 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public MaterialDesignDemo.autocad.masterkey.ws.Operation[] Operation {
-            get {
-                return this.OperationField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.OperationField, value) != true)) {
-                    this.OperationField = value;
-                    this.RaisePropertyChanged("Operation");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
         public string PhoneNo {
             get {
                 return this.PhoneNoField;
@@ -172,15 +140,12 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Computer", Namespace="http://schemas.datacontract.org/2004/07/AutoCadLisansKontrol.DAL")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Computer", Namespace="http://schemas.datacontract.org/2004/07/AutoCadWs")]
     [System.SerializableAttribute()]
     public partial class Computer : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MaterialDesignDemo.autocad.masterkey.ws.Firm FirmField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int FirmIdField;
@@ -219,19 +184,6 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public MaterialDesignDemo.autocad.masterkey.ws.Firm Firm {
-            get {
-                return this.FirmField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.FirmField, value) != true)) {
-                    this.FirmField = value;
-                    this.RaisePropertyChanged("Firm");
-                }
             }
         }
         
@@ -377,15 +329,12 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Operation", Namespace="http://schemas.datacontract.org/2004/07/AutoCadLisansKontrol.DAL")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Operation", Namespace="http://schemas.datacontract.org/2004/07/AutoCadWs")]
     [System.SerializableAttribute()]
     public partial class Operation : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[] CheckLicenseField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private MaterialDesignDemo.autocad.masterkey.ws.Firm FirmField;
@@ -406,19 +355,6 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[] CheckLicense {
-            get {
-                return this.CheckLicenseField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.CheckLicenseField, value) != true)) {
-                    this.CheckLicenseField = value;
-                    this.RaisePropertyChanged("CheckLicense");
-                }
             }
         }
         
@@ -486,7 +422,7 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CheckLicense", Namespace="http://schemas.datacontract.org/2004/07/AutoCadLisansKontrol.DAL")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CheckLicense", Namespace="http://schemas.datacontract.org/2004/07/AutoCadWs")]
     [System.SerializableAttribute()]
     public partial class CheckLicense : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -504,9 +440,6 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> IsUnlicensedField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MaterialDesignDemo.autocad.masterkey.ws.Operation OperationField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> OperationIdField;
@@ -575,19 +508,6 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
                 if ((this.IsUnlicensedField.Equals(value) != true)) {
                     this.IsUnlicensedField = value;
                     this.RaisePropertyChanged("IsUnlicensed");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public MaterialDesignDemo.autocad.masterkey.ws.Operation Operation {
-            get {
-                return this.OperationField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.OperationField, value) != true)) {
-                    this.OperationField = value;
-                    this.RaisePropertyChanged("Operation");
                 }
             }
         }
@@ -700,10 +620,10 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Computer[]> ListComputerAsync(System.Nullable<int> firmId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteComputer", ReplyAction="http://tempuri.org/IService1/DeleteComputerResponse")]
-        void DeleteComputer(string Ip);
+        void DeleteComputer(int Id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteComputer", ReplyAction="http://tempuri.org/IService1/DeleteComputerResponse")]
-        System.Threading.Tasks.Task DeleteComputerAsync(string Ip);
+        System.Threading.Tasks.Task DeleteComputerAsync(int Id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateComputer", ReplyAction="http://tempuri.org/IService1/UpdateComputerResponse")]
         void UpdateComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer comp);
@@ -871,12 +791,12 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
             return base.Channel.ListComputerAsync(firmId);
         }
         
-        public void DeleteComputer(string Ip) {
-            base.Channel.DeleteComputer(Ip);
+        public void DeleteComputer(int Id) {
+            base.Channel.DeleteComputer(Id);
         }
         
-        public System.Threading.Tasks.Task DeleteComputerAsync(string Ip) {
-            return base.Channel.DeleteComputerAsync(Ip);
+        public System.Threading.Tasks.Task DeleteComputerAsync(int Id) {
+            return base.Channel.DeleteComputerAsync(Id);
         }
         
         public void UpdateComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer comp) {

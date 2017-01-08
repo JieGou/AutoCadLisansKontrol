@@ -34,7 +34,13 @@ namespace MaterialDesignDemo
         private void CheckLicenseButton_Click(object sender, RoutedEventArgs e)
         {
             var localoperation = (autocad.masterkey.ws.Operation)grdOperation.SelectedItem;
-
+            if (localoperation.Id == 0)
+            {
+                var userviewmodel = (OperationViewModel)DataContext;
+                userviewmodel.NotificationIsVisible = true;
+                userviewmodel.NotificationContent = "it now allowed to run unsaved operation.";
+                return;
+            }
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = new DemoItem("CheckLicense", new CheckLicense { DataContext = new CheckLicenseViewModel(localoperation.Id) });
         }

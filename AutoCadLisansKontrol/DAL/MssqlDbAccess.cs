@@ -24,7 +24,8 @@ namespace AutoCadLisansKontrol.DAL
             {
                 lock (_lock)
                 {
-                    return (@"data source=195.87.11.40;initial catalog=AUTOCADLICENSE;persist security info=True;user id=sa;password=BIMED2000;MultipleActiveResultSets=True;App=EntityFramework");
+                    return System.Configuration.ConfigurationManager.ConnectionStrings["AutocadLicenseDatabase"].ConnectionString;
+                 //   return (@"data source=31.7.35.42\SQLEXPRESS;initial catalog=AUTOCADLICENSE;persist security info=True;user id=sa;password=sa123;MultipleActiveResultSets=True;App=EntityFramework");
                 }
             }
         }

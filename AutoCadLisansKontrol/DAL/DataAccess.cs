@@ -14,11 +14,11 @@ namespace AutoCadLisansKontrol.DAL
         AUTOCADLICENSEEntities1 dbaccess = new AUTOCADLICENSEEntities1();
         MssqlDbAccess mssqldbaccess = new MssqlDbAccess();
 
-        public void UpsertFirm(Firm firm)
+        public void UpsertFirm(FirmEntity firm)
         {
             try
             {
-                var item = dbaccess.Firm.Where(x => x.Id == firm.Id).FirstOrDefault<Firm>();
+                var item = dbaccess.Firm.Where(x => x.Id == firm.Id).FirstOrDefault<FirmEntity>();
 
                 if (item == null)
                 {
@@ -67,12 +67,12 @@ namespace AutoCadLisansKontrol.DAL
             }
 
         }
-        public Firm GetFirm(int? firmId)
+        public FirmEntity GetFirm(int? firmId)
         {
-            var item = dbaccess.Firm.Where(x => x.Id == firmId).FirstOrDefault<Firm>();
+            var item = dbaccess.Firm.Where(x => x.Id == firmId).FirstOrDefault<FirmEntity>();
             return item;
         }
-        public List<Firm> ListFirm()
+        public List<FirmEntity> ListFirm()
         {
 
             return dbaccess.Firm.ToList();
@@ -96,11 +96,11 @@ namespace AutoCadLisansKontrol.DAL
             }
         }
 
-        public void UpdateFirm(Firm firm)
+        public void UpdateFirm(FirmEntity firm)
         {
             try
             {
-                var item = dbaccess.Firm.Where(x => x.Id == firm.Id).FirstOrDefault<Firm>();
+                var item = dbaccess.Firm.Where(x => x.Id == firm.Id).FirstOrDefault<FirmEntity>();
                 item.Name = firm.Name;
                 dbaccess.SaveChanges();
             }
@@ -112,15 +112,15 @@ namespace AutoCadLisansKontrol.DAL
 
         }
 
-        public void UpsertComputer(Computer c)
+        public void UpsertComputer(ComputerEntity c)
         {
 
             try
             {
-                var item = dbaccess.Computer.Where(x => x.Id == c.Id).FirstOrDefault<Computer>();
+                var item = dbaccess.Computer.Where(x => x.Id == c.Id).FirstOrDefault<ComputerEntity>();
                 if (item == null)
                 {
-                    item = new Computer { Id = c.Id, Ip = c.Ip, IsComputer = c.IsComputer, IsRootMachine = c.IsRootMachine, IsVisible = c.IsVisible, Name = c.Name, PyshicalAddress = c.PyshicalAddress, FirmId = c.FirmId, Type = c.Type, InsertDate = DateTime.Now };
+                    item = new ComputerEntity { Id = c.Id, Ip = c.Ip, IsComputer = c.IsComputer, IsRootMachine = c.IsRootMachine, IsVisible = c.IsVisible, Name = c.Name, PyshicalAddress = c.PyshicalAddress, FirmId = c.FirmId, Type = c.Type, InsertDate = DateTime.Now };
                     dbaccess.Computer.Add(item);
                 }
                 else
@@ -170,25 +170,25 @@ namespace AutoCadLisansKontrol.DAL
 
         }
 
-        public Operation GetOperation(int opr)
+        public OperationEntity GetOperation(int opr)
         {
-            var item = dbaccess.Operation.Where(x => x.Id == opr).FirstOrDefault<Operation>();
+            var item = dbaccess.Operation.Where(x => x.Id == opr).FirstOrDefault<OperationEntity>();
             return item;
         }
 
-        public List<Computer> ListComputer()
+        public List<ComputerEntity> ListComputer()
         {
             return dbaccess.Computer.ToList();
         }
-        public List<Computer> ListComputer(int? firmId)
+        public List<ComputerEntity> ListComputer(int? firmId)
         {
             return dbaccess.Computer.Where(x => x.FirmId == firmId).ToList();
         }
-        public void DeleteComputer(string Ip)
+        public void DeleteComputer(int id)
         {
             try
             {
-                var item = dbaccess.Computer.SingleOrDefault(x => x.Ip.Contains(Ip));
+                var item = dbaccess.Computer.SingleOrDefault(x => x.Id==id);
 
                 if (item != null)
                     dbaccess.Computer.Remove(item);
@@ -200,9 +200,9 @@ namespace AutoCadLisansKontrol.DAL
             }
 
         }
-        public void UpdateComputer(Computer comp)
+        public void UpdateComputer(ComputerEntity comp)
         {
-            var item = dbaccess.Computer.Where(x => x.Id == comp.Id).FirstOrDefault<Computer>();
+            var item = dbaccess.Computer.Where(x => x.Id == comp.Id).FirstOrDefault<ComputerEntity>();
             item.Ip = comp.Ip;
             item.IsComputer = comp.IsComputer;
             item.IsRootMachine = comp.IsRootMachine;
@@ -212,11 +212,11 @@ namespace AutoCadLisansKontrol.DAL
             dbaccess.SaveChanges();
         }
 
-        public void UpsertOperation(Operation opr)
+        public void UpsertOperation(OperationEntity opr)
         {
             try
             {
-                var item = dbaccess.Operation.Where(x => x.Id == opr.Id).FirstOrDefault<Operation>();
+                var item = dbaccess.Operation.Where(x => x.Id == opr.Id).FirstOrDefault<OperationEntity>();
                 if (item == null)
                     dbaccess.Operation.Add(opr);
                 else
@@ -259,7 +259,7 @@ namespace AutoCadLisansKontrol.DAL
             }
 
         }
-        public List<Operation> ListOperation()
+        public List<OperationEntity> ListOperation()
         {
             try
             {
@@ -272,30 +272,30 @@ namespace AutoCadLisansKontrol.DAL
                 throw ex;
             }
         }
-        public List<Operation> ListOperation(int firmid)
+        public List<OperationEntity> ListOperation(int firmid)
         {
             return dbaccess.Operation.Where(x => x.FirmId == firmid).ToList();
         }
-        public void DeleteOperation(Operation opr)
+        public void DeleteOperation(OperationEntity opr)
         {
             mssqldbaccess.ExecuteNonQuery("SP_DELETE_OPERATION", new List<System.Data.SqlClient.SqlParameter> { new System.Data.SqlClient.SqlParameter("@OPRID", opr.Id) });
         }
 
 
 
-        public void UpdateOperation(Operation opr)
+        public void UpdateOperation(OperationEntity opr)
         {
-            var item = dbaccess.Operation.Where(x => x.Id == opr.Id).FirstOrDefault<Operation>();
+            var item = dbaccess.Operation.Where(x => x.Id == opr.Id).FirstOrDefault<OperationEntity>();
             item.Id = opr.Id;
             item.Name = opr.Name;
             dbaccess.SaveChanges();
         }
 
-        public void UpsertCheckLicense(CheckLicense oprdetail)
+        public void UpsertCheckLicense(CheckLicenseEntity oprdetail)
         {
             try
             {
-                var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicense>();
+                var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicenseEntity>();
                 if (item == null)
                     dbaccess.CheckLicense.Add(oprdetail);
                 else
@@ -341,20 +341,20 @@ namespace AutoCadLisansKontrol.DAL
 
         }
 
-        public List<CheckLicense> ListCheckLicense()
+        public List<CheckLicenseEntity> ListCheckLicense()
         {
             return dbaccess.CheckLicense.ToList();
         }
 
-        public void DeleteCheckLicense(CheckLicense oprdetail)
+        public void DeleteCheckLicense(CheckLicenseEntity oprdetail)
         {
             dbaccess.CheckLicense.Remove(oprdetail);
             dbaccess.SaveChanges();
         }
 
-        public void UpdateCheckLicense(CheckLicense oprdetail)
+        public void UpdateCheckLicense(CheckLicenseEntity oprdetail)
         {
-            var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicense>();
+            var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicenseEntity>();
             item.IsUnlicensed = oprdetail.IsUnlicensed;
             item.Output = oprdetail.Output;
             item.CheckDate = oprdetail.CheckDate;

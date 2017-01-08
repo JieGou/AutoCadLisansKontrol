@@ -9,22 +9,23 @@ using System.Text;
 namespace AutoCadWs
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
-    public class Service1 : IService1
+    public class  Service1 : IService1
     {
         DataAccess dbaccess = new DataAccess();
         public void UpsertFirm(Firm firm)
         {
-            dbaccess.UpsertFirm(firm);
+            dbaccess.UpsertFirm(new FirmEntity { Address = firm.Address, Contact = firm.Contact, Id = firm.Id, InsertDate = firm.InsertDate, Name = firm.Name, PhoneNo = firm.PhoneNo });
         }
 
         public Firm GetFirm(int? firmId)
         {
-            return dbaccess.GetFirm(firmId);
+            var firm = dbaccess.GetFirm(firmId);
+            return new Firm { Address = firm.Address, Contact = firm.Contact, Id = firm.Id, InsertDate = firm.InsertDate, Name = firm.Name, PhoneNo = firm.PhoneNo };
         }
 
         public List<Firm> ListFirm()
         {
-            return dbaccess.ListFirm();
+            return dbaccess.ListFirm().ConvertAll(x => new AutoCadWs.Firm() { Address = x.Address, Contact = x.Contact, Id = x.Id, InsertDate = x.InsertDate, Name = x.Name, PhoneNo = x.PhoneNo });
         }
         public void DeleteFirm(int firmid)
         {
@@ -32,76 +33,77 @@ namespace AutoCadWs
         }
         public void UpdateFirm(Firm firm)
         {
-            dbaccess.UpdateFirm(firm);
+            dbaccess.UpdateFirm((new FirmEntity { Address = firm.Address, Contact = firm.Contact, Id = firm.Id, InsertDate = firm.InsertDate, Name = firm.Name, PhoneNo = firm.PhoneNo }));
         }
-        public void UpsertComputer(Computer c)
+        public void UpsertComputer(Computer comp)
         {
-            dbaccess.UpsertComputer(c);
+            dbaccess.UpsertComputer(new ComputerEntity { FirmId = comp.FirmId, Id = comp.Id, Name = comp.Name, InsertDate = comp.InsertDate, Ip = comp.Ip, IsComputer = comp.IsComputer, IsRootMachine = comp.IsRootMachine, IsVisible = comp.IsVisible, PyshicalAddress = comp.PyshicalAddress, Type = comp.Type });
         }
         public Operation GetOperation(int opr)
         {
-            return dbaccess.GetOperation(opr);
+            var operation = dbaccess.GetOperation(opr);
+            return new Operation { Name = operation.Name, FirmId = operation.FirmId, Id = operation.Id };
         }
         public List<Computer> ListAllComputer()
         {
-            return dbaccess.ListComputer();
+            return dbaccess.ListComputer().ConvertAll(x => new Computer { Id = x.Id, FirmId = x.FirmId, Name = x.Name, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, PyshicalAddress = x.PyshicalAddress, Type = x.Type });
         }
         public List<Computer> ListComputer(int? firmId)
         {
-            return dbaccess.ListComputer(firmId);
+            return dbaccess.ListComputer(firmId).ConvertAll(x => new Computer { Id = x.Id, FirmId = x.FirmId, Name = x.Name, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, PyshicalAddress = x.PyshicalAddress, Type = x.Type });
         }
-        public void DeleteComputer(string Ip)
+        public void DeleteComputer(int Id)
         {
-            dbaccess.DeleteComputer(Ip);
+            dbaccess.DeleteComputer(Id);
         }
         public void UpdateComputer(Computer comp)
         {
-            dbaccess.UpdateComputer(comp);
+            dbaccess.UpdateComputer(new ComputerEntity { FirmId = comp.FirmId, Id = comp.Id, Name = comp.Name, InsertDate = comp.InsertDate, Ip = comp.Ip, IsComputer = comp.IsComputer, IsRootMachine = comp.IsRootMachine, IsVisible = comp.IsVisible, PyshicalAddress = comp.PyshicalAddress, Type = comp.Type });
         }
         public void UpsertOperation(Operation opr)
         {
-            dbaccess.UpsertOperation(opr);
+            dbaccess.UpsertOperation(new OperationEntity { FirmId = opr.FirmId, Id = opr.Id, Name = opr.Name });
         }
 
         public List<Operation> ListAllOperation()
         {
-            return dbaccess.ListOperation();
+            return dbaccess.ListOperation().ConvertAll(x => new Operation { FirmId = x.FirmId, Id = x.Id, Name = x.Name });
         }
         public List<Operation> ListOperation(int firmid)
         {
-            return dbaccess.ListOperation(firmid);
+            return dbaccess.ListOperation(firmid).ConvertAll(x => new Operation { FirmId = x.FirmId, Id = x.Id, Name = x.Name });
         }
 
         public void DeleteOperation(Operation opr)
         {
-            dbaccess.DeleteOperation(opr);
+            dbaccess.DeleteOperation(new OperationEntity { Name = opr.Name, Id = opr.Id, FirmId = opr.FirmId });
         }
 
         public void UpdateOperation(Operation opr)
         {
-            dbaccess.UpdateOperation(opr);
+            dbaccess.UpdateOperation(new OperationEntity { Name = opr.Name, Id = opr.Id, FirmId = opr.FirmId });
         }
 
 
-        public void UpsertCheckLicense(CheckLicense oprdetail)
+        public void UpsertCheckLicense(CheckLicense chck)
         {
-            dbaccess.UpsertCheckLicense(oprdetail);
+            dbaccess.UpsertCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate });
         }
 
         public List<CheckLicense> ListCheckLicense()
         {
 
-            return dbaccess.ListCheckLicense();
+            return dbaccess.ListCheckLicense().ConvertAll(chck => new CheckLicense { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate });
         }
-        public void DeleteCheckLicense(CheckLicense oprdetail)
+        public void DeleteCheckLicense(CheckLicense chck)
         {
-            dbaccess.DeleteCheckLicense(oprdetail);
+            dbaccess.DeleteCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate });
 
         }
 
-        public void UpdateCheckLicense(CheckLicense oprdetail)
+        public void UpdateCheckLicense(CheckLicense chck)
         {
-            dbaccess.UpdateCheckLicense(oprdetail);
+            dbaccess.UpdateCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate });
         }
 
         public void DeleteAllComputerBaseFormid(int firmId)
@@ -109,6 +111,6 @@ namespace AutoCadWs
 
             dbaccess.DeleteAllComputerBaseFormid(firmId);
         }
-        }
+    }
 
 }

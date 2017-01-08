@@ -1,4 +1,4 @@
-﻿using AutoCadLisansKontrol.Controller;
+﻿
 using AutoCadLisansKontrol.DAL;
 using System;
 using System.Collections.Generic;

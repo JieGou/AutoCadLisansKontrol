@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadWs", "AutoCadWs\AutoCadWs.csproj", "{A13BA598-BD74-4B8A-AF27-10686C6FB59E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadLisansKontrolLibrary", "..\AutoCadLisansKontrol\AutoCadLisansKontrolLibrary.csproj", "{4FE772C3-5004-4E61-97CD-817E82FE37E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadDAL", "..\AutoCadLisansKontrol\AutoCadDAL.csproj", "{4FE772C3-5004-4E61-97CD-817E82FE37E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

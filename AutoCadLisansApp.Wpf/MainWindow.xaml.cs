@@ -8,6 +8,9 @@ using System.Windows.Media;
 using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Threading;
+using System.Windows.Data;
+using System;
+using System.Globalization;
 
 namespace MaterialDesignColors.WpfExample
 {
@@ -17,16 +20,16 @@ namespace MaterialDesignColors.WpfExample
     public partial class MainWindow : Window
     {
         public static Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
-       
+
         public MainWindow()
         {
             InitializeComponent();
-            EventManager.RegisterClassHandler(typeof(ListBoxItem),ListBoxItem.MouseLeftButtonDownEvent,new RoutedEventHandler(this.MouseLeftButtonDownClassHandler));
+            EventManager.RegisterClassHandler(typeof(ListBoxItem), ListBoxItem.MouseLeftButtonDownEvent, new RoutedEventHandler(this.MouseLeftButtonDownClassHandler));
             DataContext = new MainWindowViewModel();
 
             Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(2500);                
+                Thread.Sleep(2500);
             }).ContinueWith(t =>
             {
                 //note you can use the message queue from any thread, but just for the demo here we 
@@ -57,15 +60,15 @@ namespace MaterialDesignColors.WpfExample
         {
             var sampleMessageDialog = new SampleMessageDialog
             {
-                Message = {Text = ((ButtonBase) sender).Content.ToString()}
+                Message = { Text = ((ButtonBase)sender).Content.ToString() }
             };
 
-            await DialogHost.Show(sampleMessageDialog, "RootDialog");            
+            await DialogHost.Show(sampleMessageDialog, "RootDialog");
         }
 
         private void DemoItemsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DemoItem item =(DemoItem) DemoItemsListBox.SelectedItem;
+            DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = item;
 
@@ -98,5 +101,20 @@ namespace MaterialDesignColors.WpfExample
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = item;
         }
-    } 
+    }
+    public class ComputerOnlineConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var vm = value as ComputerViewModel;
+            var functionName = (bool)parameter;
+
+            return functionName == true ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
