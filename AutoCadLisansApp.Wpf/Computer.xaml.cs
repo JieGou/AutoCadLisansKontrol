@@ -1,7 +1,7 @@
 ﻿
 using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Domain;
-
+using MaterialDesignDemo.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,7 +34,7 @@ namespace MaterialDesignColors.WpfExample
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
 
-            var localcomputer = (MaterialDesignDemo.autocad.masterkey.ws.Computer)grdComputer.SelectedItem;
+            var localcomputer = (ComputerModel)grdComputer.SelectedItem;
             if (localcomputer.Id == 0)
             {
                 var userviewmodel = (ComputerViewModel)this.DataContext;

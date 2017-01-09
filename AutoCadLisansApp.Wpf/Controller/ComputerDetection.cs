@@ -1,5 +1,6 @@
 ﻿
 using MaterialDesignDemo.autocad.masterkey.ws;
+using MaterialDesignDemo.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,13 +19,13 @@ namespace AutoCadLisansKontrol.Controller
 {
     public class ComputerDetection
     {
-        public static List<Computer> Execute()
+        public static List<ComputerModel> Execute()
         {
             var net = GetComputerFromArpTable();
             var arp = GetComputerFromNetView();
            
             arp.AddRange(net);
-            return arp;
+            return arp.ConvertAll(x=>new ComputerModel{FirmId=x.FirmId,Id=x.Id,InsertDate=x.InsertDate,Ip=x.Ip,IsComputer=x.IsComputer,IsRootMachine=x.IsRootMachine,IsVisible=x.IsVisible,Name=x.Name,PyshicalAddress=x.PyshicalAddress,Type=x.Type});
         }
         public void ManageCommandPrompt()
         {

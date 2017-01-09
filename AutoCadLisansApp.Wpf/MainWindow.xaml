@@ -17,8 +17,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{StaticResource MaterialDesignFont}" Icon="img/rsz_autocadicon.png">
     <Window.Resources>
-        <local:ComputerOnlineConverter x:Key="ComputerOnlineConverter" />
-        <ResourceDictionary x:Key="ResourceDictionary">
+        <ResourceDictionary >
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
@@ -62,7 +61,7 @@
                     <DockPanel>
                         <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
                                         x:Name="MenuToggleButton"/>
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                        <!--<materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                             <StackPanel>
                                 <Button Content="Hello World" Click="MenuPopupButton_OnClick"/>
                                 <Button Content="Nice Popup" Click="MenuPopupButton_OnClick"/>
@@ -70,7 +69,7 @@
                                 <Separator/>
                                 <Button Content="Goodbye" Click="MenuPopupButton_OnClick"/>                                
                             </StackPanel>
-                        </materialDesign:PopupBox>
+                        </materialDesign:PopupBox>-->
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"></TextBlock>
                     </DockPanel>
                 </materialDesign:ColorZone>

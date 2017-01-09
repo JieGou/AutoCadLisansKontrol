@@ -135,6 +135,7 @@
     <Compile Include="Dialogs.xaml.cs">
       <DependentUpon>Dialogs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\ComputerModel.cs" />
     <Compile Include="Service References\autocad.masterkey.ws\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

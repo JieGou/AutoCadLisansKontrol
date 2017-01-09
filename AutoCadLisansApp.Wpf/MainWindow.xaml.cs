@@ -102,19 +102,4 @@ namespace MaterialDesignColors.WpfExample
             mainwindowviewmodel.DemoItem = item;
         }
     }
-    public class ComputerOnlineConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var vm = value as ComputerViewModel;
-            var functionName = (bool)parameter;
-
-            return functionName == true ? Visibility.Visible : Visibility.Hidden;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

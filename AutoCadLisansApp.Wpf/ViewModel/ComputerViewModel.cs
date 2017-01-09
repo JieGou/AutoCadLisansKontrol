@@ -14,6 +14,7 @@ using MaterialDesignDemo.ViewModel;
 using AutoCadLisansKontrol.Controller;
 using System;
 using System.Globalization;
+using MaterialDesignDemo.Model;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -41,7 +42,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
 
-        private ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> _computers;
+        private ObservableCollection<ComputerModel> _computers;
         private bool? _isAllItems3Selected;
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -80,7 +81,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
 
-        private void SelectAll(bool select, IEnumerable<MaterialDesignDemo.autocad.masterkey.ws.Computer> models)
+        private void SelectAll(bool select, IEnumerable<ComputerModel> models)
         {
             foreach (var model in models)
             {
@@ -90,7 +91,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
 
-        public ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> Computers
+        public ObservableCollection<ComputerModel> Computers
         {
             get
             {
@@ -129,7 +130,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers = new List<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
+            List<ComputerModel> computers = new List<ComputerModel>();
 
             System.Action DoInBackground = new System.Action(() =>
             {
@@ -157,7 +158,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 if (NotificationIsVisible == true)
                     return;
                 computers = computers.DistinctBy(p => p.Ip).ToList();
-                Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(computers);
+                Computers = new ObservableCollection<ComputerModel>(computers);
                 EndNotification("Success");
             });
 
@@ -171,10 +172,10 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
         }
-        private List<MaterialDesignDemo.autocad.masterkey.ws.Computer> GenerateDataFromNetwork()
+        private List<ComputerModel> GenerateDataFromNetwork()
         {
 
-            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> list = ComputerDetection.Execute();
+            List<ComputerModel> list = ComputerDetection.Execute();
             return list;
         }
 
@@ -183,7 +184,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             try
             {
                 StartNotification();
-                Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(client.ListComputer(FirmId).ToList());
+                Computers = new ObservableCollection<ComputerModel>(client.ListComputer(FirmId).ToList().ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type }));
                 EndNotification("Success");
             }
             catch (System.Exception ex)
@@ -198,8 +199,8 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
 
             Computers = Computers;
-            if (Computers == null) Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
-            Computers.Add(new MaterialDesignDemo.autocad.masterkey.ws.Computer());
+            if (Computers == null) Computers = new ObservableCollection<ComputerModel>();
+            Computers.Add(new ComputerModel());
 
             _executedComputer = Computers.Count;
             _totalComputer = Computers.Count;
@@ -217,7 +218,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 {
                     item.FirmId = FirmId;
 
-                    client.UpsertComputer(item);
+                    client.UpsertComputer(new MaterialDesignDemo.autocad.masterkey.ws.Computer { FirmId = item.FirmId, Id = item.Id, InsertDate = item.InsertDate, Ip = item.Ip, IsComputer = item.IsComputer, IsRootMachine = item.IsRootMachine, IsVisible = item.IsVisible, Name = item.Name, PyshicalAddress = item.PyshicalAddress, Type = item.Type });
                 }
                 LoadComputerFromDb();
                 EndNotification("Success");
@@ -241,10 +242,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             ProgressBar = Visibility.Hidden;
 
         }
-        public Visibility IsVisible(bool isVisible)
-        {
-            
-        }
+
     }
 
     public class PagingCollectionView : CollectionView
