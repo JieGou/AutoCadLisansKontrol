@@ -19,13 +19,14 @@ namespace AutoCadLisansKontrol.Controller
 {
     public class ComputerDetection
     {
+        static object thisLock = new object();
         public static List<ComputerModel> Execute()
         {
             var net = GetComputerFromArpTable();
             var arp = GetComputerFromNetView();
-           
+
             arp.AddRange(net);
-            return arp.ConvertAll(x=>new ComputerModel{FirmId=x.FirmId,Id=x.Id,InsertDate=x.InsertDate,Ip=x.Ip,IsComputer=x.IsComputer,IsRootMachine=x.IsRootMachine,IsVisible=x.IsVisible,Name=x.Name,PyshicalAddress=x.PyshicalAddress,Type=x.Type});
+            return arp.ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type });
         }
         public void ManageCommandPrompt()
         {
@@ -226,18 +227,21 @@ namespace AutoCadLisansKontrol.Controller
         }
         public static void GetAdditionalInfo(Computer comp)
         {
-            if (comp.Type == "ArpTable")
+            
+            lock (thisLock)
             {
-                comp.Name = GetMachineNameFromIPAddress(comp.Ip);
-                comp.IsVisible = PingHost(comp.Ip);
+                if (comp.Type == "ArpTable")
+                {
+                    comp.Name = GetMachineNameFromIPAddress(comp.Ip);
+                    comp.IsVisible = PingHost(comp.Ip);
+                }
+                else if (comp.Type == "NetView")
+                {
+                    comp.Ip = GetIpAddressFromName(comp.Name);
+                    //comp.PyshicalAddress = GetMacAddress(comp.Ip);
+                    comp.IsVisible = PingHost(comp.Ip);
+                }
             }
-            else if (comp.Type == "NetView")
-            {
-                comp.Ip = GetIpAddressFromName(comp.Name);
-                comp.PyshicalAddress = GetMacAddress(comp.Ip);
-                comp.IsVisible = PingHost(comp.Ip);
-            }
-
         }
         private static string GetMachineNameFromIPAddress(string ipAdress)
         {

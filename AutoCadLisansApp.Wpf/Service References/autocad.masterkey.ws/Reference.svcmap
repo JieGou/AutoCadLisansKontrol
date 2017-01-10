@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="631bcb26-6ae5-400b-9b45-7db9aa3b1ad0" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="f39b35c7-b740-432d-a5c3-86e4de00a251" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="8faa89b8-4362-4b26-aa29-c387a2c81071" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex" />
-    <MetadataFile FileName="AutoCadWs.xsd" MetadataType="Schema" ID="b64124e5-66fa-458e-93e5-eda0cf976d47" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="465e21d7-f5e7-409d-a1d3-bd672f309603" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="cb106f5c-f958-43a5-97a7-e207ddc41592" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="dec3c83c-42de-4542-aae9-9a21b5ba1add" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="AutoCadWs.xsd" MetadataType="Schema" ID="44d536b8-4a68-41e2-95c7-08db2f5af56f" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

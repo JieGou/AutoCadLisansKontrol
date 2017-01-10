@@ -27,7 +27,6 @@ namespace MaterialDesignDemo
         autocad.masterkey.ws.Service1Client client = new autocad.masterkey.ws.Service1Client();
         public Operation()
         {
-
             InitializeComponent();
         }
 

@@ -83,11 +83,11 @@ namespace AutoCadLisansKontrol.DAL
             try
             {
 
-                mssqldbaccess.ExecuteNonQuery("SP_DELETE_FIRM",new List<System.Data.SqlClient.SqlParameter>() {
+                mssqldbaccess.ExecuteNonQuery("SP_DELETE_FIRM", new List<System.Data.SqlClient.SqlParameter>() {
 
                     new System.Data.SqlClient.SqlParameter("@FIRMID",firmid)
                 });
-                
+
             }
             catch (Exception)
             {
@@ -188,7 +188,7 @@ namespace AutoCadLisansKontrol.DAL
         {
             try
             {
-                var item = dbaccess.Computer.SingleOrDefault(x => x.Id==id);
+                var item = dbaccess.Computer.SingleOrDefault(x => x.Id == id);
 
                 if (item != null)
                     dbaccess.Computer.Remove(item);
@@ -218,7 +218,23 @@ namespace AutoCadLisansKontrol.DAL
             {
                 var item = dbaccess.Operation.Where(x => x.Id == opr.Id).FirstOrDefault<OperationEntity>();
                 if (item == null)
+                {
                     dbaccess.Operation.Add(opr);
+
+                    var list = dbaccess.Computer.Where(x => x.FirmId == opr.FirmId).ToList();
+
+                    if (list != null)
+                    {
+                        var checklicense = list.ConvertAll(x => new CheckLicenseEntity { FirmId = opr.FirmId, ComputerId = x.Id, OperationId = opr.Id });
+
+                        foreach (var chck in checklicense)
+                        {
+                            dbaccess.CheckLicense.Add(chck);
+                        }
+                        dbaccess.SaveChanges();
+                    }
+
+                }
                 else
                 {
                     item.Id = opr.Id;
@@ -278,6 +294,7 @@ namespace AutoCadLisansKontrol.DAL
         }
         public void DeleteOperation(OperationEntity opr)
         {
+
             mssqldbaccess.ExecuteNonQuery("SP_DELETE_OPERATION", new List<System.Data.SqlClient.SqlParameter> { new System.Data.SqlClient.SqlParameter("@OPRID", opr.Id) });
         }
 

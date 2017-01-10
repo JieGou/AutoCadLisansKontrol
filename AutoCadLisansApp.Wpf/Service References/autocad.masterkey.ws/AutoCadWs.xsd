@@ -57,6 +57,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="CheckDate" nillable="true" type="xs:dateTime" />
       <xs:element minOccurs="0" name="ComputerId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="FirmId" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="Id" type="xs:int" />
       <xs:element minOccurs="0" name="IsUnlicensed" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="OperationId" nillable="true" type="xs:int" />

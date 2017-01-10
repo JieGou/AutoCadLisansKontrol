@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_172B2450CB0347798F6B12A6A297DD60"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1A099E69308B42BEA76DC3C31B0184F3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -77,6 +83,12 @@
         {
         "MsmKey" = "8:_26874A4EC501A4EB18289003BAE80A1E"
         "OwnerKey" = "8:_EE45B388DEFCD2B25CA3786E9314EFAE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_296113EAC4694DEBA2041AD79E16CE7F"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -137,6 +149,12 @@
         {
         "MsmKey" = "8:_445A7BCCD6354757FA0A2B61ACEF7B59"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_44DBF56B1B694D37B80E44F79AC18F7A"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -920,6 +938,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
         "Release"
@@ -1075,6 +1101,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_172B2450CB0347798F6B12A6A297DD60"
+            {
+            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Debug\\BatFile\\netview.bat"
+            "TargetName" = "8:netview.bat"
+            "Tag" = "8:"
+            "Folder" = "8:_61E8C23625904091BFF6F151452CE533"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1A099E69308B42BEA76DC3C31B0184F3"
             {
             "SourcePath" = "8:C:\\Users\\hikmet\\Desktop\\rsz_autocadicon.ico"
@@ -1217,6 +1263,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_296113EAC4694DEBA2041AD79E16CE7F"
+            {
+            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Debug\\BatFile\\arptable.bat"
+            "TargetName" = "8:arptable.bat"
+            "Tag" = "8:"
+            "Folder" = "8:_61E8C23625904091BFF6F151452CE533"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2FFBD4E6C91699AE3954071B1C4770FA"
@@ -1434,6 +1500,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_44DBF56B1B694D37B80E44F79AC18F7A"
+            {
+            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Debug\\BatFile\\getmacaddress.bat"
+            "TargetName" = "8:getmacaddress.bat"
+            "Tag" = "8:"
+            "Folder" = "8:_61E8C23625904091BFF6F151452CE533"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_45D0BDBABDFF6E153894124B9558DB4F"
@@ -3004,6 +3090,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_61E8C23625904091BFF6F151452CE533"
+                    {
+                    "Name" = "8:BatFile"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_CDA9236E6D8A4F3BA5D4C62AC82C01F8"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -3022,15 +3119,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:LicenseController"
-        "ProductCode" = "8:{55AD6404-76CC-4A6B-A291-9405962A5D9B}"
-        "PackageCode" = "8:{E4AFD297-0F07-4688-A836-87FDE40FD4BE}"
+        "ProductCode" = "8:{C54612D6-90ED-4649-BFA9-0A004EA7906A}"
+        "PackageCode" = "8:{BC00D0B0-D726-4D0E-8C28-C2DCDA0FB281}"
         "UpgradeCode" = "8:{198B0F84-7034-4D42-9ABF-69F4F3C3D647}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.2"
+        "ProductVersion" = "8:1.0.4"
         "Manufacturer" = "8:MasterKey"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -3570,6 +3667,34 @@
         }
         "ProjectOutput"
         {
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E7AFD856104E4563AB2E7E7ABEC3BD9B"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B3F38C11C7F04A87A297AA6753C29C29"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:ContentFiles"
+            "OutputProjectGuid" = "8:{CF0A27A8-EF82-44E5-B673-ECCC150C48ED}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F5AE26BFFCCC4A58BE8628404EB00D5F"
             {
             "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\obj\\Release\\MaterialDesignDemo.exe"

@@ -16,6 +16,7 @@
           <Property Name="CheckDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="OperationId" Type="int" />
+          <Property Name="FirmId" Type="int" />
         </EntityType>
         <EntityType Name="Computer">
           <Key>
@@ -136,13 +137,13 @@
             <End Role="Operation" EntitySet="Operation" />
           </AssociationSet>
           <FunctionImport Name="SP_DELETE_COMPUTER">
-            <Parameter Name="FIRMID" Mode="In" Type="Int32" />
+          <Parameter Name="FIRMID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_DELETE_FIRM">
-            <Parameter Name="FIRMID" Mode="In" Type="Int32" />
+          <Parameter Name="FIRMID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_DELETE_OPERATION">
-            <Parameter Name="OPRID" Mode="In" Type="Int32" />
+          <Parameter Name="OPRID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="CheckLicenseEntity">
@@ -157,6 +158,7 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="OperationId" Type="Int32" />
           <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="Operation" />
+          <Property Name="FirmId" Type="Int32" />
         </EntityType>
         <EntityType Name="ComputerEntity">
           <Key>
@@ -242,6 +244,7 @@
           <EntitySetMapping Name="CheckLicense">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicenseEntity">
               <MappingFragment StoreEntitySet="CheckLicense">
+                <ScalarProperty Name="FirmId" ColumnName="FirmId" />
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="CheckDate" ColumnName="CheckDate" />

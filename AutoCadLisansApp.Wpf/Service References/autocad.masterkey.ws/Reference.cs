@@ -436,6 +436,9 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         private System.Nullable<int> ComputerIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> FirmIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -482,6 +485,19 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
                 if ((this.ComputerIdField.Equals(value) != true)) {
                     this.ComputerIdField = value;
                     this.RaisePropertyChanged("ComputerId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> FirmId {
+            get {
+                return this.FirmIdField;
+            }
+            set {
+                if ((this.FirmIdField.Equals(value) != true)) {
+                    this.FirmIdField = value;
+                    this.RaisePropertyChanged("FirmId");
                 }
             }
         }

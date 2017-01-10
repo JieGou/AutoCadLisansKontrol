@@ -5,6 +5,7 @@ using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 
 namespace MaterialDesignDemo.Domain
@@ -40,10 +41,18 @@ namespace MaterialDesignDemo.Domain
 
         public FirmViewModel()
         {
-            RefreshClicked = new DelegateCommand(RefreshCommand);
-            AddItemClicked = new DelegateCommand(AddItemCommand);
-            SaveClicked = new DelegateCommand(SaveCommand);
-            Firm = new ObservableCollection<autocad.masterkey.ws.Firm>(client.ListFirm());
+            try
+            {
+
+                RefreshClicked = new DelegateCommand(RefreshCommand);
+                AddItemClicked = new DelegateCommand(AddItemCommand);
+                SaveClicked = new DelegateCommand(SaveCommand);
+                Firm = new ObservableCollection<autocad.masterkey.ws.Firm>(client.ListFirm());
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message) ;
+            }
         }
 
 

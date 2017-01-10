@@ -80,6 +80,8 @@ namespace AutoCadWs
         public Nullable<System.DateTime> UpdateDate { get; set; }
         [DataMember]
         public Nullable<int> OperationId { get; set; }
+        [DataMember]
+        public Nullable<int> FirmId { get; set; }
 
     }
 }

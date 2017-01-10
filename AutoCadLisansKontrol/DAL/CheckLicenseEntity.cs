@@ -21,6 +21,7 @@ namespace AutoCadLisansKontrol.DAL
         public Nullable<System.DateTime> CheckDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public Nullable<int> OperationId { get; set; }
+        public Nullable<int> FirmId { get; set; }
     
         public virtual OperationEntity Operation { get; set; }
     }

@@ -219,6 +219,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                     item.FirmId = FirmId;
 
                     client.UpsertComputer(new MaterialDesignDemo.autocad.masterkey.ws.Computer { FirmId = item.FirmId, Id = item.Id, InsertDate = item.InsertDate, Ip = item.Ip, IsComputer = item.IsComputer, IsRootMachine = item.IsRootMachine, IsVisible = item.IsVisible, Name = item.Name, PyshicalAddress = item.PyshicalAddress, Type = item.Type });
+                    
                 }
                 LoadComputerFromDb();
                 EndNotification("Success");

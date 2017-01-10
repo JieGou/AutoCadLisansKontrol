@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MaterialDesignDemo"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -82,11 +83,25 @@
 
                         </materialDesign:MaterialDataGridTextColumn>
                         <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
-                        <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name}"
-                                                               Header="Name"                                                        
-                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
-                                                               />
+                       
+                        <DataGridTemplateColumn  Header="Name" Width="125">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Grid.Row="1" Grid.Column="1" 
+				    x:Name="NameTextBox"
+				    materialDesign:HintAssist.Hint="Name">
+                                        <TextBox.Text>
+                                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
 
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
                         <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
                         <materialDesign:MaterialDataGridTextColumn Header="Firm"        
@@ -94,7 +109,6 @@
                                                                    IsReadOnly="True"
                                                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                         />
-
 
                         <DataGridTemplateColumn Header="CheckLicense">
                             <DataGridTemplateColumn.CellTemplate>
