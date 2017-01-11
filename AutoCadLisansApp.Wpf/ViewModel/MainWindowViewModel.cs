@@ -35,7 +35,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 //new DemoItem("Chips", new Chips()),
                 //new DemoItem("Typography", new Typography()),
                 //new DemoItem("Cards", new Cards()),
-                //new DemoItem("Icon Pack", new IconPack { DataContext = new IconPackViewModel() }),
+                new DemoItem("Icon Pack", new IconPack { DataContext = new IconPackViewModel() }),
                 //new DemoItem("Colour Zones", new ColorZones()),
                 //new DemoItem("Lists", new Lists { DataContext = new ComputerViewModel()}),
                 //new DemoItem("Trees", new Trees { DataContext = new TreesViewModel() }),

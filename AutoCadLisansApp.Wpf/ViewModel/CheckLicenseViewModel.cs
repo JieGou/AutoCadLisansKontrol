@@ -12,10 +12,12 @@ using System.Windows.Data;
 using System.Collections;
 using System.Threading;
 using MaterialDesignDemo.ViewModel;
+using AutoCadLisansKontrol.Controller;
+using MaterialDesignDemo;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
-    public class CheckLicenseViewModel : BaseViewModel,INotifyPropertyChanged
+    public class CheckLicenseViewModel : BaseViewModel, INotifyPropertyChanged
     {
 
         private bool _isButtonEnable = true;
@@ -28,13 +30,17 @@ namespace MaterialDesignColors.WpfExample.Domain
         private int _executedComputer = 0;
         public int ExecutedComputer { get { return _executedComputer; } set { _executedComputer = value; OnPropertyChanged("ExecutedComputer"); } }
 
-        public ICommand buttonClicked { get; set; }
-        public ICommand AddItemClicked { get; set; }
-        public ICommand LoadDbClicked { get; set; }
+        public ICommand RunClicked { get; set; }
         public ICommand SaveClicked { get; set; }
         private int OprId;
+        private int FirmId;
+        private string _userName;
+        private string _password;
 
-        private ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> _computers;
+        public string UserName { get { return _userName; } set { _userName = value; OnPropertyChanged("UserName"); } }
+        public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
+
+        private ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense> _checkLicenses;
 
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -46,32 +52,28 @@ namespace MaterialDesignColors.WpfExample.Domain
                 OnPropertyChanged("ProgressBar");
             }
         }
-        public CheckLicenseViewModel()
+
+        public CheckLicenseViewModel(int oprId,int firmId)
         {
-        }
-        public CheckLicenseViewModel(int oprId)
-        {
-            buttonClicked = new DelegateCommand(CheckLicenseCommand);
-            AddItemClicked = new DelegateCommand(AddItemCommand);
-            LoadDbClicked = new DelegateCommand(LoadComputerFromDb);
+            RunClicked = new RelayCommand(param => CheckLicenseCommand(param));
             SaveClicked = new DelegateCommand(SaveCommand);
             OprId = oprId;
-            LoadComputerFromDb();
+            FirmId = firmId;
         }
 
 
 
 
-        public ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> Computers
+        public ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense> CheckLicenses
         {
             get
             {
-                return _computers;
+                return _checkLicenses;
             }
             set
             {
-                _computers = value;
-                OnPropertyChanged("Computers");
+                _checkLicenses = value;
+                OnPropertyChanged("CheckLicenses");
             }
 
         }
@@ -93,21 +95,32 @@ namespace MaterialDesignColors.WpfExample.Domain
                 //PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public void CheckLicenseCommand()
+        public void CheckLicenseCommand(object param)
         {
-            IsButtonEnable = false;
-            _executedComputer = 0;
-            NotificationIsVisible = false;
-            ProgressBar = Visibility.Visible;
+            StartNotification();
+             _executedComputer = 0;
+           
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers = new List<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
+
+
+
+
+            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers=client.ListComputer(FirmId).ToList();
+            if (computers.Count == 0)
+            {
+                EndNotification("Firm of Operation does not contain any computer!");
+                return;
+            }
 
             System.Action DoInBackground = new System.Action(() =>
             {
                 try
                 {
-
+                    foreach (var comp in computers)
+                    {
+                        CheckLicenses.Add(LicenseDetection.Execute(comp.Ip, UserName, Password));
+                    }
 
                     ProgressBar = Visibility.Hidden;
                 }
@@ -124,8 +137,9 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 if (NotificationIsVisible == true)
                     return;
-                computers = computers.DistinctBy(p => p.Ip).ToList();
-                Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(computers);
+                CheckLicenses = CheckLicenses;
+
+
                 NotificationIsVisible = true;
                 NotificationContent = "Success";
                 IsButtonEnable = true;
@@ -142,22 +156,17 @@ namespace MaterialDesignColors.WpfExample.Domain
         }
         public void LoadComputerFromDb()
         {
-            
+
             NotificationIsVisible = false;
             IsButtonEnable = false;
             ProgressBar = Visibility.Visible;
-            Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(client.ListComputer(Firm.Id).ToList());
+            var computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(client.ListComputer(Firm.Id).ToList());
             NotificationContent = "Success";
             NotificationIsVisible = true;
             ProgressBar = Visibility.Hidden;
             IsButtonEnable = true;
         }
-        public void AddItemCommand()
-        {
-            Computers = Computers;
-            if (Computers == null) Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
-            Computers.Add(new MaterialDesignDemo.autocad.masterkey.ws.Computer());
-        }
+
 
         public void SaveCommand()
         {
@@ -181,6 +190,20 @@ namespace MaterialDesignColors.WpfExample.Domain
                 NotificationIsVisible = true;
                 NotificationContent = ex.Message;
             }
+
+        }
+        public void StartNotification()
+        {
+            IsButtonEnable = false;
+            ProgressBar = Visibility.Visible;
+            NotificationIsVisible = false;
+        }
+        public void EndNotification(string content)
+        {
+            NotificationIsVisible = true;
+            NotificationContent = content;
+            IsButtonEnable = true;
+            ProgressBar = Visibility.Hidden;
 
         }
     }

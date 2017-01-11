@@ -41,7 +41,7 @@ namespace MaterialDesignDemo
                 return;
             }
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
-            mainwindowviewmodel.DemoItem = new DemoItem("CheckLicense", new CheckLicense { DataContext = new CheckLicenseViewModel(localoperation.Id) });
+            mainwindowviewmodel.DemoItem = new DemoItem("CheckLicense", new CheckLicense { DataContext = new CheckLicenseViewModel(localoperation.Id,localoperation.FirmId) });
         }
 
         private void SnackbarMessage_HideSnackClick(object sender, RoutedEventArgs e)
