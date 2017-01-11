@@ -16,7 +16,7 @@
 				    x:Name="NameTextBox"
 				    materialDesign:HintAssist.Hint="Name" Width="83">
                     <TextBox.Text>
-                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
                             </Binding.ValidationRules>
@@ -28,14 +28,20 @@
                      x:Name="PasswordBox"
                      materialDesign:HintAssist.Hint="Password" Width="83" />
                 <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
-                     Command="{Binding RefreshClicked}">
+                     Command="{Binding RunClicked}" CommandParameter="{Binding ElementName=PasswordBox}">
                     Run
+                </Button>
+                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
+                     Command="{Binding SaveClicked}">
+                    Save
                 </Button>
             </StackPanel>
         </GroupBox>
         <GroupBox  Header="Bilgisayar Listesi" Margin="16">
-            <StackPanel Orientation="Horizontal">
-                <DataGrid  Margin="0 8 0 0" Name="grdComputer" ItemsSource="{Binding Computers,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
+            <ScrollViewer>
+
+                <StackPanel Orientation="Horizontal">
+                <DataGrid  Margin="0 8 0 0" Name="grdCheckList" ItemsSource="{Binding CheckLicenses,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                       materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Binding="{Binding IsRootMachine}"
@@ -56,8 +62,6 @@
                                             Header="Id"
                                  EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                             ></materialDesign:MaterialDataGridTextColumn>
-
-
 
                         <DataGridTemplateColumn Header="Ip" Width="SizeToCells">
                             <DataGridTemplateColumn.CellTemplate>
@@ -121,6 +125,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
+            </ScrollViewer>
         </GroupBox>
     </StackPanel>
 </UserControl>
