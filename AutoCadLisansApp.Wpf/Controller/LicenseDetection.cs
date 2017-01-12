@@ -24,7 +24,8 @@ namespace AutoCadLisansKontrol.Controller
         {
             ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
             info.FileName = @"C:\Users\hikmet\Desktop\PSTools\psexec.exe";
-            info.Arguments = @"-c -f " + ip + " -u " + username + " -p " + password + " " + System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
+            var arg = @"-c -f " + ip + " -u " + username + " -p " + password + " " + System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
+            info.Arguments = arg;
             info.RedirectStandardOutput = false;
             info.UseShellExecute = true;
             info.Verb = "runas";
