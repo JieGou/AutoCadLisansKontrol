@@ -28,17 +28,6 @@ namespace AutoCadLisansKontrol.Controller
             arp.AddRange(net);
             return arp.ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type });
         }
-        public void ManageCommandPrompt()
-        {
-            ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
-            info.FileName = @"C:\Users\hikmet\Desktop\PSTools\psexec.exe";
-            info.Arguments = @"-c -f @c:\users\hikmet\desktop\client.txt -u admin -p select c:\users\hikmet\desktop\testkontroller.bat";
-            info.RedirectStandardOutput = false;
-            info.UseShellExecute = true;
-            info.Verb = "runas";
-            Process p = Process.Start(info);
-            p.WaitForExit();
-        }
         private static List<Computer> GetComputerFromNetView()
         {
             Process p = new Process();
@@ -227,7 +216,7 @@ namespace AutoCadLisansKontrol.Controller
         }
         public static void GetAdditionalInfo(Computer comp)
         {
-            
+
             lock (thisLock)
             {
                 if (comp.Type == "ArpTable")

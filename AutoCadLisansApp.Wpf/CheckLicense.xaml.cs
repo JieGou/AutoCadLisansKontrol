@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignColors.WpfExample.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,17 @@ namespace MaterialDesignDemo
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext != null)
+            { ((CheckLicenseViewModel)this.DataContext).Password = ((PasswordBox)sender).Password; }
+        }
+        private void SnackbarMessage_HideSnackClick(object sender, RoutedEventArgs e)
+        {
+            var userviewmodel = (CheckLicenseViewModel)DataContext;
+            userviewmodel.NotificationIsVisible = false;
         }
     }
 }

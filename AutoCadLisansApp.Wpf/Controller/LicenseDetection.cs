@@ -19,15 +19,12 @@ namespace AutoCadLisansKontrol.Controller
 {
     public class LicenseDetection
     {
-        public static List<CheckLicense> Execute()
-        {
-            return new List<CheckLicense>();
-        }
-        public void ManageCommandPrompt()
+
+        public static CheckLicense Execute(string ip, string username, string password)
         {
             ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
             info.FileName = @"C:\Users\hikmet\Desktop\PSTools\psexec.exe";
-            info.Arguments = @"-c -f @c:\users\hikmet\desktop\client.txt -u admin -p select c:\users\hikmet\desktop\testkontroller.bat";
+            info.Arguments = @"-c -f " + ip + " -u " + username + " -p " + password + " " + System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
             info.RedirectStandardOutput = false;
             info.UseShellExecute = true;
             info.Verb = "runas";
@@ -37,7 +34,11 @@ namespace AutoCadLisansKontrol.Controller
             string output = p.StandardOutput.ReadToEnd();
 
             p.WaitForExit();
+
+            var item = new CheckLicense();
+
+            return item;
         }
-       
+
     }
 }
