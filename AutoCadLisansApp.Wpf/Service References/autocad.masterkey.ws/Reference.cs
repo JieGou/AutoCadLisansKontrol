@@ -448,6 +448,9 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         private System.Nullable<bool> IsUnlicensedField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> OperationIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -540,6 +543,19 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
                 if ((this.IsUnlicensedField.Equals(value) != true)) {
                     this.IsUnlicensedField = value;
                     this.RaisePropertyChanged("IsUnlicensed");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
                 }
             }
         }

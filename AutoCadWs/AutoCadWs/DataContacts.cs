@@ -84,6 +84,8 @@ namespace AutoCadWs
         public Nullable<int> OperationId { get; set; }
         [DataMember]
         public Nullable<int> FirmId { get; set; }
+        [DataMember]
+        public string Name { get; set; }
 
     }
 }

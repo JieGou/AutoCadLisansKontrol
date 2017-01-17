@@ -7,8 +7,9 @@ using System.Windows;
 
 namespace MaterialDesignDemo.Model
 {
-    class CheckLicenseModel : CheckLicense
+    public class CheckLicenseModel : autocad.masterkey.ws.CheckLicense
     {
-        public Visibility Visibility { get { return IsVisible == true ? Visibility.Visible : Visibility.Hidden; } }
+        public bool IsProgress { get; set; }
+        public Visibility IsProgressVisibility { get { return IsProgress == true ? Visibility.Visible : Visibility.Hidden; } }
     }
 }

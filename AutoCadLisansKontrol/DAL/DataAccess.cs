@@ -221,18 +221,18 @@ namespace AutoCadLisansKontrol.DAL
                 {
                     dbaccess.Operation.Add(opr);
 
-                    var list = dbaccess.Computer.Where(x => x.FirmId == opr.FirmId).ToList();
+                    //var list = dbaccess.Computer.Where(x => x.FirmId == opr.FirmId).ToList();
 
-                    if (list != null)
-                    {
-                        var checklicense = list.ConvertAll(x => new CheckLicenseEntity { FirmId = opr.FirmId, ComputerId = x.Id, OperationId = opr.Id });
+                    //if (list != null)
+                    //{
+                    //    var checklicense = list.ConvertAll(x => new CheckLicenseEntity { FirmId = opr.FirmId, ComputerId = x.Id, OperationId = opr.Id });
 
-                        foreach (var chck in checklicense)
-                        {
-                            dbaccess.CheckLicense.Add(chck);
-                        }
-                        dbaccess.SaveChanges();
-                    }
+                    //    foreach (var chck in checklicense)
+                    //    {
+                    //        dbaccess.CheckLicense.Add(chck);
+                    //    }
+                    //    dbaccess.SaveChanges();
+                    //}
 
                 }
                 else

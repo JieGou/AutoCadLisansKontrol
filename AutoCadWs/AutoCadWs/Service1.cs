@@ -87,23 +87,23 @@ namespace AutoCadWs
 
         public void UpsertCheckLicense(CheckLicense chck)
         {
-            dbaccess.UpsertCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId });
+            dbaccess.UpsertCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId ,Name=chck.Name,Ip=chck.Ip});
         }
 
         public List<CheckLicense> ListCheckLicense()
         {
 
-            return dbaccess.ListCheckLicense().ConvertAll(chck => new CheckLicense { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId });
+            return dbaccess.ListCheckLicense().ConvertAll(chck => new CheckLicense { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip });
         }
         public void DeleteCheckLicense(CheckLicense chck)
         {
-            dbaccess.DeleteCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId });
+            dbaccess.DeleteCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip });
 
         }
 
         public void UpdateCheckLicense(CheckLicense chck)
         {
-            dbaccess.UpdateCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate,FirmId=chck.FirmId });
+            dbaccess.UpdateCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate,FirmId=chck.FirmId, Name = chck.Name, Ip = chck.Ip });
         }
 
         public void DeleteAllComputerBaseFormid(int firmId)

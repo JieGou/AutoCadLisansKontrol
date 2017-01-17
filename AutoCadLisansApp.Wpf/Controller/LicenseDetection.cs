@@ -1,6 +1,7 @@
 ﻿
 
 using MaterialDesignDemo.autocad.masterkey.ws;
+using MaterialDesignDemo.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using static System.Net.Mime.MediaTypeNames;
@@ -20,7 +22,7 @@ namespace AutoCadLisansKontrol.Controller
     public class LicenseDetection
     {
 
-        public static CheckLicense Execute(MaterialDesignDemo.autocad.masterkey.ws.Computer cmp, string username, string password,int opreationid)
+        public static CheckLicenseModel Execute(CheckLicenseModel chc,string username, string password, int opreationid)
         {
             //    ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
             //    info.FileName = @"C:\Users\hikmet\Desktop\PSTools\psexec.exe";
@@ -32,16 +34,13 @@ namespace AutoCadLisansKontrol.Controller
             //    Process p = Process.Start(info);
             // string output = p.StandardOutput.ReadToEnd();          
             //  p.WaitForExit();
-
-            var item = new CheckLicense();
-            item.Output = "Konu üzerinden çalışmalarımız devam etmektedir şuan için bir output verememekteyiz.";
-            item.IsUnlicensed = 1;
-            item.CheckDate = DateTime.Now;
-            item.OperationId = opreationid;
-            item.UpdateDate= DateTime.Now;
-            item.ComputerId = cmp.Id;
-            item.FirmId = cmp.FirmId;
-            return item;
+            Thread.Sleep(5000);
+            chc.Output = "Konu üzerinden çalışmalarımız devam etmektedir şuan için bir output verememekteyiz.";
+            chc.IsUnlicensed = true;
+            chc.CheckDate = DateTime.Now;
+            chc.OperationId = opreationid;
+            chc.UpdateDate = DateTime.Now;
+            return chc;
         }
 
     }

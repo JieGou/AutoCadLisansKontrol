@@ -14,6 +14,7 @@ using System.Threading;
 using MaterialDesignDemo.ViewModel;
 using AutoCadLisansKontrol.Controller;
 using MaterialDesignDemo;
+using MaterialDesignDemo.Model;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -40,7 +41,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         public string UserName { get { return _userName; } set { _userName = value; OnPropertyChanged("UserName"); } }
         public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
 
-        private ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense> _checkLicenses;
+        private ObservableCollection<CheckLicenseModel> _checkLicenses;
 
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -53,7 +54,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
 
-        public CheckLicenseViewModel(int oprId,int firmId)
+        public CheckLicenseViewModel(int oprId, int firmId)
         {
             RunClicked = new RelayCommand(param => CheckLicenseCommand(param));
             SaveClicked = new DelegateCommand(SaveCommand);
@@ -64,7 +65,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
 
-        public ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense> CheckLicenses
+        public ObservableCollection<CheckLicenseModel> CheckLicenses
         {
             get
             {
@@ -98,25 +99,54 @@ namespace MaterialDesignColors.WpfExample.Domain
         public void CheckLicenseCommand(object param)
         {
             StartNotification();
-             _executedComputer = 0;
-           
+            _executedComputer = 0;
+
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            
-            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers=client.ListComputer(FirmId).ToList();
+
+            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers = client.ListComputer(FirmId).ToList();
+            var checklicense = new ObservableCollection<CheckLicenseModel>();
+
+
             if (computers.Count == 0)
             {
                 EndNotification("Firm of Operation does not contain any computer!");
                 return;
             }
-            var checklicense = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense>();
+
+            foreach (var item in computers)
+            {
+                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId,IsProgress=false });
+            }
+            CheckLicenses = checklicense;
             System.Action DoInBackground = new System.Action(() =>
-            {   
+            {
                 try
                 {
-                    foreach (var comp in computers)
+                    foreach (var chc in checklicense)
                     {
-                        checklicense.Add(LicenseDetection.Execute(comp, UserName, Password,OprId));
+                        var tempchc = new CheckLicenseModel();
+                        System.Action ChildDoInBackground = new System.Action(() =>
+                        {
+                            
+                            tempchc = LicenseDetection.Execute(chc, UserName, Password, OprId);
+                            
+                        });
+                           
+                        System.Action ChildDoOnUiThread = new System.Action(() =>
+                        {
+                            chc.Output=tempchc.Output;
+                            chc.IsProgress = false;
+                            NotificationIsVisible = true;
+                            NotificationContent = "Success";
+                            IsButtonEnable = true;
+                        });
+                        var t3 = Task.Factory.StartNew(() => ChildDoInBackground());
+                        // when t1 is done run t1..on the Ui thread.
+                        var t4 = t3.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
+
+                        
                     }
+
 
                     ProgressBar = Visibility.Hidden;
                 }
@@ -131,14 +161,11 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             System.Action DoOnUiThread = new System.Action(() =>
             {
-                if (NotificationIsVisible == true)
-                    return;
-                CheckLicenses = checklicense;
-
                 NotificationIsVisible = true;
                 NotificationContent = "Success";
                 IsButtonEnable = true;
             });
+
 
             // start the background task
             var t1 = Task.Factory.StartNew(() => DoInBackground());

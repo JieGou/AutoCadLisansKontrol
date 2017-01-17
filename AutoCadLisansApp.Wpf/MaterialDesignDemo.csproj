@@ -480,7 +480,7 @@
     <None Include="Service References\autocad.masterkey.ws\AutoCadLisansKontrol.DAL.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\AutoCadWs.xsd">
+    <None Include="Service References\autocad.masterkey.ws\AutoCadWs1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\autocad.masterkey.ws\MaterialDesignDemo.autocad.masterkey.ws.CheckLicense.datasource">
@@ -495,11 +495,11 @@
     <None Include="Service References\autocad.masterkey.ws\MaterialDesignDemo.autocad.masterkey.ws.Operation.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\service.wsdl" />
-    <None Include="Service References\autocad.masterkey.ws\service.xsd">
+    <None Include="Service References\autocad.masterkey.ws\service1.wsdl" />
+    <None Include="Service References\autocad.masterkey.ws\service2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\service1.xsd">
+    <None Include="Service References\autocad.masterkey.ws\service21.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

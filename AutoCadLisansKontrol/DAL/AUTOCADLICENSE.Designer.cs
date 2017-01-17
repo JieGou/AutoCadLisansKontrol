@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\hikmet.yarbasi\Source\Repos\AutoCadLisansKontrol\AutoCadLisansKontrol\DAL\AUTOCADLICENSE.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Projects\AutoCadLisansKontrol\AutoCadLisansKontrol\DAL\AUTOCADLICENSE.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
