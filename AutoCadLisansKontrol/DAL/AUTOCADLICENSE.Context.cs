@@ -58,5 +58,32 @@ namespace AutoCadLisansKontrol.DAL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_OPERATION", oPRIDParameter);
         }
+    
+        public virtual int SP_DELETE_COMPUTER1(Nullable<int> fIRMID)
+        {
+            var fIRMIDParameter = fIRMID.HasValue ?
+                new ObjectParameter("FIRMID", fIRMID) :
+                new ObjectParameter("FIRMID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_COMPUTER1", fIRMIDParameter);
+        }
+    
+        public virtual int SP_DELETE_FIRM1(Nullable<int> fIRMID)
+        {
+            var fIRMIDParameter = fIRMID.HasValue ?
+                new ObjectParameter("FIRMID", fIRMID) :
+                new ObjectParameter("FIRMID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_FIRM1", fIRMIDParameter);
+        }
+    
+        public virtual int SP_DELETE_OPERATION1(Nullable<int> oPRID)
+        {
+            var oPRIDParameter = oPRID.HasValue ?
+                new ObjectParameter("OPRID", oPRID) :
+                new ObjectParameter("OPRID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_OPERATION1", oPRIDParameter);
+        }
     }
 }

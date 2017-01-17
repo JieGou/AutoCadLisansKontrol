@@ -59,7 +59,8 @@
       <xs:element minOccurs="0" name="ComputerId" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="FirmId" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="IsUnlicensed" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsUnlicensed" nillable="true" type="xs:boolean" />
       <xs:element minOccurs="0" name="OperationId" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="Output" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="UpdateDate" nillable="true" type="xs:dateTime" />

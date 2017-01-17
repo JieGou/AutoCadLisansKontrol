@@ -442,7 +442,10 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> IsUnlicensedField;
+        private string IpField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsUnlicensedField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> OperationIdField;
@@ -516,7 +519,20 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> IsUnlicensed {
+        public string Ip {
+            get {
+                return this.IpField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IpField, value) != true)) {
+                    this.IpField = value;
+                    this.RaisePropertyChanged("Ip");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsUnlicensed {
             get {
                 return this.IsUnlicensedField;
             }

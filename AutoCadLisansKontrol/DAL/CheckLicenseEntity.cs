@@ -15,9 +15,10 @@ namespace AutoCadLisansKontrol.DAL
     public partial class CheckLicenseEntity
     {
         public int Id { get; set; }
+        public string Ip { get; set; }
         public Nullable<int> ComputerId { get; set; }
         public string Output { get; set; }
-        public Nullable<int> IsUnlicensed { get; set; }
+        public Nullable<bool> IsUnlicensed { get; set; }
         public Nullable<System.DateTime> CheckDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public Nullable<int> OperationId { get; set; }

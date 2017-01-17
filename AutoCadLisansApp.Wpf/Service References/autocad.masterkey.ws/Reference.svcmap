@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="fa3ae0e1-1a65-43ad-b0f4-b2368b93bc61" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="9de9e252-c2ce-4155-a570-e4438e2cff43" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="80802558-dbcc-4dd1-97ce-86ff14078c6c" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" />
-    <MetadataFile FileName="AutoCadWs.xsd" MetadataType="Schema" ID="8c62bb69-12d5-4a74-8071-6bd65ea87417" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="9734d4b9-2ff8-4dc1-87fb-e2a610b735be" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="c73e3a0b-819a-4029-bf07-3e16c857b1b9" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="d64003a5-6e07-4225-b485-3dc7a101e992" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
+    <MetadataFile FileName="AutoCadWs.xsd" MetadataType="Schema" ID="7d3116b1-a610-4437-91fc-8ff4831204b3" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

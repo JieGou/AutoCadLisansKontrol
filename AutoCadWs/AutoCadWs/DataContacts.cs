@@ -65,6 +65,8 @@ namespace AutoCadWs
     {
         [DataMember]
         public int Id { get; set; }
+        [DataMember]
+        public string Ip { get; set; }
 
         [DataMember]
         public Nullable<int> ComputerId { get; set; }
@@ -72,7 +74,7 @@ namespace AutoCadWs
         public string Output { get; set; }
 
         [DataMember]
-        public Nullable<int> IsUnlicensed { get; set; }
+        public Nullable<bool> IsUnlicensed { get; set; }
         [DataMember]
         public Nullable<System.DateTime> CheckDate { get; set; }
 
