@@ -10,9 +10,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ip" Type="varchar" MaxLength="50" />
           <Property Name="ComputerId" Type="int" />
           <Property Name="Output" Type="text" />
-          <Property Name="IsUnlicensed" Type="int" />
+          <Property Name="IsUnlicensed" Type="bit" />
           <Property Name="CheckDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="OperationId" Type="int" />
@@ -120,6 +121,15 @@
     <edmx:ConceptualModels>
       <Schema Namespace="AUTOCADLICENSEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AUTOCADLICENSEEntities1" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="SP_DELETE_COMPUTER">
+          <Parameter Name="FIRMID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_FIRM">
+          <Parameter Name="FIRMID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_OPERATION">
+          <Parameter Name="OPRID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="CheckLicense" EntityType="AUTOCADLICENSEModel.CheckLicenseEntity" />
           <EntitySet Name="Computer" EntityType="AUTOCADLICENSEModel.ComputerEntity" />
           <EntitySet Name="Firm" EntityType="AUTOCADLICENSEModel.FirmEntity" />
@@ -136,14 +146,14 @@
             <End Role="Firm" EntitySet="Firm" />
             <End Role="Operation" EntitySet="Operation" />
           </AssociationSet>
-          <FunctionImport Name="SP_DELETE_COMPUTER">
-          <Parameter Name="FIRMID" Mode="In" Type="Int32" />
+          <FunctionImport Name="SP_DELETE_COMPUTER1">
+            <Parameter Name="FIRMID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_DELETE_FIRM">
-          <Parameter Name="FIRMID" Mode="In" Type="Int32" />
+          <FunctionImport Name="SP_DELETE_FIRM1">
+            <Parameter Name="FIRMID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_DELETE_OPERATION">
-          <Parameter Name="OPRID" Mode="In" Type="Int32" />
+          <FunctionImport Name="SP_DELETE_OPERATION1">
+            <Parameter Name="OPRID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="CheckLicenseEntity">
@@ -151,14 +161,15 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ComputerId" Type="Int32" />
           <Property Name="Output" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsUnlicensed" Type="Int32" />
+          <Property Name="IsUnlicensed" Type="Boolean" />
           <Property Name="CheckDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="OperationId" Type="Int32" />
-          <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="Operation" />
           <Property Name="FirmId" Type="Int32" />
+          <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="Operation" />
         </EntityType>
         <EntityType Name="ComputerEntity">
           <Key>
@@ -235,7 +246,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -251,6 +262,7 @@
                 <ScalarProperty Name="IsUnlicensed" ColumnName="IsUnlicensed" />
                 <ScalarProperty Name="Output" ColumnName="Output" />
                 <ScalarProperty Name="ComputerId" ColumnName="ComputerId" />
+                <ScalarProperty Name="Ip" ColumnName="Ip" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -292,9 +304,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_DELETE_COMPUTER" FunctionName="AUTOCADLICENSEModel.Store.SP_DELETE_COMPUTER" />
-          <FunctionImportMapping FunctionImportName="SP_DELETE_FIRM" FunctionName="AUTOCADLICENSEModel.Store.SP_DELETE_FIRM" />
-          <FunctionImportMapping FunctionImportName="SP_DELETE_OPERATION" FunctionName="AUTOCADLICENSEModel.Store.SP_DELETE_OPERATION" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_COMPUTER1" FunctionName="AUTOCADLICENSEModel.Store.SP_DELETE_COMPUTER" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_FIRM1" FunctionName="AUTOCADLICENSEModel.Store.SP_DELETE_FIRM" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_OPERATION1" FunctionName="AUTOCADLICENSEModel.Store.SP_DELETE_OPERATION" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

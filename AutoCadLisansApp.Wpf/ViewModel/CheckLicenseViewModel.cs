@@ -101,25 +101,21 @@ namespace MaterialDesignColors.WpfExample.Domain
              _executedComputer = 0;
            
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-
-
-
-
-
+            
             List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers=client.ListComputer(FirmId).ToList();
             if (computers.Count == 0)
             {
                 EndNotification("Firm of Operation does not contain any computer!");
                 return;
             }
-
+            var checklicense = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense>();
             System.Action DoInBackground = new System.Action(() =>
-            {
+            {   
                 try
                 {
                     foreach (var comp in computers)
                     {
-                        CheckLicenses.Add(LicenseDetection.Execute(comp.Ip, UserName, Password));
+                        checklicense.Add(LicenseDetection.Execute(comp, UserName, Password,OprId));
                     }
 
                     ProgressBar = Visibility.Hidden;
@@ -137,8 +133,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 if (NotificationIsVisible == true)
                     return;
-                CheckLicenses = CheckLicenses;
-
+                CheckLicenses = checklicense;
 
                 NotificationIsVisible = true;
                 NotificationContent = "Success";

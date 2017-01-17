@@ -74,16 +74,22 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
-                            <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name,Mode=TwoWay}" Width="SizeToCells"
-                                                               Header="Name"                                                        
-                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
-                                                               >
+                            <DataGridTemplateColumn Header="Output" Width="SizeToCells" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <materialDesign:Card UniformCornerRadius="14" 
+                      VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12 12 12 12">
+                                            <Button Click="OutputButton_Click" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" 
+                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" ToolTip="Output">
+                                                <materialDesign:PackIcon Kind="FileOutline" />
+                                            </Button>
+                                        </materialDesign:Card>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
-                            </materialDesign:MaterialDataGridTextColumn>
-                           
-                            
-                            <DataGridTemplateColumn Header="Progress" Width="SizeToCells" 
- IsReadOnly="True">
+
+                            <DataGridTemplateColumn Header="Progress" Width="SizeToCells" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <materialDesign:Card UniformCornerRadius="14" Visibility="{Binding Visibility}"
@@ -96,21 +102,6 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-
-                            <DataGridTemplateColumn Header="Progress" Width="SizeToCells" 
- IsReadOnly="True">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <materialDesign:Card UniformCornerRadius="14" Visibility="{Binding Visibility}"
-                      VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12 12 12 12">
-                                            <materialDesign:PackIcon Kind="FileDocument" />
-                                        </materialDesign:Card>
-
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-
-
 
                             <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
                             <!--<materialDesign:MaterialDataGridComboBoxColumn Header="Food"        

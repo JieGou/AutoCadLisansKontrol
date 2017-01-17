@@ -41,5 +41,13 @@ namespace MaterialDesignDemo
             var userviewmodel = (CheckLicenseViewModel)DataContext;
             userviewmodel.NotificationIsVisible = false;
         }
+
+        private void OutputButton_Click(object sender, RoutedEventArgs e)
+        {
+            var chechlicenseitem = (autocad.masterkey.ws.CheckLicense)grdCheckList.SelectedItem;
+
+
+
+        }
     }
 }
