@@ -41,7 +41,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         public string UserName { get { return _userName; } set { _userName = value; OnPropertyChanged("UserName"); } }
         public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
 
-        private ObservableCollection<CheckLicenseModel> _checkLicenses;
+        private MTObservableCollection<CheckLicenseModel> _checkLicenses;
 
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -65,7 +65,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
 
-        public ObservableCollection<CheckLicenseModel> CheckLicenses
+        public MTObservableCollection<CheckLicenseModel> CheckLicenses
         {
             get
             {
@@ -104,7 +104,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
             List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers = client.ListComputer(FirmId).ToList();
-            var checklicense = new ObservableCollection<CheckLicenseModel>();
+            var checklicense = new MTObservableCollection<CheckLicenseModel>();
 
 
             if (computers.Count == 0)
@@ -115,26 +115,27 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             foreach (var item in computers)
             {
-                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId,IsProgress=false });
+                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId,IsProgress=true  });
             }
             CheckLicenses = checklicense;
             System.Action DoInBackground = new System.Action(() =>
             {
                 try
                 {
-                    foreach (var chc in checklicense)
+                    foreach (var chc in CheckLicenses)
                     {
+                        
                         var tempchc = new CheckLicenseModel();
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
-                            
+
                             tempchc = LicenseDetection.Execute(chc, UserName, Password, OprId);
-                            
+
                         });
-                           
+
                         System.Action ChildDoOnUiThread = new System.Action(() =>
                         {
-                            chc.Output=tempchc.Output;
+                            chc.Output = tempchc.Output;
                             chc.IsProgress = false;
                             NotificationIsVisible = true;
                             NotificationContent = "Success";
@@ -144,7 +145,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                         // when t1 is done run t1..on the Ui thread.
                         var t4 = t3.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
 
-                        
+
                     }
 
 
@@ -172,8 +173,6 @@ namespace MaterialDesignColors.WpfExample.Domain
             // when t1 is done run t1..on the Ui thread.
             var t2 = t1.ContinueWith(t => DoOnUiThread(), _uiScheduler);
             //I assume BitmapFromUri is the slow step.
-
-            //Now that we have our bitmap, now go to the main thread.
 
         }
         public void LoadComputerFromDb()

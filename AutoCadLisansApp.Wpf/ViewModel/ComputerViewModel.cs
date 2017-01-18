@@ -131,16 +131,34 @@ namespace MaterialDesignColors.WpfExample.Domain
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
             List<ComputerModel> computers = new List<ComputerModel>();
+            Computers = GenerateDataFromNetwork();
 
             System.Action DoInBackground = new System.Action(() =>
             {
                 try
                 {
-                    computers = GenerateDataFromNetwork();
-                    TotalComputer = computers.Count;
-                    foreach (var item in computers)
+                    
+                    TotalComputer = Computers.Count;
+                    foreach (var item in Computers)
                     {
-                        ComputerDetection.GetAdditionalInfo(item);
+                        var tempchc = new ComputerModel();
+                        System.Action ChildDoInBackground = new System.Action(() =>
+                        {
+                            tempchc= ComputerDetection.GetAdditionalInfo(item);
+                        });
+
+                        System.Action ChildDoOnUiThread = new System.Action(() =>
+                        {
+                            item.IsProgress = false;
+                            NotificationIsVisible = true;
+                            NotificationContent = "Success";
+                            IsButtonEnable = true;
+                        });
+                        var t3 = Task.Factory.StartNew(() => ChildDoInBackground());
+                        // when t1 is done run t1..on the Ui thread.
+                        var t4 = t3.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
+
+                        
                         ExecutedComputer++;
                     }
                     ProgressBar = Visibility.Hidden;
@@ -157,7 +175,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 if (NotificationIsVisible == true)
                     return;
-                computers = computers.DistinctBy(p => p.Ip).ToList();
+                Computers = new ObservableCollection<ComputerModel>(Computers.DistinctBy(p => p.Ip).ToList());
                 Computers = new ObservableCollection<ComputerModel>(computers);
                 EndNotification("Success");
             });
@@ -172,11 +190,11 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
         }
-        private List<ComputerModel> GenerateDataFromNetwork()
+        private ObservableCollection<ComputerModel> GenerateDataFromNetwork()
         {
 
             List<ComputerModel> list = ComputerDetection.Execute();
-            return list;
+            return new ObservableCollection<ComputerModel>(list);
         }
 
         public void LoadComputerFromDb()

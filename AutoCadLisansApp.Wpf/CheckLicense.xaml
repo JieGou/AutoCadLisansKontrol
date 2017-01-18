@@ -14,45 +14,46 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="Converter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer>
-    <StackPanel>
-        <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
+        <StackPanel>
+            <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
                                               x:Name="NotificationSnackbar" >
-            <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
-        </materialDesign:Snackbar>
-        <GroupBox Grid.Column="0" Grid.Row="1" Header="Info Group" Style="{DynamicResource MaterialDesignGroupBox}" Margin="16" materialDesign:ColorZoneAssist.Mode="Accent">
-            <StackPanel Orientation="Horizontal">
-                <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="Account" Foreground="{Binding ElementName=NameTextBox, Path=BorderBrush}" />
-                <TextBox Grid.Row="1" Grid.Column="1" 
+                <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
+            </materialDesign:Snackbar>
+            <GroupBox Grid.Column="0" Grid.Row="1" Header="Info Group" Style="{DynamicResource MaterialDesignGroupBox}" Margin="16" materialDesign:ColorZoneAssist.Mode="Accent">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="Account" Foreground="{Binding ElementName=NameTextBox, Path=BorderBrush}" />
+                    <TextBox Grid.Row="1" Grid.Column="1" 
 				    x:Name="NameTextBox"
 				    materialDesign:HintAssist.Hint="Name" Width="83">
-                    <TextBox.Text>
-                        <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                            <Binding.ValidationRules>
-                                <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-                <materialDesign:PackIcon Grid.Row="3" Grid.Column="2" Kind="Key" Foreground="{Binding ElementName=PasswordBox, Path=BorderBrush}" HorizontalAlignment="Right" />
-                <PasswordBox Grid.Row="3" Grid.Column="3" 		
+                        <TextBox.Text>
+                            <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                                <Binding.ValidationRules>
+                                    <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <materialDesign:PackIcon Grid.Row="3" Grid.Column="2" Kind="Key" Foreground="{Binding ElementName=PasswordBox, Path=BorderBrush}" HorizontalAlignment="Right" />
+                    <PasswordBox Grid.Row="3" Grid.Column="3" 		
                      x:Name="PasswordBox"
                      PasswordChanged="PasswordBox_PasswordChanged"
                      materialDesign:HintAssist.Hint="Password" Width="83" />
-                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
+                    <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
                      Command="{Binding RunClicked}" CommandParameter="{Binding ElementName=PasswordBox}">
-                    Run
-                </Button>
-                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
+                        Run
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
                      Command="{Binding SaveClicked}">
-                    Save
-                </Button>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox  Header="Bilgisayar Listesi" Margin="16">
-            
+                        Save
+                    </Button>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox  Header="Bilgisayar Listesi" Margin="16">
+
 
                 <StackPanel Orientation="Horizontal">
                     <DataGrid  Margin="0 8 0 0" Name="grdCheckList" ItemsSource="{Binding CheckLicenses,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
@@ -63,6 +64,7 @@
                                             Header="Id"  Width="SizeToCells"
                                  EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                             ></materialDesign:MaterialDataGridTextColumn>
+
 
                             <DataGridTemplateColumn Header="Ip" Width="SizeToCells">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -76,21 +78,38 @@
                                                 </Binding>
                                             </TextBox.Text>
                                         </TextBox>
-
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+
+
+                            <DataGridTemplateColumn Header="Name" Width="SizeToCells">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Ip">
+                                            <TextBox.Text>
+                                                <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+
                             <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
                             <DataGridTemplateColumn Header="Output" Width="SizeToCells" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-
                                         <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                             materialDesign:DialogHost.DialogClosingAttached="Sample2_DialogHost_OnDialogClosing" ToolTip="Output"
                             Width="128">
                                             <Button.CommandParameter>
                                                 <StackPanel Margin="16">
-                                                    <TextBlock  HorizontalAlignment="Center" Margin="16" Text="{Binding Output}"></TextBlock>
+                                                    <TextBlock  HorizontalAlignment="Center" Margin="16" Text="{Binding Output,Mode=TwoWay}"></TextBlock>
                                                     <Button Style="{StaticResource MaterialDesignFlatButton}" IsCancel="True" 
                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                         CommandParameter="Sample2Cancel"
@@ -99,42 +118,40 @@
                                             </Button.CommandParameter>
                                             <materialDesign:PackIcon Kind="FileOutline" />
                                         </Button>
-
-
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
 
-                            <DataGridTemplateColumn Header="Progress" Width="SizeToCells" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="State" Width="SizeToCells" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-
-                                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding IsProgressVisibility}"
-                        Margin="0 0 8 0" HorizontalAlignment="Left"
-                        ToolTip="Online">
+                                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding IsProgressVisibility,Mode=TwoWay}" Margin="0 0 8 0" HorizontalAlignment="Left" ToolTip="Online">
                                         </Button>
-
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            
-                            <DataGridTemplateColumn Header="Progress" Width="SizeToCells" IsReadOnly="True">
+
+
+
+                            <DataGridTemplateColumn Header="Progress" Width="SizeToCells">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <materialDesign:Card UniformCornerRadius="14" Visibility="{Binding Visibility}"
+                                        <materialDesign:Card UniformCornerRadius="14"
                       VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12 12 12 12">
-                                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
-                         Value="50"
-                         IsIndeterminate="True"  />
+                                            <materialDesign:Card.Visibility>
+                                                <Binding Path="IsProgressVisibility" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </materialDesign:Card.Visibility>
+                                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"  Visibility="{Binding Path=IsProgress, Converter={StaticResource Converter}}" Value="50" IsIndeterminate="True"  >
+                                            </ProgressBar>
                                         </materialDesign:Card>
-
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-
-                          
-
                             <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
                             <!--<materialDesign:MaterialDataGridComboBoxColumn Header="Food"        
                                                                    SelectedValueBinding="{Binding Food}"-->
@@ -142,8 +159,8 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
-          
-        </GroupBox>
-    </StackPanel>
+
+            </GroupBox>
+        </StackPanel>
     </ScrollViewer>
 </UserControl>

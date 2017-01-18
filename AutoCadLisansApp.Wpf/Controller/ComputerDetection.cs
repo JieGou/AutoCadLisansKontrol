@@ -214,7 +214,7 @@ namespace AutoCadLisansKontrol.Controller
             mask = IPAddress.HostToNetworkOrder((int)mask);
             return new IPAddress((UInt32)mask).ToString();
         }
-        public static void GetAdditionalInfo(Computer comp)
+        public static ComputerModel GetAdditionalInfo(ComputerModel comp)
         {
 
             lock (thisLock)
@@ -231,6 +231,7 @@ namespace AutoCadLisansKontrol.Controller
                     comp.IsVisible = PingHost(comp.Ip);
                 }
             }
+            return comp;
         }
         private static string GetMachineNameFromIPAddress(string ipAdress)
         {

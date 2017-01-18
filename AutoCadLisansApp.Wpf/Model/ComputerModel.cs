@@ -10,7 +10,21 @@ namespace MaterialDesignDemo.Model
 {
     public class ComputerModel:Computer
     {
-        
-        public Visibility Visibility { get { return IsVisible == true ? Visibility.Visible : Visibility.Hidden; } }
+        private bool _isProgress;
+        public bool IsProgress
+        {
+            get
+            {
+                return this._isProgress;
+            }
+            set
+            {
+                if ((this._isProgress.Equals(value) != true))
+                {
+                    this._isProgress = value;
+                    this.RaisePropertyChanged("IsProgress");
+                }
+            }
+        }
     }
 }

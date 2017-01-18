@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="Converter" />
         </ResourceDictionary>
         
     </UserControl.Resources>
@@ -150,7 +151,26 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                      
+
+                        <DataGridTemplateColumn Header="Progress" Width="SizeToCells">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <materialDesign:Card UniformCornerRadius="14"
+                      VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12 12 12 12">
+                                        <materialDesign:Card.Visibility>
+                                            <Binding Path="IsProgressVisibility" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </materialDesign:Card.Visibility>
+                                        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"  Visibility="{Binding Path=IsProgress, Converter={StaticResource Converter}}" Value="50" IsIndeterminate="True"  >
+                                        </ProgressBar>
+                                    </materialDesign:Card>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
                         <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
                     <!--<materialDesign:MaterialDataGridComboBoxColumn Header="Food"        
                                                                    SelectedValueBinding="{Binding Food}"-->
