@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
@@ -14,45 +15,34 @@ namespace AutoCadLisansKontrol.Test
     {
         static void Main(string[] args)
         {
-            var securePassword = ConvertToSecureString("ciler471");
+            var username = "adminciler";
+            var password = ConvertToSecureString("ciler471");
+            string shellUri = "http://schemas.microsoft.com/powershell/Microsoft.PowerShell";
+            PSCredential remoteCredential = new PSCredential(username, password);
+            WSManConnectionInfo connectionInfo = new WSManConnectionInfo(false, "CILERTURKMEN", 5985, "/wsman", shellUri, remoteCredential);
+            var FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
+            var command=System.IO.File.ReadAllText(FileName);
 
-            var cred = new PSCredential("CILERTURKMEN", securePassword);
-
-            var connectionInfo = new WSManConnectionInfo(new Uri("http://superserver.corp/powershell"),
-        
-                                 "http://schemas.microsoft.com/powershell/Microsoft.Exchange",
-                                 cred);
-
-            connectionInfo.AuthenticationMechanism = AuthenticationMechanism.Credssp; //or Basic, Digest, Kerberos etc.
-          
-
-            using (var runspace = RunspaceFactory.CreateRunspace(connectionInfo))
+            using (Runspace runspace = RunspaceFactory.CreateRunspace(connectionInfo))
             {
-                using (var ps = System.Management.Automation.PowerShell.Create())
-                {
-                    string psCommand = "";
-                    //psCommand was created above
-                    
+                runspace.Open();
+                Pipeline pipeline = runspace.CreatePipeline();
+                pipeline.Commands.AddScript(command);
+                var results = pipeline.Invoke();
 
-                    runspace.Open();
-                    ps.Runspace = runspace;
-
-                    try
-                    {
-                        var results = ps.Invoke();
-
-                        if (!ps.HadErrors)
-                        {
-                            runspace.Close();
-                            //Yay! no errors. Do something else?
-                        }
-                    }
-                    catch (RemoteException ex)
-                    {
-                        //error handling here
-                    }
-                }
             }
+
+            //Environment.SetEnvironmentVariable("clientname", "CILERTURKMEN");
+            //Environment.SetEnvironmentVariable("username", "adminciler");
+            //Environment.SetEnvironmentVariable("password", "ciler471");
+            //ProcessStartInfo info = new ProcessStartInfo();
+           
+            //info.RedirectStandardOutput = false;
+            //info.UseShellExecute = true;
+            //info.Verb = "runas";
+            //Process p = Process.Start(info);
+            //string output = p.StandardOutput.ReadToEnd();
+            //p.WaitForExit();
 
         }
         private static SecureString ConvertToSecureString(string password)

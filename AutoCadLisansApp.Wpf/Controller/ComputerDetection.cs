@@ -115,7 +115,7 @@ namespace AutoCadLisansKontrol.Controller
 
         private static string GetMacAddress(string ipAddress)
         {
-            var filelocation = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\getmacaddress.bat"; ;
+            var filelocation = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\getmacaddress.bat";
             string macAddress = string.Empty;
             //ADDED THIS
             System.IO.StreamWriter file = new System.IO.StreamWriter(filelocation);

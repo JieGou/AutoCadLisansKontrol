@@ -24,16 +24,18 @@ namespace AutoCadLisansKontrol.Controller
 
         public static CheckLicenseModel Execute(CheckLicenseModel chc,string username, string password, int opreationid)
         {
-            //    ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
-            //    info.FileName = @"C:\Users\hikmet\Desktop\PSTools\psexec.exe";
-            //    var arg = @"-c -f " + ip + " -u " + username + " -p " + password + " " + System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
-            //    info.Arguments = arg;
-            //    info.RedirectStandardOutput = false;
-            //    info.UseShellExecute = true;
-            //    info.Verb = "runas";
-            //    Process p = Process.Start(info);
-            // string output = p.StandardOutput.ReadToEnd();          
-            //  p.WaitForExit();
+            Environment.SetEnvironmentVariable("clientname", chc.Ip);
+            Environment.SetEnvironmentVariable("username", username);
+            Environment.SetEnvironmentVariable("password", password);
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
+            var arg = @"-c -f " + chc.Ip + " -u " + username + " -p " + password + " ";
+            info.RedirectStandardOutput = false;
+            info.UseShellExecute = true;
+            info.Verb = "runas";
+            Process p = Process.Start(info);
+            string output = p.StandardOutput.ReadToEnd();
+            p.WaitForExit();
             Thread.Sleep(5000);
             chc.Output = "Konu üzerinden çalışmalarımız devam etmektedir şuan için bir output verememekteyiz.";
             chc.IsUnlicensed = true;
