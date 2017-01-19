@@ -13,17 +13,18 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="Converter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer>
-        <StackPanel>
+        <StackPanel >
             <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
                                               x:Name="NotificationSnackbar" >
                 <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
             </materialDesign:Snackbar>
-            <GroupBox Grid.Column="0" Grid.Row="1" Header="Info Group" Style="{DynamicResource MaterialDesignGroupBox}" Margin="16" materialDesign:ColorZoneAssist.Mode="Accent">
+            <GroupBox Grid.Column="0" Grid.Row="1" Header="Info Group" Style="{DynamicResource MaterialDesignGroupBox}" Margin="16" materialDesign:ColorZoneAssist.Mode="Accent" IsEnabled="{Binding IsButtonEnable}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="Account" Foreground="{Binding ElementName=NameTextBox, Path=BorderBrush}" />
                     <TextBox Grid.Row="1" Grid.Column="1" 
@@ -52,6 +53,15 @@
                     </Button>
                 </StackPanel>
             </GroupBox>
+
+            <ProgressBar IsIndeterminate="True" Margin="24" Visibility="{Binding ProgressBar,Mode=TwoWay}"/>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding TotalComputer}"></TextBlock>
+                <TextBlock Text="/"></TextBlock>
+                <TextBlock Text="{Binding ExecutedComputer}"></TextBlock>
+
+            </StackPanel>
             <GroupBox  Header="Bilgisayar Listesi" Margin="16">
 
 

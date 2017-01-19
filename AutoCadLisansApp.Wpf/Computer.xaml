@@ -130,7 +130,7 @@
  IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Visibility}"
+                                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"  Visibility="{Binding Path=IsVisible, Converter={StaticResource Converter}}"
                         Margin="0 0 8 0" HorizontalAlignment="Left"
                         ToolTip="Online">
                                     </Button>

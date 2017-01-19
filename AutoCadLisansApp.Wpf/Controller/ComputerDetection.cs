@@ -26,7 +26,7 @@ namespace AutoCadLisansKontrol.Controller
             var arp = GetComputerFromNetView();
 
             arp.AddRange(net);
-            return arp.ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type });
+            return arp.ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type,IsProgress=true });
         }
         private static List<Computer> GetComputerFromNetView()
         {

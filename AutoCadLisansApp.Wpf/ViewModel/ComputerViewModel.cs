@@ -137,47 +137,41 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 try
                 {
-                    
                     TotalComputer = Computers.Count;
                     foreach (var item in Computers)
                     {
-                        var tempchc = new ComputerModel();
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
-                            tempchc= ComputerDetection.GetAdditionalInfo(item);
+                            ComputerDetection.GetAdditionalInfo(item);
                         });
 
                         System.Action ChildDoOnUiThread = new System.Action(() =>
                         {
                             item.IsProgress = false;
-                            NotificationIsVisible = true;
-                            NotificationContent = "Success";
-                            IsButtonEnable = true;
+
+                            ExecutedComputer++;
+
+                            if (ExecutedComputer == TotalComputer)
+                            {
+                                Computers = new ObservableCollection<ComputerModel>(Computers.DistinctBy(p => p.Ip).ToList());
+                                EndNotification("Network searching has finished!!");
+                            }
                         });
                         var t3 = Task.Factory.StartNew(() => ChildDoInBackground());
                         // when t1 is done run t1..on the Ui thread.
                         var t4 = t3.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
-
-                        
-                        ExecutedComputer++;
                     }
-                    ProgressBar = Visibility.Hidden;
                 }
                 catch (System.Exception ex)
                 {
                     EndNotification(ex.Message);
                     return;
                 }
-
             });
 
             System.Action DoOnUiThread = new System.Action(() =>
             {
-                if (NotificationIsVisible == true)
-                    return;
-                Computers = new ObservableCollection<ComputerModel>(Computers.DistinctBy(p => p.Ip).ToList());
-                Computers = new ObservableCollection<ComputerModel>(computers);
-                EndNotification("Success");
+
             });
 
             // start the background task
@@ -202,16 +196,32 @@ namespace MaterialDesignColors.WpfExample.Domain
             try
             {
                 StartNotification();
-                Computers = new ObservableCollection<ComputerModel>(client.ListComputer(FirmId).ToList().ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type }));
-                EndNotification("Success");
+
+
+                TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                System.Action ChildDoInBackground = new System.Action(() =>
+                {
+                    Computers = new ObservableCollection<ComputerModel>(client.ListComputer(FirmId).ToList().ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type }));
+                    _executedComputer = Computers.Count;
+                    _totalComputer = Computers.Count;
+                    EndNotification("");
+                });
+
+                System.Action ChildDoOnUiThread = new System.Action(() =>
+                {
+
+                });
+
+                var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
+                // when t1 is done run t1..on the Ui thread.
+                var t2 = t1.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
             }
             catch (System.Exception ex)
             {
                 EndNotification(ex.Message);
             }
 
-            _executedComputer = Computers.Count;
-            _totalComputer = Computers.Count;
+
         }
         public void AddItemCommand()
         {
@@ -230,17 +240,34 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 StartNotification();
 
-                client.DeleteAllComputerBaseFormid(FirmId);
 
-                foreach (var item in Computers)
+                TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                System.Action ChildDoInBackground = new System.Action(() =>
                 {
-                    item.FirmId = FirmId;
+                    client.DeleteAllComputerBaseFormid(FirmId);
+                    var counter = Computers.Count;
+                    foreach (var item in Computers)
+                    {
+                        counter--;
+                        item.FirmId = FirmId;
 
-                    client.UpsertComputer(new MaterialDesignDemo.autocad.masterkey.ws.Computer { FirmId = item.FirmId, Id = item.Id, InsertDate = item.InsertDate, Ip = item.Ip, IsComputer = item.IsComputer, IsRootMachine = item.IsRootMachine, IsVisible = item.IsVisible, Name = item.Name, PyshicalAddress = item.PyshicalAddress, Type = item.Type });
-                    
-                }
-                LoadComputerFromDb();
-                EndNotification("Success");
+                        client.UpsertComputer(new MaterialDesignDemo.autocad.masterkey.ws.Computer { FirmId = item.FirmId, Id = item.Id, InsertDate = item.InsertDate, Ip = item.Ip, IsComputer = item.IsComputer, IsRootMachine = item.IsRootMachine, IsVisible = item.IsVisible, Name = item.Name, PyshicalAddress = item.PyshicalAddress, Type = item.Type });
+                        if (counter == 0)
+                        {
+                            LoadComputerFromDb();
+                            EndNotification("Computers is saved");
+                        }
+                    }
+                });
+
+                System.Action ChildDoOnUiThread = new System.Action(() =>
+                {
+
+                });
+
+                var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
+                // when t1 is done run t1..on the Ui thread.
+                var t2 = t1.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
             }
             catch (System.Exception ex)
             {
@@ -255,13 +282,14 @@ namespace MaterialDesignColors.WpfExample.Domain
         }
         public void EndNotification(string content)
         {
-            NotificationIsVisible = true;
-            NotificationContent = content;
+            if (content != "")
+            {
+                NotificationIsVisible = true;
+                NotificationContent = content;
+            }
             IsButtonEnable = true;
             ProgressBar = Visibility.Hidden;
-
         }
-
     }
 
     public class PagingCollectionView : CollectionView

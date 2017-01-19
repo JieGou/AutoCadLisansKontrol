@@ -31,6 +31,11 @@ namespace MaterialDesignColors.WpfExample.Domain
         private int _executedComputer = 0;
         public int ExecutedComputer { get { return _executedComputer; } set { _executedComputer = value; OnPropertyChanged("ExecutedComputer"); } }
 
+
+        private int _totalComputer = 0;
+        public int TotalComputer { get { return _totalComputer; } set { _totalComputer = value; OnPropertyChanged("TotalComputer"); } }
+
+
         public ICommand RunClicked { get; set; }
         public ICommand SaveClicked { get; set; }
         private int OprId;
@@ -99,6 +104,12 @@ namespace MaterialDesignColors.WpfExample.Domain
         public void CheckLicenseCommand(object param)
         {
             StartNotification();
+
+            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
+            {
+                EndNotification("UserName or Password is empty");
+                return;
+            }
             _executedComputer = 0;
 
             TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
@@ -115,16 +126,17 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             foreach (var item in computers)
             {
-                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId,IsProgress=true  });
+                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true });
             }
             CheckLicenses = checklicense;
+            TotalComputer = CheckLicenses.Count;
             System.Action DoInBackground = new System.Action(() =>
             {
                 try
                 {
                     foreach (var chc in CheckLicenses)
                     {
-                        
+
                         var tempchc = new CheckLicenseModel();
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
@@ -135,11 +147,16 @@ namespace MaterialDesignColors.WpfExample.Domain
 
                         System.Action ChildDoOnUiThread = new System.Action(() =>
                         {
+
                             chc.Output = tempchc.Output;
                             chc.IsProgress = false;
-                            NotificationIsVisible = true;
-                            NotificationContent = "Success";
-                            IsButtonEnable = true;
+                            ExecutedComputer++;
+
+                            if (ExecutedComputer == TotalComputer)
+                            {
+                                EndNotification("Operation has finished!!");
+                            }
+
                         });
                         var t3 = Task.Factory.StartNew(() => ChildDoInBackground());
                         // when t1 is done run t1..on the Ui thread.
@@ -147,14 +164,10 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
                     }
-
-
-                    ProgressBar = Visibility.Hidden;
                 }
                 catch (System.Exception ex)
                 {
-                    NotificationIsVisible = true;
-                    NotificationContent = ex.Message;
+                    EndNotification(ex.Message);
                     return;
                 }
 
@@ -162,9 +175,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             System.Action DoOnUiThread = new System.Action(() =>
             {
-                NotificationIsVisible = true;
-                NotificationContent = "Success";
-                IsButtonEnable = true;
+
             });
 
 
@@ -193,18 +204,43 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             try
             {
-                IsButtonEnable = false;
-                ProgressBar = Visibility.Visible;
+                var counter = CheckLicenses.Count;
+                StartNotification();
+                TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                System.Action ChildDoInBackground = new System.Action(() =>
+                {
+                    foreach (var item in CheckLicenses)
+                    {
+                        counter--;
+                        client.UpsertCheckLicense(new MaterialDesignDemo.autocad.masterkey.ws.CheckLicense()
+                        {
+                            CheckDate = System.DateTime.Now,
+                            ComputerId = item.ComputerId,
+                            FirmId = item.FirmId,
+                            Id = item.Id,
+                            Ip = item.Ip,
+                            IsUnlicensed = item.IsUnlicensed,
+                            Name = item.Name,
+                            OperationId = item.OperationId,
+                            Output = item.Output,
+                            UpdateDate = System.DateTime.Now
+                        });
 
-                NotificationIsVisible = false;
+                        if (counter == 0)
+                            EndNotification("Results is saved.");
 
+                    }
+                });
 
+                System.Action ChildDoOnUiThread = new System.Action(() =>
+                {
+                    
+                });
 
+                var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
+                // when t1 is done run t1..on the Ui thread.
+                var t2 = t1.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
 
-                NotificationIsVisible = true;
-                NotificationContent = "Success";
-                IsButtonEnable = true;
-                ProgressBar = Visibility.Hidden;
             }
             catch (System.Exception ex)
             {
@@ -221,8 +257,11 @@ namespace MaterialDesignColors.WpfExample.Domain
         }
         public void EndNotification(string content)
         {
-            NotificationIsVisible = true;
-            NotificationContent = content;
+            if (content != "")
+            {
+                NotificationIsVisible = true;
+                NotificationContent = content;
+            }
             IsButtonEnable = true;
             ProgressBar = Visibility.Hidden;
 
