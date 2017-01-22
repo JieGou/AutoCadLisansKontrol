@@ -15,6 +15,8 @@ using MaterialDesignDemo.ViewModel;
 using AutoCadLisansKontrol.Controller;
 using MaterialDesignDemo;
 using MaterialDesignDemo.Model;
+using Microsoft.Win32;
+using System.IO;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -38,6 +40,8 @@ namespace MaterialDesignColors.WpfExample.Domain
 
         public ICommand RunClicked { get; set; }
         public ICommand SaveClicked { get; set; }
+        public ICommand SaveOutputClicked { get; set; }
+        
         private int OprId;
         private int FirmId;
         private string _userName;
@@ -46,7 +50,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         public string UserName { get { return _userName; } set { _userName = value; OnPropertyChanged("UserName"); } }
         public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
 
-        private MTObservableCollection<CheckLicenseModel> _checkLicenses;
+        private ObservableCollection<CheckLicenseModel> _checkLicenses;
 
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -65,12 +69,13 @@ namespace MaterialDesignColors.WpfExample.Domain
             SaveClicked = new DelegateCommand(SaveCommand);
             OprId = oprId;
             FirmId = firmId;
+            LoadCheckLicenseFromDb();
         }
 
 
 
 
-        public MTObservableCollection<CheckLicenseModel> CheckLicenses
+        public ObservableCollection<CheckLicenseModel> CheckLicenses
         {
             get
             {
@@ -126,7 +131,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             foreach (var item in computers)
             {
-                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true });
+                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId });
             }
             CheckLicenses = checklicense;
             TotalComputer = CheckLicenses.Count;
@@ -186,20 +191,38 @@ namespace MaterialDesignColors.WpfExample.Domain
             //I assume BitmapFromUri is the slow step.
 
         }
-        public void LoadComputerFromDb()
+        public void LoadCheckLicenseFromDb()
         {
+            StartNotification();
 
-            NotificationIsVisible = false;
-            IsButtonEnable = false;
-            ProgressBar = Visibility.Visible;
-            var computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(client.ListComputer(Firm.Id).ToList());
-            NotificationContent = "Success";
-            NotificationIsVisible = true;
-            ProgressBar = Visibility.Hidden;
-            IsButtonEnable = true;
+            try
+            {
+                TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                System.Action ChildDoInBackground = new System.Action(() =>
+                {
+                    CheckLicenses= new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x=>new CheckLicenseModel {CheckDate=x.CheckDate,ComputerId=x.ComputerId,FirmId=x.FirmId,Id=x.Id,Ip=x.Ip,IsUnlicensed=x.IsUnlicensed,Name=x.Name,OperationId=x.OperationId,Output=x.Output,UpdateDate=x.UpdateDate }));
+                });
+
+                System.Action ChildDoOnUiThread = new System.Action(() =>
+                {
+
+                });
+
+
+                var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
+                // when t1 is done run t1..on the Ui thread.
+                var t2 = t1.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
+            }
+            catch (System.Exception ex)
+            {
+                EndNotification(ex.Message);
+                return;
+            }
+
+            EndNotification("");
         }
 
-
+        
         public void SaveCommand()
         {
             try
@@ -234,7 +257,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>
                 {
-                    
+
                 });
 
                 var t1 = Task.Factory.StartNew(() => ChildDoInBackground());

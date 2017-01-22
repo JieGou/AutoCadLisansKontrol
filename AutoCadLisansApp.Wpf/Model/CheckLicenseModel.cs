@@ -25,5 +25,39 @@ namespace MaterialDesignDemo.Model
                 }
             }
         }
-}
+        private bool _fail;
+        public bool Fail
+        {
+            get
+            {
+                return this._fail;
+            }
+            set
+            {
+                if ((this._fail.Equals(value) != true))
+                {
+                    this._fail = value;
+                    this.RaisePropertyChanged("Fail");
+                }
+            }
+        }
+
+        private bool _success;
+        public bool Success
+        {
+            get
+            {
+                return this._success;
+            }
+            set
+            {
+                if ((this._success.Equals(value) != true))
+                {
+                    this._success = value;
+                    this.RaisePropertyChanged("Success");
+                }
+            }
+        }
+
+    }
 }

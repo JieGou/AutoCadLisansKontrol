@@ -358,9 +358,9 @@ namespace AutoCadLisansKontrol.DAL
 
         }
 
-        public List<CheckLicenseEntity> ListCheckLicense()
+        public List<CheckLicenseEntity> ListCheckLicense(int id)
         {
-            return dbaccess.CheckLicense.ToList();
+            return dbaccess.CheckLicense.Where(x=>x.OperationId==id).ToList();
         }
 
         public void DeleteCheckLicense(CheckLicenseEntity oprdetail)

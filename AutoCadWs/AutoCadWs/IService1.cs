@@ -47,7 +47,7 @@ namespace AutoCadWs
         [OperationContract]
         void UpsertCheckLicense(CheckLicense oprdetail);
         [OperationContract]
-        List<CheckLicense> ListCheckLicense();
+        List<CheckLicense> ListCheckLicense(int id);
 
         [OperationContract]
         void DeleteCheckLicense(CheckLicense oprdetail);

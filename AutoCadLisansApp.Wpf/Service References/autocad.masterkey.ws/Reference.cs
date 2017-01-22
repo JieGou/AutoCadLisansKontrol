@@ -716,10 +716,10 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         System.Threading.Tasks.Task UpsertCheckLicenseAsync(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListCheckLicense", ReplyAction="http://tempuri.org/IService1/ListCheckLicenseResponse")]
-        MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[] ListCheckLicense();
+        MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[] ListCheckLicense(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListCheckLicense", ReplyAction="http://tempuri.org/IService1/ListCheckLicenseResponse")]
-        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync();
+        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteCheckLicense", ReplyAction="http://tempuri.org/IService1/DeleteCheckLicenseResponse")]
         void DeleteCheckLicense(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail);
@@ -903,12 +903,12 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
             return base.Channel.UpsertCheckLicenseAsync(oprdetail);
         }
         
-        public MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[] ListCheckLicense() {
-            return base.Channel.ListCheckLicense();
+        public MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[] ListCheckLicense(int id) {
+            return base.Channel.ListCheckLicense(id);
         }
         
-        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync() {
-            return base.Channel.ListCheckLicenseAsync();
+        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync(int id) {
+            return base.Channel.ListCheckLicenseAsync(id);
         }
         
         public void DeleteCheckLicense(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail) {

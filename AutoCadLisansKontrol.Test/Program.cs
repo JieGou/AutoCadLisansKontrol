@@ -15,34 +15,56 @@ namespace AutoCadLisansKontrol.Test
     {
         static void Main(string[] args)
         {
+            var scripts = new List<string>();
+            var FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
+            var command = System.IO.File.ReadAllText(FileName);
+            
+
+            var createfile = "$s=\" " + command + "\"\n" + 
+                             //"$s >> \".\\checklicense.bat\" -Encoding \"UTF8\""+
+            "out-file -filepath \".\\checklicense.bat\" -inputobject $s -encoding UTF8";
+            
+            scripts.Add("New-Item -Force -ItemType directory -Path C:\\$env:computername");
+           // scripts.Add("DEL \\F \\S \\Q \\A \"C:\\%computername%\\*");
+            scripts.Add("cd C:\\$env:computername");
+            scripts.Add(createfile);
+           // scripts.Add("cmd.exe /c checklicense.bat");
+            scripts.Add("Get-Content C:\\$env:computername\\$env:computername.txt -Raw");
             var username = "adminciler";
             var password = ConvertToSecureString("ciler471");
             string shellUri = "http://schemas.microsoft.com/powershell/Microsoft.PowerShell";
             PSCredential remoteCredential = new PSCredential(username, password);
             WSManConnectionInfo connectionInfo = new WSManConnectionInfo(false, "CILERTURKMEN", 5985, "/wsman", shellUri, remoteCredential);
-            var FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
-            var command=System.IO.File.ReadAllText(FileName);
+            
 
             using (Runspace runspace = RunspaceFactory.CreateRunspace(connectionInfo))
             {
                 runspace.Open();
-                Pipeline pipeline = runspace.CreatePipeline();
-                pipeline.Commands.AddScript(command);
-                var results = pipeline.Invoke();
-
+                foreach (var script in scripts)
+                {
+                    Pipeline pipeline = runspace.CreatePipeline();
+                    pipeline.Commands.AddScript(script);
+                    var results = pipeline.Invoke();
+                }
             }
 
-            //Environment.SetEnvironmentVariable("clientname", "CILERTURKMEN");
-            //Environment.SetEnvironmentVariable("username", "adminciler");
-            //Environment.SetEnvironmentVariable("password", "ciler471");
-            //ProcessStartInfo info = new ProcessStartInfo();
-           
-            //info.RedirectStandardOutput = false;
-            //info.UseShellExecute = true;
-            //info.Verb = "runas";
-            //Process p = Process.Start(info);
-            //string output = p.StandardOutput.ReadToEnd();
-            //p.WaitForExit();
+            //ProcessStartInfo psi = new ProcessStartInfo(@"C:\Windows\System32\WindowsPowerShell\v1.0\");
+            //psi.FileName = @"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe";
+            //psi.Arguments = " $username = \"adminciler\" \n"+
+            //                " $password = \"ciler471\" \n" +
+            //                " $secstr = New - Object - TypeName System.Security.SecureString \n" +
+            //                " $password.ToCharArray() | ForEach - Object {$secstr.AppendChar($_)} \n" +
+            //                " $cred = new- object - typename System.Management.Automation.PSCredential - argumentlist $username, $secstr \n" +
+            //                " Invoke - Command - ComputerName CILERTURKMEN - ScriptBlock { Get - ChildItem C:\\ } -credential $cred \n";
+            //psi.UseShellExecute = false;
+            //psi.Verb = "runas";
+            //psi.RedirectStandardOutput = true;
+            //Process process = new Process();
+            //process.StartInfo = psi;
+            //process.Start();
+            //string output = process.StandardOutput.ReadToEnd();
+            //process.WaitForExit();
+
 
         }
         private static SecureString ConvertToSecureString(string password)

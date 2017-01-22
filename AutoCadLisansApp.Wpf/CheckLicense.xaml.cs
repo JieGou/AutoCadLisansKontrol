@@ -1,7 +1,9 @@
 ﻿using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,13 +48,29 @@ namespace MaterialDesignDemo
         private void OutputButton_Click(object sender, RoutedEventArgs e)
         {
             var chechlicenseitem = (autocad.masterkey.ws.CheckLicense)grdCheckList.SelectedItem;
+            
+            string output = (string)(((Button)sender).CommandParameter);
 
-
-
+            SaveOutput(output);
         }
         private void Sample2_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
         {
             Console.WriteLine("SAMPLE 2: Closing dialog with parameter: " + (eventArgs.Parameter ?? ""));
+        }
+
+        public void SaveOutput(string content)
+        {
+            string fileText = content;
+
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Text Files(*.txt)|*.txt|All(*.*)|*"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                File.WriteAllText(dialog.FileName, fileText);
+            }
         }
     }
 }

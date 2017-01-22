@@ -118,13 +118,23 @@
                             materialDesign:DialogHost.DialogClosingAttached="Sample2_DialogHost_OnDialogClosing" ToolTip="Output"
                             Width="128">
                                             <Button.CommandParameter>
-                                                <StackPanel Margin="16">
-                                                    <TextBlock  HorizontalAlignment="Center" Margin="16" Text="{Binding Output,Mode=TwoWay}"></TextBlock>
-                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" IsCancel="True" 
+                                                <ScrollViewer>
+                                                    <StackPanel>
+                                                        <Button Style="{StaticResource MaterialDesignFlatButton}" IsCancel="True" 
                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                         CommandParameter="Sample2Cancel"
                                         HorizontalAlignment="Center">CLOSE</Button>
-                                                </StackPanel>
+                                                        <Button Style="{StaticResource MaterialDesignFlatButton}" IsCancel="True" 
+                                        Click="OutputButton_Click"
+                                        CommandParameter="{Binding Output}"
+                                        HorizontalAlignment="Center">DOWNLOAD</Button>
+                                                        <StackPanel>
+                                                            <TextBlock  HorizontalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="{Binding Output,Mode=TwoWay}"></TextBlock>
+                                                        </StackPanel>
+
+
+                                                    </StackPanel>
+                                                </ScrollViewer>
                                             </Button.CommandParameter>
                                             <materialDesign:PackIcon Kind="FileOutline" />
                                         </Button>
@@ -136,9 +146,12 @@
                             <DataGridTemplateColumn Header="State" Width="SizeToCells" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding IsProgressVisibility,Mode=TwoWay}" Margin="0 0 8 0" HorizontalAlignment="Left" ToolTip="Online">
-                                        </Button>
+                                        <StackPanel>
+                                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Path=Success, Converter={StaticResource Converter},Mode=TwoWay}" Margin="0 0 8 0" HorizontalAlignment="Left" ToolTip="Online"></Button>
+                                            <Button Background="Red"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Path=Fail, Converter={StaticResource Converter},Mode=TwoWay}" Margin="0 0 8 0" HorizontalAlignment="Left" ToolTip="Online"></Button>
+                                        </StackPanel>
                                     </DataTemplate>
+                                 
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 

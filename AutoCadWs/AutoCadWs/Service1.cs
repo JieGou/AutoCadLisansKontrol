@@ -90,10 +90,10 @@ namespace AutoCadWs
             dbaccess.UpsertCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId ,Name=chck.Name,Ip=chck.Ip});
         }
 
-        public List<CheckLicense> ListCheckLicense()
+        public List<CheckLicense> ListCheckLicense(int id)
         {
 
-            return dbaccess.ListCheckLicense().ConvertAll(chck => new CheckLicense { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip });
+            return dbaccess.ListCheckLicense(id).ConvertAll(chck => new CheckLicense { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip });
         }
         public void DeleteCheckLicense(CheckLicense chck)
         {
