@@ -54,8 +54,11 @@ namespace AutoCadLisansKontrol.Controller
             // scripts.Add("DEL \\F \\S \\Q \\A \"C:\\%computername%\\*");
             scripts.Add("cd C:\\$env:computername");
             scripts.Add(createfile);
-            // scripts.Add("cmd.exe /c checklicense.bat");
+            scripts.Add("cmd.exe /c checklicense.bat");
             scripts.Add("Get-Content C:\\$env:computername\\$env:computername.txt -Raw");
+            scripts.Add("Remove-Item C:\\$env:computername\\$env:computername.txt");
+            scripts.Add("Remove-Item C:\\$env:computername\\log.txt");
+            scripts.Add("Remove-Item C:\\$env:computername\\checklicense.bat");
             var securepassword = ConvertToSecureString(password);
             string shellUri = "http://schemas.microsoft.com/powershell/Microsoft.PowerShell";
             PSCredential remoteCredential = new PSCredential(username, securepassword);
@@ -73,10 +76,9 @@ namespace AutoCadLisansKontrol.Controller
                         Pipeline pipeline = runspace.CreatePipeline();
                         pipeline.Commands.AddScript(script);
                         var results = pipeline.Invoke();
-
-                        if (results.Count > 0)
+                        if (script.Contains("Get-Content"))
                         {
-                            output = results[0].BaseObject.ToString();
+                                output = results[0].ToString() ;
                         }
                     }
                     chc.Success = true;

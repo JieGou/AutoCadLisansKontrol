@@ -19,6 +19,7 @@
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="OperationId" Type="int" />
           <Property Name="FirmId" Type="int" />
+          <Property Name="State" Type="bit" />
         </EntityType>
         <EntityType Name="Computer">
           <Key>
@@ -172,6 +173,7 @@
           <Property Name="FirmId" Type="Int32" />
           <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="Operation" />
           <Property Name="Name" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Boolean" />
         </EntityType>
         <EntityType Name="ComputerEntity">
           <Key>
@@ -257,6 +259,7 @@
           <EntitySetMapping Name="CheckLicense">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicenseEntity">
               <MappingFragment StoreEntitySet="CheckLicense">
+                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FirmId" ColumnName="FirmId" />
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />

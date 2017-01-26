@@ -457,6 +457,9 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         private string OutputField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> StateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<System.DateTime> UpdateDateField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -582,6 +585,19 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
                 if ((object.ReferenceEquals(this.OutputField, value) != true)) {
                     this.OutputField = value;
                     this.RaisePropertyChanged("Output");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> State {
+            get {
+                return this.StateField;
+            }
+            set {
+                if ((this.StateField.Equals(value) != true)) {
+                    this.StateField = value;
+                    this.RaisePropertyChanged("State");
                 }
             }
         }
@@ -738,6 +754,12 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteAllComputerBaseFormid", ReplyAction="http://tempuri.org/IService1/DeleteAllComputerBaseFormidResponse")]
         System.Threading.Tasks.Task DeleteAllComputerBaseFormidAsync(int firmId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationid", ReplyAction="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationidResponse")]
+        void DeleteAllLicenseBaseOperationid(int oprId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationid", ReplyAction="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationidResponse")]
+        System.Threading.Tasks.Task DeleteAllLicenseBaseOperationidAsync(int oprId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -933,6 +955,14 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         
         public System.Threading.Tasks.Task DeleteAllComputerBaseFormidAsync(int firmId) {
             return base.Channel.DeleteAllComputerBaseFormidAsync(firmId);
+        }
+        
+        public void DeleteAllLicenseBaseOperationid(int oprId) {
+            base.Channel.DeleteAllLicenseBaseOperationid(oprId);
+        }
+        
+        public System.Threading.Tasks.Task DeleteAllLicenseBaseOperationidAsync(int oprId) {
+            return base.Channel.DeleteAllLicenseBaseOperationidAsync(oprId);
         }
     }
 }

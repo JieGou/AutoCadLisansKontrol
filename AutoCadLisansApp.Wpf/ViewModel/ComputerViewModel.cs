@@ -15,6 +15,7 @@ using AutoCadLisansKontrol.Controller;
 using System;
 using System.Globalization;
 using MaterialDesignDemo.Model;
+using System.Threading;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -154,6 +155,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                             if (ExecutedComputer == TotalComputer)
                             {
                                 Computers = new ObservableCollection<ComputerModel>(Computers.DistinctBy(p => p.Ip).ToList());
+                                Computers = ComputerDetection.FilterComputer(Computers);
                                 EndNotification("Network searching has finished!!");
                             }
                         });
@@ -196,20 +198,20 @@ namespace MaterialDesignColors.WpfExample.Domain
             try
             {
                 StartNotification();
-
+                var computer = new ObservableCollection<ComputerModel>();
 
                 TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
-                    Computers = new ObservableCollection<ComputerModel>(client.ListComputer(FirmId).ToList().ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type }));
-                    _executedComputer = Computers.Count;
-                    _totalComputer = Computers.Count;
+                    computer = new ObservableCollection<ComputerModel>(client.ListComputer(FirmId).ToList().ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type }));
+                    _executedComputer = computer.Count;
+                    _totalComputer = computer.Count;
                     EndNotification("");
                 });
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>
                 {
-
+                    Computers = computer;
                 });
 
                 var t1 = Task.Factory.StartNew(() => ChildDoInBackground());

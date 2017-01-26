@@ -25,7 +25,7 @@ namespace MaterialDesignDemo.Model
                 }
             }
         }
-        private bool _fail;
+        private bool _fail = false;
         public bool Fail
         {
             get
@@ -42,7 +42,7 @@ namespace MaterialDesignDemo.Model
             }
         }
 
-        private bool _success;
+        private bool _success = false;
         public bool Success
         {
             get

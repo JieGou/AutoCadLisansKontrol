@@ -47,34 +47,40 @@
     <ScrollViewer>
 
         <StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <Button 
-                    Style="{DynamicResource MaterialDesignRaisedButton}"
-                    Margin="16 0 0 0"
-                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
-                    ToolTip="New Firm" Command="{Binding AddItemClicked}" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}">
-                    New Firm
-                </Button>
-                <Button  Style="{DynamicResource MaterialDesignRaisedButton}"
-                    Margin="16 0 0 0"
-                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
-                    ToolTip="Save" Command="{Binding SaveClicked}" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}">
-                    Save
-                </Button>
-                <Button  Style="{DynamicResource MaterialDesignRaisedButton}"
-                    Margin="16 0 0 0"
-                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
-                    ToolTip="Refresh" Command="{Binding RefreshClicked}" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}">
-                    Refresh
-                </Button>
-            </StackPanel>
             <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
                                               x:Name="NotificationSnackbar" >
                 <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
             </materialDesign:Snackbar>
-            <GroupBox Grid.Column="0" Grid.Row="0" Header="Firma Listesi" Margin="16">
-
+            <GroupBox   Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
+                <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" >
+                        <materialDesign:PackIcon Kind="ImageArea" Height="32" Width="32" VerticalAlignment="Center" />
+                        <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Firm List" Foreground="White" FontWeight="Bold"/>
+                    </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" >
+                            <Button 
+                    Style="{DynamicResource MaterialDesignRaisedAccentButton}" HorizontalAlignment="Right"
+                    Margin="8"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
+                    ToolTip="New Firm" Command="{Binding AddItemClicked}" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}" >
+                                New Firm
+                            </Button>
+                            <Button  Style="{DynamicResource MaterialDesignRaisedAccentButton}" HorizontalAlignment="Right" 
+                    Margin="8"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
+                    ToolTip="Save" Command="{Binding SaveClicked}" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}">
+                                Save
+                            </Button>
+                            <Button  Style="{DynamicResource MaterialDesignRaisedAccentButton}" HorizontalAlignment="Right"
+                    Margin="8"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth4"
+                    ToolTip="Refresh" Command="{Binding RefreshClicked}" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}">
+                                Refresh
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox.Header>
 
                 <DataGrid Name="grdfirm" Margin="0 8 0 0" ItemsSource="{Binding Firm,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                       materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
@@ -204,7 +210,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
-         
+
         </StackPanel>
     </ScrollViewer>
 </UserControl>

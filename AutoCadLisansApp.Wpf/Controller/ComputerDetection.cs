@@ -3,6 +3,7 @@ using MaterialDesignDemo.autocad.masterkey.ws;
 using MaterialDesignDemo.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,13 +21,14 @@ namespace AutoCadLisansKontrol.Controller
     public class ComputerDetection
     {
         static object thisLock = new object();
+        private static string localip;
         public static List<ComputerModel> Execute()
         {
             var net = GetComputerFromArpTable();
             var arp = GetComputerFromNetView();
 
             arp.AddRange(net);
-            return arp.ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type,IsProgress=true });
+            return arp.ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type, IsProgress = true });
         }
         private static List<Computer> GetComputerFromNetView()
         {
@@ -88,9 +90,17 @@ namespace AutoCadLisansKontrol.Controller
             string output = p.StandardOutput.ReadToEnd();
 
             List<string> lines = output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Where(x => x != "").ToList();
-            var startpoint = lines.FindIndex(x => x.Contains("Internet Address"));
+
+            var index = lines.FindIndex(x => x.Contains("Internet Address"));
+            lines.RemoveAt(index);
+            index = lines.FindIndex(x => x.Contains("Interface:"));
+            localip = lines[index].Split(' ')[1];
+            lines.RemoveAt(index);
+            index = lines.FindIndex(x => x.Contains("arp -a"));
+            lines.RemoveAt(index);
+
             List<Computer> networkmachine = new List<Computer>();
-            for (int i = startpoint + 1; i < lines.Count; i++)
+            for (int i = 1; i < lines.Count; i++)
             {
                 var compline = lines[i].Split(' ').Where(x => x != "").ToList();
 
@@ -181,7 +191,7 @@ namespace AutoCadLisansKontrol.Controller
             }
             return new IPAddress(broadcastAddress);
         }
-        private static IPAddress GetDefaultGateway()
+        private static IPAddress GetNetworkAddress()
         {
 
             foreach (NetworkInterface f in NetworkInterface.GetAllNetworkInterfaces())
@@ -221,7 +231,7 @@ namespace AutoCadLisansKontrol.Controller
             {
                 if (comp.Type == "ArpTable")
                 {
-                    comp.Name = GetMachineNameFromIPAddress(comp.Ip);
+                    comp.Name =GetMachineNameFromIPAddress(comp.Ip);
                     comp.IsVisible = PingHost(comp.Ip);
                 }
                 else if (comp.Type == "NetView")
@@ -262,6 +272,30 @@ namespace AutoCadLisansKontrol.Controller
                 // Discard PingExceptions and return false;
             }
             return pingable;
+        }
+
+        public static ObservableCollection<ComputerModel> FilterComputer(ObservableCollection<ComputerModel> comps)
+        {
+            var tempcomp = new List<ComputerModel>(comps);
+            var filter1 = GetNetworkAddress();
+            var filter2 = GetSubnetMask(28);
+            var filter3 = GetBroadcastAddress(System.Net.IPAddress.Parse(localip), System.Net.IPAddress.Parse(filter2));
+
+            var index = tempcomp.FindIndex(x => x.Ip.Contains(filter1.ToString()));
+            if(index!=-1)tempcomp.RemoveAt(index);
+             index = tempcomp.FindIndex(x => x.Ip.Contains(filter2.ToString()));
+            if (index != -1) tempcomp.RemoveAt(index);
+             index = tempcomp.FindIndex(x => x.Ip.Contains(filter3.ToString()));
+            if (index != -1) tempcomp.RemoveAt(index);
+             index = tempcomp.FindIndex(x => x.Ip.StartsWith("255.".ToString()));
+            if (index != -1) tempcomp.RemoveAt(index);
+             index = tempcomp.FindIndex(x => x.Ip.StartsWith("240.".ToString()));
+            if (index != -1) tempcomp.RemoveAt(index);
+             index = tempcomp.FindIndex(x => x.Ip.StartsWith("224.".ToString()));
+            if (index != -1) tempcomp.RemoveAt(index);
+             index = tempcomp.FindIndex(x => x.Ip.StartsWith("239.".ToString()));
+            if (index != -1) tempcomp.RemoveAt(index);
+            return new ObservableCollection<ComputerModel>(tempcomp);
         }
     }
 }

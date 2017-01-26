@@ -41,105 +41,140 @@
                 <Setter Property="Margin" Value="4 0 4 0" />
             </Style>
 
+            <DropShadowEffect x:Key="z-depth4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <ScrollViewer>
 
-        <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Background="#EEEEEE" Width="100">
+                <Border Effect="{StaticResource z-depth4}"  Background="White"  >
+                    <materialDesign:Card Background="#adadad"
+                  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                 >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Margin="16 16 16 4" Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding SelectedFirm.Name}">
+                            </TextBlock>
+                            <Separator Grid.Row="1" Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                            <TextBlock Grid.Row="2" Margin="16 0 16 8" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Operation.Name}"></TextBlock>
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="16 0 16 8" HorizontalAlignment="Right">
+                                <Button HorizontalAlignment="Right" Style="{StaticResource MaterialDesignToolForegroundButton}" Width="30" Padding="2 0 2 0"
+                            materialDesign:RippleAssist.IsCentered="True">
+                                    <materialDesign:PackIcon Kind="AccountKey" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </Border>
+            </StackPanel>
             <StackPanel>
-                <materialDesign:Chip Content="{Binding SelectedFirm.Name,Mode=TwoWay}"  Click="Chip_Click"
+                <StackPanel>
+                    <materialDesign:Chip Content="{Binding SelectedFirm.Name,Mode=TwoWay}"  Click="Chip_Click"
                              Icon="F" 
-                             Margin="0 0 4 4" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="134"
-                     Command="{Binding AddItemClicked}">
-                    New Operation
-                </Button>
-                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
-                     Command="{Binding SaveClicked}">
-                    Save
-                </Button>
-                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="0 0 8 0" Width="100"
-                     Command="{Binding RefreshClicked}">
-                    Refresh
-                </Button>
-            </StackPanel>
-            <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
-                                              x:Name="NotificationSnackbar" >
-                <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
-            </materialDesign:Snackbar>
-            <GroupBox Grid.Column="0" Grid.Row="0" Header="Operasyon Listesi" Margin="16">
+                             Margin="16" />
+                </StackPanel>
 
-                
-                <DataGrid  Margin="0 8 0 0" Name="grdOperation" ItemsSource="{Binding Operation,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
+                <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
+                                              x:Name="NotificationSnackbar" >
+                    <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
+                </materialDesign:Snackbar>
+                <GroupBox   Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ImageArea" Height="32" Width="32" VerticalAlignment="Center" />
+                            <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Operation List" FontWeight="Bold" Foreground="White"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="134"
+                     Command="{Binding AddItemClicked}">
+                                    New Operation
+                                </Button>
+                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="100"
+                     Command="{Binding SaveClicked}">
+                                    Save
+                                </Button>
+                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="100"
+                     Command="{Binding RefreshClicked}">
+                                    Refresh
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </GroupBox.Header>
+
+                    <DataGrid  Margin="0 8 0 0" Name="grdOperation" ItemsSource="{Binding Operation,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                       materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
-                    <DataGrid.Columns>
-                        <materialDesign:MaterialDataGridTextColumn Binding="{Binding Id,Mode=TwoWay}" 
+                        <DataGrid.Columns>
+                            <materialDesign:MaterialDataGridTextColumn Binding="{Binding Id,Mode=TwoWay}" 
                                             Header="Id"
                                  EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                             >
 
-                        </materialDesign:MaterialDataGridTextColumn>
-                        <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
-                       
-                        <DataGridTemplateColumn  Header="Name" Width="125">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Grid.Row="1" Grid.Column="1" 
+                            </materialDesign:MaterialDataGridTextColumn>
+                            <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
+
+                            <DataGridTemplateColumn  Header="Name" Width="125">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Grid.Row="1" Grid.Column="1" 
 				    x:Name="NameTextBox"
 				    materialDesign:HintAssist.Hint="Name">
-                                        <TextBox.Text>
-                                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
-                                                <Binding.ValidationRules>
-                                                    <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                                </Binding.ValidationRules>
-                                            </Binding>
-                                        </TextBox.Text>
-                                    </TextBox>
+                                            <TextBox.Text>
+                                                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
 
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
-                        <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
-                        <materialDesign:MaterialDataGridTextColumn Header="Firm"        
+                            <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
+                            <materialDesign:MaterialDataGridTextColumn Header="Firm"        
                                                                    Binding="{Binding Firm.Name}"
                                                                    IsReadOnly="True"
                                                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                         />
 
-                        <DataGridTemplateColumn Header="CheckLicense">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
+                            <DataGridTemplateColumn Header="CheckLicense">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
 
-                                    <Button Click="CheckLicenseButton_Click" CommandParameter="{Binding Id}" 
+                                        <Button Click="CheckLicenseButton_Click" CommandParameter="{Binding Id}" 
                                                     Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" Width="70" ToolTip="Resource name: MaterialDesignRaisedButton">
-                                                              Run
-                                             </Button>
-                                 
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                                            Run
+                                        </Button>
+
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
 
-                        <DataGridTemplateColumn >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Click="DeleteButton_Click"  CommandParameter="{Binding Id}"
+                            <DataGridTemplateColumn >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="DeleteButton_Click"  CommandParameter="{Binding Id}"
                                                     Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" ToolTip="Sil">
-                                        <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
-                                    </Button>
+                                            <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
+                                        </Button>
 
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
 
-                    </DataGrid.Columns>
-                </DataGrid>
-            </GroupBox>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

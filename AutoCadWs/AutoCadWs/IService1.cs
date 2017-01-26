@@ -55,8 +55,8 @@ namespace AutoCadWs
         void UpdateCheckLicense(CheckLicense oprdetail);
         [OperationContract]
         void DeleteAllComputerBaseFormid(int firmId);
-
-
+        [OperationContract]
+        void DeleteAllLicenseBaseOperationid(int oprId);
 
         // TODO: Add your service operations here
     }

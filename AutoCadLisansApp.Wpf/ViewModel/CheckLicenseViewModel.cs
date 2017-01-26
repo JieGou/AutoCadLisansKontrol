@@ -88,14 +88,21 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
-        public MaterialDesignDemo.autocad.masterkey.ws.Firm Firm
+        public MaterialDesignDemo.autocad.masterkey.ws.Operation Operation
         {
             get
             {
                 if (OprId == 0) return null;
 
-                var opr = client.GetOperation(OprId);
-                return client.GetFirm(opr.FirmId);
+                return client.GetOperation(OprId);
+            }
+        }
+        public MaterialDesignDemo.autocad.masterkey.ws.Firm Firm
+        {
+            get
+            {
+                if (OprId == 0) return null;
+                return client.GetFirm(FirmId);
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -198,14 +205,15 @@ namespace MaterialDesignColors.WpfExample.Domain
             try
             {
                 TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                var checklicense = new ObservableCollection<CheckLicenseModel>();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
-                    CheckLicenses= new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x=>new CheckLicenseModel {CheckDate=x.CheckDate,ComputerId=x.ComputerId,FirmId=x.FirmId,Id=x.Id,Ip=x.Ip,IsUnlicensed=x.IsUnlicensed,Name=x.Name,OperationId=x.OperationId,Output=x.Output,UpdateDate=x.UpdateDate }));
+                    checklicense = new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x => new CheckLicenseModel { CheckDate = x.CheckDate, ComputerId = x.ComputerId, FirmId = x.FirmId, Id = x.Id, Ip = x.Ip, IsUnlicensed = x.IsUnlicensed, Name = x.Name, OperationId = x.OperationId, Output = x.Output, UpdateDate = x.UpdateDate, State = x.State, Success = (x.State == true ? true : false), Fail = (x.State == false ? true : false) }));
                 });
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>
                 {
-
+                    CheckLicenses = checklicense;
                 });
 
 
@@ -232,6 +240,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                 TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
+
+                    //client.DeleteAllLicenseBaseOperationid(OprId);
                     foreach (var item in CheckLicenses)
                     {
                         counter--;
@@ -246,7 +256,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                             Name = item.Name,
                             OperationId = item.OperationId,
                             Output = item.Output,
-                            UpdateDate = System.DateTime.Now
+                            UpdateDate = System.DateTime.Now,
+                            State=item.State
                         });
 
                         if (counter == 0)

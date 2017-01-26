@@ -58,7 +58,7 @@
                 <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}"
                         Margin="0 0 8 0" HorizontalAlignment="Left"
                         ToolTip="MaterialDesignFloatingActionLightButton">
-                    <materialDesign:PackIcon Kind="Alarm" Height="24" Width="24" />
+                    <!--<materialDesign:PackIcon Kind="Alarm" Height="24" Width="24" />-->
                 </Button>
                 <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
                         Margin="0 0 8 0" HorizontalAlignment="Left"

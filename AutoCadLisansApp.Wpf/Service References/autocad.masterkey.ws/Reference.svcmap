@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="c674e761-7a34-4b87-8677-6a84440a4495" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" />
-    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="121ec512-fc8a-41bc-9e6d-d5c8020a6abe" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" />
-    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="6a0d52db-cd50-4114-bcf2-d157eb663987" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" />
-    <MetadataFile FileName="AutoCadWs1.xsd" MetadataType="Schema" ID="84d7edef-70c9-4df3-b5ef-c2f662c3b92d" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AutoCadWs/Service1/mex/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="6ec90376-a843-48f3-8915-a810619cd28b" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="4b1cc91c-f3b3-40db-8b9b-648769a1a1a6" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="1b128f35-7181-4139-ad1c-cb926bf87cbb" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" />
+    <MetadataFile FileName="AutoCadWs1.xsd" MetadataType="Schema" ID="b9a6fe84-4fd8-481d-83d7-80af49668ea4" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

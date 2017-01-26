@@ -114,5 +114,10 @@ namespace MaterialDesignDemo
             var userviewmodel = (FirmViewModel)this.DataContext;
             userviewmodel.NotificationIsVisible = false;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -184,6 +184,9 @@ namespace AutoCadLisansKontrol.DAL
         {
             return dbaccess.Computer.Where(x => x.FirmId == firmId).ToList();
         }
+
+       
+
         public void DeleteComputer(int id)
         {
             try
@@ -387,6 +390,33 @@ namespace AutoCadLisansKontrol.DAL
                 mssqldbaccess.ExecuteNonQuery("SP_DELETE_COMPUTER", new List<System.Data.SqlClient.SqlParameter> {
 
                     new System.Data.SqlClient.SqlParameter("@FIRMID",firmId)
+                });
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException != null)
+                {
+
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        throw new Exception(ex.InnerException.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(ex.InnerException.Message);
+                    }
+                }
+                else
+                    throw new Exception(ex.Message);
+            }
+        }
+        public void DeleteAllLicenseBaseOperationid(int oprId)
+        {
+            try
+            {
+                mssqldbaccess.ExecuteNonQuery("SP_DELETE_LICENSE", new List<System.Data.SqlClient.SqlParameter> {
+
+                    new System.Data.SqlClient.SqlParameter("@OPRID",oprId)
                 });
             }
             catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
