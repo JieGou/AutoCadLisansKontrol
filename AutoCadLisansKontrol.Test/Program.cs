@@ -15,9 +15,13 @@ namespace AutoCadLisansKontrol.Test
     {
         static void Main(string[] args)
         {
-            ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
-            info.FileName = @"C:\PSTools\psexec.exe";
-            info.Arguments = @"-c -f @c:\users\hikmet\desktop\client.txt -u CHINA\gwx368284 -p gg8544752* c:\users\hikmet\desktop\checklicense.bat";
+            var scripts = new List<string>();
+            scripts.Add(@"-c -f hikmetyarbasi -u adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat");
+           
+
+            ProcessStartInfo info = new ProcessStartInfo(@"C:\Aygaz\PSTools");
+            info.FileName = @"C:\Aygaz\PSTools\psexec.exe";
+            info.Arguments = @"-c -f hikmetyarbasi -u adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat";
             info.RedirectStandardOutput = true;
             info.UseShellExecute = false;
             info.Verb = "runas";
