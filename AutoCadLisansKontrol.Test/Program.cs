@@ -15,38 +15,67 @@ namespace AutoCadLisansKontrol.Test
     {
         static void Main(string[] args)
         {
-            var scripts = new List<string>();
-            var FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
-            var command = System.IO.File.ReadAllText(FileName);
-            
+            ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
+            info.FileName = @"C:\PSTools\psexec.exe";
+            info.Arguments = @"-c -f @c:\users\hikmet\desktop\client.txt -u CHINA\gwx368284 -p gg8544752* c:\users\hikmet\desktop\checklicense.bat";
+            info.RedirectStandardOutput = true;
+            info.UseShellExecute = false;
+            info.Verb = "runas";
+            Process p = Process.Start(info);
 
-            var createfile = "$s=\" " + command + "\"\n" + 
-                             //"$s >> \".\\checklicense.bat\" -Encoding \"UTF8\""+
-            "out-file -filepath \".\\checklicense.bat\" -inputobject $s -encoding UTF8";
-            
-            scripts.Add("New-Item -Force -ItemType directory -Path C:\\$env:computername");
-           // scripts.Add("DEL \\F \\S \\Q \\A \"C:\\%computername%\\*");
-            scripts.Add("cd C:\\$env:computername");
-            scripts.Add(createfile);
-           // scripts.Add("cmd.exe /c checklicense.bat");
-            scripts.Add("Get-Content C:\\$env:computername\\$env:computername.txt -Raw");
-            var username = "adminciler";
-            var password = ConvertToSecureString("ciler471");
-            string shellUri = "http://schemas.microsoft.com/powershell/Microsoft.PowerShell";
-            PSCredential remoteCredential = new PSCredential(username, password);
-            WSManConnectionInfo connectionInfo = new WSManConnectionInfo(false, "CILERTURKMEN", 5985, "/wsman", shellUri, remoteCredential);
-            
 
-            using (Runspace runspace = RunspaceFactory.CreateRunspace(connectionInfo))
-            {
-                runspace.Open();
-                foreach (var script in scripts)
-                {
-                    Pipeline pipeline = runspace.CreatePipeline();
-                    pipeline.Commands.AddScript(script);
-                    var results = pipeline.Invoke();
-                }
-            }
+            string output = p.StandardOutput.ReadToEnd();
+
+            p.WaitForExit();
+
+        }
+        private static SecureString ConvertToSecureString(string password)
+        {
+            if (password == null)
+                throw new ArgumentNullException("password");
+
+            var securePassword = new SecureString();
+
+            foreach (char c in password)
+                securePassword.AppendChar(c);
+
+            securePassword.MakeReadOnly();
+            return securePassword;
+        }
+        public void powershellscript() {
+
+            //var scripts = new List<string>();
+            //var FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
+            //var command = System.IO.File.ReadAllText(FileName);
+
+
+            //var createfile = "$s=\" " + command + "\"\n" +
+            ////"$s >> \".\\checklicense.bat\" -Encoding \"UTF8\""+
+            //"out-file -filepath \".\\checklicense.bat\" -inputobject $s -encoding UTF8";
+
+            //scripts.Add("New-Item -Force -ItemType directory -Path C:\\$env:computername");
+            //// scripts.Add("DEL \\F \\S \\Q \\A \"C:\\%computername%\\*");
+            //scripts.Add("cd C:\\$env:computername");
+            //scripts.Add(createfile);
+            //// scripts.Add("cmd.exe /c checklicense.bat");
+            //scripts.Add("Get-Content C:\\$env:computername\\$env:computername.txt -Raw");
+            //var username = "adminciler";
+            //var password = ConvertToSecureString("ciler471");
+            //string shellUri = "http://schemas.microsoft.com/powershell/Microsoft.PowerShell";
+            //PSCredential remoteCredential = new PSCredential(username, password);
+            //WSManConnectionInfo connectionInfo = new WSManConnectionInfo(false, "CILERTURKMEN", 5985, "/wsman", shellUri, remoteCredential);
+
+
+            //using (Runspace runspace = RunspaceFactory.CreateRunspace(connectionInfo))
+            //{
+            //    runspace.Open();
+            //    foreach (var script in scripts)
+            //    {
+            //        Pipeline pipeline = runspace.CreatePipeline();
+            //        pipeline.Commands.AddScript(script);
+            //        var results = pipeline.Invoke();
+            //    }
+            //}
 
             //ProcessStartInfo psi = new ProcessStartInfo(@"C:\Windows\System32\WindowsPowerShell\v1.0\");
             //psi.FileName = @"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe";
@@ -65,20 +94,6 @@ namespace AutoCadLisansKontrol.Test
             //string output = process.StandardOutput.ReadToEnd();
             //process.WaitForExit();
 
-
-        }
-        private static SecureString ConvertToSecureString(string password)
-        {
-            if (password == null)
-                throw new ArgumentNullException("password");
-
-            var securePassword = new SecureString();
-
-            foreach (char c in password)
-                securePassword.AppendChar(c);
-
-            securePassword.MakeReadOnly();
-            return securePassword;
         }
     }
 }

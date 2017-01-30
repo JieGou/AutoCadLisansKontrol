@@ -19,13 +19,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using static System.Net.Mime.MediaTypeNames;
+using System.Management;
 
 namespace AutoCadLisansKontrol.Controller
 {
     public class LicenseDetection
     {
 
-        public static CheckLicenseModel Execute(CheckLicenseModel chc, string username, string password, int opreationid)
+        public static CheckLicenseModel ExecutePowerShell(CheckLicenseModel chc, string username, string password, int opreationid)
         {
             //Environment.SetEnvironmentVariable("clientname", chc.Ip);
             //Environment.SetEnvironmentVariable("username", username);
@@ -78,7 +79,7 @@ namespace AutoCadLisansKontrol.Controller
                         var results = pipeline.Invoke();
                         if (script.Contains("Get-Content"))
                         {
-                                output = results[0].ToString() ;
+                            output = results[0].ToString();
                         }
                     }
                     chc.Success = true;
@@ -109,6 +110,66 @@ namespace AutoCadLisansKontrol.Controller
 
             securePassword.MakeReadOnly();
             return securePassword;
+        }
+        public static CheckLicenseModel ExecutePsexec(CheckLicenseModel chc, string username, string password, int opreationid)
+        {
+            ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
+            info.FileName = @"C:\Users\hikmet\Desktop\PSTools\psexec.exe";
+            info.Arguments = @"-c -f @c:\users\hikmet\desktop\client.txt -u admin -p select c:\users\hikmet\desktop\checklicense.bat";
+            info.RedirectStandardOutput = false;
+            info.UseShellExecute = true;
+            info.Verb = "runas";
+            Process p = Process.Start(info);
+            
+            
+            string output = p.StandardOutput.ReadToEnd();
+            
+            p.WaitForExit();
+
+
+            return chc;
+        }
+
+        public static CheckLicenseModel ExecuteWMI(CheckLicenseModel chc, string username, string password, int opreationid)
+        {
+            var sBatFile = "";
+            if (chc.Name != string.Empty)
+                sBatFile = @"\\" + chc.Name + "\\admin$\\process.bat";
+            else
+                Console.WriteLine("Invalid Machine name");
+
+            if (File.Exists(sBatFile))
+                File.Delete(sBatFile);
+            StreamWriter sw = new StreamWriter(sBatFile);
+            string _cmd = "DIR > <a>\\\\</a>" + chc.Name + "\\admin$\\output.txt";
+            Console.Write("Enter the remote Command < eg : Notepad.exe, Dir, Shutdown - r, etc..> : ");
+            _cmd = Console.ReadLine();
+            if (_cmd.Trim() == string.Empty)
+                Console.WriteLine("No command entered using default command for test :" + _cmd);
+
+            sw.WriteLine(_cmd);
+            sw.Close();
+
+            //
+            //WMI section
+            //    
+            ConnectionOptions connOptions = new ConnectionOptions();
+            connOptions.Impersonation = ImpersonationLevel.Impersonate;
+            connOptions.EnablePrivileges = true;
+            tScope manScope = new ManagementScope
+                (String.Format(@"\\{0}\ROOT\CIMV2", remoteMachine), connOptions);
+            manScope.Connect();
+            ObjectGetOptions objectGetOptions = new ObjectGetOptions();
+            ManagementPath managementPath = new ManagementPath("Win32_Process");
+            ManagementClass processClass = new ManagementClass(manScope, managementPath, objectGetOptions);
+            ManagementBaseObject inParams = processClass.GetMethodParameters("Create");
+            inParams["CommandLine"] = sBatFile;
+            ManagementBaseObject outParams = processClass.InvokeMethod("Create", inParams, null);
+            Console.WriteLine("Creation of the process returned: " + outParams["returnValue"]);
+            Console.WriteLine("Process ID: " + outParams["processId"]);
+
+
+            return chc;
         }
     }
 }
