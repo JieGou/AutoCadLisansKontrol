@@ -16,21 +16,24 @@ namespace AutoCadLisansKontrol.Test
         static void Main(string[] args)
         {
             var scripts = new List<string>();
-            scripts.Add(@"-c -f hikmetyarbasi -u adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat");
-           
+            scripts.Add(@"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat");
 
-            ProcessStartInfo info = new ProcessStartInfo(@"C:\Aygaz\PSTools");
-            info.FileName = @"C:\Aygaz\PSTools\psexec.exe";
-            info.Arguments = @"-c -f hikmetyarbasi -u adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat";
+
+            ProcessStartInfo info = new ProcessStartInfo(@"C:\PSTools");
+            info.FileName = @"C:\PSTools\psexec.exe";
+            info.Arguments = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat";
             info.RedirectStandardOutput = true;
+    //        info.RedirectStandardError = true;
+//            info.CreateNoWindow = false;
             info.UseShellExecute = false;
             info.Verb = "runas";
             Process p = Process.Start(info);
 
-
-            string output = p.StandardOutput.ReadToEnd();
-
             p.WaitForExit();
+            var output1 = p.StandardError.ReadToEnd();
+            //p.WaitForExit();
+            //var output2 = p.StandardOutput.ReadToEnd();
+            //p.WaitForExit();
 
         }
         private static SecureString ConvertToSecureString(string password)
@@ -46,7 +49,8 @@ namespace AutoCadLisansKontrol.Test
             securePassword.MakeReadOnly();
             return securePassword;
         }
-        public void powershellscript() {
+        public void powershellscript()
+        {
 
             //var scripts = new List<string>();
             //var FileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
