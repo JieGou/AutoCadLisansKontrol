@@ -16,21 +16,30 @@ namespace AutoCadLisansKontrol.Test
         static void Main(string[] args)
         {
             var scripts = new List<string>();
-            scripts.Add(@"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat");
+            
+
+            var ciler = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat";
+            var hikmet = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat";
+            var readcontent = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\readlicense.bat";
+
+            scripts.Add(hikmet);
 
 
-            ProcessStartInfo info = new ProcessStartInfo(@"C:\PSTools");
-            info.FileName = @"C:\PSTools\psexec.exe";
-            info.Arguments = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat";
+            ProcessStartInfo info = new ProcessStartInfo(@"C:\Aygaz\PSTools");
+            info.FileName = @"C:\Aygaz\PSTools\psexec.exe";
+            info.Arguments = hikmet;
             info.RedirectStandardOutput = true;
-    //        info.RedirectStandardError = true;
-//            info.CreateNoWindow = false;
+            //         info.RedirectStandardError = true;
+            //info.CreateNoWindow = false;
+            info.ErrorDialog = true;
             info.UseShellExecute = false;
+            info.WindowStyle = ProcessWindowStyle.Minimized;
             info.Verb = "runas";
             Process p = Process.Start(info);
-
             p.WaitForExit();
-            var output1 = p.StandardError.ReadToEnd();
+
+            var output1 = p.StandardOutput.ReadToEnd();
+            
             //p.WaitForExit();
             //var output2 = p.StandardOutput.ReadToEnd();
             //p.WaitForExit();
