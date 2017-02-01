@@ -59,5 +59,23 @@ namespace MaterialDesignDemo.Model
             }
         }
 
+        private string _error="";
+        public string Error
+        {
+            get
+            {
+                return this._error;
+            }
+            set
+            {
+                if ((this._error.Equals(value) != true))
+                {
+                    this._error = value;
+                    this.RaisePropertyChanged("Error");
+                }
+            }
+        }
+
+
     }
 }

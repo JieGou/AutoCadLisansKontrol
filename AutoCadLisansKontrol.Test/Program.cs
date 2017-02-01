@@ -21,12 +21,12 @@ namespace AutoCadLisansKontrol.Test
             
 
             var ciler = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat";
-            var hikmet = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 -accepteula C:\Users\hikmet.yarbasi\Desktop\checklicense.bat 2>C:\Users\hikmet.yarbasi\Desktop\output.txt";
+            var hikmet = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat ";
             var readcontent = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67  C:\Users\hikmet.yarbasi\Desktop\readlicense.bat 2>C:\Users\hikmet.yarbasi\Desktop\output.txt";
-            var readcontent2 = @"psexec \\<hikmetyarbasi> cmd /c  ""type C\%computername%\%computername%.txt""";
-            //scripts.Add(hikmet);
-            scripts.Add(readcontent);
-            var filename = @"C:\Aygaz\PSTools\psexec.exe";
+            var readcontent2 = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\readlicense.bat";
+            scripts.Add(ciler);
+            scripts.Add(readcontent2);
+            var filename = @"C:\PSTools\psexec.exe";
             string errorcontent = "";
             string outputcontent = "";
             foreach (var script in scripts)

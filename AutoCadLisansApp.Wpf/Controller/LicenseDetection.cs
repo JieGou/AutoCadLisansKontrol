@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using static System.Net.Mime.MediaTypeNames;
 using System.Management;
+using MaterialDesignDemo.Controller;
 
 namespace AutoCadLisansKontrol.Controller
 {
@@ -113,63 +114,102 @@ namespace AutoCadLisansKontrol.Controller
         }
         public static CheckLicenseModel ExecutePsexec(CheckLicenseModel chc, string username, string password, int opreationid)
         {
-            ProcessStartInfo info = new ProcessStartInfo("C:\\PsTools");
-            info.FileName = @"C:\Users\hikmet\Desktop\PSTools\psexec.exe";
-            info.Arguments = @"-c -f @c:\users\hikmet\desktop\client.txt -u admin -p select c:\users\hikmet\desktop\checklicense.bat";
-            info.RedirectStandardOutput = false;
-            info.UseShellExecute = true;
-            info.Verb = "runas";
-            Process p = Process.Start(info);
-            
-            
-            string output = p.StandardOutput.ReadToEnd();
-            
-            p.WaitForExit();
+            var timeout = 1000*60;
+            var scripts = new List<RemoteCommand>();
 
 
+            var ciler = @"-c -f  \\cilerturkmen -u adminciler -p ciler471 cmd.exe /c  ""C:\Users\hikmet\Desktop\checklicense.bat""";
+            var hikmet = @"-c -f  \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat ";
+            var readcontent = @"-c -f  \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67  C:\Users\hikmet.yarbasi\Desktop\readlicense.bat 2>C:\Users\hikmet.yarbasi\Desktop\output.txt";
+            var readcontent2 = @"-c -f  \\cilerturkmen -u adminciler -p ciler471  cmd.exe /c  ""C:\Users\hikmet\Desktop\readlicense.bat""";
+            scripts.Add(new RemoteCommand { command= ciler ,timeout=1000*40});
+            scripts.Add(new RemoteCommand { command=readcontent2,timeout=1000*10});
+            var filename = @"C:\PSTools\psexec.exe";
+            StringBuilder output = new StringBuilder();
+            StringBuilder error = new StringBuilder();
+
+            try
+            {
+                foreach (var script in scripts)
+                {
+                    using (Process process = new Process())
+                    {
+                        process.StartInfo.FileName = filename;
+                        process.StartInfo.Arguments = script.command;
+                        process.StartInfo.UseShellExecute = false;
+                        process.StartInfo.RedirectStandardOutput = true;
+                        process.StartInfo.RedirectStandardError = true;
+                        process.StartInfo.Verb = "runas";
+                        
+
+                        using (AutoResetEvent outputWaitHandle = new AutoResetEvent(false))
+                        using (AutoResetEvent errorWaitHandle = new AutoResetEvent(false))
+                        {
+                            process.OutputDataReceived += (sender, e) =>
+                            {
+                                if (e.Data != null)
+                                {
+                                    output.AppendLine(e.Data);
+                                }
+                            };
+                            process.ErrorDataReceived += (sender, e) =>
+                            {
+                                if (e.Data != null)
+                                {
+                                    error.AppendLine(e.Data);
+                                }
+                            };
+
+                            process.Start();
+
+                            process.BeginOutputReadLine();
+                            process.BeginErrorReadLine();
+
+                            //if (process.WaitForExit(script.timeout) &&
+                            //    outputWaitHandle.WaitOne(script.timeout) &&
+                            //    errorWaitHandle.WaitOne(script.timeout))
+                            //{
+                            //    outputcontent += output.ToString();
+
+                            //}
+                            //else
+                            //{
+                            //    errorcontent += error.ToString();
+                            //}
+                        }
+                    }
+                }
+                chc.Success = true;
+            }
+            catch (Exception ex)
+            {
+                output.Append(ex.Message);
+                chc.Fail = true;
+            }
+            chc.Error = error.ToString();
+            chc.Output = output.ToString();
             return chc;
         }
 
         public static CheckLicenseModel ExecuteWMI(CheckLicenseModel chc, string username, string password, int opreationid)
         {
-            var sBatFile = "";
-            if (chc.Name != string.Empty)
-                sBatFile = @"\\" + chc.Name + "\\admin$\\process.bat";
-            else
-                Console.WriteLine("Invalid Machine name");
-
-            if (File.Exists(sBatFile))
-                File.Delete(sBatFile);
-            StreamWriter sw = new StreamWriter(sBatFile);
-            string _cmd = "DIR > <a>\\\\</a>" + chc.Name + "\\admin$\\output.txt";
-            Console.Write("Enter the remote Command < eg : Notepad.exe, Dir, Shutdown - r, etc..> : ");
-            _cmd = Console.ReadLine();
-            if (_cmd.Trim() == string.Empty)
-                Console.WriteLine("No command entered using default command for test :" + _cmd);
-
-            sw.WriteLine(_cmd);
-            sw.Close();
-
-            //
-            //WMI section
-            //    
-            ConnectionOptions connOptions = new ConnectionOptions();
-            connOptions.Impersonation = ImpersonationLevel.Impersonate;
-            connOptions.EnablePrivileges = true;
-            tScope manScope = new ManagementScope
-                (String.Format(@"\\{0}\ROOT\CIMV2", remoteMachine), connOptions);
-            manScope.Connect();
-            ObjectGetOptions objectGetOptions = new ObjectGetOptions();
-            ManagementPath managementPath = new ManagementPath("Win32_Process");
-            ManagementClass processClass = new ManagementClass(manScope, managementPath, objectGetOptions);
-            ManagementBaseObject inParams = processClass.GetMethodParameters("Create");
-            inParams["CommandLine"] = sBatFile;
-            ManagementBaseObject outParams = processClass.InvokeMethod("Create", inParams, null);
-            Console.WriteLine("Creation of the process returned: " + outParams["returnValue"]);
-            Console.WriteLine("Process ID: " + outParams["processId"]);
-
-
+            var sBatFile = @"C:\Users\hikmet\Desktop\checklicense.bat";
+            try
+            {
+                ProcessWMI process = new ProcessWMI();
+                process.ExecuteRemoteProcessWMI(chc.Name, username, password, sBatFile, 1000);
+            }
+            catch (Exception ex)
+            {
+                chc.Output = ex.Message;
+            }
+        
             return chc;
+        }
+
+        internal class RemoteCommand {
+            public string command { get; set; }
+            public int timeout { get; set; }
         }
     }
 }

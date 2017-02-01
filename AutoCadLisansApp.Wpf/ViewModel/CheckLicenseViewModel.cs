@@ -17,6 +17,7 @@ using MaterialDesignDemo;
 using MaterialDesignDemo.Model;
 using Microsoft.Win32;
 using System.IO;
+using MaterialDesignDemo.Controller;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -153,8 +154,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
 
-                            tempchc = LicenseDetection.Execute(chc, UserName, Password, OprId);
-
+                            tempchc = LicenseDetection.ExecuteWMI(chc, UserName, Password, OprId);
+                            
                         });
 
                         System.Action ChildDoOnUiThread = new System.Action(() =>
