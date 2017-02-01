@@ -7,6 +7,7 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Security;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AutoCadLisansKontrol.Test
@@ -15,35 +16,78 @@ namespace AutoCadLisansKontrol.Test
     {
         static void Main(string[] args)
         {
+            var timeout = 1000*60;
             var scripts = new List<string>();
             
 
             var ciler = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat";
-            var hikmet = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat";
-            var readcontent = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\readlicense.bat";
+            var hikmet = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 -accepteula C:\Users\hikmet.yarbasi\Desktop\checklicense.bat 2>C:\Users\hikmet.yarbasi\Desktop\output.txt";
+            var readcontent = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67  C:\Users\hikmet.yarbasi\Desktop\readlicense.bat 2>C:\Users\hikmet.yarbasi\Desktop\output.txt";
+            var readcontent2 = @"psexec \\<hikmetyarbasi> cmd /c  ""type C\%computername%\%computername%.txt""";
+            //scripts.Add(hikmet);
+            scripts.Add(readcontent);
+            var filename = @"C:\Aygaz\PSTools\psexec.exe";
+            string errorcontent = "";
+            string outputcontent = "";
+            foreach (var script in scripts)
+            {
+                using (Process process = new Process())
+                {
+                    process.StartInfo.FileName = filename;
+                    process.StartInfo.Arguments = script;
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.RedirectStandardError = true;
+                    process.StartInfo.Verb = "runas";
+                    StringBuilder output = new StringBuilder();
+                    StringBuilder error = new StringBuilder();
+                    
+                    using (AutoResetEvent outputWaitHandle = new AutoResetEvent(false))
+                    using (AutoResetEvent errorWaitHandle = new AutoResetEvent(false))
+                    {
+                        process.OutputDataReceived += (sender, e) =>
+                        {
+                            if (e.Data == null)
+                            {
+                                outputWaitHandle.Set();
+                            }
+                            else
+                            {
+                                output.AppendLine(e.Data);
+                            }
+                        };
+                        process.ErrorDataReceived += (sender, e) =>
+                        {
+                            if (e.Data == null)
+                            {
+                                errorWaitHandle.Set();
+                            }
+                            else
+                            {
+                                error.AppendLine(e.Data);
+                            }
+                        };
 
-            scripts.Add(hikmet);
+                        process.Start();
 
+                        process.BeginOutputReadLine();
+                        process.BeginErrorReadLine();
 
-            ProcessStartInfo info = new ProcessStartInfo(@"C:\Aygaz\PSTools");
-            info.FileName = @"C:\Aygaz\PSTools\psexec.exe";
-            info.Arguments = hikmet;
-            info.RedirectStandardOutput = true;
-            //         info.RedirectStandardError = true;
-            //info.CreateNoWindow = false;
-            info.ErrorDialog = true;
-            info.UseShellExecute = false;
-            info.WindowStyle = ProcessWindowStyle.Minimized;
-            info.Verb = "runas";
-            Process p = Process.Start(info);
-            p.WaitForExit();
+                        if (process.WaitForExit(timeout) &&
+                            outputWaitHandle.WaitOne(timeout) &&
+                            errorWaitHandle.WaitOne(timeout))
+                        {
+                            outputcontent +=output.ToString();
+                            
+                        }
+                        else
+                        {
+                            errorcontent += error.ToString();
+                        }
+                    }
+                }
 
-            var output1 = p.StandardOutput.ReadToEnd();
-            
-            //p.WaitForExit();
-            //var output2 = p.StandardOutput.ReadToEnd();
-            //p.WaitForExit();
-
+            }
         }
         private static SecureString ConvertToSecureString(string password)
         {
