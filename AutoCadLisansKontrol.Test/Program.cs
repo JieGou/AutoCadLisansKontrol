@@ -103,12 +103,12 @@ namespace AutoCadLisansKontrol.Test
 
 
             var ciler = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat";
-            var hikmet = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat ";
-            var readcontent = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67  C:\Users\hikmet.yarbasi\Desktop\readlicense.bat 2>C:\Users\hikmet.yarbasi\Desktop\output.txt";
+            var hikmet = @"-c -f \\hikmetyarbasi -u adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat ";
+            var readcontent = @"-c -f \\hikmetyarbasi -u adminhikmet -p hikmet67  C:\Users\hikmet.yarbasi\Desktop\readlicense.bat";
             var readcontent2 = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\readlicense.bat";
-            scripts.Add(new RemoteCommand { Key = "checklicense", command = ciler, timeout = 1000 * 10 });
-            scripts.Add(new RemoteCommand { Key = "readlicense", command = readcontent2, timeout = 0 });
-            var filename = @"C:\PSTools\psexec.exe";
+            scripts.Add(new RemoteCommand { Key = "checklicense", command = hikmet, timeout = 1000 * 60 });
+            scripts.Add(new RemoteCommand { Key = "readlicense", command = readcontent, timeout = 1000 * 60 });
+            var filename = @"C:\Aygaz\PSTools\psexec.exe";
                 string errorcontent = "";
                 string outputcontent = "";
             foreach (var script in scripts)

@@ -30,7 +30,40 @@ namespace MaterialDesignDemo.Controller
             ExitCode = -1;
             EventArrived = false;
         }
-        public void ExecuteRemoteProcessWMI(string remoteComputerName,string username,string password, string arguments, int WaitTimePerCommand)
+        public static bool Connect(string remoteComputerName, string username, string password, out StringBuilder error)
+        {
+            string strUserName = string.Empty;
+            error = new StringBuilder();
+            try
+            {
+
+                ConnectionOptions connOptions = new ConnectionOptions();
+                connOptions.Impersonation = ImpersonationLevel.Impersonate;
+                connOptions.EnablePrivileges = true;
+                connOptions.Username = username;
+                connOptions.Password = password;
+
+                ManagementScope manScope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", remoteComputerName), connOptions);
+
+                try
+                {
+                    manScope.Connect();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    error.Append(e.Message);
+                    return false;
+                    //throw new Exception("Management Connect to remote machine " + remoteComputerName + " as user " + strUserName + " failed with the following error " + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                error.Append(ex.Message);
+                return false;
+            }
+        }
+        public void ExecuteRemoteProcessWMI(string remoteComputerName, string username, string password, string arguments, int WaitTimePerCommand)
         {
             string strUserName = string.Empty;
             try
@@ -40,7 +73,7 @@ namespace MaterialDesignDemo.Controller
                 connOptions.EnablePrivileges = true;
                 connOptions.Username = username;
                 connOptions.Password = password;
-                
+
                 ManagementScope manScope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", remoteComputerName), connOptions);
 
                 try

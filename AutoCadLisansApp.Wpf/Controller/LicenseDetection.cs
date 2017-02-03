@@ -112,21 +112,33 @@ namespace AutoCadLisansKontrol.Controller
             securePassword.MakeReadOnly();
             return securePassword;
         }
-        public static CheckLicenseModel ExecutePsexec(CheckLicenseModel chc, string username, string password, int opreationid)
+        public static CheckLicenseModel ExecutePsexec(CheckLicenseModel chc, string username, string password, int operationid)
         {
+            StringBuilder output = new StringBuilder();
+            StringBuilder error = new StringBuilder();
+            if (!ProcessWMI.Connect(chc.Name, username, password,out error))
+            {
+                output.Append(error.ToString());
+                chc.Fail = true;
+                chc.Output = output.ToString();
+                return chc;
+            }
+
             var timeout = 1000 * 60;
             var scripts = new List<RemoteCommand>();
 
+            var filename = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\PSTools\psexec.exe";
+            var CheckFileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\checklicense.bat";
+            var ReadFileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\readlicense.bat";
 
-            var ciler = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat";
-            var hikmet = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat ";
-            var readcontent = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67  C:\Users\hikmet.yarbasi\Desktop\readlicense.bat 2>C:\Users\hikmet.yarbasi\Desktop\output.txt";
-            var readcontent2 = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\readlicense.bat";
-            scripts.Add(new RemoteCommand { Key = "checklicense", command = ciler, timeout = 1000 * 10 });
-            scripts.Add(new RemoteCommand { Key = "readlicense", command = readcontent2, timeout = 0 });
-            var filename = @"C:\PSTools\psexec.exe";
-            StringBuilder output = new StringBuilder();
-            StringBuilder error = new StringBuilder();
+            var checkscript = @" -c -f \\" + chc.Name + " -u " + username + " -p " + password + " " + CheckFileName;
+            var readscript = @"-c -f \\" + chc.Name +" -u " + username + " -p " + password + " " + ReadFileName;
+
+            scripts.Add(new RemoteCommand { Key = "checklicense", command = checkscript, timeout = 1000 * 60 });
+            scripts.Add(new RemoteCommand { Key = "readlicense", command = readscript, timeout = 1000 * 60 });
+            string outputcontent = "";
+            string errorcontent = "";
+            
 
             try
             {
@@ -138,9 +150,11 @@ namespace AutoCadLisansKontrol.Controller
                         process.StartInfo.Arguments = script.command;
                         process.StartInfo.UseShellExecute = false;
                         process.StartInfo.RedirectStandardOutput = true;
+                        process.StartInfo.CreateNoWindow = true;
                         process.StartInfo.RedirectStandardError = true;
                         process.StartInfo.Verb = "runas";
-                        
+                        process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
 
                         using (AutoResetEvent outputWaitHandle = new AutoResetEvent(false))
                         using (AutoResetEvent errorWaitHandle = new AutoResetEvent(false))
@@ -189,17 +203,22 @@ namespace AutoCadLisansKontrol.Controller
                                         outputWaitHandle.WaitOne(timeout) &&
                                         errorWaitHandle.WaitOne(timeout))
                                     {
-                                      //  outputcontent += output.ToString();
+                                        outputcontent += output.ToString();
                                     }
                                     else
                                     {
-                                      // errorcontent += error.ToString();
+                                        errorcontent += error.ToString();
                                     }
 
                                     break;
                                 default: break;
                             }
+
+
                         }
+
+
+
                     }
 
                 }
@@ -210,11 +229,11 @@ namespace AutoCadLisansKontrol.Controller
                 output.Append(ex.Message);
                 chc.Fail = true;
             }
-            chc.Error = error.ToString();
-            chc.Output = output.ToString();
+            chc.Error = errorcontent.ToString();
+            chc.Output = outputcontent.ToString();
             return chc;
         }
-
+       
         public static CheckLicenseModel ExecuteWMI(CheckLicenseModel chc, string username, string password, int opreationid)
         {
             var sBatFile = @"C:\Users\hikmet\Desktop\checklicense.bat";

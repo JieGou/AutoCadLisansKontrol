@@ -231,7 +231,7 @@ namespace AutoCadLisansKontrol.Controller
             {
                 if (comp.Type == "ArpTable")
                 {
-                    comp.Name =GetMachineNameFromIPAddress(comp.Ip);
+                    comp.Name = GetMachineNameFromIPAddress(comp.Ip);
                     comp.IsVisible = PingHost(comp.Ip);
                 }
                 else if (comp.Type == "NetView")
@@ -282,19 +282,55 @@ namespace AutoCadLisansKontrol.Controller
             var filter3 = GetBroadcastAddress(System.Net.IPAddress.Parse(localip), System.Net.IPAddress.Parse(filter2));
 
             var index = tempcomp.FindIndex(x => x.Ip.Contains(filter1.ToString()));
-            if(index!=-1)tempcomp.RemoveAt(index);
-             index = tempcomp.FindIndex(x => x.Ip.Contains(filter2.ToString()));
             if (index != -1) tempcomp.RemoveAt(index);
-             index = tempcomp.FindIndex(x => x.Ip.Contains(filter3.ToString()));
+
+            index = tempcomp.FindIndex(x => x.Ip.Contains(filter2.ToString()));
             if (index != -1) tempcomp.RemoveAt(index);
-             index = tempcomp.FindIndex(x => x.Ip.StartsWith("255.".ToString()));
+
+            index = tempcomp.FindIndex(x => x.Ip.Contains(filter3.ToString()));
             if (index != -1) tempcomp.RemoveAt(index);
-             index = tempcomp.FindIndex(x => x.Ip.StartsWith("240.".ToString()));
-            if (index != -1) tempcomp.RemoveAt(index);
-             index = tempcomp.FindIndex(x => x.Ip.StartsWith("224.".ToString()));
-            if (index != -1) tempcomp.RemoveAt(index);
-             index = tempcomp.FindIndex(x => x.Ip.StartsWith("239.".ToString()));
-            if (index != -1) tempcomp.RemoveAt(index);
+
+
+            var list = tempcomp.Where(x => x.Ip.StartsWith("255.".ToString())).ToList();
+
+            if (list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    tempcomp.Remove(item);
+                }
+            }
+
+            list = tempcomp.Where(x => x.Ip.StartsWith("240.".ToString())).ToList();
+
+            if (list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    tempcomp.Remove(item);
+                }
+            }
+
+            list = tempcomp.Where(x => x.Ip.StartsWith("224.".ToString())).ToList();
+
+            if (list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    tempcomp.Remove(item);
+                }
+            }
+
+            list = tempcomp.Where(x => x.Ip.StartsWith("239.".ToString())).ToList();
+
+            if (list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    tempcomp.Remove(item);
+                }
+            }
+
             return new ObservableCollection<ComputerModel>(tempcomp);
         }
     }

@@ -96,7 +96,6 @@ namespace MaterialDesignDemo.Controller
                             }
                         }
                     }
-
                     wWatcher.Stop();
                 }
 

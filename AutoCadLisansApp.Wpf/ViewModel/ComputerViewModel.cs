@@ -173,7 +173,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             System.Action DoOnUiThread = new System.Action(() =>
             {
-
+                
             });
 
             // start the background task
@@ -264,7 +264,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>
                 {
-
+                    LoadComputerFromDb();
                 });
 
                 var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
