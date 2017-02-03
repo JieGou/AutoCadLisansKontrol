@@ -154,7 +154,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
 
-                            tempchc = LicenseDetection.ExecuteWMI(chc, UserName, Password, OprId);
+                            tempchc = LicenseDetection.ExecutePsexec(chc, UserName, Password, OprId);
                             
                         });
 

@@ -114,16 +114,16 @@ namespace AutoCadLisansKontrol.Controller
         }
         public static CheckLicenseModel ExecutePsexec(CheckLicenseModel chc, string username, string password, int opreationid)
         {
-            var timeout = 1000*60;
+            var timeout = 1000 * 60;
             var scripts = new List<RemoteCommand>();
 
 
-            var ciler = @"-c -f  \\cilerturkmen -u adminciler -p ciler471 cmd.exe /c  ""C:\Users\hikmet\Desktop\checklicense.bat""";
-            var hikmet = @"-c -f  \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat ";
-            var readcontent = @"-c -f  \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67  C:\Users\hikmet.yarbasi\Desktop\readlicense.bat 2>C:\Users\hikmet.yarbasi\Desktop\output.txt";
-            var readcontent2 = @"-c -f  \\cilerturkmen -u adminciler -p ciler471  cmd.exe /c  ""C:\Users\hikmet\Desktop\readlicense.bat""";
-            scripts.Add(new RemoteCommand { command= ciler ,timeout=1000*40});
-            scripts.Add(new RemoteCommand { command=readcontent2,timeout=1000*10});
+            var ciler = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\checklicense.bat";
+            var hikmet = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67 C:\Users\hikmet.yarbasi\Desktop\checklicense.bat ";
+            var readcontent = @"-c -f \\hikmetyarbasi -u YARBASI\adminhikmet -p hikmet67  C:\Users\hikmet.yarbasi\Desktop\readlicense.bat 2>C:\Users\hikmet.yarbasi\Desktop\output.txt";
+            var readcontent2 = @"-c -f \\cilerturkmen -u adminciler -p ciler471 C:\Users\hikmet\Desktop\readlicense.bat";
+            scripts.Add(new RemoteCommand { Key = "checklicense", command = ciler, timeout = 1000 * 10 });
+            scripts.Add(new RemoteCommand { Key = "readlicense", command = readcontent2, timeout = 0 });
             var filename = @"C:\PSTools\psexec.exe";
             StringBuilder output = new StringBuilder();
             StringBuilder error = new StringBuilder();
@@ -147,14 +147,22 @@ namespace AutoCadLisansKontrol.Controller
                         {
                             process.OutputDataReceived += (sender, e) =>
                             {
-                                if (e.Data != null)
+                                if (e.Data == null)
+                                {
+                                    outputWaitHandle.Set();
+                                }
+                                else
                                 {
                                     output.AppendLine(e.Data);
                                 }
                             };
                             process.ErrorDataReceived += (sender, e) =>
                             {
-                                if (e.Data != null)
+                                if (e.Data == null)
+                                {
+                                    errorWaitHandle.Set();
+                                }
+                                else
                                 {
                                     error.AppendLine(e.Data);
                                 }
@@ -162,22 +170,38 @@ namespace AutoCadLisansKontrol.Controller
 
                             process.Start();
 
-                            process.BeginOutputReadLine();
-                            process.BeginErrorReadLine();
 
-                            //if (process.WaitForExit(script.timeout) &&
-                            //    outputWaitHandle.WaitOne(script.timeout) &&
-                            //    errorWaitHandle.WaitOne(script.timeout))
-                            //{
-                            //    outputcontent += output.ToString();
+                            switch (script.Key)
+                            {
+                                case "checklicense":
+                                    while (!process.HasExited)
+                                    {
+                                        //update UI
+                                    }
 
-                            //}
-                            //else
-                            //{
-                            //    errorcontent += error.ToString();
-                            //}
+                                    break;
+                                case "readlicense":
+
+                                    process.BeginOutputReadLine();
+                                    process.BeginErrorReadLine();
+
+                                    if (process.WaitForExit(timeout) &&
+                                        outputWaitHandle.WaitOne(timeout) &&
+                                        errorWaitHandle.WaitOne(timeout))
+                                    {
+                                      //  outputcontent += output.ToString();
+                                    }
+                                    else
+                                    {
+                                      // errorcontent += error.ToString();
+                                    }
+
+                                    break;
+                                default: break;
+                            }
                         }
                     }
+
                 }
                 chc.Success = true;
             }
@@ -203,11 +227,13 @@ namespace AutoCadLisansKontrol.Controller
             {
                 chc.Output = ex.Message;
             }
-        
+
             return chc;
         }
 
-        internal class RemoteCommand {
+        internal class RemoteCommand
+        {
+            public string Key { get; set; }
             public string command { get; set; }
             public int timeout { get; set; }
         }
