@@ -20,8 +20,10 @@ namespace AutoCadLisansKontrol.Test
     {
         static void Main(string[] args)
         {
-            psexecscript();
-            //ProcessWMI proc = new ProcessWMI();
+            //psexecscript();
+            ProcessWMI proc = new ProcessWMI();
+            string[] software = { "Autod", "Autoc", "3d", "revit", "ecotect", "square one" };
+            proc.ReadRegisteryusingWMI(software);
             //proc.ExecuteRemoteProcessWMI("HIKMETYARBASI", "adminhikmet", "hikmet67", @"C:\Users\hikmet\Desktop\checklicense.bat", 1000 * 60);
         }
         static void HandleEvent(object sender, EventArrivedEventArgs e)

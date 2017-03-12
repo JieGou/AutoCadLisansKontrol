@@ -25,8 +25,8 @@
             <StackPanel Background="#EEEEEE" Width="100">
                 <Border Effect="{StaticResource z-depth4}"  Background="White"  >
                 <materialDesign:Card Background="#adadad"
-                  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                 >
+                  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                    
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -106,13 +106,23 @@
                             </StackPanel>
                         </DataTemplate>
                     </GroupBox.HeaderTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock Text="{Binding TotalComputer}"></TextBlock>
                             <TextBlock Text="/"></TextBlock>
                             <TextBlock Text="{Binding ExecutedComputer}"></TextBlock>
-
+                            <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
+                        Margin="0 0 8 0" HorizontalAlignment="Right" Command="{Binding ExporttoExcel}"
+                        ToolTip="Export to Excel">
+                                <materialDesign:PackIcon Kind="FileExcel" Height="24" Width="24" />
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
+                        Margin="0 0 8 0" HorizontalAlignment="Right"
+                        ToolTip="Export to Pdf">
+                                <materialDesign:PackIcon Kind="FilePdf" Height="24" Width="24" />
+                            </Button>
                         </StackPanel>
+                       
                         <DataGrid  Margin="0 8 0 0" Name="grdCheckList" ItemsSource="{Binding CheckLicenses,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                       materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
                             <DataGrid.Columns>
