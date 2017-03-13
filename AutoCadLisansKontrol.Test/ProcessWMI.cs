@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq.SqlClient;
 using System.Linq;
 using System.Management;
 using System.Text;
@@ -32,7 +33,7 @@ namespace MaterialDesignDemo.Controller
         }
         public void ExecuteRemoteProcessWMI(string remoteComputerName, string username, string password, string arguments, int WaitTimePerCommand)
         {
-            string strUserName = string.Empty;
+
             try
             {
                 ConnectionOptions connOptions = new ConnectionOptions();
@@ -49,7 +50,7 @@ namespace MaterialDesignDemo.Controller
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Management Connect to remote machine " + remoteComputerName + " as user " + strUserName + " failed with the following error " + e.Message);
+                    throw new Exception("Management Connect to remote machine " + remoteComputerName + " as user " + username + " failed with the following error " + e.Message);
                 }
                 ObjectGetOptions objectGetOptions = new ObjectGetOptions();
                 ManagementPath managementPath = new ManagementPath("Win32_Process");
@@ -63,7 +64,7 @@ namespace MaterialDesignDemo.Controller
 
                             if ((uint)outParams["returnValue"] != 0)
                             {
-                                throw new Exception("Error while starting process " + arguments + " creation returned an exit code of " + outParams["returnValue"] + ". It was launched as " + strUserName + " on " + remoteComputerName);
+                                throw new Exception("Error while starting process " + arguments + " creation returned an exit code of " + outParams["returnValue"] + ". It was launched as " + username + " on " + remoteComputerName);
                             }
                             this.ProcessId = (uint)outParams["processId"];
                         }
@@ -111,7 +112,7 @@ namespace MaterialDesignDemo.Controller
                 else
                 {
                     if (this.ExitCode != 0)
-                        throw new Exception("Process " + arguments + "exited with exit code " + this.ExitCode + " on " + remoteComputerName + " run as " + strUserName);
+                        throw new Exception("Process " + arguments + "exited with exit code " + this.ExitCode + " on " + remoteComputerName + " run as " + username);
                     else
                         Console.WriteLine("process exited with Exit code 0");
                 }
@@ -119,38 +120,118 @@ namespace MaterialDesignDemo.Controller
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("Execute process failed Machinename {0}, ProcessName {1}, RunAs {2}, Error is {3}, Stack trace {4}", remoteComputerName, arguments, strUserName, e.Message, e.StackTrace), e);
+                throw new Exception(string.Format("Execute process failed Machinename {0}, ProcessName {1}, RunAs {2}, Error is {3}, Stack trace {4}", remoteComputerName, arguments, username, e.Message, e.StackTrace), e);
             }
         }
 
-        public void GetProductWithWMI()
+        public List<Win32_Product> GetProductWithWMI(string[] software, string remoteComputerName, string username, string password)
         {
-            ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
-            foreach (ManagementObject mo in mos.Get())
+            List<Win32_Product> products = new List<Win32_Product>();
+
+            //ConnectionOptions connOptions = new ConnectionOptions();
+            //connOptions.Impersonation = ImpersonationLevel.Impersonate;
+            //connOptions.EnablePrivileges = true;
+            //connOptions.Username = username;
+            //connOptions.Password = password;
+
+            //ManagementScope scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2"));//, remoteComputerName), connOptions);
+
+            //try
+            //{
+            //    scope.Connect();
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new Exception("Management Connect to remote machine " + remoteComputerName + " as user " + username + " failed with the following error " + e.Message);
+            //}
+            ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
+            scope.Connect();
+
+            SelectQuery CheckProcess = new SelectQuery("SELECT * FROM Win32_Product");
+            using (ManagementObjectSearcher ProcessSearcher = new ManagementObjectSearcher(scope, CheckProcess))
             {
-                Console.WriteLine(mo["Name"]);
+                foreach (ManagementObject mo in ProcessSearcher.Get())
+                {
+                    Win32_Product product = new Win32_Product();
+
+                    product.Name = mo["Name"].ToString();
+
+                    var param = software.Where(x => product.Name.Contains(x)).FirstOrDefault();
+                    if (param == null) continue;
+
+                    product.AssignmentType = mo["AssignmentType"].ToString();
+                    product.Caption = mo["Caption"] == null ? null : mo["Caption"].ToString();
+                    product.Description = mo["Description"] == null ? null : mo["Description"].ToString();
+                    product.HelpLink = mo["HelpLink"] == null ? null : mo["HelpLink"].ToString();
+                    product.HelpTelephone = mo["HelpTelephone"] == null ? null : mo["HelpTelephone"].ToString();
+                    product.IdentifyingNumber = mo["IdentifyingNumber"] == null ? null : mo["IdentifyingNumber"].ToString();
+                    product.InstallDate = mo["InstallDate"] == null ? null : mo["InstallDate"].ToString();
+                    product.InstallDate2 = mo["InstallDate2"] == null ? null : mo["InstallDate2"].ToString();
+                    product.InstallLocation = mo["InstallLocation"] == null ? null : mo["InstallLocation"].ToString();
+                    product.InstallSource = mo["InstallSource"] == null ? null : mo["InstallSource"].ToString();
+                    product.InstallState = mo["InstallState"] == null ? null : mo["InstallState"].ToString();
+                    product.Language = mo["Language"] == null ? null : mo["Language"].ToString();
+                    product.LocalPackage = mo["LocalPackage"] == null ? null : mo["LocalPackage"].ToString();
+                    product.PackageCache = mo["PackageCache"] == null ? null : mo["PackageCache"].ToString();
+                    product.PackageCode = mo["PackageCode"] == null ? null : mo["PackageCode"].ToString();
+                    product.PackageName = mo["PackageName"] == null ? null : mo["PackageName"].ToString();
+                    product.ProductID = mo["ProductID"] == null ? null : mo["ProductID"].ToString();
+                    product.RegCompany = mo["RegCompany"] == null ? null : mo["RegCompany"].ToString();
+                    product.RegOwner = mo["RegOwner"] == null ? null : mo["RegOwner"].ToString();
+                    product.SKUNumber = mo["SKUNumber"] == null ? null : mo["SKUNumber"].ToString();
+                    product.Transforms = mo["Transforms"] == null ? null : mo["Transforms"].ToString();
+                    product.URLInfoAbout = mo["URLInfoAbout"] == null ? null : mo["URLInfoAbout"].ToString();
+                    product.URLUpdateInfo = mo["URLUpdateInfo"] == null ? null : mo["URLUpdateInfo"].ToString();
+                    product.Vendor = mo["Vendor"] == null ? null : mo["Vendor"].ToString();
+                    product.Version = mo["Version"] == null ? null : mo["Version"].ToString();
+
+
+
+                    products.Add(product);
+                }
             }
+            return products;
         }
 
         public List<Software> ReadRegisteryusingWMI(string[] software)
         {
 
-            var list32 = ReadRegistryusingWMICore(software, @"Software\Microsoft\Windows\CurrentVersion\Uninstall");
-            var list64 = ReadRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+            var list32 = ReadRegistryusingWMICore(software, @"Software\Microsoft\Windows\CurrentVersion\Uninstall", "NBHIKMETY01", "AYGAZNET\\hikmet.yarbasi", "Computer11.");
+            var list64 = ReadRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall", "NBHIKMETY01", "AYGAZNET\\hikmet.yarbasi", "Computer11.");
 
             var uniqueList = list32.Concat(list64)
+                                   .Where(x => x.DisplayName != null)
                                    .GroupBy(item => item.DisplayName)
                                    .Select(group => group.First())
                                    .ToList();
 
             return uniqueList;
         }
-        private List<Software> ReadRegistryusingWMICore(string[] software, string softwareRegLoc)
+        private List<Software> ReadRegistryusingWMICore(string[] software, string softwareRegLoc, string remoteComputerName, string username, string password)
         {
             List<Software> programs = new List<Software>();
 
+            ConnectionOptions connOptions = new ConnectionOptions();
+            connOptions.Impersonation = ImpersonationLevel.Impersonate;
+            connOptions.EnablePrivileges = true;
+            connOptions.Username = username;
+            connOptions.Password = password;
+
+            //ManagementScope scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", remoteComputerName), connOptions);
+
+            //try
+            //{
+            //    scope.Connect();
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new Exception("Management Connect to remote machine " + remoteComputerName + " as user " + username + " failed with the following error " + e.Message);
+            //}
+
             ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
             scope.Connect();
+
+
 
             ManagementClass registry = new ManagementClass(scope, new ManagementPath("StdRegProv"), null);
             ManagementBaseObject inParams = registry.GetMethodParameters("EnumKey");
@@ -160,12 +241,28 @@ namespace MaterialDesignDemo.Controller
             // Read Registry Key Names 
             ManagementBaseObject outParams = registry.InvokeMethod("EnumKey", inParams, null);
             string[] programGuids = outParams["sNames"] as string[];
-            var searchingproduct = programGuids.Where(x => software.Select(y => y.ToUpper()).ToList().Contains(x.ToUpper())).ToList();
-            foreach (string subKeyName in searchingproduct)
+
+
+            foreach (string subKeyName in programGuids)
             {
                 var item = new Software();
                 inParams = registry.GetMethodParameters("GetStringValue");
                 inParams["sSubKeyName"] = softwareRegLoc + @"\" + subKeyName;
+
+                inParams["sValueName"] = "DisplayName";
+                outParams = registry.InvokeMethod("GetStringValue", inParams, null);
+                if (outParams.Properties["sValue"].Value != null)
+                {
+                    item.DisplayName = outParams.Properties["sValue"].Value.ToString();
+
+                    var param = software.Where(x => item.DisplayName.Contains(x)).FirstOrDefault();
+                    if (param == null) continue;
+                }
+                else
+                {
+                    continue;
+                }
+
 
                 inParams["sValueName"] = "InstallDate";
                 outParams = registry.InvokeMethod("GetStringValue", inParams, null);
@@ -188,12 +285,7 @@ namespace MaterialDesignDemo.Controller
                     item.DisplayIcon = outParams.Properties["sValue"].Value.ToString();
                 }
 
-                inParams["sValueName"] = "DisplayName";
-                outParams = registry.InvokeMethod("GetStringValue", inParams, null);
-                if (outParams.Properties["sValue"].Value != null)
-                {
-                    item.DisplayName = outParams.Properties["sValue"].Value.ToString();
-                }
+
 
                 inParams["sValueName"] = "DisplayVersion";
                 outParams = registry.InvokeMethod("GetStringValue", inParams, null);
@@ -322,4 +414,34 @@ namespace MaterialDesignDemo.Controller
 
 
     }
+    public class Win32_Product
+    {
+        public string AssignmentType;
+        public string Caption;
+        public string Description;
+        public string IdentifyingNumber;
+        public string InstallDate;
+        public string InstallDate2;
+        public string InstallLocation;
+        public string InstallState;
+        public string HelpLink;
+        public string HelpTelephone;
+        public string InstallSource;
+        public string Language;
+        public string LocalPackage;
+        public string Name;
+        public string PackageCache;
+        public string PackageCode;
+        public string PackageName;
+        public string ProductID;
+        public string RegOwner;
+        public string RegCompany;
+        public string SKUNumber;
+        public string Transforms;
+        public string URLInfoAbout;
+        public string URLUpdateInfo;
+        public string Vendor;
+        public string WordCount;
+        public string Version;
+    };
 }
