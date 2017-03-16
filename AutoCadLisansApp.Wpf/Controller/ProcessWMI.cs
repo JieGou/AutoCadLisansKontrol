@@ -123,9 +123,9 @@ namespace MaterialDesignDemo.Controller
             }
         }
 
-        public void GetProductWithWMI(string[] software, string remoteComputerName, string username, string password)
+        public List<Win32_Product> GetProductWithWMI(string[] software, string remoteComputerName, string username, string password)
         {
-            List<Win32_Product> programs = new List<Win32_Product>();
+            List<Win32_Product> products = new List<Win32_Product>();
 
             ConnectionOptions connOptions = new ConnectionOptions();
             connOptions.Impersonation = ImpersonationLevel.Impersonate;
@@ -143,61 +143,62 @@ namespace MaterialDesignDemo.Controller
             {
                 throw new Exception("Management Connect to remote machine " + remoteComputerName + " as user " + username + " failed with the following error " + e.Message);
             }
+            //ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
+            //scope.Connect();
+
             SelectQuery CheckProcess = new SelectQuery("SELECT * FROM Win32_Product");
             using (ManagementObjectSearcher ProcessSearcher = new ManagementObjectSearcher(scope, CheckProcess))
             {
-                foreach (ManagementObject mo in ProcessSearcher.Get())
+                var WMIproducts = ProcessSearcher.Get();
+                foreach (ManagementObject mo in WMIproducts)
                 {
                     Win32_Product product = new Win32_Product();
 
-                    product.Name = mo["Name"].ToString();
+                    product.Name = mo["Name"] == null ? null : mo["Name"].ToString();
+                    if (product.Name == null) continue;
 
                     var param = software.Where(x => product.Name.Contains(x)).FirstOrDefault();
                     if (param == null) continue;
 
-                    product.AssignmentType = Convert.ToUInt16(mo["AssignmentType"]);
-                    product.Caption = mo["Caption"].ToString();
-                    product.Description = mo["Description"].ToString();
-                    product.HelpLink = mo["HelpLink"].ToString();
-                    product.HelpTelephone = mo["HelpTelephone"].ToString();
-                    product.IdentifyingNumber = mo["IdentifyingNumber"].ToString();
-                    product.InstallDate = mo["InstallDate"].ToString();
-                    product.InstallDate2 = Convert.ToDateTime(mo["InstallDate"].ToString());
-                    product.InstallLocation = mo["InstallLocation"].ToString();
-                    product.InstallSource = mo["InstallSource"].ToString();
-                    product.InstallState = Convert.ToInt16(mo["InstallState"].ToString());
-                    product.Language = mo["Language"].ToString();
-                    product.LocalPackage = mo["LocalPackage"].ToString();
-                    product.PackageCache = mo["PackageCache"].ToString();
-                    product.PackageCode = mo["PackageCode"].ToString();
-                    product.PackageName = mo["PackageName"].ToString();
-                    product.ProductID = mo["ProductID"].ToString();
-                    product.RegCompany = mo["RegCompany"].ToString();
-                    product.RegOwner = mo["RegOwner"].ToString();
-                    product.SKUNumber = mo["SKUNumber"].ToString();
-                    product.Transforms = mo["Transforms"].ToString();
-                    product.URLInfoAbout = mo["URLInfoAbout"].ToString();
-                    product.URLUpdateInfo = mo["URLUpdateInfo"].ToString();
-                    product.Vendor = mo["Vendor"].ToString();
-                    product.Version = mo["Version"].ToString();
+                    product.AssignmentType = mo["AssignmentType"].ToString();
+                    product.Caption = mo["Caption"] == null ? null : mo["Caption"].ToString();
+                    product.Description = mo["Description"] == null ? null : mo["Description"].ToString();
+                    product.HelpLink = mo["HelpLink"] == null ? null : mo["HelpLink"].ToString();
+                    product.HelpTelephone = mo["HelpTelephone"] == null ? null : mo["HelpTelephone"].ToString();
+                    product.IdentifyingNumber = mo["IdentifyingNumber"] == null ? null : mo["IdentifyingNumber"].ToString();
+                    product.InstallDate = mo["InstallDate"] == null ? null : mo["InstallDate"].ToString();
+                    product.InstallDate2 = mo["InstallDate2"] == null ? null : mo["InstallDate2"].ToString();
+                    product.InstallLocation = mo["InstallLocation"] == null ? null : mo["InstallLocation"].ToString();
+                    product.InstallSource = mo["InstallSource"] == null ? null : mo["InstallSource"].ToString();
+                    product.InstallState = mo["InstallState"] == null ? null : mo["InstallState"].ToString();
+                    product.Language = mo["Language"] == null ? null : mo["Language"].ToString();
+                    product.LocalPackage = mo["LocalPackage"] == null ? null : mo["LocalPackage"].ToString();
+                    product.PackageCache = mo["PackageCache"] == null ? null : mo["PackageCache"].ToString();
+                    product.PackageCode = mo["PackageCode"] == null ? null : mo["PackageCode"].ToString();
+                    product.PackageName = mo["PackageName"] == null ? null : mo["PackageName"].ToString();
+                    product.ProductID = mo["ProductID"] == null ? null : mo["ProductID"].ToString();
+                    product.RegCompany = mo["RegCompany"] == null ? null : mo["RegCompany"].ToString();
+                    product.RegOwner = mo["RegOwner"] == null ? null : mo["RegOwner"].ToString();
+                    product.SKUNumber = mo["SKUNumber"] == null ? null : mo["SKUNumber"].ToString();
+                    product.Transforms = mo["Transforms"] == null ? null : mo["Transforms"].ToString();
+                    product.URLInfoAbout = mo["URLInfoAbout"] == null ? null : mo["URLInfoAbout"].ToString();
+                    product.URLUpdateInfo = mo["URLUpdateInfo"] == null ? null : mo["URLUpdateInfo"].ToString();
+                    product.Vendor = mo["Vendor"] == null ? null : mo["Vendor"].ToString();
+                    product.Version = mo["Version"] == null ? null : mo["Version"].ToString();
 
 
 
-
+                    products.Add(product);
                 }
             }
-            ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
-            foreach (ManagementObject mo in mos.Get())
-            {
-                Console.WriteLine(mo["Name"]);
-            }
+            return products;
         }
 
         public List<Software> ReadRegisteryusingWMI(string[] software, string remoteComputerName, string username, string password)
         {
 
-            var list32 = ReadRegistryusingWMICore(software, @"Software\Microsoft\Windows\CurrentVersion\Uninstall", "NBHIKMETY01", "AYGAZNET\\hikmet.yarbasi", "Computer11.");
-            var list64 = ReadRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall", "NBHIKMETY01", "AYGAZNET\\hikmet.yarbasi", "Computer11.");
+            var list32 = ReadRegistryusingWMICore(software, @"Software\Microsoft\Windows\CurrentVersion\Uninstall", remoteComputerName, username, password);
+            var list64 = ReadRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall", remoteComputerName, username, password);
 
             var uniqueList = list32.Concat(list64)
                                    .Where(x => x.DisplayName != null)
@@ -410,14 +411,14 @@ namespace MaterialDesignDemo.Controller
     }
     public class Win32_Product
     {
-        public UInt16 AssignmentType;
+        public string AssignmentType;
         public string Caption;
         public string Description;
         public string IdentifyingNumber;
         public string InstallDate;
-        public DateTime InstallDate2;
+        public string InstallDate2;
         public string InstallLocation;
-        public Int16 InstallState;
+        public string InstallState;
         public string HelpLink;
         public string HelpTelephone;
         public string InstallSource;
@@ -435,7 +436,7 @@ namespace MaterialDesignDemo.Controller
         public string URLInfoAbout;
         public string URLUpdateInfo;
         public string Vendor;
-        public UInt32 WordCount;
+        public string WordCount;
         public string Version;
     };
 }

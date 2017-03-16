@@ -25,6 +25,23 @@ namespace MaterialDesignDemo.Model
                 }
             }
         }
+        private bool _isfound = false;
+        public bool IsFound
+        {
+            get
+            {
+                return this._isfound;
+            }
+            set
+            {
+                if ((this._isfound.Equals(value) != true))
+                {
+                    this._isfound = value;
+                    this.RaisePropertyChanged("IsFound");
+                }
+            }
+        }
+
         private bool _fail = false;
         public bool Fail
         {
@@ -36,7 +53,7 @@ namespace MaterialDesignDemo.Model
             {
                 if ((this._fail.Equals(value) != true))
                 {
-                    this._fail = value;
+                    _fail = value;
                     this.RaisePropertyChanged("Fail");
                 }
             }
@@ -59,7 +76,7 @@ namespace MaterialDesignDemo.Model
             }
         }
 
-        private string _error="";
+        private string _error = "";
         public string Error
         {
             get

@@ -134,7 +134,7 @@ namespace MaterialDesignDemo.Controller
             //connOptions.Username = username;
             //connOptions.Password = password;
 
-            //ManagementScope scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2"));//, remoteComputerName), connOptions);
+            //ManagementScope scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", remoteComputerName), connOptions);
 
             //try
             //{
@@ -150,11 +150,13 @@ namespace MaterialDesignDemo.Controller
             SelectQuery CheckProcess = new SelectQuery("SELECT * FROM Win32_Product");
             using (ManagementObjectSearcher ProcessSearcher = new ManagementObjectSearcher(scope, CheckProcess))
             {
-                foreach (ManagementObject mo in ProcessSearcher.Get())
+                var WMIproducts = ProcessSearcher.Get();
+                foreach (ManagementObject mo in WMIproducts)
                 {
                     Win32_Product product = new Win32_Product();
 
-                    product.Name = mo["Name"].ToString();
+                    product.Name = mo["Name"] == null ? null : mo["Name"].ToString();
+                    if (product.Name == null) continue;
 
                     var param = software.Where(x => product.Name.Contains(x)).FirstOrDefault();
                     if (param == null) continue;
@@ -193,11 +195,11 @@ namespace MaterialDesignDemo.Controller
             return products;
         }
 
-        public List<Software> ReadRegisteryusingWMI(string[] software)
+        public List<Software> ReadRegisteryusingWMI(string[] software, string remoteComputerName, string username, string password)
         {
 
-            var list32 = ReadRegistryusingWMICore(software, @"Software\Microsoft\Windows\CurrentVersion\Uninstall", "NBHIKMETY01", "AYGAZNET\\hikmet.yarbasi", "Computer11.");
-            var list64 = ReadRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall", "NBHIKMETY01", "AYGAZNET\\hikmet.yarbasi", "Computer11.");
+            var list32 = ReadRegistryusingWMICore(software, @"Software\Microsoft\Windows\CurrentVersion\Uninstall", remoteComputerName, username, password);
+            var list64 = ReadRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall", remoteComputerName, username, password);
 
             var uniqueList = list32.Concat(list64)
                                    .Where(x => x.DisplayName != null)
@@ -211,11 +213,11 @@ namespace MaterialDesignDemo.Controller
         {
             List<Software> programs = new List<Software>();
 
-            ConnectionOptions connOptions = new ConnectionOptions();
-            connOptions.Impersonation = ImpersonationLevel.Impersonate;
-            connOptions.EnablePrivileges = true;
-            connOptions.Username = username;
-            connOptions.Password = password;
+            //ConnectionOptions connOptions = new ConnectionOptions();
+            //connOptions.Impersonation = ImpersonationLevel.Impersonate;
+            //connOptions.EnablePrivileges = true;
+            //connOptions.Username = username;
+            //connOptions.Password = password;
 
             //ManagementScope scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", remoteComputerName), connOptions);
 
@@ -227,11 +229,8 @@ namespace MaterialDesignDemo.Controller
             //{
             //    throw new Exception("Management Connect to remote machine " + remoteComputerName + " as user " + username + " failed with the following error " + e.Message);
             //}
-
             ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
             scope.Connect();
-
-
 
             ManagementClass registry = new ManagementClass(scope, new ManagementPath("StdRegProv"), null);
             ManagementBaseObject inParams = registry.GetMethodParameters("EnumKey");
@@ -411,7 +410,6 @@ namespace MaterialDesignDemo.Controller
         public string Publisher { get; set; }
         public string Readme { get; set; }
         public string UninstallString { get; set; }
-
 
     }
     public class Win32_Product

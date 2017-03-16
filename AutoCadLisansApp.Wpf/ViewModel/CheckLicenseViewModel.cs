@@ -27,7 +27,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
         private string _notificationContent;
-        private bool _notificationIsVisible;
+        private bool _notificationIsVisible=false;
         public string NotificationContent { get { return _notificationContent; } set { _notificationContent = value; OnPropertyChanged("NotificationContent"); } }
         public bool NotificationIsVisible { get { return _notificationIsVisible; } set { _notificationIsVisible = value; OnPropertyChanged("NotificationIsVisible"); } }
 
@@ -42,16 +42,18 @@ namespace MaterialDesignColors.WpfExample.Domain
         public ICommand RunClicked { get; set; }
         public ICommand SaveClicked { get; set; }
         public ICommand SaveOutputClicked { get; set; }
-        
+
         private int OprId;
         private int FirmId;
         private string _userName;
         private string _password;
-
+        private string[] _keys;
         public string UserName { get { return _userName; } set { _userName = value; OnPropertyChanged("UserName"); } }
         public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
 
+
         private ObservableCollection<CheckLicenseModel> _checkLicenses;
+        private ObservableCollection<string> _softwarelist = new ObservableCollection<string> { "Autod", "3d", "revit", "ecotect", "square one", "Autoc" };
 
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -71,9 +73,25 @@ namespace MaterialDesignColors.WpfExample.Domain
             OprId = oprId;
             FirmId = firmId;
             LoadCheckLicenseFromDb();
+
+
+
+
         }
 
+        public ObservableCollection<string> SoftwareList
+        {
+            get
+            {
+                return _softwarelist;
+            }
+            set
+            {
+                _softwarelist = value;
+                OnPropertyChanged("SoftwareList");
+            }
 
+        }
 
 
         public ObservableCollection<CheckLicenseModel> CheckLicenses
@@ -154,8 +172,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
 
-                            tempchc = LicenseDetection.ExecutePsexec(chc, UserName, Password, OprId);
-                            
+                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId);
+
                         });
 
                         System.Action ChildDoOnUiThread = new System.Action(() =>
@@ -209,7 +227,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 var checklicense = new ObservableCollection<CheckLicenseModel>();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
-                    checklicense = new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x => new CheckLicenseModel { CheckDate = x.CheckDate, ComputerId = x.ComputerId, FirmId = x.FirmId, Id = x.Id, Ip = x.Ip, IsUnlicensed = x.IsUnlicensed, Name = x.Name, OperationId = x.OperationId, Output = x.Output, UpdateDate = x.UpdateDate, State = x.State, Success = (x.State == true ? true : false), Fail = (x.State == false ? true : false) }));
+                    checklicense = new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x => new CheckLicenseModel { CheckDate = x.CheckDate, ComputerId = x.ComputerId, FirmId = x.FirmId, Id = x.Id, Ip = x.Ip, IsUnlicensed = x.IsUnlicensed, Name = x.Name, OperationId = x.OperationId, Output = x.Output, UpdateDate = x.UpdateDate, State = x.State, Success = (x.State == true ? true : false) }));
                 });
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>
@@ -231,7 +249,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             EndNotification("");
         }
 
-        
+
         public void SaveCommand()
         {
             try
@@ -258,7 +276,9 @@ namespace MaterialDesignColors.WpfExample.Domain
                             OperationId = item.OperationId,
                             Output = item.Output,
                             UpdateDate = System.DateTime.Now,
-                            State=item.State
+                            State = item.State,
+                            Installed=item.Installed,
+                            Uninstalled=item.Uninstalled
                         });
 
                         if (counter == 0)

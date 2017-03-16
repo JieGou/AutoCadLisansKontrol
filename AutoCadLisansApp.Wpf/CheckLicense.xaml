@@ -3,12 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MaterialDesignDemo"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,14 +17,19 @@
             <DropShadowEffect x:Key="z-depth4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    <ScrollViewer>
 
-        <StackPanel Orientation="Horizontal">
-            <StackPanel Background="#EEEEEE" Width="100">
-                <Border Effect="{StaticResource z-depth4}"  Background="White"  >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="90*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Background="#EEEEEE" Grid.Column="0"  >
+
+            <Border Effect="{StaticResource z-depth4}"  Background="White"  >
                 <materialDesign:Card Background="#adadad"
-                  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
-                    
+                  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" >
+
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -36,7 +39,7 @@
                         <TextBlock Grid.Row="0" Margin="16 16 16 4" Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding Firm.Name}">
                         </TextBlock>
                         <Separator Grid.Row="1" Style="{StaticResource MaterialDesignDarkSeparator}"/>
-                            <TextBlock Grid.Row="2" Margin="16 0 16 8" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Operation.Name}"></TextBlock>
+                        <TextBlock Grid.Row="2" Margin="16 0 16 8" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Operation.Name}"></TextBlock>
                         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="16 0 16 8" HorizontalAlignment="Right">
                             <Button HorizontalAlignment="Right" Style="{StaticResource MaterialDesignToolForegroundButton}" Width="30" Padding="2 0 2 0"
                             materialDesign:RippleAssist.IsCentered="True">
@@ -45,59 +48,87 @@
                         </StackPanel>
                     </Grid>
                 </materialDesign:Card>
-                </Border>
-            </StackPanel>
-            <StackPanel>
+            </Border>
+        </StackPanel>
+        <ScrollViewer  Grid.Column="1"  >
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="30*" />
+                    <RowDefinition Height="30*" />
+                    <RowDefinition Height="30*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="76*" />
+                    <ColumnDefinition Width="24*"/>
+                </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal">
-                    <GroupBox  Header="User Management" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
-                        <GroupBox.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="ImageArea" Height="32" Width="32" VerticalAlignment="Center" />
-                                    <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GroupBox.HeaderTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="Account" Foreground="{Binding ElementName=NameTextBox, Path=BorderBrush}" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Margin="8"
-				    x:Name="NameTextBox"
-				    materialDesign:HintAssist.Hint="Name" Width="83">
-                                <TextBox.Text>
-                                    <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                                        <Binding.ValidationRules>
-                                            <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                            <materialDesign:PackIcon Grid.Row="3" Grid.Column="2" Kind="Key" Foreground="{Binding ElementName=PasswordBox, Path=BorderBrush}" HorizontalAlignment="Right" />
-                            <PasswordBox Grid.Row="3" Grid.Column="3" Margin="8"		
-                     x:Name="PasswordBox"
-                     PasswordChanged="PasswordBox_PasswordChanged"
-                     materialDesign:HintAssist.Hint="Password" Width="83" />
-                            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="8" Width="100"
-                     Command="{Binding RunClicked}" CommandParameter="{Binding ElementName=PasswordBox}">
-                                Run
-                            </Button>
-                            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="8" Width="100"
-                     Command="{Binding SaveClicked}">
-                                Save
-                            </Button>
+                <materialDesign:DialogHost DialogClosing="Sample1_DialogHost_OnDialogClosing"
+                         Grid.Row="1"  Grid.Column="1"    HorizontalAlignment="Right"   Height="256" Width="256">
+                    <materialDesign:DialogHost.DialogContent>
+                        <StackPanel Margin="16">
+                            <TextBlock><Run Text="Add a new software."/></TextBlock>
+                            <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch" x:Name="SoftwareBox" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsDefault="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand" Content="ACCEPT">
+                                    <Button.CommandParameter>
+                                        <system:Boolean>True</system:Boolean>
+                                    </Button.CommandParameter>
+                                </Button>
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand" Content="CANCEL">
+                                    <Button.CommandParameter>
+                                        <system:Boolean>False</system:Boolean>
+                                    </Button.CommandParameter>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
-                    </GroupBox>
-                </StackPanel>
-                <StackPanel>
+                    </materialDesign:DialogHost.DialogContent>
+                    <Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                            MinWidth="256" MinHeight="256" ClipToBounds="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <ListBox  IsEnabled="False" ItemsSource="{Binding SoftwareList}" >
+                                
+                            </ListBox>
+
+                            <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1" Effect="{DynamicResource MaterialDesignShadowDepth5}">
+                                <TextBlock Margin="16"><Run Text="Software list to check"/></TextBlock>
+                            </materialDesign:ColorZone>
+                            <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"                                
+                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                    VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                                    Grid.Row="0" Margin="0 0 28 -20">
+                                <Viewbox Width="22" Height="22">
+                                    <Canvas Width="24" Height="24">
+                                        <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </materialDesign:DialogHost>
+
+
+                <StackPanel Grid.Row="0" Grid.Column="0">
                     <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
-                                              x:Name="NotificationSnackbar" >
+                                              x:Name="NotificationSnackbar"  >
                         <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
                     </materialDesign:Snackbar>
+
+                    <ProgressBar  IsIndeterminate="True" Margin="22,24,10,18" Visibility="{Binding ProgressBar,Mode=TwoWay}" />
+
                 </StackPanel>
-                <ProgressBar IsIndeterminate="True" Margin="16" Visibility="{Binding ProgressBar,Mode=TwoWay}"/>
-
-
-                <GroupBox  Header="Check List" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
+                <GroupBox Grid.Column="0" Grid.Row="1"  Header="User Management" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
                     <GroupBox.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -106,24 +137,86 @@
                             </StackPanel>
                         </DataTemplate>
                     </GroupBox.HeaderTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock Text="{Binding TotalComputer}"></TextBlock>
-                            <TextBlock Text="/"></TextBlock>
-                            <TextBlock Text="{Binding ExecutedComputer}"></TextBlock>
-                            <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
+                    <Grid Margin="0,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition  Width="*"  />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition  Width="*"  />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <materialDesign:PackIcon  Kind="Account" Foreground="{Binding BorderBrush, ElementName=NameTextBox}" />
+                            <TextBox 
+                                            x:Name="NameTextBox"
+                                            materialDesign:HintAssist.Hint="Name" >
+                                <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                                    <Binding.ValidationRules>
+                                        <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" >
+                            <materialDesign:PackIcon Kind="Key" Foreground="{Binding BorderBrush, ElementName=PasswordBox}" HorizontalAlignment="Left" />
+                            <PasswordBox 		
+                                            x:Name="PasswordBox"
+                                            PasswordChanged="PasswordBox_PasswordChanged"
+                                            materialDesign:HintAssist.Hint="Password"  />
+                        </StackPanel>
+                        <Button Grid.Column="2" Style="{StaticResource MaterialDesignRaisedDarkButton}" 
+                                            Command="{Binding RunClicked}" CommandParameter="{Binding ElementName=PasswordBox}" Content="Run"   VerticalAlignment="Top" Margin="3"/>
+                        <Button Grid.Column="3" Style="{StaticResource MaterialDesignRaisedDarkButton}" 
+                                            Command="{Binding SaveClicked}" Content="Save" VerticalAlignment="Top" Margin="3"/>
+
+                    </Grid>
+                </GroupBox>
+
+
+
+
+
+
+
+                <GroupBox Grid.Row="2" Grid.Column="0"  Header="Check List" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,0">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ImageArea" Height="32" Width="32" VerticalAlignment="Center" />
+                                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <Grid VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                            <TextBlock  Text="{Binding TotalComputer}"></TextBlock>
+                            <TextBlock  Text="/"></TextBlock>
+                            <TextBlock  Text="{Binding ExecutedComputer}"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button   Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                         Margin="0 0 8 0" HorizontalAlignment="Right" Command="{Binding ExporttoExcel}"
                         ToolTip="Export to Excel">
                                 <materialDesign:PackIcon Kind="FileExcel" Height="24" Width="24" />
                             </Button>
-                            <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
+                            <Button  Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                         Margin="0 0 8 0" HorizontalAlignment="Right"
                         ToolTip="Export to Pdf">
                                 <materialDesign:PackIcon Kind="FilePdf" Height="24" Width="24" />
                             </Button>
                         </StackPanel>
-                       
-                        <DataGrid  Margin="0 8 0 0" Name="grdCheckList" ItemsSource="{Binding CheckLicenses,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
+
+                        <DataGrid Grid.Row="1" Grid.ColumnSpan="2"  Margin="0 8 0 0" Name="grdCheckList" ItemsSource="{Binding CheckLicenses,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                       materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
                             <DataGrid.Columns>
 
@@ -199,13 +292,24 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
+                                <DataGridTemplateColumn Header="IsFound" Width="SizeToCells" IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Path=IsFound, Converter={StaticResource Converter},Mode=TwoWay}" Margin="0 0 8 0" HorizontalAlignment="Left" ToolTip="Found"></Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
 
                                 <DataGridTemplateColumn Header="State" Width="SizeToCells" IsReadOnly="True">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel>
-                                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Path=Success, Converter={StaticResource Converter},Mode=TwoWay}" Margin="0 0 8 0" HorizontalAlignment="Left" ToolTip="Online"></Button>
-                                                <Button Background="Red"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Path=Fail, Converter={StaticResource Converter},Mode=TwoWay}" Margin="0 0 8 0" HorizontalAlignment="Left" ToolTip="Online"></Button>
+                                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Path=Success, Converter={StaticResource Converter},Mode=TwoWay}" Margin="0 0 8 0" HorizontalAlignment="Left" ToolTip="Success"></Button>
+                                                <Button Background="Red"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Visibility="{Binding Path=Fail, Converter={StaticResource Converter},Mode=TwoWay}" Margin="0 0 8 0" HorizontalAlignment="Left" ToolTip="Fail"></Button>
                                             </StackPanel>
                                         </DataTemplate>
 
@@ -238,10 +342,9 @@
                                 <!--ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Foods}" />-->
                             </DataGrid.Columns>
                         </DataGrid>
-                    </StackPanel>
-
+                    </Grid>
                 </GroupBox>
-            </StackPanel>
-        </StackPanel>
-    </ScrollViewer>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

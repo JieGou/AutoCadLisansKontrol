@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="6ec90376-a843-48f3-8915-a810619cd28b" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" />
-    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="4b1cc91c-f3b3-40db-8b9b-648769a1a1a6" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" />
-    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="1b128f35-7181-4139-ad1c-cb926bf87cbb" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" />
-    <MetadataFile FileName="AutoCadWs1.xsd" MetadataType="Schema" ID="b9a6fe84-4fd8-481d-83d7-80af49668ea4" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="72a38dc9-611f-4ef1-9217-d6f18d5afe4b" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="c96a44ee-f27e-4c0a-bdaf-a1d342201deb" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="509ea0d9-5f5a-448f-aa1e-c31246dae45c" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex/mex" />
+    <MetadataFile FileName="AutoCadWs.xsd" MetadataType="Schema" ID="0ed25f5b-76ce-41e1-a8cb-e33fe1ed6f34" SourceId="1" SourceUrl="http://31.7.35.42/checklicense/AutoCadWs.Service1.svc/mex/mex/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -88,6 +88,10 @@ namespace AutoCadWs
         public string Name { get; set; }
         [DataMember]
         public Nullable<bool> State { get; set; }
+        [DataMember]
+        public Nullable<bool> Installed { get; set; }
+        [DataMember]
+        public Nullable<bool> Uninstalled { get; set; }
 
     }
 }

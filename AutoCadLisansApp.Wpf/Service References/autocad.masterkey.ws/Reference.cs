@@ -442,6 +442,9 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> InstalledField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string IpField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -458,6 +461,9 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<bool> StateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> UninstalledField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<System.DateTime> UpdateDateField;
@@ -520,6 +526,19 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
                 if ((this.IdField.Equals(value) != true)) {
                     this.IdField = value;
                     this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> Installed {
+            get {
+                return this.InstalledField;
+            }
+            set {
+                if ((this.InstalledField.Equals(value) != true)) {
+                    this.InstalledField = value;
+                    this.RaisePropertyChanged("Installed");
                 }
             }
         }
@@ -598,6 +617,19 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
                 if ((this.StateField.Equals(value) != true)) {
                     this.StateField = value;
                     this.RaisePropertyChanged("State");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> Uninstalled {
+            get {
+                return this.UninstalledField;
+            }
+            set {
+                if ((this.UninstalledField.Equals(value) != true)) {
+                    this.UninstalledField = value;
+                    this.RaisePropertyChanged("Uninstalled");
                 }
             }
         }

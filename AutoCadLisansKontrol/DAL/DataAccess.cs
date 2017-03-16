@@ -185,7 +185,7 @@ namespace AutoCadLisansKontrol.DAL
             return dbaccess.Computer.Where(x => x.FirmId == firmId).ToList();
         }
 
-       
+
 
         public void DeleteComputer(int id)
         {
@@ -363,7 +363,7 @@ namespace AutoCadLisansKontrol.DAL
 
         public List<CheckLicenseEntity> ListCheckLicense(int id)
         {
-            return dbaccess.CheckLicense.Where(x=>x.OperationId==id).ToList();
+            return dbaccess.CheckLicense.Where(x => x.OperationId == id).ToList();
         }
 
         public void DeleteCheckLicense(CheckLicenseEntity oprdetail)

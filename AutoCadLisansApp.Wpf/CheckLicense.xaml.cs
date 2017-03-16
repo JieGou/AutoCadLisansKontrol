@@ -29,10 +29,6 @@ namespace MaterialDesignDemo
             InitializeComponent();
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
@@ -48,7 +44,7 @@ namespace MaterialDesignDemo
         private void OutputButton_Click(object sender, RoutedEventArgs e)
         {
             var chechlicenseitem = (autocad.masterkey.ws.CheckLicense)grdCheckList.SelectedItem;
-            
+
             string output = (string)(((Button)sender).CommandParameter);
 
             SaveOutput(output);
@@ -56,6 +52,19 @@ namespace MaterialDesignDemo
         private void Sample2_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
         {
             Console.WriteLine("SAMPLE 2: Closing dialog with parameter: " + (eventArgs.Parameter ?? ""));
+        }
+        private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
+        {
+
+            if (!Equals(eventArgs.Parameter, true)) return;
+
+            var checklicensemodel = (CheckLicenseViewModel)DataContext;
+            
+
+            if (!string.IsNullOrWhiteSpace(SoftwareBox.Text))
+                checklicensemodel.SoftwareList.Add(SoftwareBox.Text.Trim());
+
+            SoftwareBox.Text = "";
         }
 
         public void SaveOutput(string content)

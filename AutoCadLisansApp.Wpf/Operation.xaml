@@ -48,7 +48,7 @@
     <ScrollViewer>
 
         <StackPanel Orientation="Horizontal">
-            <StackPanel Background="#EEEEEE" Width="100">
+            <StackPanel Background="#EEEEEE" >
                 <Border Effect="{StaticResource z-depth4}"  Background="White"  >
                     <materialDesign:Card Background="#adadad"
                   Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
@@ -174,7 +174,11 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </GroupBox>
+                
             </StackPanel>
+           
+
         </StackPanel>
+        
     </ScrollViewer>
 </UserControl>

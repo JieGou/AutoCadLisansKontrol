@@ -25,6 +25,8 @@ namespace AutoCadLisansKontrol.DAL
         public Nullable<int> FirmId { get; set; }
         public string Name { get; set; }
         public Nullable<bool> State { get; set; }
+        public Nullable<bool> Installed { get; set; }
+        public Nullable<bool> Uninstalled { get; set; }
     
         public virtual OperationEntity Operation { get; set; }
     }

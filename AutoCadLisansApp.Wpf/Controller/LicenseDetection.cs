@@ -83,14 +83,13 @@ namespace AutoCadLisansKontrol.Controller
                             output = results[0].ToString();
                         }
                     }
-                    chc.Success = true;
 
                 }
             }
             catch (Exception ex)
             {
                 output = ex.Message;
-                chc.Fail = true;
+                chc.Success = false;
             }
             chc.Output = output;
             chc.IsUnlicensed = true;
@@ -225,29 +224,75 @@ namespace AutoCadLisansKontrol.Controller
                     }
 
                 }
-                chc.Success = true;
             }
             catch (Exception ex)
             {
                 outputcontent = ex.Message;
-                chc.Fail = true;
             }
             chc.Error = errorcontent.ToString();
             chc.Output = outputcontent.ToString();
             return chc;
         }
 
-        public static CheckLicenseModel ExecuteWMI(CheckLicenseModel chc, string username, string password, int opreationid)
+        public static CheckLicenseModel ExecuteWMI(string[] software, CheckLicenseModel chc, string username, string password, int opreationid)
         {
-            var sBatFile = @"C:\Users\hikmet\Desktop\checklicense.bat";
             try
             {
+
+                chc.IsFound = false;
+                chc.Fail = false;
+                chc.Success = false;
+                var softwares = "";
+
                 ProcessWMI process = new ProcessWMI();
-                process.ExecuteRemoteProcessWMI(chc.Name, username, password, sBatFile, 1000);
+                var win32product = process.GetProductWithWMI(software, chc.Name, username, password);
+
+              
+                if (win32product.Count > 0)
+                {
+                    chc.IsFound = true;
+                    foreach (var item in win32product)
+                    {
+                        softwares += item.Name + " (Installed)" + "\n\r";
+                    }
+                    chc.Success = true;
+                    chc.IsFound = true;
+                    chc.Installed = true;
+                    chc.Uninstalled = false;
+                    chc.Output = softwares;
+                    return chc;
+                }
+                
+                var registeryproduct = process.ReadRegisteryusingWMI(software, chc.Name, username, password);
+
+               
+                if (registeryproduct.Count > 0)
+                {
+                    foreach (var item in registeryproduct)
+                    {
+                        softwares += item.DisplayName + " (Uninstalled)" + "\n\r";
+                    }
+                    chc.Success = true;
+                    chc.IsFound = true;
+                    chc.Uninstalled = true;
+                    chc.Installed = false;
+                    chc.Output = softwares;
+                    return chc;
+                }
+
+
+                chc.Success = true;
+                chc.IsFound = false;
+                chc.Uninstalled = false;
+                chc.Installed = false;
+                chc.Output = "Software not found";
+
+
             }
             catch (Exception ex)
             {
                 chc.Output = ex.Message;
+                chc.Fail = true;
             }
 
             return chc;
