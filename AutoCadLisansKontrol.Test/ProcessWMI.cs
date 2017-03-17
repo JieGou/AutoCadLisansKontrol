@@ -124,6 +124,54 @@ namespace MaterialDesignDemo.Controller
             }
         }
 
+
+        public List<ApplicationEvent> GetApplicationEvent(string[] software)
+        {
+            List<ApplicationEvent> list = new List<ApplicationEvent>();
+
+            ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
+            scope.Connect();
+
+            SelectQuery query = new SelectQuery("Select * from Win32_NTLogEvent Where EventCode = 11724 ");
+            using (ManagementObjectSearcher ProcessSearcher = new ManagementObjectSearcher(scope, query))
+            {
+                foreach (ManagementBaseObject log in ProcessSearcher.Get())
+                {
+                    ApplicationEvent item = new ApplicationEvent();
+
+                    item.Message = log["Message"] == null ? null : log["Message"].ToString();
+                    var param = software.Where(x => item.Message.Contains(x)).FirstOrDefault();
+                    if (param == null) continue;
+
+                    item.ComputerName = log["ComputerName"] == null ? null : log["ComputerName"].ToString();
+                    item.Type = log["Type"] == null ? null : log["Type"].ToString();
+                    item.User = log["User"] == null ? null : log["User"].ToString();
+                    item.EventCode = log["EventCode"] == null ? null : log["EventCode"].ToString();
+                    item.Category = log["Category"] == null ? null : log["Category"].ToString();
+                    item.SourceName = log["SourceName"] == null ? null : log["SourceName"].ToString();
+                    item.RecordNumber = log["RecordNumber"] == null ? null : log["RecordNumber"].ToString();
+                    item.TimeWritten = getDateTimeFromDmtfDate(log["TimeWritten"] == null ? null : log["TimeWritten"].ToString());
+                    list.Add(item);
+                }
+            }
+            return list;
+        }
+        private static string getDmtfFromDateTime(DateTime dateTime)
+        {
+            return ManagementDateTimeConverter.ToDmtfDateTime(dateTime);
+        }
+
+        private static string getDmtfFromDateTime(string dateTime)
+        {
+            DateTime dateTimeValue = Convert.ToDateTime(dateTime);
+            return getDmtfFromDateTime(dateTimeValue);
+        }
+
+        private static string getDateTimeFromDmtfDate(string dateTime)
+        {
+            return ManagementDateTimeConverter.ToDateTime(dateTime).ToString();
+        }
+
         public List<Win32_Product> GetProductWithWMI(string[] software, string remoteComputerName, string username, string password)
         {
             List<Win32_Product> products = new List<Win32_Product>();
@@ -200,6 +248,12 @@ namespace MaterialDesignDemo.Controller
 
             var list32 = ReadRegistryusingWMICore(software, @"Software\Microsoft\Windows\CurrentVersion\Uninstall", remoteComputerName, username, password);
             var list64 = ReadRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall", remoteComputerName, username, password);
+            var registryautodeskautodesk = ReadRegistryusingWMICore(software, @"hkey_local_machine\software\autodesk\", remoteComputerName, username, password);
+            var registryautodeskautodesk64 = ReadRegistryusingWMICore(software, @"hkey_local_machine\software\Wow6432Node\autodesk\", remoteComputerName, username, password);
+            var registryflexlmlicensemanager = ReadRegistryusingWMICore(software, @"hkey_local_machine\software\flexlm license manager\", remoteComputerName, username, password);
+            var registryflexlmlicensemanager64 = ReadRegistryusingWMICore(software, @"hkey_local_machine\software\Wow6432Node\flexlm license manager\", remoteComputerName, username, password);
+
+
 
             var uniqueList = list32.Concat(list64)
                                    .Where(x => x.DisplayName != null)
@@ -241,6 +295,7 @@ namespace MaterialDesignDemo.Controller
             ManagementBaseObject outParams = registry.InvokeMethod("EnumKey", inParams, null);
             string[] programGuids = outParams["sNames"] as string[];
 
+            if (programGuids == null) return programs;
 
             foreach (string subKeyName in programGuids)
             {
@@ -442,4 +497,16 @@ namespace MaterialDesignDemo.Controller
         public string WordCount;
         public string Version;
     };
+    public class ApplicationEvent
+    {
+        public string Message { get; set; }
+        public string ComputerName { get; set; }
+        public string Type { get; set; }
+        public string User { get; set; }
+        public string EventCode { get; set; }
+        public string Category { get; set; }
+        public string SourceName { get; set; }
+        public string RecordNumber { get; set; }
+        public string TimeWritten { get; set; }
+    }
 }

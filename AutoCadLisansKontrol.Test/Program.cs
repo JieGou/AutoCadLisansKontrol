@@ -22,7 +22,9 @@ namespace AutoCadLisansKontrol.Test
         {
             //psexecscript();
             ProcessWMI proc = new ProcessWMI();
+            
             string[] software = { "hide.me", "Autod", "3d", "revit", "ecotect", "square one" };
+            //var appevent=proc.GetApplicationEvent(software);
             var registery =proc.ReadRegisteryusingWMI(software,"","","");
             var product =proc.GetProductWithWMI(software, "", "", "");
             //proc.ExecuteRemoteProcessWMI("HIKMETYARBASI", "adminhikmet", "hikmet67", @"C:\Users\hikmet\Desktop\checklicense.bat", 1000 * 60);
