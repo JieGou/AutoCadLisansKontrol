@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignDemo.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,15 @@ namespace MaterialDesignDemo.Model
 {
     public class CheckLicenseModel : autocad.masterkey.ws.CheckLicense
     {
+        public FileExplorerModel FileExplorerModel { get; set; }
+        public List<ApplicationEvent> ApplicationEvents { get; set; }
+
+        public List<Win32_Product> Win32_products{ get; set; }
+
+        public List<Software> UnInstallRegisterySoftwares { get; set; }
+        public List<Software> RegistryAutoDesk { get; set; }
+
+
         private bool _isProgress;
         public bool IsProgress
         {
@@ -94,5 +104,9 @@ namespace MaterialDesignDemo.Model
         }
 
 
+    }
+    public class CheckList {
+        public string Name { get; set; }
+        public bool WillChecked { get; set; }
     }
 }

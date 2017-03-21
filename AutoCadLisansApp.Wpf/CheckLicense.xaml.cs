@@ -1,4 +1,5 @@
 ﻿using MaterialDesignColors.WpfExample.Domain;
+using MaterialDesignDemo.Controller;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
@@ -59,10 +60,10 @@ namespace MaterialDesignDemo
             if (!Equals(eventArgs.Parameter, true)) return;
 
             var checklicensemodel = (CheckLicenseViewModel)DataContext;
-            
+
 
             if (!string.IsNullOrWhiteSpace(SoftwareBox.Text))
-                checklicensemodel.SoftwareList.Add(SoftwareBox.Text.Trim());
+                checklicensemodel.SoftwareList.Add(new Software() { DisplayName = SoftwareBox.Text.Trim() });
 
             SoftwareBox.Text = "";
         }

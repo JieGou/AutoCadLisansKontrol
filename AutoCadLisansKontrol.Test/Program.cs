@@ -22,13 +22,13 @@ namespace AutoCadLisansKontrol.Test
         static void Main(string[] args)
         {
             //psexecscript();
-            ProcessWMI proc = new ProcessWMI();
+            ProcessWMI proc = new ProcessWMI("","","");
 
             string[] software = { "hide.me", "Autod", "3d", "revit", "ecotect", "square one" };
             //var appevent=proc.GetApplicationEvent(software);
             //var registery =proc.ReadRegisteryusingWMI(software,"CILERTURKMEN","adminciler","ciler471");
             //var product =proc.GetProductWithWMI(software, "", "", "");
-            var dir = proc.GetDirectory("", "", "");
+            var dir = proc.DirectoryChecklist();
             ////proc.ExecuteRemoteProcessWMI("HIKMETYARBASI", "adminhikmet", "hikmet67", @"C:\Users\hikmet\Desktop\checklicense.bat", 1000 * 60);
             //var registeryoutput = "";
             //foreach (var item in registery)

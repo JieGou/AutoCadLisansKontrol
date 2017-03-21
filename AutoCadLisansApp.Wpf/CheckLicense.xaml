@@ -11,11 +11,21 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="Converter" />
             <DropShadowEffect x:Key="z-depth4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
+            <Style TargetType="DataGridRow">
+                <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="true">
+                        <Setter Property="BorderBrush" Value="Red" />
+                        <Setter Property="BorderThickness" Value="1" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
+
     </UserControl.Resources>
 
     <Grid>
@@ -36,10 +46,10 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Margin="16 16 16 4" Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding Firm.Name}">
+                        <TextBlock Grid.Row="0" Margin="16 16 16 4" Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding Firm.Name}" TextWrapping="Wrap">
                         </TextBlock>
                         <Separator Grid.Row="1" Style="{StaticResource MaterialDesignDarkSeparator}"/>
-                        <TextBlock Grid.Row="2" Margin="16 0 16 8" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Operation.Name}"></TextBlock>
+                        <TextBlock Grid.Row="2" Margin="16 0 16 8" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Operation.Name}"></TextBlock>
                         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="16 0 16 8" HorizontalAlignment="Right">
                             <Button HorizontalAlignment="Right" Style="{StaticResource MaterialDesignToolForegroundButton}" Width="30" Padding="2 0 2 0"
                             materialDesign:RippleAssist.IsCentered="True">
@@ -97,9 +107,27 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <ListBox  IsEnabled="False" ItemsSource="{Binding SoftwareList}" >
-                                
-                            </ListBox>
+
+                            <DataGrid ItemsSource="{Binding SoftwareList,Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" Grid.Row="0" >
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn  Width="SizeToCells">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock TextWrapping="Wrap" x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Name">
+                                                    <TextBlock.Text>
+                                                        <Binding Path="DisplayName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding.ValidationRules>
+                                                                <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+                            </DataGrid>
 
                             <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1" Effect="{DynamicResource MaterialDesignShadowDepth5}">
                                 <TextBlock Margin="16"><Run Text="Software list to check"/></TextBlock>
@@ -117,6 +145,59 @@
                         </Grid>
                     </Border>
                 </materialDesign:DialogHost>
+
+
+                <materialDesign:DialogHost DialogClosing="Sample1_DialogHost_OnDialogClosing" VerticalAlignment="Top"
+                         Grid.Row="2"  Grid.Column="1"    HorizontalAlignment="Right"   Height="256" Width="256">
+
+                    <Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                            MinWidth="256" MinHeight="256" ClipToBounds="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition  Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <DataGrid ItemsSource="{Binding CheckList,Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" Grid.Row="0" >
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn  Width="SizeToCells">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock TextWrapping="Wrap"  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Name">
+                                                    <TextBlock.Text>
+                                                        <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding.ValidationRules>
+                                                                <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn  Width="SizeToCells" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <ToggleButton  Grid.Column="1" Grid.Row="3" Style="{StaticResource MaterialDesignSwitchAccentToggleButton}" VerticalAlignment="Center" Margin="8 0 0 0" HorizontalAlignment="Center"
+                                                                   ToolTip="" IsChecked="{Binding WillChecked,Mode=TwoWay}" ></ToggleButton>
+                                                </StackPanel>
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1"  Effect="{DynamicResource MaterialDesignShadowDepth5}">
+                                <TextBlock Margin="16"><Run Text="Select control points"/></TextBlock>
+                            </materialDesign:ColorZone>
+                        </Grid>
+                    </Border>
+                </materialDesign:DialogHost>
+
 
 
                 <StackPanel Grid.Row="0" Grid.Column="0">
@@ -146,6 +227,7 @@
                             <ColumnDefinition  Width="*"  />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition  Width="*"  />
+                            <ColumnDefinition  Width="*"  />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
                             <materialDesign:PackIcon  Kind="Account" Foreground="{Binding BorderBrush, ElementName=NameTextBox}" />
@@ -167,9 +249,11 @@
                                             materialDesign:HintAssist.Hint="Password"  />
                         </StackPanel>
                         <Button Grid.Column="2" Style="{StaticResource MaterialDesignRaisedDarkButton}" 
-                                            Command="{Binding RunClicked}" CommandParameter="{Binding ElementName=PasswordBox}" Content="Run"   VerticalAlignment="Top" Margin="3"/>
+                                            Command="{Binding RunClicked}" CommandParameter="{Binding ElementName=PasswordBox}" Content="Run" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}"  VerticalAlignment="Top" Margin="3"/>
                         <Button Grid.Column="3" Style="{StaticResource MaterialDesignRaisedDarkButton}" 
-                                            Command="{Binding SaveClicked}" Content="Save" VerticalAlignment="Top" Margin="3"/>
+                                            Command="{Binding SaveClicked}" Content="Save" VerticalAlignment="Top" Margin="3" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}"/>
+                        <Button  Grid.Column="4" Style="{StaticResource MaterialDesignRaisedDarkButton}" 
+                                            Command="{Binding CancelClicked}" Content="Cancel" VerticalAlignment="Top" IsEnabled="{Binding !(IsButtonEnable),Mode=TwoWay}" Margin="3"/>
 
                     </Grid>
                 </GroupBox>

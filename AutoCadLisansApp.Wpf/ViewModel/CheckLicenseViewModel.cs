@@ -27,7 +27,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
         private string _notificationContent;
-        private bool _notificationIsVisible=false;
+        private bool _notificationIsVisible = false;
         public string NotificationContent { get { return _notificationContent; } set { _notificationContent = value; OnPropertyChanged("NotificationContent"); } }
         public bool NotificationIsVisible { get { return _notificationIsVisible; } set { _notificationIsVisible = value; OnPropertyChanged("NotificationIsVisible"); } }
 
@@ -41,6 +41,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
         public ICommand RunClicked { get; set; }
         public ICommand SaveClicked { get; set; }
+        public ICommand CancelClicked { get; set; }
         public ICommand SaveOutputClicked { get; set; }
 
         private int OprId;
@@ -52,8 +53,15 @@ namespace MaterialDesignColors.WpfExample.Domain
         public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
 
 
-        private ObservableCollection<CheckLicenseModel> _checkLicenses;
-        private ObservableCollection<string> _softwarelist = new ObservableCollection<string> { "Autod", "3d", "revit", "ecotect", "square one", "Autoc" };
+
+        private ObservableCollection<Software> _softwarelist = new ObservableCollection<Software> {
+            new Software { DisplayName="Autod"},
+            new Software { DisplayName="3d"},
+            new Software { DisplayName="revit"},
+            new Software { DisplayName="ecotect"},
+            new Software { DisplayName="square one"},
+            new Software { DisplayName="Autoc"}
+        };
 
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -70,16 +78,23 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             RunClicked = new RelayCommand(param => CheckLicenseCommand(param));
             SaveClicked = new DelegateCommand(SaveCommand);
+            CancelClicked = new DelegateCommand(CancelCommand);
             OprId = oprId;
             FirmId = firmId;
             LoadCheckLicenseFromDb();
-
+            CheckList = new ObservableCollection<MaterialDesignDemo.Model.CheckList>
+            {
+                new MaterialDesignDemo.Model.CheckList { Name="Add or Remove Programs",WillChecked=true},
+                new MaterialDesignDemo.Model.CheckList { Name="Registry Key",WillChecked=true},
+                new MaterialDesignDemo.Model.CheckList { Name="Application Events",WillChecked=true},
+                new MaterialDesignDemo.Model.CheckList { Name="File Explorer",WillChecked=true}
+            };
 
 
 
         }
 
-        public ObservableCollection<string> SoftwareList
+        public ObservableCollection<Software> SoftwareList
         {
             get
             {
@@ -93,7 +108,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
         }
 
-
+        private ObservableCollection<CheckLicenseModel> _checkLicenses;
         public ObservableCollection<CheckLicenseModel> CheckLicenses
         {
             get
@@ -106,6 +121,19 @@ namespace MaterialDesignColors.WpfExample.Domain
                 OnPropertyChanged("CheckLicenses");
             }
 
+        }
+        private ObservableCollection<CheckList> _checkList;
+        public ObservableCollection<CheckList> CheckList
+        {
+            get
+            {
+                return _checkList;
+            }
+            set
+            {
+                _checkList = value;
+                OnPropertyChanged("CheckList");
+            }
         }
         public MaterialDesignDemo.autocad.masterkey.ws.Operation Operation
         {
@@ -129,7 +157,6 @@ namespace MaterialDesignColors.WpfExample.Domain
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)
-                //PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         public void CheckLicenseCommand(object param)
@@ -172,7 +199,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
 
-                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId);
+                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList());
 
                         });
 
@@ -248,7 +275,11 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             EndNotification("");
         }
+        public void CancelCommand() {
+            EndNotification("");
 
+
+        }
 
         public void SaveCommand()
         {
@@ -277,8 +308,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                             Output = item.Output,
                             UpdateDate = System.DateTime.Now,
                             State = item.State,
-                            Installed=item.Installed,
-                            Uninstalled=item.Uninstalled
+                            Installed = item.Installed,
+                            Uninstalled = item.Uninstalled
                         });
 
                         if (counter == 0)

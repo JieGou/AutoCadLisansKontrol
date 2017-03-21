@@ -106,7 +106,7 @@
     </Reference>
     <Reference Include="WIN32_Registry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\WIN32_Registry.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\WIN32_Registry\WIN32_Registry\bin\Debug\WIN32_Registry.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

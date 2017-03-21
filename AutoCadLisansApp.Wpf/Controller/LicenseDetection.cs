@@ -234,7 +234,7 @@ namespace AutoCadLisansKontrol.Controller
             return chc;
         }
 
-        public static CheckLicenseModel ExecuteWMI(string[] software, CheckLicenseModel chc, string username, string password, int opreationid)
+        public static CheckLicenseModel ExecuteWMI(Software[] software, CheckLicenseModel chc, string username, string password, int opreationidi,List<CheckList> checklist)
         {
             try
             {
@@ -244,8 +244,8 @@ namespace AutoCadLisansKontrol.Controller
                 chc.Success = false;
                 var softwares = "";
 
-                ProcessWMI process = new ProcessWMI();
-                var win32product = process.GetProductWithWMI(software, chc.Name, username, password);
+                ProcessWMI process = new ProcessWMI(chc.Name, username, password);
+                var win32product = process.GetProductWithWMI(software);
 
               
                 if (win32product.Count > 0)
@@ -263,7 +263,7 @@ namespace AutoCadLisansKontrol.Controller
                     return chc;
                 }
                 
-                var registeryproduct = process.ReadRegisteryusingWMI(software, chc.Name, username, password);
+                var registeryproduct = process.ReadRegisteryusingWMI(software);
 
                
                 if (registeryproduct.Count > 0)

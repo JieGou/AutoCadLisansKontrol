@@ -62,13 +62,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Desktop\WIN32_Registry\WIN32_Registry\WIN32_Registry.csproj">
+      <Project>{fcfdcae6-674b-4ca9-8e28-5f52b10fc1ee}</Project>
+      <Name>WIN32_Registry</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AutoCadLisansKontrol\AutoCadDAL.csproj">
       <Project>{4fe772c3-5004-4e61-97cd-817e82fe37e2}</Project>
       <Name>AutoCadDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\hikmet\Desktop\WIN32_Registry\WIN32_Registry.csproj">
-      <Project>{FCFDCAE6-674B-4CA9-8E28-5F52B10FC1EE}</Project>
-      <Name>WIN32_Registry</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

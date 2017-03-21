@@ -482,88 +482,92 @@ namespace MaterialDesignDemo.Controller
             return list;
         }
 
-        public List<Win32_Directory> DirectoryChecklist()
+        public FileExplorerModel DirectoryChecklist()
         {
 
             List<MyDirectory> directories = new List<MyDirectory>();
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\autode~1\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autode~1\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\autoca~1\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autoca~1\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\docume~1\\alluse~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\docume~1\\alluse~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\Users\\Admini~1\\appdata\\roaming\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\Users\\Admini~1\\appdata\\roaming\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\Users\\Admini~1\\appdata\\local\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\Users\\Admini~1\\appdata\\local\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\docume~1\\alluse~1\\applic~1\\autodesk\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\docume~1\\alluse~1\\applic~1\\autodesk\\*.err", Type = "dir" });//error 
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\Users\\Admini~1\\appdata\\roaming\\autodesk\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\Users\\Admini~1\\appdata\\roaming\\autodesk\\*.err", Type = "file" });//error
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\Users\\Admini~1\\appdata\\local\\autodesk\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\Users\\Admini~1\\appdata\\local\\autodesk\\*.err", Type = "file" });//erorr
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\Users\\Admini~1\\appdata\\local\\autodesk\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\Users\\Admini~1\\appdata\\local\\autodesk\\*.err", Type = "file" });//erorr
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\programdata\\autodesk\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\programdata\\autodesk\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\autoca~1\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autoca~1\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\autode~1\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autode~1\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\autodesk\\revit\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autodesk\\revit\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\revit\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\revit\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\autodesk\\AutoCA~1\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autodesk\\AutoCA~1\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kulla~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\docume~1\\alluse~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kulla~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\docume~1\\alluse~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kullanıcılar\\Admini~1\\appdata\\roaming\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\kullanıcılar\\Admini~1\\appdata\\roaming\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kullanıcılar\\Admini~1\\appdata\\roaming\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\kullanıcılar\\Admini~1\\appdata\\roaming\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kullanıcılar\\Admini~1\\appdata\\local\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\kullanıcılar\\Admini~1\\appdata\\local\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kulla~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kullan~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\kulla~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\kullan~1\\applic~1\\autodesk\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kulla~1\\applic~1\\autodesk\\*.html", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kulla~1\\applic~1\\autodesk\\*.err", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\docume~1\\alluse~1\\applic~1\\autodesk\\*.html", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\docume~1\\alluse~1\\applic~1\\autodesk\\*.err", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\kullanıcılar\\Admini~1\\appdata\\roaming\\autodesk\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\kullanıcılar\\Admini~1\\appdata\\roaming\\autodesk\\*.err", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kullanıcılar\\Admini~1\\appdata\\roaming\\autodesk\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kullanıcılar\\Admini~1\\appdata\\roaming\\autodesk\\*.err", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kullanıcılar\\Admini~1\\appdata\\local\\autodesk\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\kullanıcılar\\Admini~1\\appdata\\local\\autodesk\\*.err", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\kullanıcılar\\Admini~1\\appdata\\local\\autodesk\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\kullanıcılar\\Admini~1\\appdata\\local\\autodesk\\*.err", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\programdata\\autodesk\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\programdata\\autodesk\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\\autoca~1\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autoca~1\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\\autode~1\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autode~1\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\autodesk\\revit\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autodesk\\revit\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\revit\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\revit\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\progra~1\\autodesk\\AutoCA~1\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\progra~1\\autodesk\\AutoCA~1\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autode~1\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autode~1\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autoca~1\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autoca~1\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\*.html", Type = "file" });//html
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\*.err", Type = "dir" });//error 
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.html", Type = "file" });//html
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.err", Type = "file" });//error
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.html", Type = "file" });//html
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.err", Type = "file" });//erorr
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.html", Type = "file" });//html
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.err", Type = "file" });//erorr
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\programdata\\\\autodesk\\\\*.html", Type = "file" });//html
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\programdata\\\\autodesk\\\\*.html", Type = "file" });//html
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autoca~1\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autoca~1\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autode~1\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autode~1\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autodesk\\\\revit\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autodesk\\\\revit\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\revit\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\revit\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autodesk\\\\AutoCA~1\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autodesk\\\\AutoCA~1\\\\*.lic", Type = "file" });//lic
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullan~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullan~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\*.html", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\*.err", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\*.html", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\*.err", Type = "dir" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.html", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.err", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.html", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.err", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.html", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.err", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.html", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.err", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\programdata\\\\autodesk\\\\*.html", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\programdata\\\\autodesk\\\\*.html", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\\autoca~1\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autoca~1\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\\autode~1\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autode~1\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autodesk\\\\revit\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autodesk\\\\revit\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\revit\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\revit\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autodesk\\\\AutoCA~1\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autodesk\\\\AutoCA~1\\\\*.lic", Type = "file" });
+            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\NBHIKMETY01\\\\", Type = "dir" });
 
 
+            FileExplorerModel model = new FileExplorerModel();
 
-
-
+            List<Win32_Directory> list = new List<Win32_Directory>();
             foreach (var item in directories)
             {
-
+                if (item.Type == "dir")
+                    model.directories=model.directories.Concat(GetDirectory(item.Drive, item.Path)).ToList();
+                else if (item.Type == "file")
+                    model.files=model.files.Concat(GetFiles(item.Path, item.Drive)).ToList();
             }
-
+            return model;
         }
         private List<Win32_Directory> GetDirectory(string Drive, string Path)
         {
@@ -814,5 +818,10 @@ namespace MaterialDesignDemo.Controller
         public string Drive { get; set; }
         public string Path { get; set; }
         public string Type { get; set; }
+    }
+    public class FileExplorerModel
+    {
+        public List<Win32_Directory> directories = new List<Win32_Directory>();
+        public List<CIM_DataFile> files = new List<CIM_DataFile>();
     }
 }
