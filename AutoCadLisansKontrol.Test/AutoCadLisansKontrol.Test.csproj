@@ -14,7 +14,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -65,6 +65,10 @@
     <ProjectReference Include="..\AutoCadLisansKontrol\AutoCadDAL.csproj">
       <Project>{4fe772c3-5004-4e61-97cd-817e82fe37e2}</Project>
       <Name>AutoCadDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\hikmet\Desktop\WIN32_Registry\WIN32_Registry.csproj">
+      <Project>{FCFDCAE6-674B-4CA9-8E28-5F52B10FC1EE}</Project>
+      <Name>WIN32_Registry</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

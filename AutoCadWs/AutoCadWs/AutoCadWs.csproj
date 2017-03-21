@@ -69,6 +69,10 @@
       <Project>{4fe772c3-5004-4e61-97cd-817e82fe37e2}</Project>
       <Name>AutoCadDAL</Name>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\hikmet\Desktop\WIN32_Registry\WIN32_Registry.csproj">
+      <Project>{fcfdcae6-674b-4ca9-8e28-5f52b10fc1ee}</Project>
+      <Name>WIN32_Registry</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

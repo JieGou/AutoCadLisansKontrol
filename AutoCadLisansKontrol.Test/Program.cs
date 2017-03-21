@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.Management.Infrastructure;
 using Microsoft.Management.Infrastructure.Options;
 using System.Management;
+using Microsoft.Win32;
 
 namespace AutoCadLisansKontrol.Test
 {
@@ -22,24 +23,44 @@ namespace AutoCadLisansKontrol.Test
         {
             //psexecscript();
             ProcessWMI proc = new ProcessWMI();
-            
+
             string[] software = { "hide.me", "Autod", "3d", "revit", "ecotect", "square one" };
             //var appevent=proc.GetApplicationEvent(software);
-            var registery =proc.ReadRegisteryusingWMI(software,"","","");
-            var product =proc.GetProductWithWMI(software, "", "", "");
-            //proc.ExecuteRemoteProcessWMI("HIKMETYARBASI", "adminhikmet", "hikmet67", @"C:\Users\hikmet\Desktop\checklicense.bat", 1000 * 60);
-            var registeryoutput = "";
-            foreach (var item in registery)
-            {
-                registeryoutput += item.DisplayName + "\n\r";
-            }
-            var productoutput = "";
-            foreach (var item in product)
-            {
-                productoutput += item.Name + "\n\r";
-            }
+            //var registery =proc.ReadRegisteryusingWMI(software,"CILERTURKMEN","adminciler","ciler471");
+            //var product =proc.GetProductWithWMI(software, "", "", "");
+            var dir = proc.GetDirectory("", "", "");
+            ////proc.ExecuteRemoteProcessWMI("HIKMETYARBASI", "adminhikmet", "hikmet67", @"C:\Users\hikmet\Desktop\checklicense.bat", 1000 * 60);
+            //var registeryoutput = "";
+            //foreach (var item in registery)
+            //{
+            //    registeryoutput += item.DisplayName + "\n\r";
+            //}
+            //var productoutput = "";
+            //foreach (var item in product)
+            //{
+            //    productoutput += item.Name + "\n\r";
+            //}
+            //var HKLM32 = RegistryKey.OpenRemoteBaseKey(RegistryHive.LocalMachine, "HIKMETYARBASI", RegistryView.Registry32);
+            //var HKLM64 = RegistryKey.OpenRemoteBaseKey(RegistryHive.LocalMachine, "HIKMETYARBASI", RegistryView.Registry64);
 
+            //RegistryKey OurKey32 = Registry.LocalMachine;
+            //RegistryKey OurKey64 = Registry.LocalMachine;
+            //OurKey32 = HKLM32.OpenSubKey(@"SOFTWARE\\AutoDesk", false);
+            //OurKey64 = HKLM64.OpenSubKey(@"SOFTWARE\\AutoDesk", false);
+            //GetSubKeys(OurKey32);
+            //GetSubKeys(OurKey64);
+        }
 
+        private static void GetSubKeys(RegistryKey SubKey)
+        {
+            var count = SubKey.SubKeyCount;
+            var keys = SubKey.GetSubKeyNames();
+            foreach (string sub in keys)
+            {
+                RegistryKey local = Registry.Users;
+                local = SubKey.OpenSubKey(sub, false);
+                GetSubKeys(local); // By recalling itselfit makes sure it get all the subkey names
+            }
         }
         static void HandleEvent(object sender, EventArrivedEventArgs e)
         {
@@ -126,8 +147,8 @@ namespace AutoCadLisansKontrol.Test
             scripts.Add(new RemoteCommand { Key = "checklicense", command = hikmet, timeout = 1000 * 60 });
             scripts.Add(new RemoteCommand { Key = "readlicense", command = readcontent, timeout = 1000 * 60 });
             var filename = @"C:\Aygaz\PSTools\psexec.exe";
-                string errorcontent = "";
-                string outputcontent = "";
+            string errorcontent = "";
+            string outputcontent = "";
             foreach (var script in scripts)
             {
                 using (Process process = new Process())
