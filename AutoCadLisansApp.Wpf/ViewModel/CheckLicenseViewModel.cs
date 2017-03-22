@@ -153,7 +153,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
-
+        CancellationTokenSource cts = new CancellationTokenSource();
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)
@@ -194,7 +194,6 @@ namespace MaterialDesignColors.WpfExample.Domain
                 {
                     foreach (var chc in CheckLicenses)
                     {
-
                         var tempchc = new CheckLicenseModel();
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
@@ -216,9 +215,12 @@ namespace MaterialDesignColors.WpfExample.Domain
                             }
 
                         });
-                        var t3 = Task.Factory.StartNew(() => ChildDoInBackground());
+
+
+                        var t3 = Task.Factory.StartNew(() => { ChildDoInBackground(); }, cts.Token);
+
                         // when t1 is done run t1..on the Ui thread.
-                        var t4 = t3.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
+                        var t4 = t3.ContinueWith(t => { ChildDoOnUiThread(); }, cts.Token);
 
 
                     }
@@ -275,10 +277,14 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             EndNotification("");
         }
-        public void CancelCommand() {
+        public void CancelCommand()
+        {
             EndNotification("");
-
-
+            foreach (var item in CheckLicenses)
+            {
+                item.IsProgress = false;
+            }
+            cts.Cancel();
         }
 
         public void SaveCommand()

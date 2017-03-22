@@ -563,9 +563,9 @@ namespace MaterialDesignDemo.Controller
             foreach (var item in directories)
             {
                 if (item.Type == "dir")
-                    model.directories=model.directories.Concat(GetDirectory(item.Drive, item.Path)).ToList();
+                    model.directories = model.directories.Concat(GetDirectory(item.Drive, item.Path)).ToList();
                 else if (item.Type == "file")
-                    model.files=model.files.Concat(GetFiles(item.Path, item.Drive)).ToList();
+                    model.files = model.files.Concat(GetFiles(item.Path, item.Drive)).ToList();
             }
             return model;
         }

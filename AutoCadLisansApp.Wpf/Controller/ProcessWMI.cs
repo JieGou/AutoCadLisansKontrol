@@ -15,9 +15,9 @@ namespace MaterialDesignDemo.Controller
         public int ExitCode;
         public bool EventArrived;
         public ManualResetEvent mre = new ManualResetEvent(false);
-        static string RemoteComputerName;
-        static string Username;
-        static string Password;
+        string RemoteComputerName;
+        string Username;
+        string Password;
         public void ProcessStoptEventArrived(object sender, EventArrivedEventArgs e)
         {
             if ((uint)e.NewEvent.Properties["ProcessId"].Value == ProcessId)
@@ -37,6 +37,7 @@ namespace MaterialDesignDemo.Controller
             ExitCode = -1;
             EventArrived = false;
         }
+       
         public void ExecuteRemoteProcessWMI(string arguments, int WaitTimePerCommand)
         {
 
@@ -182,24 +183,24 @@ namespace MaterialDesignDemo.Controller
         {
             List<Win32_Product> products = new List<Win32_Product>();
 
-            //ConnectionOptions connOptions = new ConnectionOptions();
-            //connOptions.Impersonation = ImpersonationLevel.Impersonate;
-            //connOptions.EnablePrivileges = true;
-            //connOptions.Username = username;
-            //connOptions.Password = password;
+            ConnectionOptions connOptions = new ConnectionOptions();
+            connOptions.Impersonation = ImpersonationLevel.Impersonate;
+            connOptions.EnablePrivileges = true;
+            connOptions.Username = Username;
+            connOptions.Password = Password;
 
-            //ManagementScope scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", remoteComputerName), connOptions);
+            ManagementScope scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", RemoteComputerName), connOptions);
 
-            //try
-            //{
-            //    scope.Connect();
-            //}
-            //catch (Exception e)
-            //{
-            //    throw new Exception("Management Connect to remote machine " + remoteComputerName + " as user " + username + " failed with the following error " + e.Message);
-            //}
-            ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
-            scope.Connect();
+            try
+            {
+                scope.Connect();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Management Connect to remote machine " + RemoteComputerName + " as user " + Username + " failed with the following error " + e.Message);
+            }
+            //ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
+            //scope.Connect();
 
             SelectQuery CheckProcess = new SelectQuery("SELECT * FROM Win32_Product");
             using (ManagementObjectSearcher ProcessSearcher = new ManagementObjectSearcher(scope, CheckProcess))
@@ -240,9 +241,7 @@ namespace MaterialDesignDemo.Controller
                     product.URLUpdateInfo = mo["URLUpdateInfo"] == null ? null : mo["URLUpdateInfo"].ToString();
                     product.Vendor = mo["Vendor"] == null ? null : mo["Vendor"].ToString();
                     product.Version = mo["Version"] == null ? null : mo["Version"].ToString();
-
-
-
+                    
                     products.Add(product);
                 }
             }

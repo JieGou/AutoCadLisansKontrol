@@ -245,6 +245,7 @@ namespace AutoCadLisansKontrol.Controller
                 var softwares = "";
 
                 ProcessWMI process = new ProcessWMI(chc.Name, username, password);
+                
                 var win32product = process.GetProductWithWMI(software);
 
               
