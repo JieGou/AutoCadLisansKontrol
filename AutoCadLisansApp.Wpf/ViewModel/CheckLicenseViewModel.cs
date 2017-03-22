@@ -84,10 +84,10 @@ namespace MaterialDesignColors.WpfExample.Domain
             LoadCheckLicenseFromDb();
             CheckList = new ObservableCollection<MaterialDesignDemo.Model.CheckList>
             {
-                new MaterialDesignDemo.Model.CheckList { Name="Add or Remove Programs",WillChecked=true},
-                new MaterialDesignDemo.Model.CheckList { Name="Registry Key",WillChecked=true},
-                new MaterialDesignDemo.Model.CheckList { Name="Application Events",WillChecked=true},
-                new MaterialDesignDemo.Model.CheckList { Name="File Explorer",WillChecked=true}
+                new MaterialDesignDemo.Model.CheckList { Name="Add or Remove Programs",WillChecked=false},
+                new MaterialDesignDemo.Model.CheckList { Name="Registry Key",WillChecked=false},
+                new MaterialDesignDemo.Model.CheckList { Name="Application Events",WillChecked=false},
+                new MaterialDesignDemo.Model.CheckList { Name="File Explorer",WillChecked=false}
             };
 
 
@@ -153,7 +153,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        CancellationTokenSource cts = new CancellationTokenSource();
+        private CancellationTokenSource Canceller { get; set; }
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)
@@ -169,8 +169,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 return;
             }
             _executedComputer = 0;
-
-            TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            
 
             List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers = client.ListComputer(FirmId).ToList();
             var checklicense = new MTObservableCollection<CheckLicenseModel>();
@@ -216,11 +215,23 @@ namespace MaterialDesignColors.WpfExample.Domain
 
                         });
 
-
-                        var t3 = Task.Factory.StartNew(() => { ChildDoInBackground(); }, cts.Token);
+                        Canceller = new CancellationTokenSource();
+                        var t3 = Task.Factory.StartNew(() =>
+                        {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoInBackground();
+                            }
+                        }, Canceller.Token);
 
                         // when t1 is done run t1..on the Ui thread.
-                        var t4 = t3.ContinueWith(t => { ChildDoOnUiThread(); }, cts.Token);
+                        var t4 = t3.ContinueWith(t =>
+                        {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoOnUiThread();
+                            }
+                        }, Canceller.Token);
 
 
                     }
@@ -240,9 +251,22 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
             // start the background task
-            var t1 = Task.Factory.StartNew(() => DoInBackground());
+            Canceller = new CancellationTokenSource();
+            var t1 = Task.Factory.StartNew(() =>
+            {
+                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                {
+                    DoInBackground();
+                }
+            }, Canceller.Token);
             // when t1 is done run t1..on the Ui thread.
-            var t2 = t1.ContinueWith(t => DoOnUiThread(), _uiScheduler);
+            var t2 = t1.ContinueWith(t =>
+            {
+                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                {
+                    DoOnUiThread();
+                }
+            }, Canceller.Token);
             //I assume BitmapFromUri is the slow step.
 
         }
@@ -284,7 +308,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 item.IsProgress = false;
             }
-            cts.Cancel();
+            Canceller.Cancel();
         }
 
         public void SaveCommand()

@@ -1,7 +1,9 @@
 ﻿using MaterialDesignDemo.Controller;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,7 +15,7 @@ namespace MaterialDesignDemo.Model
         public FileExplorerModel FileExplorerModel { get; set; }
         public List<ApplicationEvent> ApplicationEvents { get; set; }
 
-        public List<Win32_Product> Win32_products{ get; set; }
+        public List<Win32_Product> Win32_products { get; set; }
 
         public List<Software> UnInstallRegisterySoftwares { get; set; }
         public List<Software> RegistryAutoDesk { get; set; }
@@ -105,8 +107,31 @@ namespace MaterialDesignDemo.Model
 
 
     }
-    public class CheckList {
+    public class CheckList : INotifyPropertyChanged
+    {
+        private bool _willchecked;
         public string Name { get; set; }
-        public bool WillChecked { get; set; }
+        public bool WillChecked
+        {
+            get
+            {
+                return this._willchecked;
+            }
+            set
+            {
+                if ((this._willchecked.Equals(value) != true))
+                {
+                    this._willchecked = value;
+                    this.OnPropertyChanged("WillChecked");
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }
