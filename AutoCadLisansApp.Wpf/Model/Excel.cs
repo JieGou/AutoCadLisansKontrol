@@ -12,24 +12,47 @@ namespace MaterialDesignDemo.Model
     {
         private Workbook xlWorkBook;
 
-        public string ExportExcel(string path, string filename) {
+        public static void ExportExcel(List<CheckLicenseModel> data, string path)
+        {
 
-            xlWorkBook = new Workbook();
-            xlWorkBook.Open(path);
-            var xlWorkSheet = xlWorkBook.Worksheets[0];
-            var cells = xlWorkSheet.Cells;
-          
-            
-            xlWorkSheet.AutoFitColumns();
-            path = path.Substring(0, path.LastIndexOf("\\", System.StringComparison.Ordinal));
+            Workbook book = new Workbook();
+            //Clear all the worksheets
+            book.Worksheets.Clear();
+            //Add a new Sheet "Data";
+            Worksheet sheet = book.Worksheets.Add("Result of Sniff");
 
-            var fullpath = path + "\\File\\" + filename;
-            if (File.Exists(fullpath))
+            sheet.Cells.ImportCustomObjects((System.Collections.ICollection)data,
+                                                                            new string[] {
+                                                                            "CheckDate",
+                                                                            "Error",
+                                                                            "Fail",
+                                                                            "Installed",
+                                                                            "Ip",
+                                                                            "IsFound",
+                                                                            "IsProgress",
+                                                                            "IsUnlicensed",
+                                                                            "Name",
+                                                                            "Output",
+                                                                            "State",
+                                                                            "Success",
+                                                                            "Uninstalled",
+                                                                            "UpdateDate"
+                                                                            },
+                                                                            true,
+                                                                            0,
+                                                                            0,
+                                                                            data.Count,
+                                                                            true,
+                                                                            "dd/mm/yyyy",
+                                                                            false);
+
+            if (File.Exists(path))
             {
-                File.Delete(fullpath);
+                File.Delete(path);
             }
-            xlWorkBook.Save(fullpath);
-            return fullpath;
+            book.Worksheets[0].AutoFitColumns();
+            //Save the Excel file
+            book.Save(path);
         }
 
     }

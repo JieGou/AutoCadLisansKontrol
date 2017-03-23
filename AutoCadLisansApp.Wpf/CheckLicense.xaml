@@ -296,7 +296,7 @@
                         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                             <Button   Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                         Margin="0 0 8 0" HorizontalAlignment="Right" Command="{Binding ExporttoExcel}"
-                        ToolTip="Export to Excel">
+                        ToolTip="Export to Excel" Click="Button_Click">
                                 <materialDesign:PackIcon Kind="FileExcel" Height="24" Width="24" />
                             </Button>
                             <Button  Style="{StaticResource MaterialDesignFloatingActionAccentButton}"

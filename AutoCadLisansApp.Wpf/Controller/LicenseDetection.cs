@@ -238,14 +238,13 @@ namespace AutoCadLisansKontrol.Controller
         {
             try
             {
-
                 chc.IsFound = false;
                 chc.Fail = false;
+                chc.IsFound = false;
                 chc.Success = false;
                 var softwares = "";
 
                 ProcessWMI process = new ProcessWMI(chc.Name, username, password);
-
 
                 foreach (var item in checklist)
                 {
@@ -279,13 +278,11 @@ namespace AutoCadLisansKontrol.Controller
                             chc.Installed = true;
                             chc.IsFound = true;
                         }
-
-
                     }
                     if (item.Name == "Application Events" && item.WillChecked == true)
                     {
                         var events = process.GetApplicationEvent(software);
-                        softwares += "REGISTERY KEY" + "\n\r" + "\n\r";
+                        softwares += "APPLICATION EVENTS" + "\n\r" + "\n\r";
                         if (events.Count > 0)
                         {
                             foreach (var evt in events)
@@ -294,10 +291,8 @@ namespace AutoCadLisansKontrol.Controller
                             }
                             if (chc.Installed == false)
                                 chc.Uninstalled = true;
-
                             chc.IsFound = true;
                         }
-
                     }
                     if (item.Name == "File Explorer" && item.WillChecked == true)
                     {
@@ -319,10 +314,10 @@ namespace AutoCadLisansKontrol.Controller
                             chc.IsFound = true;
                         }
                     }
-
                 }
                 if (chc.IsFound == true)
                 {
+                    chc.Output = softwares;
                     chc.Success = true;
                     chc.Installed = false;
                     return chc;
@@ -331,7 +326,6 @@ namespace AutoCadLisansKontrol.Controller
                 chc.Uninstalled = false;
                 chc.Installed = false;
                 chc.Output = "Software not found";
-
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Controller;
 using MaterialDesignDemo.Domain;
+using MaterialDesignDemo.Model;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
@@ -84,6 +85,7 @@ namespace MaterialDesignDemo
             }
         }
 
+
         private void Chip_Click(object sender, RoutedEventArgs e)
         {
             var checklicensemodel = (CheckLicenseViewModel)DataContext;
@@ -95,6 +97,26 @@ namespace MaterialDesignDemo
         private void scrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SaveExcel();
+        }
+        public void SaveExcel()
+        {
+            var checklicensemodel = (CheckLicenseViewModel)DataContext;
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Archivos Excel (*.xls)|*.xls|Todos los Archivos (*.*)|*.*",
+                FileName="Result of Sniff"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                Excel.ExportExcel(checklicensemodel.CheckLicenses.ToList(), dialog.FileName);
+            }
+
         }
     }
 }
