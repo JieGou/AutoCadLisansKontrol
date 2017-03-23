@@ -132,7 +132,7 @@ namespace MaterialDesignDemo.Controller
         }
 
 
-        public List<ApplicationEvent> GetApplicationEvent(string[] software)
+        public List<ApplicationEvent> GetApplicationEvent(Software[] software)
         {
             List<ApplicationEvent> list = new List<ApplicationEvent>();
 
@@ -147,7 +147,7 @@ namespace MaterialDesignDemo.Controller
                     ApplicationEvent item = new ApplicationEvent();
 
                     item.Message = log["Message"] == null ? null : log["Message"].ToString();
-                    var param = software.Where(x => item.Message.Contains(x)).FirstOrDefault();
+                    var param = software.Where(x => item.Message.Contains(x.DisplayName)).FirstOrDefault();
                     if (param == null) continue;
 
                     item.ComputerName = log["ComputerName"] == null ? null : log["ComputerName"].ToString();
@@ -260,7 +260,7 @@ namespace MaterialDesignDemo.Controller
 
 
 
-            var uniqueList = list32.Concat(list64)
+            var uniqueList = list32.Concat(list64).Concat(registryautodeskautodesk).Concat(registryautodeskautodesk64).Concat(registryflexlmlicensemanager).Concat(registryflexlmlicensemanager64)
                                    .Where(x => x.DisplayName != null)
                                    .GroupBy(item => item.DisplayName)
                                    .Select(group => group.First())

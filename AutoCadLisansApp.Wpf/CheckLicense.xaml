@@ -181,7 +181,7 @@
                                             <DataTemplate>
                                                 <StackPanel>
                                                     <ToggleButton  Grid.Column="1" Grid.Row="3" Style="{StaticResource MaterialDesignSwitchAccentToggleButton}" VerticalAlignment="Center" Margin="8 0 0 0" HorizontalAlignment="Center"
-                                                                   ToolTip="" IsChecked="{Binding WillChecked,Mode=TwoWay}" ></ToggleButton>
+                                                                   IsChecked="{Binding Path=WillChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ></ToggleButton>
                                                 </StackPanel>
                                             </DataTemplate>
 
@@ -190,15 +190,13 @@
 
                                 </DataGrid.Columns>
                             </DataGrid>
-
+                            
                             <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1"  Effect="{DynamicResource MaterialDesignShadowDepth5}">
                                 <TextBlock Margin="16"><Run Text="Select control points"/></TextBlock>
                             </materialDesign:ColorZone>
                         </Grid>
                     </Border>
                 </materialDesign:DialogHost>
-
-
 
                 <StackPanel Grid.Row="0" Grid.Column="0">
                     <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  

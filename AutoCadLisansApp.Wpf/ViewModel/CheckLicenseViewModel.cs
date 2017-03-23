@@ -34,9 +34,11 @@ namespace MaterialDesignColors.WpfExample.Domain
         private int _executedComputer = 0;
         public int ExecutedComputer { get { return _executedComputer; } set { _executedComputer = value; OnPropertyChanged("ExecutedComputer"); } }
 
-
         private int _totalComputer = 0;
         public int TotalComputer { get { return _totalComputer; } set { _totalComputer = value; OnPropertyChanged("TotalComputer"); } }
+
+        public bool _testtoogle = true;
+        public bool testtoogle { get { return _testtoogle; } set { _testtoogle = value; OnPropertyChanged("testtoogle"); } }
 
 
         public ICommand RunClicked { get; set; }
@@ -169,7 +171,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 return;
             }
             _executedComputer = 0;
-            
+
 
             List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers = client.ListComputer(FirmId).ToList();
             var checklicense = new MTObservableCollection<CheckLicenseModel>();

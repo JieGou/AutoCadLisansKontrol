@@ -119,11 +119,8 @@ namespace MaterialDesignDemo.Model
             }
             set
             {
-                if ((this._willchecked.Equals(value) != true))
-                {
-                    this._willchecked = value;
-                    this.OnPropertyChanged("WillChecked");
-                }
+                this._willchecked = value;
+                this.OnPropertyChanged("WillChecked");
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;

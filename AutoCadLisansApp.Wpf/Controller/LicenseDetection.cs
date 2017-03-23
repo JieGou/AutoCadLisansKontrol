@@ -234,7 +234,7 @@ namespace AutoCadLisansKontrol.Controller
             return chc;
         }
 
-        public static CheckLicenseModel ExecuteWMI(Software[] software, CheckLicenseModel chc, string username, string password, int opreationidi,List<CheckList> checklist)
+        public static CheckLicenseModel ExecuteWMI(Software[] software, CheckLicenseModel chc, string username, string password, int opreationidi, List<CheckList> checklist)
         {
             try
             {
@@ -245,49 +245,92 @@ namespace AutoCadLisansKontrol.Controller
                 var softwares = "";
 
                 ProcessWMI process = new ProcessWMI(chc.Name, username, password);
-                
-                var win32product = process.GetProductWithWMI(software);
 
-              
-                if (win32product.Count > 0)
+
+                foreach (var item in checklist)
                 {
-                    chc.IsFound = true;
-                    foreach (var item in win32product)
+                    if (item.Name == "Add or Remove Programs" && item.WillChecked == true)
                     {
-                        softwares += item.Name + " (Installed)" + "\n\r";
+                        var win32product = process.GetProductWithWMI(software);
+                        if (win32product.Count > 0)
+                        {
+                            softwares += "ADD OR REMOVE PROGRAMS" + "\n\r" + "\n\r";
+
+                            foreach (var prd in win32product)
+                            {
+                                softwares += prd.Name + "\n\r";
+                            }
+                            chc.Installed = true;
+                            chc.IsFound = true;
+                        }
+
                     }
-                    chc.Success = true;
-                    chc.IsFound = true;
-                    chc.Installed = true;
-                    chc.Uninstalled = false;
-                    chc.Output = softwares;
-                    return chc;
+                    if (item.Name == "Registry Key" && item.WillChecked == true)
+                    {
+                        var registeryproduct = process.ReadRegisteryusingWMI(software);
+                        softwares += "REGISTERY KEY" + "\n\r" + "\n\r";
+
+                        if (registeryproduct.Count > 0)
+                        {
+                            foreach (var reg in registeryproduct)
+                            {
+                                softwares += reg.DisplayName + "\n\r";
+                            }
+                            chc.Installed = true;
+                            chc.IsFound = true;
+                        }
+
+
+                    }
+                    if (item.Name == "Application Events" && item.WillChecked == true)
+                    {
+                        var events = process.GetApplicationEvent(software);
+                        softwares += "REGISTERY KEY" + "\n\r" + "\n\r";
+                        if (events.Count > 0)
+                        {
+                            foreach (var evt in events)
+                            {
+                                softwares += evt.Message + "\n\r";
+                            }
+                            if (chc.Installed == false)
+                                chc.Uninstalled = true;
+
+                            chc.IsFound = true;
+                        }
+
+                    }
+                    if (item.Name == "File Explorer" && item.WillChecked == true)
+                    {
+                        var model = process.DirectoryChecklist();
+                        softwares += "FILE EXPLORER" + "\n\r" + "\n\r";
+
+                        if (model.directories.Count > 0 || model.files.Count > 0)
+                        {
+                            foreach (var dir in model.directories)
+                            {
+                                softwares += dir.Name + "\n\r";
+                            }
+                            foreach (var dir in model.files)
+                            {
+                                softwares += dir.Name + "\n\r";
+                            }
+                            if (chc.Installed == false)
+                                chc.Uninstalled = true;
+                            chc.IsFound = true;
+                        }
+                    }
+
                 }
-                
-                var registeryproduct = process.ReadRegisteryusingWMI(software);
-
-               
-                if (registeryproduct.Count > 0)
+                if (chc.IsFound == true)
                 {
-                    foreach (var item in registeryproduct)
-                    {
-                        softwares += item.DisplayName + " (Uninstalled)" + "\n\r";
-                    }
                     chc.Success = true;
-                    chc.IsFound = true;
-                    chc.Uninstalled = true;
                     chc.Installed = false;
-                    chc.Output = softwares;
                     return chc;
                 }
-
-
                 chc.Success = true;
-                chc.IsFound = false;
                 chc.Uninstalled = false;
                 chc.Installed = false;
                 chc.Output = "Software not found";
-
 
             }
             catch (Exception ex)
