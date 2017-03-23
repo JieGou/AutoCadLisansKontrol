@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MaterialDesignDemo.Operation"
+﻿<UserControl  x:Class="MaterialDesignDemo.Operation"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+            >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -45,7 +45,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer>
+    <ScrollViewer Name="scrollViewer" MouseWheel="scrollViewer_MouseWheel">
 
         <StackPanel Orientation="Horizontal">
             <StackPanel Background="#EEEEEE" >
@@ -73,11 +73,14 @@
                     </materialDesign:Card>
                 </Border>
             </StackPanel>
-            <StackPanel>
+            <StackPanel Orientation="Vertical">
                 <StackPanel>
-                    <materialDesign:Chip Content="{Binding SelectedFirm.Name,Mode=TwoWay}"  Click="Chip_Click"
-                             Icon="F" 
-                             Margin="16" />
+                    <materialDesign:Chip Content="Back"  Click="Chip_Click"
+                             Margin="16" >
+                        <materialDesign:Chip.Icon>
+                            <materialDesign:PackIcon Kind="KeyboardBackspace" />
+                        </materialDesign:Chip.Icon>
+                    </materialDesign:Chip>
                 </StackPanel>
 
                 <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
@@ -91,31 +94,23 @@
                             <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Operation List" FontWeight="Bold" Foreground="White"/>
                             <StackPanel Orientation="Horizontal">
                                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="134"
-                     Command="{Binding AddItemClicked}">
-                                    New Operation
-                                </Button>
+                     Command="{Binding AddItemClicked}" Content="New Operation"/>
                                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="100"
-                     Command="{Binding SaveClicked}">
-                                    Save
-                                </Button>
+                     Command="{Binding SaveClicked}" Content="Save"/>
                                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="100"
-                     Command="{Binding RefreshClicked}">
-                                    Refresh
-                                </Button>
+                     Command="{Binding RefreshClicked}" Content="Refresh"/>
                             </StackPanel>
                         </StackPanel>
 
                     </GroupBox.Header>
 
-                    <DataGrid  Margin="0 8 0 0" Name="grdOperation" ItemsSource="{Binding Operation,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
-                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                    <DataGrid  Margin="0 8 0 0" x:Name="grdOperation" ItemsSource="{Binding Operation, Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
+                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" Width="829">
                         <DataGrid.Columns>
-                            <materialDesign:MaterialDataGridTextColumn Binding="{Binding Id,Mode=TwoWay}" 
+                            <materialDesign:MaterialDataGridTextColumn Binding="{Binding Id, Mode=TwoWay}" 
                                             Header="Id"
                                  EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
-                                            >
-
-                            </materialDesign:MaterialDataGridTextColumn>
+                                            />
                             <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
 
                             <DataGridTemplateColumn  Header="Name" Width="125">
@@ -124,13 +119,11 @@
                                         <TextBox Grid.Row="1" Grid.Column="1" 
 				    x:Name="NameTextBox"
 				    materialDesign:HintAssist.Hint="Name">
-                                            <TextBox.Text>
-                                                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
-                                                    <Binding.ValidationRules>
-                                                        <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                                    </Binding.ValidationRules>
-                                                </Binding>
-                                            </TextBox.Text>
+                                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
                                         </TextBox>
 
                                     </DataTemplate>
@@ -149,8 +142,8 @@
                                     <DataTemplate>
 
                                         <Button Click="CheckLicenseButton_Click" CommandParameter="{Binding Id}" 
-                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" Width="70" ToolTip="Resource name: MaterialDesignRaisedButton">
-                                            Run
+                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" Width="70" ToolTip="Start Sniff"  >
+                                            <materialDesign:PackIcon Kind="Run" />
                                         </Button>
 
                                     </DataTemplate>
@@ -174,11 +167,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </GroupBox>
-                
             </StackPanel>
-           
-
         </StackPanel>
-        
     </ScrollViewer>
 </UserControl>

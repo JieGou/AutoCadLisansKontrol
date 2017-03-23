@@ -6,6 +6,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:MaterialDesignColors.WpfExample"
+        xmlns:converters="clr-namespace:MaterialDesignDemo.Model"
         xmlns:materialDesignDemo="clr-namespace:MaterialDesignDemo"
         Title="AutoCad Lisans Kontrol"
     WindowStartupLocation="CenterScreen" WindowState="Maximized"
@@ -36,6 +37,7 @@
                 </StackPanel>
             </DataTemplate>
             <BooleanToVisibilityConverter x:Key="Converter" />
+            <converters:BoolInverter x:Key="BoolInverter"/>
         </ResourceDictionary>
         
     </Window.Resources>

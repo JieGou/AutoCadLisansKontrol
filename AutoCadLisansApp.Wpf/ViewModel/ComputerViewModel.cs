@@ -39,6 +39,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         public ICommand AddItemClicked { get; set; }
         public ICommand LoadDbClicked { get; set; }
         public ICommand SaveClicked { get; set; }
+        public ICommand CancelClicked { get; set; }
         private int FirmId;
 
 
@@ -62,6 +63,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             AddItemClicked = new DelegateCommand(AddItemCommand);
             LoadDbClicked = new DelegateCommand(LoadComputerFromDb);
             SaveClicked = new DelegateCommand(SaveCommand);
+            CancelClicked = new DelegateCommand(CancelCommand);
             FirmId = firmId;
             LoadComputerFromDb();
         }
@@ -121,6 +123,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 //PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        CancellationTokenSource Canceller = new CancellationTokenSource();
         public void GenerateCommand()
         {
             IsButtonEnable = false;
@@ -173,7 +176,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             System.Action DoOnUiThread = new System.Action(() =>
             {
-                
+
             });
 
             // start the background task
@@ -242,8 +245,6 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 StartNotification();
 
-
-                TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
                     client.DeleteAllComputerBaseFormid(FirmId);
@@ -262,19 +263,27 @@ namespace MaterialDesignColors.WpfExample.Domain
                     }
                 });
 
-                System.Action ChildDoOnUiThread = new System.Action(() =>
+           
+                Canceller = new CancellationTokenSource();
+                var t1 = Task.Factory.StartNew(() =>
                 {
-                    LoadComputerFromDb();
-                });
-
-                var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
+                    using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                    {
+                        ChildDoInBackground();
+                    }
+                }, Canceller.Token);
                 // when t1 is done run t1..on the Ui thread.
-                var t2 = t1.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
             }
             catch (System.Exception ex)
             {
                 EndNotification(ex.Message);
             }
+        }
+        public void CancelCommand()
+        {
+            EndNotification("Thread Aborted");
+            Canceller.Cancel();
+            LoadComputerFromDb();
         }
         public void StartNotification()
         {
@@ -393,4 +402,5 @@ namespace MaterialDesignColors.WpfExample.Domain
         }
     }
 }
+
 

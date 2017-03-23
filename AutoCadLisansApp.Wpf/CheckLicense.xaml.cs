@@ -1,5 +1,6 @@
 ﻿using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Controller;
+using MaterialDesignDemo.Domain;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
@@ -81,6 +82,19 @@ namespace MaterialDesignDemo
             {
                 File.WriteAllText(dialog.FileName, fileText);
             }
+        }
+
+        private void Chip_Click(object sender, RoutedEventArgs e)
+        {
+            var checklicensemodel = (CheckLicenseViewModel)DataContext;
+
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = new DemoItem("Operation", new MaterialDesignDemo.Operation { DataContext = new OperationViewModel(checklicensemodel.OprId) });
+        }
+
+        private void scrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
         }
     }
 }

@@ -60,7 +60,7 @@
                 </materialDesign:Card>
             </Border>
         </StackPanel>
-        <ScrollViewer  Grid.Column="1"  >
+        <ScrollViewer Name="scrollViewer"  Grid.Column="1" MouseWheel="scrollViewer_MouseWheel"  >
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="5*" />
@@ -199,6 +199,14 @@
                 </materialDesign:DialogHost>
 
                 <StackPanel Grid.Row="0" Grid.Column="0">
+                    <materialDesign:Chip Content="Back"
+                             
+                             Click="Chip_Click"
+                             Margin="16 2" >
+                        <materialDesign:Chip.Icon>
+                            <materialDesign:PackIcon Kind="KeyboardBackspace" />
+                        </materialDesign:Chip.Icon>
+                    </materialDesign:Chip>
                     <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
                                               x:Name="NotificationSnackbar"  >
                         <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
@@ -207,7 +215,7 @@
                     <ProgressBar  IsIndeterminate="True" Margin="22,24,10,18" Visibility="{Binding ProgressBar,Mode=TwoWay}" />
 
                 </StackPanel>
-                <GroupBox Grid.Column="0" Grid.Row="1"  Header="User Management" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
+                <GroupBox Grid.Column="0" Grid.Row="1"  Header="Start Sniffing" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
                     <GroupBox.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -262,7 +270,7 @@
 
 
 
-                <GroupBox Grid.Row="2" Grid.Column="0"  Header="Check List" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,0">
+                <GroupBox Grid.Row="2" Grid.Column="0"  Header="Check List" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,1,16,-1" Grid.RowSpan="2">
                     <GroupBox.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -292,7 +300,7 @@
                                 <materialDesign:PackIcon Kind="FileExcel" Height="24" Width="24" />
                             </Button>
                             <Button  Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
-                        Margin="0 0 8 0" HorizontalAlignment="Right"
+                        Margin="0 0 8 0" HorizontalAlignment="Right"  Command="{Binding ExporttoPdf}"
                         ToolTip="Export to Pdf">
                                 <materialDesign:PackIcon Kind="FilePdf" Height="24" Width="24" />
                             </Button>

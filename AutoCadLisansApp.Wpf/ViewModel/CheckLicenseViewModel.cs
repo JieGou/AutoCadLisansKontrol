@@ -45,9 +45,10 @@ namespace MaterialDesignColors.WpfExample.Domain
         public ICommand SaveClicked { get; set; }
         public ICommand CancelClicked { get; set; }
         public ICommand SaveOutputClicked { get; set; }
+        public ICommand ExporttoExcelClicked { get; set; }
 
-        private int OprId;
-        private int FirmId;
+        public int OprId;
+        public int FirmId;
         private string _userName;
         private string _password;
         private string[] _keys;
@@ -81,6 +82,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             RunClicked = new RelayCommand(param => CheckLicenseCommand(param));
             SaveClicked = new DelegateCommand(SaveCommand);
             CancelClicked = new DelegateCommand(CancelCommand);
+            ExporttoExcelClicked = new DelegateCommand(ExporttoExcelCommand);
             OprId = oprId;
             FirmId = firmId;
             LoadCheckLicenseFromDb();
@@ -306,11 +308,33 @@ namespace MaterialDesignColors.WpfExample.Domain
         public void CancelCommand()
         {
             EndNotification("");
-            foreach (var item in CheckLicenses)
+
+
+
+            try
             {
-                item.IsProgress = false;
+                TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                var checklicense = new ObservableCollection<CheckLicenseModel>();
+                System.Action ChildDoInBackground = new System.Action(() =>
+                {
+                    foreach (var item in CheckLicenses)
+                    {
+                        item.IsProgress = false;
+                    }
+                    Canceller.Cancel();
+
+                });
+
+
+                var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
+                // when t1 is done run t1..on the Ui thread.
             }
-            Canceller.Cancel();
+            catch (System.Exception ex)
+            {
+                EndNotification(ex.Message);
+                return;
+            }
+
         }
 
         public void SaveCommand()
@@ -365,6 +389,11 @@ namespace MaterialDesignColors.WpfExample.Domain
                 NotificationIsVisible = true;
                 NotificationContent = ex.Message;
             }
+
+        }
+        public void ExporttoExcelCommand()
+        {
+
 
         }
         public void StartNotification()

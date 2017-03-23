@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+            >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -44,7 +44,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer>
+    <ScrollViewer Name="scrollViewer" MouseWheel="scrollViewer_MouseWheel">
 
         <StackPanel>
             <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  

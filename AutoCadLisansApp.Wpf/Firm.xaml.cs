@@ -114,5 +114,10 @@ namespace MaterialDesignDemo
             var userviewmodel = (FirmViewModel)this.DataContext;
             userviewmodel.NotificationIsVisible = false;
         }
+
+        private void scrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+        }
     }
 }

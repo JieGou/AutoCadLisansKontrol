@@ -107,9 +107,13 @@ namespace MaterialDesignDemo
 
         private void Chip_Click(object sender, RoutedEventArgs e)
         {
-
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = new DemoItem("Firma", new MaterialDesignDemo.Firm { DataContext = new FirmViewModel() });
+        }
+
+        private void scrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
         }
     }
 }

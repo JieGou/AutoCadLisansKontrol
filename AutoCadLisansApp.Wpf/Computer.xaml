@@ -6,8 +6,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
              xmlns:local="clr-namespace:MaterialDesignColors.WpfExample.Domain"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:converters="clr-namespace:MaterialDesignDemo.Model"
+             mc:Ignorable="d" >
 
     <UserControl.Resources>
 
@@ -17,16 +17,16 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="Converter" />
-
+            <converters:BoolInverter x:Key="BoolInverter"/>
             <DropShadowEffect x:Key="z-depth4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
         </ResourceDictionary>
 
     </UserControl.Resources>
 
-    <ScrollViewer >
+    <ScrollViewer Name="scrollViewer">
 
         <StackPanel Orientation="Horizontal">
-            <StackPanel Background="#EEEEEE" Width="100">
+            <StackPanel Background="#EEEEEE" >
                 <Border Effect="{StaticResource z-depth4}"  Background="White"  >
                     <materialDesign:Card Background="#adadad"
                   Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
@@ -55,10 +55,15 @@
                 <StackPanel>
 
                     <ProgressBar IsIndeterminate="True" Margin="16 0 0 0" Visibility="{Binding ProgressBar,Mode=TwoWay}"/>
-                    <materialDesign:Chip Content="{Binding Firm.Name}" 
-                             Icon="F" 
+
+                    <materialDesign:Chip Content="Back"
+                             
                              Click="Chip_Click"
-                             Margin="16 2" />
+                             Margin="16 2" >
+                        <materialDesign:Chip.Icon>
+                            <materialDesign:PackIcon Kind="KeyboardBackspace" />
+                        </materialDesign:Chip.Icon>
+                    </materialDesign:Chip>
 
                 </StackPanel>
 
@@ -89,6 +94,10 @@
                      Command="{Binding SaveClicked}">
                                     Save
                                 </Button>
+                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="155" IsEnabled="{Binding Path=IsButtonEnable, Converter={StaticResource BoolInverter}}"
+                     Command="{Binding CancelClicked}">
+                                    Cancel
+                                </Button>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox.Header>
@@ -100,7 +109,7 @@
 
                         </StackPanel>
                         <DataGrid  Margin="0 8 0 0" Name="grdComputer" ItemsSource="{Binding Computers,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
-                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" PreviewMouseWheel="grdComputer_PreviewMouseWheel">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn Binding="{Binding IsRootMachine}" 
                                             ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
@@ -177,7 +186,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Click="DeleteButton_Click"  CommandParameter="{Binding Ip}"
-                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" ToolTip="Sil">
+                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" ToolTip="Sil" IsEnabled="{Binding Path=IsProgress, Converter={StaticResource BoolInverter}}">
                                                 <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
                                             </Button>
 
