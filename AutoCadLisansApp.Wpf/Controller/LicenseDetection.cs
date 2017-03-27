@@ -234,7 +234,7 @@ namespace AutoCadLisansKontrol.Controller
             return chc;
         }
 
-        public static CheckLicenseModel ExecuteWMI(Software[] software, CheckLicenseModel chc, string username, string password, int opreationidi, List<CheckList> checklist,bool isRemote)
+        public static CheckLicenseModel ExecuteWMI(Software[] software, CheckLicenseModel chc, string username, string password, int opreationidi, List<CheckList> checklist, bool isRemote)
         {
             try
             {
@@ -244,13 +244,13 @@ namespace AutoCadLisansKontrol.Controller
                 chc.Success = false;
                 var softwares = "";
 
-                ProcessWMI process = new ProcessWMI(chc.Ip, username, password);
+                ProcessWMI process = new ProcessWMI(chc.Ip, username, password, isRemote);
 
                 foreach (var item in checklist)
                 {
                     if (item.Name == "Add or Remove Programs" && item.WillChecked == true)
                     {
-                        var win32product = process.GetProductWithWMI(software, isRemote);
+                        var win32product = process.GetProductWithWMI(software);
                         if (win32product.Count > 0)
                         {
                             softwares += "ADD OR REMOVE PROGRAMS" + "\n\r" + "\n\r";

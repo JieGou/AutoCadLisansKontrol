@@ -23,7 +23,7 @@ namespace AutoCadWs
         [OperationContract]
         void UpdateFirm(Firm firm);
         [OperationContract]
-        void UpsertComputer(Computer c);
+        int UpsertComputer(Computer c);
         [OperationContract]
         Operation GetOperation(int opr);
         [OperationContract]

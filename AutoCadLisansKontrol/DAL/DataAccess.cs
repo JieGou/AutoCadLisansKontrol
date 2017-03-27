@@ -112,12 +112,11 @@ namespace AutoCadLisansKontrol.DAL
 
         }
 
-        public void UpsertComputer(ComputerEntity c)
+        public int UpsertComputer(ComputerEntity c)
         {
-
             try
             {
-                var item = dbaccess.Computer.Where(x => x.Id == c.Id).FirstOrDefault<ComputerEntity>();
+                var item = dbaccess.Computer.Where(x => x.Name == c.Name).FirstOrDefault<ComputerEntity>();
                 if (item == null)
                 {
                     item = new ComputerEntity { Id = c.Id, Ip = c.Ip, IsComputer = c.IsComputer, IsRootMachine = c.IsRootMachine, IsVisible = c.IsVisible, Name = c.Name, PyshicalAddress = c.PyshicalAddress, FirmId = c.FirmId, Type = c.Type, InsertDate = DateTime.Now };
@@ -133,8 +132,8 @@ namespace AutoCadLisansKontrol.DAL
                     item.IsVisible = c.IsVisible;
                 }
 
-
                 dbaccess.SaveChanges();
+                return item.Id;
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
@@ -315,11 +314,6 @@ namespace AutoCadLisansKontrol.DAL
         {
             try
             {
-                if (oprdetail.ComputerId == null)
-                {
-                    UpsertComputer(new ComputerEntity { Id = oprdetail.Id, Ip = oprdetail.Ip, IsComputer = oprdetail.IsComputer, IsRootMachine = oprdetail.IsRootMachine, IsVisible = oprdetail.IsVisible, Name = c.Name, PyshicalAddress = c.PyshicalAddress, FirmId = c.FirmId, Type = c.Type, InsertDate = DateTime.Now })
-                }
-
                 var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicenseEntity>();
                 if (item == null)
                     dbaccess.CheckLicense.Add(oprdetail);

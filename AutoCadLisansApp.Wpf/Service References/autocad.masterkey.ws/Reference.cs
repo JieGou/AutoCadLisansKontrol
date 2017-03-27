@@ -692,10 +692,10 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         System.Threading.Tasks.Task UpdateFirmAsync(MaterialDesignDemo.autocad.masterkey.ws.Firm firm);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertComputer", ReplyAction="http://tempuri.org/IService1/UpsertComputerResponse")]
-        void UpsertComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer c);
+        int UpsertComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer c);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertComputer", ReplyAction="http://tempuri.org/IService1/UpsertComputerResponse")]
-        System.Threading.Tasks.Task UpsertComputerAsync(MaterialDesignDemo.autocad.masterkey.ws.Computer c);
+        System.Threading.Tasks.Task<int> UpsertComputerAsync(MaterialDesignDemo.autocad.masterkey.ws.Computer c);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOperation", ReplyAction="http://tempuri.org/IService1/GetOperationResponse")]
         MaterialDesignDemo.autocad.masterkey.ws.Operation GetOperation(int opr);
@@ -861,11 +861,11 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
             return base.Channel.UpdateFirmAsync(firm);
         }
         
-        public void UpsertComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer c) {
-            base.Channel.UpsertComputer(c);
+        public int UpsertComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer c) {
+            return base.Channel.UpsertComputer(c);
         }
         
-        public System.Threading.Tasks.Task UpsertComputerAsync(MaterialDesignDemo.autocad.masterkey.ws.Computer c) {
+        public System.Threading.Tasks.Task<int> UpsertComputerAsync(MaterialDesignDemo.autocad.masterkey.ws.Computer c) {
             return base.Channel.UpsertComputerAsync(c);
         }
         

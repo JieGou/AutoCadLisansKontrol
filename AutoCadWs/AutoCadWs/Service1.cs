@@ -9,7 +9,7 @@ using System.Text;
 namespace AutoCadWs
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
-    public class  Service1 : IService1
+    public class Service1 : IService1
     {
         DataAccess dbaccess = new DataAccess();
         public void UpsertFirm(Firm firm)
@@ -35,9 +35,9 @@ namespace AutoCadWs
         {
             dbaccess.UpdateFirm((new FirmEntity { Address = firm.Address, Contact = firm.Contact, Id = firm.Id, InsertDate = firm.InsertDate, Name = firm.Name, PhoneNo = firm.PhoneNo }));
         }
-        public void UpsertComputer(Computer comp)
+        public int UpsertComputer(Computer comp)
         {
-            dbaccess.UpsertComputer(new ComputerEntity { FirmId = comp.FirmId, Id = comp.Id, Name = comp.Name, InsertDate = comp.InsertDate, Ip = comp.Ip, IsComputer = comp.IsComputer, IsRootMachine = comp.IsRootMachine, IsVisible = comp.IsVisible, PyshicalAddress = comp.PyshicalAddress, Type = comp.Type });
+            return dbaccess.UpsertComputer(new ComputerEntity { FirmId = comp.FirmId, Id = comp.Id, Name = comp.Name, InsertDate = comp.InsertDate, Ip = comp.Ip, IsComputer = comp.IsComputer, IsRootMachine = comp.IsRootMachine, IsVisible = comp.IsVisible, PyshicalAddress = comp.PyshicalAddress, Type = comp.Type });
         }
         public Operation GetOperation(int opr)
         {
@@ -87,7 +87,7 @@ namespace AutoCadWs
 
         public void UpsertCheckLicense(CheckLicense chck)
         {
-            dbaccess.UpsertCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State,Installed= chck.Installed,Uninstalled= chck.Uninstalled });
+            dbaccess.UpsertCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, IsUnlicensed = chck.IsUnlicensed, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State, Installed = chck.Installed, Uninstalled = chck.Uninstalled });
         }
 
         public List<CheckLicense> ListCheckLicense(int id)

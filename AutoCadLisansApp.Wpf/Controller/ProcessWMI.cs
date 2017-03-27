@@ -18,6 +18,7 @@ namespace MaterialDesignDemo.Controller
         string RemoteComputerName;
         string Username;
         string Password;
+        public bool IsRemote;
         public void ProcessStoptEventArrived(object sender, EventArrivedEventArgs e)
         {
             if ((uint)e.NewEvent.Properties["ProcessId"].Value == ProcessId)
@@ -28,7 +29,7 @@ namespace MaterialDesignDemo.Controller
                 mre.Set();
             }
         }
-        public ProcessWMI(string remoteComputerName, string username, string password)
+        public ProcessWMI(string remoteComputerName, string username, string password, bool isremote)
         {
             RemoteComputerName = remoteComputerName;
             Username = username;
@@ -36,6 +37,7 @@ namespace MaterialDesignDemo.Controller
             this.ProcessId = 0;
             ExitCode = -1;
             EventArrived = false;
+            IsRemote = isremote;
         }
 
         public void ExecuteRemoteProcessWMI(string arguments, int WaitTimePerCommand)
@@ -178,11 +180,11 @@ namespace MaterialDesignDemo.Controller
         {
             return ManagementDateTimeConverter.ToDateTime(dateTime).ToString();
         }
-        private ManagementScope Connect(bool isRemote)
+        private ManagementScope Connect()
         {
             ManagementScope scope = null;
 
-            switch (isRemote)
+            switch (IsRemote)
             {
                 case true:
                     ConnectionOptions connOptions = new ConnectionOptions();
@@ -220,11 +222,11 @@ namespace MaterialDesignDemo.Controller
             }
             return scope;
         }
-        public List<Win32_Product> GetProductWithWMI(Software[] software, bool type)
+        public List<Win32_Product> GetProductWithWMI(Software[] software)
         {
             List<Win32_Product> products = new List<Win32_Product>();
 
-            ManagementScope scope = Connect(type);
+            ManagementScope scope = Connect();
 
             SelectQuery CheckProcess = new SelectQuery("SELECT * FROM Win32_Product");
             using (ManagementObjectSearcher ProcessSearcher = new ManagementObjectSearcher(scope, CheckProcess))
@@ -296,25 +298,7 @@ namespace MaterialDesignDemo.Controller
         {
             List<Software> programs = new List<Software>();
 
-            ConnectionOptions connOptions = new ConnectionOptions();
-            connOptions.Impersonation = ImpersonationLevel.Impersonate;
-            connOptions.EnablePrivileges = true;
-            connOptions.Username = Username;
-            connOptions.Password = Password;
-
-            ManagementScope scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", RemoteComputerName), connOptions);
-            scope.Options.Context.Add("__ProviderArchitecture", 64);
-            scope.Options.Context.Add("__RequiredArchitecture", true);
-            try
-            {
-                scope.Connect();
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Management Connect to remote machine " + RemoteComputerName + " as user " + Username + " failed with the following error " + e.Message);
-            }
-            //ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
-            //scope.Connect();
+            ManagementScope scope = Connect();
 
             ManagementClass registry = new ManagementClass(scope, new ManagementPath("StdRegProv"), null);
             ManagementBaseObject inParams = registry.GetMethodParameters("EnumKey");
@@ -477,15 +461,13 @@ namespace MaterialDesignDemo.Controller
         {
 
             List<Software> list = new List<Software>();
-            RegistryObject SysRegistry =
-                 new RegistryRemote(Username,
-                                             Password,
-                                             "",
-                                             RemoteComputerName,
-                                             "64");
+            RegistryObject SysRegistry;
 
-            //Instantiate Local Client
-            //RegistryObject SysRegistry = new RegistryLocal();
+            if (IsRemote)
+                SysRegistry = new RegistryRemote(Username, Password, "", RemoteComputerName, "64");
+            else
+                SysRegistry = new RegistryLocal();
+
             string registryKey = softwareRegLoc;
 
             try
@@ -597,8 +579,7 @@ namespace MaterialDesignDemo.Controller
 
             List<Win32_Directory> dirs = new List<Win32_Directory>();
 
-            ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
-            scope.Connect();
+            ManagementScope scope = Connect();
 
             ObjectQuery Query = new ObjectQuery(string.Format("SELECT * FROM win32_directory Where Drive='{0}' AND Path='{1}' ", Drive, Path));
 
@@ -648,8 +629,7 @@ namespace MaterialDesignDemo.Controller
         {
             List<CIM_DataFile> files = new List<CIM_DataFile>();
 
-            ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
-            scope.Connect();
+            ManagementScope scope = Connect();
             //look how the \ char is escaped. 
             ObjectQuery Query = new ObjectQuery(string.Format("SELECT * FROM CIM_DataFile  Where Drive='{0}' AND Path='{1}' ", Drive, Path));
 

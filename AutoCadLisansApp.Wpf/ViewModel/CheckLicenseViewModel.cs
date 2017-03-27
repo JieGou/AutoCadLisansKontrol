@@ -79,7 +79,8 @@ namespace MaterialDesignColors.WpfExample.Domain
 
         public CheckLicenseViewModel(int oprId, int firmId)
         {
-            RunClicked = new RelayCommand(param => CheckLicenseCommand(param));
+
+            RunClicked = new DelegateCommand(CheckLicenseCommand);
             SaveClicked = new DelegateCommand(SaveCommand);
             CancelClicked = new DelegateCommand(CancelCommand);
             ExporttoExcelClicked = new DelegateCommand(ExporttoExcelCommand);
@@ -126,6 +127,20 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
+        private ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> _computers;
+        public ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> Computers
+        {
+            get
+            {
+                return _computers;
+            }
+            set
+            {
+                _computers = value;
+                OnPropertyChanged("Computers");
+            }
+
+        }
         private ObservableCollection<CheckList> _checkList;
         public ObservableCollection<CheckList> CheckList
         {
@@ -163,7 +178,126 @@ namespace MaterialDesignColors.WpfExample.Domain
             if (PropertyChanged != null)
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public void CheckLicenseCommand(object param)
+        public void CheckLicenseCommand()
+        {
+
+            switch (IsRemote)
+            {
+                case true:
+                    CheckLicenseRemoteCommand();
+                    break;
+                case false:
+                    CheckLicenseLocalCommand();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        public void CheckLicenseLocalCommand()
+        {
+
+            StartNotification();
+
+            _executedComputer = 0;
+            Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
+            var checklicense = new MTObservableCollection<CheckLicenseModel>();
+
+            var localcomp = ComputerDetection.ExecuteLocal();
+            localcomp.FirmId = FirmId;
+            Computers.Add(localcomp);
+
+            var cmpid = client.UpsertComputer(localcomp);
+
+            checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId });
+
+
+            CheckLicenses = checklicense;
+            TotalComputer = CheckLicenses.Count;
+            System.Action DoInBackground = new System.Action(() =>
+            {
+                try
+                {
+                    foreach (var chc in CheckLicenses)
+                    {
+                        var tempchc = new CheckLicenseModel();
+                        System.Action ChildDoInBackground = new System.Action(() =>
+                        {
+
+                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
+
+                        });
+
+                        System.Action ChildDoOnUiThread = new System.Action(() =>
+                        {
+
+                            chc.Output = tempchc.Output;
+                            chc.IsProgress = false;
+                            ExecutedComputer++;
+
+                            if (ExecutedComputer == TotalComputer)
+                            {
+                                EndNotification("Operation has finished!!");
+                            }
+
+                        });
+
+                        Canceller = new CancellationTokenSource();
+                        var t3 = Task.Factory.StartNew(() =>
+                        {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoInBackground();
+                            }
+                        }, Canceller.Token);
+
+                        // when t1 is done run t1..on the Ui thread.
+                        var t4 = t3.ContinueWith(t =>
+                        {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoOnUiThread();
+                            }
+                        }, Canceller.Token);
+
+
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    EndNotification(ex.Message);
+                    return;
+                }
+
+            });
+
+            System.Action DoOnUiThread = new System.Action(() =>
+            {
+
+            });
+
+
+            // start the background task
+            Canceller = new CancellationTokenSource();
+            var t1 = Task.Factory.StartNew(() =>
+            {
+                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                {
+                    DoInBackground();
+                }
+            }, Canceller.Token);
+            // when t1 is done run t1..on the Ui thread.
+            var t2 = t1.ContinueWith(t =>
+            {
+                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                {
+                    DoOnUiThread();
+                }
+            }, Canceller.Token);
+            //I assume BitmapFromUri is the slow step.
+
+        }
+        public void CheckLicenseRemoteCommand()
         {
             StartNotification();
 
@@ -175,30 +309,24 @@ namespace MaterialDesignColors.WpfExample.Domain
             _executedComputer = 0;
 
 
-            List<MaterialDesignDemo.autocad.masterkey.ws.Computer> computers = client.ListComputer(FirmId).ToList();
+            Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(client.ListComputer(FirmId).ToList());
             var checklicense = new MTObservableCollection<CheckLicenseModel>();
 
 
-            if (computers.Count == 0 && IsRemote == true)
+            if (Computers.Count == 0 && IsRemote == true)
             {
                 EndNotification("Firm of Operation does not contain any computer!");
                 return;
             }
 
 
-            if (IsRemote == true)
+
+            foreach (var item in Computers)
             {
-                foreach (var item in computers)
-                {
-                    checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId });
-                }
+                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId });
             }
-            else
-            {
-                var localcomp = ComputerDetection.ExecuteLocal();
-                checklicense.Add(new CheckLicenseModel() { ComputerId = localcomp.Id, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId });
-            }
-            
+
+
             CheckLicenses = checklicense;
             TotalComputer = CheckLicenses.Count;
             System.Action DoInBackground = new System.Action(() =>
@@ -361,6 +489,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                     foreach (var item in CheckLicenses)
                     {
                         counter--;
+
                         client.UpsertCheckLicense(new MaterialDesignDemo.autocad.masterkey.ws.CheckLicense()
                         {
                             CheckDate = System.DateTime.Now,

@@ -22,9 +22,9 @@ namespace AutoCadLisansKontrol.Controller
     {
         static object thisLock = new object();
         private static string localip;
-        public static ComputerModel ExecuteLocal()
+        public static Computer ExecuteLocal()
         {
-            var localcomp = new ComputerModel
+            var localcomp = new Computer
             {
                 Ip = GetLocalIp(),
                 Name = GetLocalMachineName(),

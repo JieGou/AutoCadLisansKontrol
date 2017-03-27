@@ -72,7 +72,9 @@
   </xs:element>
   <xs:element name="UpsertComputerResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpsertComputerResult" type="xs:int" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetOperation">

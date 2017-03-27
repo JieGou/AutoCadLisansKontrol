@@ -3,6 +3,7 @@ using MaterialDesignDemo.Controller;
 using MaterialDesignDemo.Domain;
 using MaterialDesignDemo.Model;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Practices.Prism.Commands;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -91,7 +92,7 @@ namespace MaterialDesignDemo
             var checklicensemodel = (CheckLicenseViewModel)DataContext;
 
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
-            mainwindowviewmodel.DemoItem = new DemoItem("Operation", new MaterialDesignDemo.Operation { DataContext = new OperationViewModel(checklicensemodel.OprId) });
+            mainwindowviewmodel.DemoItem = new DemoItem("Operation", new MaterialDesignDemo.Operation { DataContext = new OperationViewModel(checklicensemodel.FirmId) });
         }
 
         private void scrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -109,7 +110,7 @@ namespace MaterialDesignDemo
             SaveFileDialog dialog = new SaveFileDialog()
             {
                 Filter = "Archivos Excel (*.xls)|*.xls|Todos los Archivos (*.*)|*.*",
-                FileName="Result of Sniff"
+                FileName = "Result of Sniff"
             };
 
             if (dialog.ShowDialog() == true)
@@ -117,6 +118,23 @@ namespace MaterialDesignDemo
                 Excel.ExportExcel(checklicensemodel.CheckLicenses.ToList(), dialog.FileName);
             }
 
+        }
+
+        private void ToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            var checklicensemodel = (CheckLicenseViewModel)DataContext;
+
+            if (checklicensemodel.IsRemote == false)
+            {
+                NameTextBox.IsEnabled = false;
+                PasswordBox.IsEnabled = false;
+            }
+            else
+            {
+                NameTextBox.IsEnabled = true;
+                PasswordBox.IsEnabled = true;
+            }
         }
     }
 }
