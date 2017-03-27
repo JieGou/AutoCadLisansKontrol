@@ -22,6 +22,19 @@ namespace AutoCadLisansKontrol.Controller
     {
         static object thisLock = new object();
         private static string localip;
+        public static ComputerModel ExecuteLocal()
+        {
+            var localcomp = new ComputerModel
+            {
+                Ip = GetLocalIp(),
+                Name = GetLocalMachineName(),
+                Type = "Local",
+                //PyshicalAddress="",
+                IsRootMachine = false,
+                IsComputer = true
+            };
+            return localcomp;
+        }
         public static List<ComputerModel> Execute()
         {
             var net = GetComputerFromArpTable();
@@ -273,7 +286,23 @@ namespace AutoCadLisansKontrol.Controller
             }
             return pingable;
         }
+        private static string GetLocalMachineName()
+        {
+            return Environment.MachineName;
+        }
+        private static string GetLocalIp()
+        {
+            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+            {
+                return null;
+            }
 
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+
+            return host
+                .AddressList
+                .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork).ToString();
+        }
         public static ObservableCollection<ComputerModel> FilterComputer(ObservableCollection<ComputerModel> comps)
         {
             var tempcomp = new List<ComputerModel>(comps);

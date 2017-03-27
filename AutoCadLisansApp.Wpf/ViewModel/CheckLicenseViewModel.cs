@@ -37,8 +37,8 @@ namespace MaterialDesignColors.WpfExample.Domain
         private int _totalComputer = 0;
         public int TotalComputer { get { return _totalComputer; } set { _totalComputer = value; OnPropertyChanged("TotalComputer"); } }
 
-        public bool _testtoogle = true;
-        public bool testtoogle { get { return _testtoogle; } set { _testtoogle = value; OnPropertyChanged("testtoogle"); } }
+        public bool _isremote = true;
+        public bool IsRemote { get { return _isremote; } set { _isremote = value; OnPropertyChanged("IsRemote"); } }
 
 
         public ICommand RunClicked { get; set; }
@@ -167,7 +167,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             StartNotification();
 
-            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password) && IsRemote == true)
             {
                 EndNotification("UserName or Password is empty");
                 return;
@@ -179,16 +179,26 @@ namespace MaterialDesignColors.WpfExample.Domain
             var checklicense = new MTObservableCollection<CheckLicenseModel>();
 
 
-            if (computers.Count == 0)
+            if (computers.Count == 0 && IsRemote == true)
             {
                 EndNotification("Firm of Operation does not contain any computer!");
                 return;
             }
 
-            foreach (var item in computers)
+
+            if (IsRemote == true)
             {
-                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId });
+                foreach (var item in computers)
+                {
+                    checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId });
+                }
             }
+            else
+            {
+                var localcomp = ComputerDetection.ExecuteLocal();
+                checklicense.Add(new CheckLicenseModel() { ComputerId = localcomp.Id, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId });
+            }
+            
             CheckLicenses = checklicense;
             TotalComputer = CheckLicenses.Count;
             System.Action DoInBackground = new System.Action(() =>
@@ -201,7 +211,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
 
-                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList());
+                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
 
                         });
 

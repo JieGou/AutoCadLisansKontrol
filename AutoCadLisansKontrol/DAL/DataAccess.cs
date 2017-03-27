@@ -315,6 +315,11 @@ namespace AutoCadLisansKontrol.DAL
         {
             try
             {
+                if (oprdetail.ComputerId == null)
+                {
+                    UpsertComputer(new ComputerEntity { Id = oprdetail.Id, Ip = oprdetail.Ip, IsComputer = oprdetail.IsComputer, IsRootMachine = oprdetail.IsRootMachine, IsVisible = oprdetail.IsVisible, Name = c.Name, PyshicalAddress = c.PyshicalAddress, FirmId = c.FirmId, Type = c.Type, InsertDate = DateTime.Now })
+                }
+
                 var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicenseEntity>();
                 if (item == null)
                     dbaccess.CheckLicense.Add(oprdetail);

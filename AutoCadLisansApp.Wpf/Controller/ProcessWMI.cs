@@ -37,7 +37,7 @@ namespace MaterialDesignDemo.Controller
             ExitCode = -1;
             EventArrived = false;
         }
-       
+
         public void ExecuteRemoteProcessWMI(string arguments, int WaitTimePerCommand)
         {
 
@@ -178,29 +178,53 @@ namespace MaterialDesignDemo.Controller
         {
             return ManagementDateTimeConverter.ToDateTime(dateTime).ToString();
         }
+        private ManagementScope Connect(bool isRemote)
+        {
+            ManagementScope scope = null;
 
-        public List<Win32_Product> GetProductWithWMI(Software[] software)
+            switch (isRemote)
+            {
+                case true:
+                    ConnectionOptions connOptions = new ConnectionOptions();
+                    connOptions.Impersonation = ImpersonationLevel.Impersonate;
+                    connOptions.EnablePrivileges = true;
+                    connOptions.Username = Username;
+                    connOptions.Password = Password;
+
+                    scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", RemoteComputerName), connOptions);
+
+                    try
+                    {
+                        scope.Connect();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Management Connect to remote machine " + RemoteComputerName + " as user " + Username + " failed with the following error " + e.Message);
+                    }
+                    break;
+                case false:
+                    try
+                    {
+
+                        scope = new ManagementScope("\\\\.\\root\\CIMV2");
+                        scope.Connect();
+                    }
+                    catch (Exception e)
+                    {
+
+                        throw new Exception("Management Connect to machine " + RemoteComputerName + " failed with the following error " + e.Message);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return scope;
+        }
+        public List<Win32_Product> GetProductWithWMI(Software[] software, bool type)
         {
             List<Win32_Product> products = new List<Win32_Product>();
 
-            ConnectionOptions connOptions = new ConnectionOptions();
-            connOptions.Impersonation = ImpersonationLevel.Impersonate;
-            connOptions.EnablePrivileges = true;
-            connOptions.Username = Username;
-            connOptions.Password = Password;
-
-            ManagementScope scope = new ManagementScope(String.Format(@"\\{0}\ROOT\CIMV2", RemoteComputerName), connOptions);
-
-            try
-            {
-                scope.Connect();
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Management Connect to remote machine " + RemoteComputerName + " as user " + Username + " failed with the following error " + e.Message);
-            }
-            //ManagementScope scope = new ManagementScope("\\\\.\\root\\CIMV2");
-            //scope.Connect();
+            ManagementScope scope = Connect(type);
 
             SelectQuery CheckProcess = new SelectQuery("SELECT * FROM Win32_Product");
             using (ManagementObjectSearcher ProcessSearcher = new ManagementObjectSearcher(scope, CheckProcess))
@@ -241,7 +265,7 @@ namespace MaterialDesignDemo.Controller
                     product.URLUpdateInfo = mo["URLUpdateInfo"] == null ? null : mo["URLUpdateInfo"].ToString();
                     product.Vendor = mo["Vendor"] == null ? null : mo["Vendor"].ToString();
                     product.Version = mo["Version"] == null ? null : mo["Version"].ToString();
-                    
+
                     products.Add(product);
                 }
             }
@@ -822,5 +846,10 @@ namespace MaterialDesignDemo.Controller
     {
         public List<Win32_Directory> directories = new List<Win32_Directory>();
         public List<CIM_DataFile> files = new List<CIM_DataFile>();
+    }
+    public enum SnifferConnectionType
+    {
+        Remote = 0,
+        Local = 1,
     }
 }

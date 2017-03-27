@@ -105,10 +105,12 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
 
-                            <DataGrid ItemsSource="{Binding SoftwareList,Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" Grid.Row="0" >
+
+                            <DataGrid ItemsSource="{Binding SoftwareList,Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" Grid.Row="1" >
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn  Width="SizeToCells">
                                         <DataGridTemplateColumn.CellTemplate>
@@ -129,13 +131,13 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1" Effect="{DynamicResource MaterialDesignShadowDepth5}">
+                            <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="2" Effect="{DynamicResource MaterialDesignShadowDepth5}">
                                 <TextBlock Margin="16"><Run Text="Software list to check"/></TextBlock>
                             </materialDesign:ColorZone>
                             <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"                                
                                     Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                                     VerticalAlignment="Bottom" HorizontalAlignment="Right" 
-                                    Grid.Row="0" Margin="0 0 28 -20">
+                                    Grid.Row="1" Margin="0 0 28 -20">
                                 <Viewbox Width="22" Height="22">
                                     <Canvas Width="24" Height="24">
                                         <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" />
@@ -190,7 +192,7 @@
 
                                 </DataGrid.Columns>
                             </DataGrid>
-                            
+
                             <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1"  Effect="{DynamicResource MaterialDesignShadowDepth5}">
                                 <TextBlock Margin="16"><Run Text="Select control points"/></TextBlock>
                             </materialDesign:ColorZone>
@@ -198,6 +200,12 @@
                     </Border>
                 </materialDesign:DialogHost>
 
+                <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" >Remote</TextBlock>
+                    <ToggleButton Grid.Row="0" Style="{StaticResource MaterialDesignSwitchAccentToggleButton}" VerticalAlignment="Center" Margin="8 0 0 0"
+                          ToolTip="Connection Type" IsChecked="{Binding IsRemote}" />
+                    <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" > Local</TextBlock>
+                </StackPanel>
                 <StackPanel Grid.Row="0" Grid.Column="0">
                     <materialDesign:Chip Content="Back"
                              
