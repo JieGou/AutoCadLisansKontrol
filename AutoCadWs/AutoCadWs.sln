@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadWs", "AutoCadWs\AutoCadWs.csproj", "{A13BA598-BD74-4B8A-AF27-10686C6FB59E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadDAL", "..\AutoCadLisansKontrol\AutoCadDAL.csproj", "{4FE772C3-5004-4E61-97CD-817E82FE37E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadLisansKontrol.Test", "..\AutoCadLisansKontrol.Test\AutoCadLisansKontrol.Test.csproj", "{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WIN32_Registry", "..\..\..\..\Desktop\WIN32_Registry\WIN32_Registry\WIN32_Registry.csproj", "{FCFDCAE6-674B-4CA9-8E28-5F52B10FC1EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicenseControllerWs", "..\LicenseControllerWs\LicenseControllerWs\LicenseControllerWs.csproj", "{44682AEE-51D9-4C54-9DF4-15DAB4DC9687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WIN32_Registry", "C:\Users\hikmet\Desktop\WIN32_Registry\WIN32_Registry.csproj", "{FCFDCAE6-674B-4CA9-8E28-5F52B10FC1EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A13BA598-BD74-4B8A-AF27-10686C6FB59E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A13BA598-BD74-4B8A-AF27-10686C6FB59E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A13BA598-BD74-4B8A-AF27-10686C6FB59E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A13BA598-BD74-4B8A-AF27-10686C6FB59E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4FE772C3-5004-4E61-97CD-817E82FE37E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4FE772C3-5004-4E61-97CD-817E82FE37E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FE772C3-5004-4E61-97CD-817E82FE37E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,6 +25,10 @@ Global
 		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61771FE6-78DB-4D5E-8A19-5571AD3FFE0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44682AEE-51D9-4C54-9DF4-15DAB4DC9687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44682AEE-51D9-4C54-9DF4-15DAB4DC9687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44682AEE-51D9-4C54-9DF4-15DAB4DC9687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44682AEE-51D9-4C54-9DF4-15DAB4DC9687}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FCFDCAE6-674B-4CA9-8E28-5F52B10FC1EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FCFDCAE6-674B-4CA9-8E28-5F52B10FC1EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCFDCAE6-674B-4CA9-8E28-5F52B10FC1EE}.Release|Any CPU.ActiveCfg = Release|Any CPU

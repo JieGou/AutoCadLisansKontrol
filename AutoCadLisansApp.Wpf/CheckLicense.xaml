@@ -189,9 +189,23 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
+                                    <DataGridTemplateColumn  Width="SizeToCells" Header="Avg Time/per cmp">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock TextWrapping="Wrap"  x:Name="AvgTimeTextBox"   materialDesign:HintAssist.Hint="Avg Time">
+                                                    <TextBlock.Text>
+                                                        <Binding Path="AvgExecTime" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding.ValidationRules>
+                                                                <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
-
                             <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1"  Effect="{DynamicResource MaterialDesignShadowDepth5}">
                                 <TextBlock Margin="16"><Run Text="Select control points"/></TextBlock>
                             </materialDesign:ColorZone>
@@ -234,6 +248,7 @@
                     <Grid Margin="0,0,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -267,16 +282,14 @@
                                             Command="{Binding SaveClicked}" Content="Save" VerticalAlignment="Top" Margin="3" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}"/>
                         <Button  Grid.Column="4" Style="{StaticResource MaterialDesignRaisedDarkButton}" 
                                             Command="{Binding CancelClicked}" Content="Cancel" VerticalAlignment="Top" IsEnabled="{Binding !(IsButtonEnable),Mode=TwoWay}" Margin="3"/>
-
+                        <CheckBox Grid.Row="2" Grid.ColumnSpan="4"
+                  x:Name="ClassicModeCheckBox"
+                  IsThreeState="False" IsChecked="{Binding Path=AutoSave,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  Margin="0 8 0 0">When operation finishes, save result.</CheckBox>
                     </Grid>
+                    
                 </GroupBox>
-
-
-
-
-
-
-
+                
                 <GroupBox Grid.Row="2" Grid.Column="0"  Header="Check List" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,1,16,-1" Grid.RowSpan="2">
                     <GroupBox.HeaderTemplate>
                         <DataTemplate>
@@ -306,11 +319,6 @@
                         ToolTip="Export to Excel" Click="Button_Click">
                                 <materialDesign:PackIcon Kind="FileExcel" Height="24" Width="24" />
                             </Button>
-                            <Button  Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
-                        Margin="0 0 8 0" HorizontalAlignment="Right"  Command="{Binding ExporttoPdf}"
-                        ToolTip="Export to Pdf">
-                                <materialDesign:PackIcon Kind="FilePdf" Height="24" Width="24" />
-                            </Button>
                         </StackPanel>
 
                         <DataGrid Grid.Row="1" Grid.ColumnSpan="2"  Margin="0 8 0 0" Name="grdCheckList" ItemsSource="{Binding CheckLicenses,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
@@ -326,15 +334,15 @@
                                 <DataGridTemplateColumn Header="Ip" Width="SizeToCells">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Ip">
-                                                <TextBox.Text>
+                                            <TextBlock  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Ip" TextWrapping="Wrap">
+                                                <TextBlock.Text>
                                                     <Binding Path="Ip" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
                                                             <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
                                                         </Binding.ValidationRules>
                                                     </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
+                                                </TextBlock.Text>
+                                            </TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -343,15 +351,15 @@
                                 <DataGridTemplateColumn Header="Name" Width="SizeToCells">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Ip">
-                                                <TextBox.Text>
+                                            <TextBlock  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Ip" TextWrapping="Wrap">
+                                                <TextBlock.Text>
                                                     <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
                                                             <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
                                                         </Binding.ValidationRules>
                                                     </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
+                                                </TextBlock.Text>
+                                            </TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

@@ -8,14 +8,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MaterialDesignDemo.autocad.masterkey.ws {
+namespace LicenseController.autocad.masterkey.ws {
     using System.Runtime.Serialization;
     using System;
     
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Firm", Namespace="http://schemas.datacontract.org/2004/07/AutoCadWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Firm", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
     [System.SerializableAttribute()]
     public partial class Firm : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -140,7 +140,7 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Computer", Namespace="http://schemas.datacontract.org/2004/07/AutoCadWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Computer", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
     [System.SerializableAttribute()]
     public partial class Computer : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -329,7 +329,7 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Operation", Namespace="http://schemas.datacontract.org/2004/07/AutoCadWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Operation", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
     [System.SerializableAttribute()]
     public partial class Operation : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -337,7 +337,10 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MaterialDesignDemo.autocad.masterkey.ws.Firm FirmField;
+        private int ComputerCountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LicenseController.autocad.masterkey.ws.Firm FirmField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int FirmIdField;
@@ -359,7 +362,20 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public MaterialDesignDemo.autocad.masterkey.ws.Firm Firm {
+        public int ComputerCount {
+            get {
+                return this.ComputerCountField;
+            }
+            set {
+                if ((this.ComputerCountField.Equals(value) != true)) {
+                    this.ComputerCountField = value;
+                    this.RaisePropertyChanged("ComputerCount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LicenseController.autocad.masterkey.ws.Firm Firm {
             get {
                 return this.FirmField;
             }
@@ -422,7 +438,7 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CheckLicense", Namespace="http://schemas.datacontract.org/2004/07/AutoCadWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CheckLicense", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
     [System.SerializableAttribute()]
     public partial class CheckLicense : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -442,13 +458,16 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> InstallDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<bool> InstalledField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string IpField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<bool> IsUnlicensedField;
+        private System.Nullable<bool> IsFoundField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string NameField;
@@ -461,6 +480,9 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<bool> StateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> UnInstallDateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<bool> UninstalledField;
@@ -531,6 +553,19 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> InstallDate {
+            get {
+                return this.InstallDateField;
+            }
+            set {
+                if ((this.InstallDateField.Equals(value) != true)) {
+                    this.InstallDateField = value;
+                    this.RaisePropertyChanged("InstallDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Nullable<bool> Installed {
             get {
                 return this.InstalledField;
@@ -557,14 +592,14 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<bool> IsUnlicensed {
+        public System.Nullable<bool> IsFound {
             get {
-                return this.IsUnlicensedField;
+                return this.IsFoundField;
             }
             set {
-                if ((this.IsUnlicensedField.Equals(value) != true)) {
-                    this.IsUnlicensedField = value;
-                    this.RaisePropertyChanged("IsUnlicensed");
+                if ((this.IsFoundField.Equals(value) != true)) {
+                    this.IsFoundField = value;
+                    this.RaisePropertyChanged("IsFound");
                 }
             }
         }
@@ -622,6 +657,19 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> UnInstallDate {
+            get {
+                return this.UnInstallDateField;
+            }
+            set {
+                if ((this.UnInstallDateField.Equals(value) != true)) {
+                    this.UnInstallDateField = value;
+                    this.RaisePropertyChanged("UnInstallDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Nullable<bool> Uninstalled {
             get {
                 return this.UninstalledField;
@@ -657,27 +705,417 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LogData", Namespace="http://schemas.datacontract.org/2004/07/CheckLicense.Log")]
+    [System.SerializableAttribute()]
+    public partial class LogData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AppNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime EndTimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private decimal ExpIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int FirmIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string HostField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IpField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private decimal LevelIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LicenseController.autocad.masterkey.ws.LogDataType LogDataTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private decimal LogIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MethodField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ReqXmlField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ResXmlField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime StartTimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LicenseController.autocad.masterkey.ws.LogDataState StateField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AppName {
+            get {
+                return this.AppNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AppNameField, value) != true)) {
+                    this.AppNameField = value;
+                    this.RaisePropertyChanged("AppName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime EndTime {
+            get {
+                return this.EndTimeField;
+            }
+            set {
+                if ((this.EndTimeField.Equals(value) != true)) {
+                    this.EndTimeField = value;
+                    this.RaisePropertyChanged("EndTime");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public decimal ExpId {
+            get {
+                return this.ExpIdField;
+            }
+            set {
+                if ((this.ExpIdField.Equals(value) != true)) {
+                    this.ExpIdField = value;
+                    this.RaisePropertyChanged("ExpId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int FirmId {
+            get {
+                return this.FirmIdField;
+            }
+            set {
+                if ((this.FirmIdField.Equals(value) != true)) {
+                    this.FirmIdField = value;
+                    this.RaisePropertyChanged("FirmId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Host {
+            get {
+                return this.HostField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.HostField, value) != true)) {
+                    this.HostField = value;
+                    this.RaisePropertyChanged("Host");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IdField, value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Ip {
+            get {
+                return this.IpField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IpField, value) != true)) {
+                    this.IpField = value;
+                    this.RaisePropertyChanged("Ip");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public decimal LevelId {
+            get {
+                return this.LevelIdField;
+            }
+            set {
+                if ((this.LevelIdField.Equals(value) != true)) {
+                    this.LevelIdField = value;
+                    this.RaisePropertyChanged("LevelId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LicenseController.autocad.masterkey.ws.LogDataType LogDataType {
+            get {
+                return this.LogDataTypeField;
+            }
+            set {
+                if ((this.LogDataTypeField.Equals(value) != true)) {
+                    this.LogDataTypeField = value;
+                    this.RaisePropertyChanged("LogDataType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public decimal LogId {
+            get {
+                return this.LogIdField;
+            }
+            set {
+                if ((this.LogIdField.Equals(value) != true)) {
+                    this.LogIdField = value;
+                    this.RaisePropertyChanged("LogId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Method {
+            get {
+                return this.MethodField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MethodField, value) != true)) {
+                    this.MethodField = value;
+                    this.RaisePropertyChanged("Method");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ReqXml {
+            get {
+                return this.ReqXmlField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ReqXmlField, value) != true)) {
+                    this.ReqXmlField = value;
+                    this.RaisePropertyChanged("ReqXml");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ResXml {
+            get {
+                return this.ResXmlField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ResXmlField, value) != true)) {
+                    this.ResXmlField = value;
+                    this.RaisePropertyChanged("ResXml");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime StartTime {
+            get {
+                return this.StartTimeField;
+            }
+            set {
+                if ((this.StartTimeField.Equals(value) != true)) {
+                    this.StartTimeField = value;
+                    this.RaisePropertyChanged("StartTime");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LicenseController.autocad.masterkey.ws.LogDataState State {
+            get {
+                return this.StateField;
+            }
+            set {
+                if ((this.StateField.Equals(value) != true)) {
+                    this.StateField = value;
+                    this.RaisePropertyChanged("State");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LogDataType", Namespace="http://schemas.datacontract.org/2004/07/CheckLicense.Log")]
+    public enum LogDataType : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InitiliazeProcess = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InitiliazeItemOfProcess = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UpdateItemOfProcess = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UpdateProcess = 3,
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LogDataState", Namespace="http://schemas.datacontract.org/2004/07/CheckLicense.Log")]
+    public enum LogDataState : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Success = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Fail = 0,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ControlPoint", Namespace="http://schemas.datacontract.org/2004/07/AutoCadLisansKontrol.DAL")]
+    [System.SerializableAttribute()]
+    public partial class ControlPoint : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AvgExecTimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> WillCheckedField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AvgExecTime {
+            get {
+                return this.AvgExecTimeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AvgExecTimeField, value) != true)) {
+                    this.AvgExecTimeField = value;
+                    this.RaisePropertyChanged("AvgExecTime");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> WillChecked {
+            get {
+                return this.WillCheckedField;
+            }
+            set {
+                if ((this.WillCheckedField.Equals(value) != true)) {
+                    this.WillCheckedField = value;
+                    this.RaisePropertyChanged("WillChecked");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="autocad.masterkey.ws.IService1")]
     public interface IService1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertFirm", ReplyAction="http://tempuri.org/IService1/UpsertFirmResponse")]
-        void UpsertFirm(MaterialDesignDemo.autocad.masterkey.ws.Firm firm);
+        void UpsertFirm(LicenseController.autocad.masterkey.ws.Firm firm);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertFirm", ReplyAction="http://tempuri.org/IService1/UpsertFirmResponse")]
-        System.Threading.Tasks.Task UpsertFirmAsync(MaterialDesignDemo.autocad.masterkey.ws.Firm firm);
+        System.Threading.Tasks.Task UpsertFirmAsync(LicenseController.autocad.masterkey.ws.Firm firm);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetFirm", ReplyAction="http://tempuri.org/IService1/GetFirmResponse")]
-        MaterialDesignDemo.autocad.masterkey.ws.Firm GetFirm(System.Nullable<int> firmId);
+        LicenseController.autocad.masterkey.ws.Firm GetFirm(System.Nullable<int> firmId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetFirm", ReplyAction="http://tempuri.org/IService1/GetFirmResponse")]
-        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Firm> GetFirmAsync(System.Nullable<int> firmId);
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Firm> GetFirmAsync(System.Nullable<int> firmId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListFirm", ReplyAction="http://tempuri.org/IService1/ListFirmResponse")]
-        MaterialDesignDemo.autocad.masterkey.ws.Firm[] ListFirm();
+        LicenseController.autocad.masterkey.ws.Firm[] ListFirm();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListFirm", ReplyAction="http://tempuri.org/IService1/ListFirmResponse")]
-        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Firm[]> ListFirmAsync();
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Firm[]> ListFirmAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteFirm", ReplyAction="http://tempuri.org/IService1/DeleteFirmResponse")]
         void DeleteFirm(int firmid);
@@ -686,34 +1124,34 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         System.Threading.Tasks.Task DeleteFirmAsync(int firmid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateFirm", ReplyAction="http://tempuri.org/IService1/UpdateFirmResponse")]
-        void UpdateFirm(MaterialDesignDemo.autocad.masterkey.ws.Firm firm);
+        void UpdateFirm(LicenseController.autocad.masterkey.ws.Firm firm);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateFirm", ReplyAction="http://tempuri.org/IService1/UpdateFirmResponse")]
-        System.Threading.Tasks.Task UpdateFirmAsync(MaterialDesignDemo.autocad.masterkey.ws.Firm firm);
+        System.Threading.Tasks.Task UpdateFirmAsync(LicenseController.autocad.masterkey.ws.Firm firm);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertComputer", ReplyAction="http://tempuri.org/IService1/UpsertComputerResponse")]
-        int UpsertComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer c);
+        int UpsertComputer(LicenseController.autocad.masterkey.ws.Computer c);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertComputer", ReplyAction="http://tempuri.org/IService1/UpsertComputerResponse")]
-        System.Threading.Tasks.Task<int> UpsertComputerAsync(MaterialDesignDemo.autocad.masterkey.ws.Computer c);
+        System.Threading.Tasks.Task<int> UpsertComputerAsync(LicenseController.autocad.masterkey.ws.Computer c);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOperation", ReplyAction="http://tempuri.org/IService1/GetOperationResponse")]
-        MaterialDesignDemo.autocad.masterkey.ws.Operation GetOperation(int opr);
+        LicenseController.autocad.masterkey.ws.Operation GetOperation(int opr);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOperation", ReplyAction="http://tempuri.org/IService1/GetOperationResponse")]
-        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Operation> GetOperationAsync(int opr);
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation> GetOperationAsync(int opr);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListAllComputer", ReplyAction="http://tempuri.org/IService1/ListAllComputerResponse")]
-        MaterialDesignDemo.autocad.masterkey.ws.Computer[] ListAllComputer();
+        LicenseController.autocad.masterkey.ws.Computer[] ListAllComputer();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListAllComputer", ReplyAction="http://tempuri.org/IService1/ListAllComputerResponse")]
-        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Computer[]> ListAllComputerAsync();
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Computer[]> ListAllComputerAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListComputer", ReplyAction="http://tempuri.org/IService1/ListComputerResponse")]
-        MaterialDesignDemo.autocad.masterkey.ws.Computer[] ListComputer(System.Nullable<int> firmId);
+        LicenseController.autocad.masterkey.ws.Computer[] ListComputer(System.Nullable<int> firmId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListComputer", ReplyAction="http://tempuri.org/IService1/ListComputerResponse")]
-        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Computer[]> ListComputerAsync(System.Nullable<int> firmId);
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Computer[]> ListComputerAsync(System.Nullable<int> firmId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteComputer", ReplyAction="http://tempuri.org/IService1/DeleteComputerResponse")]
         void DeleteComputer(int Id);
@@ -722,64 +1160,70 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         System.Threading.Tasks.Task DeleteComputerAsync(int Id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateComputer", ReplyAction="http://tempuri.org/IService1/UpdateComputerResponse")]
-        void UpdateComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer comp);
+        void UpdateComputer(LicenseController.autocad.masterkey.ws.Computer comp);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateComputer", ReplyAction="http://tempuri.org/IService1/UpdateComputerResponse")]
-        System.Threading.Tasks.Task UpdateComputerAsync(MaterialDesignDemo.autocad.masterkey.ws.Computer comp);
+        System.Threading.Tasks.Task UpdateComputerAsync(LicenseController.autocad.masterkey.ws.Computer comp);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertOperation", ReplyAction="http://tempuri.org/IService1/UpsertOperationResponse")]
-        void UpsertOperation(MaterialDesignDemo.autocad.masterkey.ws.Operation opr);
+        void UpsertOperation(LicenseController.autocad.masterkey.ws.Operation opr);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertOperation", ReplyAction="http://tempuri.org/IService1/UpsertOperationResponse")]
-        System.Threading.Tasks.Task UpsertOperationAsync(MaterialDesignDemo.autocad.masterkey.ws.Operation opr);
+        System.Threading.Tasks.Task UpsertOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListAllOperation", ReplyAction="http://tempuri.org/IService1/ListAllOperationResponse")]
-        MaterialDesignDemo.autocad.masterkey.ws.Operation[] ListAllOperation();
+        LicenseController.autocad.masterkey.ws.Operation[] ListAllOperation();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListAllOperation", ReplyAction="http://tempuri.org/IService1/ListAllOperationResponse")]
-        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Operation[]> ListAllOperationAsync();
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation[]> ListAllOperationAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListOperation", ReplyAction="http://tempuri.org/IService1/ListOperationResponse")]
-        MaterialDesignDemo.autocad.masterkey.ws.Operation[] ListOperation(int firmid);
+        LicenseController.autocad.masterkey.ws.Operation[] ListOperation(int firmid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListOperation", ReplyAction="http://tempuri.org/IService1/ListOperationResponse")]
-        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Operation[]> ListOperationAsync(int firmid);
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation[]> ListOperationAsync(int firmid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteOperation", ReplyAction="http://tempuri.org/IService1/DeleteOperationResponse")]
-        void DeleteOperation(MaterialDesignDemo.autocad.masterkey.ws.Operation opr);
+        void DeleteOperation(LicenseController.autocad.masterkey.ws.Operation opr);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteOperation", ReplyAction="http://tempuri.org/IService1/DeleteOperationResponse")]
-        System.Threading.Tasks.Task DeleteOperationAsync(MaterialDesignDemo.autocad.masterkey.ws.Operation opr);
+        System.Threading.Tasks.Task DeleteOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateOperation", ReplyAction="http://tempuri.org/IService1/UpdateOperationResponse")]
-        void UpdateOperation(MaterialDesignDemo.autocad.masterkey.ws.Operation opr);
+        void UpdateOperation(LicenseController.autocad.masterkey.ws.Operation opr);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateOperation", ReplyAction="http://tempuri.org/IService1/UpdateOperationResponse")]
-        System.Threading.Tasks.Task UpdateOperationAsync(MaterialDesignDemo.autocad.masterkey.ws.Operation opr);
+        System.Threading.Tasks.Task UpdateOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertCheckLicense", ReplyAction="http://tempuri.org/IService1/UpsertCheckLicenseResponse")]
-        void UpsertCheckLicense(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail);
+        void UpsertCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertCheckLicense", ReplyAction="http://tempuri.org/IService1/UpsertCheckLicenseResponse")]
-        System.Threading.Tasks.Task UpsertCheckLicenseAsync(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail);
+        System.Threading.Tasks.Task UpsertCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/LogToDb", ReplyAction="http://tempuri.org/IService1/LogToDbResponse")]
+        void LogToDb(LicenseController.autocad.masterkey.ws.LogData[] logs);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/LogToDb", ReplyAction="http://tempuri.org/IService1/LogToDbResponse")]
+        System.Threading.Tasks.Task LogToDbAsync(LicenseController.autocad.masterkey.ws.LogData[] logs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListCheckLicense", ReplyAction="http://tempuri.org/IService1/ListCheckLicenseResponse")]
-        MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[] ListCheckLicense(int id);
+        LicenseController.autocad.masterkey.ws.CheckLicense[] ListCheckLicense(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListCheckLicense", ReplyAction="http://tempuri.org/IService1/ListCheckLicenseResponse")]
-        System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync(int id);
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteCheckLicense", ReplyAction="http://tempuri.org/IService1/DeleteCheckLicenseResponse")]
-        void DeleteCheckLicense(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail);
+        void DeleteCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteCheckLicense", ReplyAction="http://tempuri.org/IService1/DeleteCheckLicenseResponse")]
-        System.Threading.Tasks.Task DeleteCheckLicenseAsync(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail);
+        System.Threading.Tasks.Task DeleteCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateCheckLicense", ReplyAction="http://tempuri.org/IService1/UpdateCheckLicenseResponse")]
-        void UpdateCheckLicense(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail);
+        void UpdateCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateCheckLicense", ReplyAction="http://tempuri.org/IService1/UpdateCheckLicenseResponse")]
-        System.Threading.Tasks.Task UpdateCheckLicenseAsync(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail);
+        System.Threading.Tasks.Task UpdateCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteAllComputerBaseFormid", ReplyAction="http://tempuri.org/IService1/DeleteAllComputerBaseFormidResponse")]
         void DeleteAllComputerBaseFormid(int firmId);
@@ -792,15 +1236,21 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationid", ReplyAction="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationidResponse")]
         System.Threading.Tasks.Task DeleteAllLicenseBaseOperationidAsync(int oprId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetControlPoint", ReplyAction="http://tempuri.org/IService1/GetControlPointResponse")]
+        LicenseController.autocad.masterkey.ws.ControlPoint[] GetControlPoint();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetControlPoint", ReplyAction="http://tempuri.org/IService1/GetControlPointResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ControlPoint[]> GetControlPointAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IService1Channel : MaterialDesignDemo.autocad.masterkey.ws.IService1, System.ServiceModel.IClientChannel {
+    public interface IService1Channel : LicenseController.autocad.masterkey.ws.IService1, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class Service1Client : System.ServiceModel.ClientBase<MaterialDesignDemo.autocad.masterkey.ws.IService1>, MaterialDesignDemo.autocad.masterkey.ws.IService1 {
+    public partial class Service1Client : System.ServiceModel.ClientBase<LicenseController.autocad.masterkey.ws.IService1>, LicenseController.autocad.masterkey.ws.IService1 {
         
         public Service1Client() {
         }
@@ -821,27 +1271,27 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
                 base(binding, remoteAddress) {
         }
         
-        public void UpsertFirm(MaterialDesignDemo.autocad.masterkey.ws.Firm firm) {
+        public void UpsertFirm(LicenseController.autocad.masterkey.ws.Firm firm) {
             base.Channel.UpsertFirm(firm);
         }
         
-        public System.Threading.Tasks.Task UpsertFirmAsync(MaterialDesignDemo.autocad.masterkey.ws.Firm firm) {
+        public System.Threading.Tasks.Task UpsertFirmAsync(LicenseController.autocad.masterkey.ws.Firm firm) {
             return base.Channel.UpsertFirmAsync(firm);
         }
         
-        public MaterialDesignDemo.autocad.masterkey.ws.Firm GetFirm(System.Nullable<int> firmId) {
+        public LicenseController.autocad.masterkey.ws.Firm GetFirm(System.Nullable<int> firmId) {
             return base.Channel.GetFirm(firmId);
         }
         
-        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Firm> GetFirmAsync(System.Nullable<int> firmId) {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Firm> GetFirmAsync(System.Nullable<int> firmId) {
             return base.Channel.GetFirmAsync(firmId);
         }
         
-        public MaterialDesignDemo.autocad.masterkey.ws.Firm[] ListFirm() {
+        public LicenseController.autocad.masterkey.ws.Firm[] ListFirm() {
             return base.Channel.ListFirm();
         }
         
-        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Firm[]> ListFirmAsync() {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Firm[]> ListFirmAsync() {
             return base.Channel.ListFirmAsync();
         }
         
@@ -853,43 +1303,43 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
             return base.Channel.DeleteFirmAsync(firmid);
         }
         
-        public void UpdateFirm(MaterialDesignDemo.autocad.masterkey.ws.Firm firm) {
+        public void UpdateFirm(LicenseController.autocad.masterkey.ws.Firm firm) {
             base.Channel.UpdateFirm(firm);
         }
         
-        public System.Threading.Tasks.Task UpdateFirmAsync(MaterialDesignDemo.autocad.masterkey.ws.Firm firm) {
+        public System.Threading.Tasks.Task UpdateFirmAsync(LicenseController.autocad.masterkey.ws.Firm firm) {
             return base.Channel.UpdateFirmAsync(firm);
         }
         
-        public int UpsertComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer c) {
+        public int UpsertComputer(LicenseController.autocad.masterkey.ws.Computer c) {
             return base.Channel.UpsertComputer(c);
         }
         
-        public System.Threading.Tasks.Task<int> UpsertComputerAsync(MaterialDesignDemo.autocad.masterkey.ws.Computer c) {
+        public System.Threading.Tasks.Task<int> UpsertComputerAsync(LicenseController.autocad.masterkey.ws.Computer c) {
             return base.Channel.UpsertComputerAsync(c);
         }
         
-        public MaterialDesignDemo.autocad.masterkey.ws.Operation GetOperation(int opr) {
+        public LicenseController.autocad.masterkey.ws.Operation GetOperation(int opr) {
             return base.Channel.GetOperation(opr);
         }
         
-        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Operation> GetOperationAsync(int opr) {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation> GetOperationAsync(int opr) {
             return base.Channel.GetOperationAsync(opr);
         }
         
-        public MaterialDesignDemo.autocad.masterkey.ws.Computer[] ListAllComputer() {
+        public LicenseController.autocad.masterkey.ws.Computer[] ListAllComputer() {
             return base.Channel.ListAllComputer();
         }
         
-        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Computer[]> ListAllComputerAsync() {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Computer[]> ListAllComputerAsync() {
             return base.Channel.ListAllComputerAsync();
         }
         
-        public MaterialDesignDemo.autocad.masterkey.ws.Computer[] ListComputer(System.Nullable<int> firmId) {
+        public LicenseController.autocad.masterkey.ws.Computer[] ListComputer(System.Nullable<int> firmId) {
             return base.Channel.ListComputer(firmId);
         }
         
-        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Computer[]> ListComputerAsync(System.Nullable<int> firmId) {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Computer[]> ListComputerAsync(System.Nullable<int> firmId) {
             return base.Channel.ListComputerAsync(firmId);
         }
         
@@ -901,83 +1351,91 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
             return base.Channel.DeleteComputerAsync(Id);
         }
         
-        public void UpdateComputer(MaterialDesignDemo.autocad.masterkey.ws.Computer comp) {
+        public void UpdateComputer(LicenseController.autocad.masterkey.ws.Computer comp) {
             base.Channel.UpdateComputer(comp);
         }
         
-        public System.Threading.Tasks.Task UpdateComputerAsync(MaterialDesignDemo.autocad.masterkey.ws.Computer comp) {
+        public System.Threading.Tasks.Task UpdateComputerAsync(LicenseController.autocad.masterkey.ws.Computer comp) {
             return base.Channel.UpdateComputerAsync(comp);
         }
         
-        public void UpsertOperation(MaterialDesignDemo.autocad.masterkey.ws.Operation opr) {
+        public void UpsertOperation(LicenseController.autocad.masterkey.ws.Operation opr) {
             base.Channel.UpsertOperation(opr);
         }
         
-        public System.Threading.Tasks.Task UpsertOperationAsync(MaterialDesignDemo.autocad.masterkey.ws.Operation opr) {
+        public System.Threading.Tasks.Task UpsertOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr) {
             return base.Channel.UpsertOperationAsync(opr);
         }
         
-        public MaterialDesignDemo.autocad.masterkey.ws.Operation[] ListAllOperation() {
+        public LicenseController.autocad.masterkey.ws.Operation[] ListAllOperation() {
             return base.Channel.ListAllOperation();
         }
         
-        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Operation[]> ListAllOperationAsync() {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation[]> ListAllOperationAsync() {
             return base.Channel.ListAllOperationAsync();
         }
         
-        public MaterialDesignDemo.autocad.masterkey.ws.Operation[] ListOperation(int firmid) {
+        public LicenseController.autocad.masterkey.ws.Operation[] ListOperation(int firmid) {
             return base.Channel.ListOperation(firmid);
         }
         
-        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.Operation[]> ListOperationAsync(int firmid) {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation[]> ListOperationAsync(int firmid) {
             return base.Channel.ListOperationAsync(firmid);
         }
         
-        public void DeleteOperation(MaterialDesignDemo.autocad.masterkey.ws.Operation opr) {
+        public void DeleteOperation(LicenseController.autocad.masterkey.ws.Operation opr) {
             base.Channel.DeleteOperation(opr);
         }
         
-        public System.Threading.Tasks.Task DeleteOperationAsync(MaterialDesignDemo.autocad.masterkey.ws.Operation opr) {
+        public System.Threading.Tasks.Task DeleteOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr) {
             return base.Channel.DeleteOperationAsync(opr);
         }
         
-        public void UpdateOperation(MaterialDesignDemo.autocad.masterkey.ws.Operation opr) {
+        public void UpdateOperation(LicenseController.autocad.masterkey.ws.Operation opr) {
             base.Channel.UpdateOperation(opr);
         }
         
-        public System.Threading.Tasks.Task UpdateOperationAsync(MaterialDesignDemo.autocad.masterkey.ws.Operation opr) {
+        public System.Threading.Tasks.Task UpdateOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr) {
             return base.Channel.UpdateOperationAsync(opr);
         }
         
-        public void UpsertCheckLicense(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail) {
+        public void UpsertCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
             base.Channel.UpsertCheckLicense(oprdetail);
         }
         
-        public System.Threading.Tasks.Task UpsertCheckLicenseAsync(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail) {
+        public System.Threading.Tasks.Task UpsertCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
             return base.Channel.UpsertCheckLicenseAsync(oprdetail);
         }
         
-        public MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[] ListCheckLicense(int id) {
+        public void LogToDb(LicenseController.autocad.masterkey.ws.LogData[] logs) {
+            base.Channel.LogToDb(logs);
+        }
+        
+        public System.Threading.Tasks.Task LogToDbAsync(LicenseController.autocad.masterkey.ws.LogData[] logs) {
+            return base.Channel.LogToDbAsync(logs);
+        }
+        
+        public LicenseController.autocad.masterkey.ws.CheckLicense[] ListCheckLicense(int id) {
             return base.Channel.ListCheckLicense(id);
         }
         
-        public System.Threading.Tasks.Task<MaterialDesignDemo.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync(int id) {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync(int id) {
             return base.Channel.ListCheckLicenseAsync(id);
         }
         
-        public void DeleteCheckLicense(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail) {
+        public void DeleteCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
             base.Channel.DeleteCheckLicense(oprdetail);
         }
         
-        public System.Threading.Tasks.Task DeleteCheckLicenseAsync(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail) {
+        public System.Threading.Tasks.Task DeleteCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
             return base.Channel.DeleteCheckLicenseAsync(oprdetail);
         }
         
-        public void UpdateCheckLicense(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail) {
+        public void UpdateCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
             base.Channel.UpdateCheckLicense(oprdetail);
         }
         
-        public System.Threading.Tasks.Task UpdateCheckLicenseAsync(MaterialDesignDemo.autocad.masterkey.ws.CheckLicense oprdetail) {
+        public System.Threading.Tasks.Task UpdateCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
             return base.Channel.UpdateCheckLicenseAsync(oprdetail);
         }
         
@@ -995,6 +1453,14 @@ namespace MaterialDesignDemo.autocad.masterkey.ws {
         
         public System.Threading.Tasks.Task DeleteAllLicenseBaseOperationidAsync(int oprId) {
             return base.Channel.DeleteAllLicenseBaseOperationidAsync(oprId);
+        }
+        
+        public LicenseController.autocad.masterkey.ws.ControlPoint[] GetControlPoint() {
+            return base.Channel.GetControlPoint();
+        }
+        
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ControlPoint[]> GetControlPointAsync() {
+            return base.Channel.GetControlPointAsync();
         }
     }
 }

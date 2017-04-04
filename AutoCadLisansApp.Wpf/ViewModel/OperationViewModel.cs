@@ -15,12 +15,12 @@ namespace MaterialDesignDemo.Domain
         public string NotificationContent { get { return _notificationContent; } set { _notificationContent = value; OnPropertyChanged("NotificationContent"); } }
         public bool NotificationIsVisible { get { return _notificationIsVisible; } set { _notificationIsVisible = value; OnPropertyChanged("NotificationIsVisible"); } }
 
-        private ObservableCollection<autocad.masterkey.ws.Operation> _opr;
+        private ObservableCollection<LicenseController.autocad.masterkey.ws.Operation> _opr;
         public ICommand SaveClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand RefreshClicked { get; set; }
-        private autocad.masterkey.ws.Firm _selectedfirm;
-        public autocad.masterkey.ws.Firm SelectedFirm
+        private LicenseController.autocad.masterkey.ws.Firm _selectedfirm;
+        public LicenseController.autocad.masterkey.ws.Firm SelectedFirm
         {
             get { return _selectedfirm; }
             set
@@ -29,8 +29,8 @@ namespace MaterialDesignDemo.Domain
                 OnPropertyChanged("SelectedFirm");
             }
         }
-        public ObservableCollection<autocad.masterkey.ws.Firm> Firm { get { return new ObservableCollection<autocad.masterkey.ws.Firm>(client.ListFirm()); } }
-        public ObservableCollection<autocad.masterkey.ws.Operation> Operation
+        public ObservableCollection<LicenseController.autocad.masterkey.ws.Firm> Firm { get { return new ObservableCollection<LicenseController.autocad.masterkey.ws.Firm>(client.ListFirm()); } }
+        public ObservableCollection<LicenseController.autocad.masterkey.ws.Operation> Operation
         {
             get { return _opr; }
             set
@@ -50,7 +50,7 @@ namespace MaterialDesignDemo.Domain
             {
                 item.Firm = SelectedFirm;
             }
-            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(list);
+            Operation = new ObservableCollection<LicenseController.autocad.masterkey.ws.Operation>(list);
 
         }
 
@@ -83,7 +83,7 @@ namespace MaterialDesignDemo.Domain
         }
         public void AddItemCommand()
         {
-            Operation.Add(new autocad.masterkey.ws.Operation() { FirmId = SelectedFirm.Id,Firm=SelectedFirm });
+            Operation.Add(new LicenseController.autocad.masterkey.ws.Operation() { FirmId = SelectedFirm.Id,Firm=SelectedFirm });
         }
         public void RefreshCommand()
         {
@@ -92,7 +92,7 @@ namespace MaterialDesignDemo.Domain
             {
                 item.Firm = SelectedFirm;
             }
-            Operation = new ObservableCollection<autocad.masterkey.ws.Operation>(list);
+            Operation = new ObservableCollection<LicenseController.autocad.masterkey.ws.Operation>(list);
         }
     }
 }

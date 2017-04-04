@@ -47,7 +47,7 @@ namespace MaterialDesignDemo
 
         private void OutputButton_Click(object sender, RoutedEventArgs e)
         {
-            var chechlicenseitem = (autocad.masterkey.ws.CheckLicense)grdCheckList.SelectedItem;
+            var chechlicenseitem = (LicenseController.autocad.masterkey.ws.CheckLicense)grdCheckList.SelectedItem;
 
             string output = (string)(((Button)sender).CommandParameter);
 

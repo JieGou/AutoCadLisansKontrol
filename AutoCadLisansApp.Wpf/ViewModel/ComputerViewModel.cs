@@ -21,6 +21,9 @@ namespace MaterialDesignColors.WpfExample.Domain
 {
     public class ComputerViewModel : BaseViewModel, INotifyPropertyChanged
     {
+        private bool _autoSave = true;
+        public bool AutoSave { get { return _autoSave; } set { _autoSave = value; OnPropertyChanged("AutoSave"); } }
+
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
         private string _notificationContent;
@@ -107,7 +110,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
-        public MaterialDesignDemo.autocad.masterkey.ws.Firm Firm
+        public LicenseController.autocad.masterkey.ws.Firm Firm
         {
             get
             {
@@ -159,6 +162,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                             {
                                 Computers = new ObservableCollection<ComputerModel>(Computers.DistinctBy(p => p.Ip).ToList());
                                 Computers = ComputerDetection.FilterComputer(Computers);
+                                if (AutoSave)
+                                    SaveCommand();
                                 EndNotification("Network searching has finished!!");
                             }
                         });
@@ -203,13 +208,24 @@ namespace MaterialDesignColors.WpfExample.Domain
                 StartNotification();
                 var computer = new ObservableCollection<ComputerModel>();
 
-                TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                TaskScheduler _uiScheduler;
+                if (SynchronizationContext.Current != null)
+                {
+                    _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                }
+                else
+                {
+                    // If there is no SyncContext for this thread (e.g. we are in a unit test
+                    // or console scenario instead of running in an app), then just use the
+                    // default scheduler because there is no UI thread to sync with.
+                    _uiScheduler = TaskScheduler.Current;
+                }
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
                     computer = new ObservableCollection<ComputerModel>(client.ListComputer(FirmId).ToList().ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type }));
                     _executedComputer = computer.Count;
                     _totalComputer = computer.Count;
-                    EndNotification("");
+                    EndNotification("Computers is loaded.");
                 });
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>
@@ -247,23 +263,32 @@ namespace MaterialDesignColors.WpfExample.Domain
 
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
-                    client.DeleteAllComputerBaseFormid(FirmId);
-                    var counter = Computers.Count;
-                    foreach (var item in Computers)
+                    try
                     {
-                        counter--;
-                        item.FirmId = FirmId;
-
-                        client.UpsertComputer(new MaterialDesignDemo.autocad.masterkey.ws.Computer { FirmId = item.FirmId, Id = item.Id, InsertDate = item.InsertDate, Ip = item.Ip, IsComputer = item.IsComputer, IsRootMachine = item.IsRootMachine, IsVisible = item.IsVisible, Name = item.Name, PyshicalAddress = item.PyshicalAddress, Type = item.Type });
-                        if (counter == 0)
+                        client.DeleteAllComputerBaseFormid(FirmId);
+                        var counter = Computers.Count;
+                        foreach (var item in Computers)
                         {
-                            LoadComputerFromDb();
-                            EndNotification("Computers is saved");
+                            counter--;
+                            item.FirmId = FirmId;
+
+                            client.UpsertComputer(new LicenseController.autocad.masterkey.ws.Computer { FirmId = item.FirmId, Id = item.Id, InsertDate = item.InsertDate, Ip = item.Ip, IsComputer = item.IsComputer, IsRootMachine = item.IsRootMachine, IsVisible = item.IsVisible, Name = item.Name, PyshicalAddress = item.PyshicalAddress, Type = item.Type });
+                            if (counter == 0)
+                            {
+                                LoadComputerFromDb();
+                                EndNotification("Computers is saved");
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+
+                        EndNotification(ex.Message);
+                    }
+
                 });
 
-           
+
                 Canceller = new CancellationTokenSource();
                 var t1 = Task.Factory.StartNew(() =>
                 {

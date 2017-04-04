@@ -26,7 +26,7 @@ namespace MaterialDesignColors.WpfExample
     /// </summary>
     public partial class Computer : UserControl
     {
-        private MaterialDesignDemo.autocad.masterkey.ws.Service1Client client = new MaterialDesignDemo.autocad.masterkey.ws.Service1Client();
+        private LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
         public Computer()
         {
             InitializeComponent();
@@ -111,6 +111,11 @@ namespace MaterialDesignColors.WpfExample
         }
 
         private void grdComputer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+        }
+
+        private void scrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
         }

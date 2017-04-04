@@ -1,7 +1,11 @@
-﻿using System;
+﻿using CheckLicense.Log;
+using CheckLicense.MssqlLogger;
+using ProtectionConnLib_4.DataAccessModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +16,7 @@ namespace AutoCadLisansKontrol.DAL
     public class DataAccess
     {
         AUTOCADLICENSEEntities1 dbaccess = new AUTOCADLICENSEEntities1();
-        MssqlDbAccess mssqldbaccess = new MssqlDbAccess();
+        MssqlDbAccess mssqlappaccess = new MssqlDbAccess(System.Configuration.ConfigurationManager.ConnectionStrings["AutocadLicenseDatabase"].ConnectionString);
 
         public void UpsertFirm(FirmEntity firm)
         {
@@ -83,7 +87,7 @@ namespace AutoCadLisansKontrol.DAL
             try
             {
 
-                mssqldbaccess.ExecuteNonQuery("SP_DELETE_FIRM", new List<System.Data.SqlClient.SqlParameter>() {
+                mssqlappaccess.ExecuteNonQuery("SP_DELETE_FIRM", new List<System.Data.SqlClient.SqlParameter>() {
 
                     new System.Data.SqlClient.SqlParameter("@FIRMID",firmid)
                 });
@@ -116,7 +120,7 @@ namespace AutoCadLisansKontrol.DAL
         {
             try
             {
-                var item = dbaccess.Computer.Where(x => x.Name == c.Name).FirstOrDefault<ComputerEntity>();
+                var item = dbaccess.Computer.Where(x => x.Name == c.Name && x.FirmId == c.FirmId).FirstOrDefault<ComputerEntity>();
                 if (item == null)
                 {
                     item = new ComputerEntity { Id = c.Id, Ip = c.Ip, IsComputer = c.IsComputer, IsRootMachine = c.IsRootMachine, IsVisible = c.IsVisible, Name = c.Name, PyshicalAddress = c.PyshicalAddress, FirmId = c.FirmId, Type = c.Type, InsertDate = DateTime.Now };
@@ -214,6 +218,19 @@ namespace AutoCadLisansKontrol.DAL
             dbaccess.SaveChanges();
         }
 
+        public List<ControlPoint> GetControlPoint()
+        {
+            try
+            {
+                return dbaccess.ControlPoint.ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public void UpsertOperation(OperationEntity opr)
         {
             try
@@ -297,7 +314,7 @@ namespace AutoCadLisansKontrol.DAL
         public void DeleteOperation(OperationEntity opr)
         {
 
-            mssqldbaccess.ExecuteNonQuery("SP_DELETE_OPERATION", new List<System.Data.SqlClient.SqlParameter> { new System.Data.SqlClient.SqlParameter("@OPRID", opr.Id) });
+            mssqlappaccess.ExecuteNonQuery("SP_DELETE_OPERATION", new List<System.Data.SqlClient.SqlParameter> { new System.Data.SqlClient.SqlParameter("@OPRID", opr.Id) });
         }
 
 
@@ -309,7 +326,41 @@ namespace AutoCadLisansKontrol.DAL
             item.Name = opr.Name;
             dbaccess.SaveChanges();
         }
+        public void LogToDb(List<LogData> items)
+        {
+            ILog logger = LoggerFactory.CreateLogger(DatabaseType.MsSql);
+            foreach (var item in items)
+            {
 
+                switch (item.LogDataType)
+                {
+                    case LogDataType.InitiliazeProcess:
+                        logger.InitiliazeProcess(item);
+                        break;
+
+                    case LogDataType.InitiliazeItemOfProcess:
+
+                        logger.InitiliazeItemOfProcess(item);
+
+                        break;
+
+                    case LogDataType.UpdateItemOfProcess:
+
+                        logger.UpdateItemOfProcess(item);
+
+                        break;
+
+                    case LogDataType.UpdateProcess:
+
+                        logger.UpdateProcess(item);
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
         public void UpsertCheckLicense(CheckLicenseEntity oprdetail)
         {
             try
@@ -319,12 +370,14 @@ namespace AutoCadLisansKontrol.DAL
                     dbaccess.CheckLicense.Add(oprdetail);
                 else
                 {
-                    item.IsUnlicensed = oprdetail.IsUnlicensed;
                     item.Output = oprdetail.Output;
                     item.CheckDate = oprdetail.CheckDate;
                     item.UpdateDate = DateTime.Now;
                 }
                 dbaccess.SaveChanges();
+
+
+
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
@@ -374,7 +427,6 @@ namespace AutoCadLisansKontrol.DAL
         public void UpdateCheckLicense(CheckLicenseEntity oprdetail)
         {
             var item = dbaccess.CheckLicense.Where(x => x.Id == oprdetail.Id).FirstOrDefault<CheckLicenseEntity>();
-            item.IsUnlicensed = oprdetail.IsUnlicensed;
             item.Output = oprdetail.Output;
             item.CheckDate = oprdetail.CheckDate;
             item.UpdateDate = DateTime.Now;
@@ -386,7 +438,7 @@ namespace AutoCadLisansKontrol.DAL
         {
             try
             {
-                mssqldbaccess.ExecuteNonQuery("SP_DELETE_COMPUTER", new List<System.Data.SqlClient.SqlParameter> {
+                mssqlappaccess.ExecuteNonQuery("SP_DELETE_COMPUTER", new List<System.Data.SqlClient.SqlParameter> {
 
                     new System.Data.SqlClient.SqlParameter("@FIRMID",firmId)
                 });
@@ -413,7 +465,7 @@ namespace AutoCadLisansKontrol.DAL
         {
             try
             {
-                mssqldbaccess.ExecuteNonQuery("SP_DELETE_LICENSE", new List<System.Data.SqlClient.SqlParameter> {
+                mssqlappaccess.ExecuteNonQuery("SP_DELETE_LICENSE", new List<System.Data.SqlClient.SqlParameter> {
 
                     new System.Data.SqlClient.SqlParameter("@OPRID",oprId)
                 });

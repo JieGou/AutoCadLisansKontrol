@@ -27,10 +27,11 @@ namespace AutoCadLisansKontrol.DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CheckLicenseEntity> CheckLicense { get; set; }
         public virtual DbSet<ComputerEntity> Computer { get; set; }
         public virtual DbSet<FirmEntity> Firm { get; set; }
         public virtual DbSet<OperationEntity> Operation { get; set; }
+        public virtual DbSet<ControlPoint> ControlPoint { get; set; }
+        public virtual DbSet<CheckLicenseEntity> CheckLicense { get; set; }
     
         public virtual int SP_DELETE_COMPUTER(Nullable<int> fIRMID)
         {
@@ -84,6 +85,15 @@ namespace AutoCadLisansKontrol.DAL
                 new ObjectParameter("OPRID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_OPERATION1", oPRIDParameter);
+        }
+    
+        public virtual int SP_DELETE_LICENSE(Nullable<int> oPRID)
+        {
+            var oPRIDParameter = oPRID.HasValue ?
+                new ObjectParameter("OPRID", oPRID) :
+                new ObjectParameter("OPRID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_LICENSE", oPRIDParameter);
         }
     }
 }

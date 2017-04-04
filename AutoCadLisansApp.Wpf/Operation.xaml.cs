@@ -24,7 +24,7 @@ namespace MaterialDesignDemo
     public partial class Operation : UserControl
     {
 
-        autocad.masterkey.ws.Service1Client client = new autocad.masterkey.ws.Service1Client();
+        LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
         public Operation()
         {
             InitializeComponent();
@@ -32,7 +32,7 @@ namespace MaterialDesignDemo
 
         private void CheckLicenseButton_Click(object sender, RoutedEventArgs e)
         {
-            var localoperation = (autocad.masterkey.ws.Operation)grdOperation.SelectedItem;
+            var localoperation = (LicenseController.autocad.masterkey.ws.Operation)grdOperation.SelectedItem;
             if (localoperation.Id == 0)
             {
                 var userviewmodel = (OperationViewModel)DataContext;
@@ -53,7 +53,7 @@ namespace MaterialDesignDemo
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             
-            var localoperation = (autocad.masterkey.ws.Operation)grdOperation.SelectedItem;
+            var localoperation = (LicenseController.autocad.masterkey.ws.Operation)grdOperation.SelectedItem;
             if (localoperation.Id == 0)
             {
                 var userviewmodel = (OperationViewModel)this.DataContext;
@@ -62,7 +62,7 @@ namespace MaterialDesignDemo
             }
             ShowDialog(localoperation);
         }
-        private void ShowDialog(autocad.masterkey.ws.Operation opr)
+        private void ShowDialog(LicenseController.autocad.masterkey.ws.Operation opr)
         {
 
 

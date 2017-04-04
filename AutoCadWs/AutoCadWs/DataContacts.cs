@@ -35,6 +35,8 @@ namespace AutoCadWs
         public Firm Firm { get; set; }
         [DataMember]
         public string Name { get; set; }
+        [DataMember]
+        public int ComputerCount { get; set; }
     }
 
     [DataContract]

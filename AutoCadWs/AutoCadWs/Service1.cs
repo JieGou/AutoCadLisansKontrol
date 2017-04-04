@@ -71,7 +71,7 @@ namespace AutoCadWs
         }
         public List<Operation> ListOperation(int firmid)
         {
-            return dbaccess.ListOperation(firmid).ConvertAll(x => new Operation { FirmId = x.FirmId, Id = x.Id, Name = x.Name });
+            return dbaccess.ListOperation(firmid).ConvertAll(x => new Operation { FirmId = x.FirmId, Id = x.Id, Name = x.Name,ComputerCount=ListComputer(firmid).Count });
         }
 
         public void DeleteOperation(Operation opr)

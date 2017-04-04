@@ -25,7 +25,7 @@ namespace MaterialDesignDemo
     /// </summary>
     public partial class Firm : UserControl
     {
-        autocad.masterkey.ws.Service1Client client = new autocad.masterkey.ws.Service1Client();
+        LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
         int FirmId;
         public Firm()
         {
@@ -54,7 +54,7 @@ namespace MaterialDesignDemo
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             FirmId = (int)(((Button)sender).CommandParameter);
-            var localfirm = (autocad.masterkey.ws.Firm)grdfirm.SelectedItem;
+            var localfirm = (LicenseController.autocad.masterkey.ws.Firm)grdfirm.SelectedItem;
             if (localfirm.Id == 0)
             {
                 var userviewmodel = (FirmViewModel)this.DataContext;

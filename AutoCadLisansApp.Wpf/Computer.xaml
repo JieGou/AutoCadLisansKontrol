@@ -23,7 +23,7 @@
 
     </UserControl.Resources>
 
-    <ScrollViewer Name="scrollViewer">
+    <ScrollViewer Name="scrollViewer" MouseWheel="scrollViewer_MouseWheel">
 
         <StackPanel Orientation="Horizontal">
             <StackPanel Background="#EEEEEE" >
@@ -72,33 +72,63 @@
                                               x:Name="NotificationSnackbar" >
                     <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
                 </materialDesign:Snackbar>
+                <GroupBox Grid.Column="0" Grid.Row="1"  Header="Start Sniffing" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ImageArea" Height="32" Width="32" VerticalAlignment="Center" />
+                                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <Grid Margin="0,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition  Width="*"  />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition  Width="*"  />
+                            <ColumnDefinition  Width="*"  />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="8" Width="190" IsEnabled="{Binding IsButtonEnable}"
+                     Command="{Binding Path=buttonClicked}">
+                                Generate From Network
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="8" Width="120" IsEnabled="{Binding IsButtonEnable}"
+                     Command="{Binding AddItemClicked}">
+                                Add Item
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="8" Width="155" IsEnabled="{Binding IsButtonEnable}"
+                     Command="{Binding LoadDbClicked}">
+                                LoadFromDb
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="8" Width="155" IsEnabled="{Binding IsButtonEnable}"
+                     Command="{Binding SaveClicked}">
+                                Save
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="8" Width="155" IsEnabled="{Binding Path=IsButtonEnable, Converter={StaticResource BoolInverter}}"
+                     Command="{Binding CancelClicked}">
+                                Cancel
+                            </Button>
+                        </StackPanel>
+
+                        <CheckBox Grid.Row="2" Grid.ColumnSpan="4"
+                  x:Name="ClassicModeCheckBox"
+                  IsThreeState="False" IsChecked="{Binding Path=AutoSave,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  Margin="0 8 0 0">When operation finishes, save result.</CheckBox>
+                    </Grid>
+
+                </GroupBox>
                 <GroupBox   Style="{DynamicResource MaterialDesignCardGroupBox}"  Margin="16">
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="ImageArea" Height="32" Width="32" VerticalAlignment="Center"  />
                             <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Computer List" FontWeight="Bold" Foreground="White"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="190" IsEnabled="{Binding IsButtonEnable}"
-                     Command="{Binding Path=buttonClicked}">
-                                    Generate From Network
-                                </Button>
-                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="120" IsEnabled="{Binding IsButtonEnable}"
-                     Command="{Binding AddItemClicked}">
-                                    Add Item
-                                </Button>
-                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="155" IsEnabled="{Binding IsButtonEnable}"
-                     Command="{Binding LoadDbClicked}">
-                                    LoadFromDb
-                                </Button>
-                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="155" IsEnabled="{Binding IsButtonEnable}"
-                     Command="{Binding SaveClicked}">
-                                    Save
-                                </Button>
-                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="8" Width="155" IsEnabled="{Binding Path=IsButtonEnable, Converter={StaticResource BoolInverter}}"
-                     Command="{Binding CancelClicked}">
-                                    Cancel
-                                </Button>
-                            </StackPanel>
+                           
                         </StackPanel>
                     </GroupBox.Header>
                     <StackPanel>
@@ -111,19 +141,19 @@
                         <DataGrid  Margin="0 8 0 0" Name="grdComputer" ItemsSource="{Binding Computers,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
                       materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" PreviewMouseWheel="grdComputer_PreviewMouseWheel">
                             <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Binding="{Binding IsRootMachine}" 
+                                <!--<DataGridCheckBoxColumn Binding="{Binding IsRootMachine}" 
                                             ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                                             EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
                                             >
                                     <DataGridCheckBoxColumn.Header>
-                                        <!--padding to allow hit test to pass thru for sorting -->
+                                        --><!--padding to allow hit test to pass thru for sorting --><!--
                                         <Border Background="Transparent" Padding="6 0 6 0" HorizontalAlignment="Center">
                                             <CheckBox HorizontalAlignment="Center"                                               
                                           DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"
                                           IsChecked="{Binding IsAllItems3Selected}" />
                                         </Border>
                                     </DataGridCheckBoxColumn.Header>
-                                </DataGridCheckBoxColumn>
+                                </DataGridCheckBoxColumn>-->
 
                                 <materialDesign:MaterialDataGridTextColumn Binding="{Binding Id,Mode=TwoWay}" 
                                             Header="Id"

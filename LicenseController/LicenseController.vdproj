@@ -27,12 +27,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_099256F4306A4E859C48684BDF0FABAA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0A389B347C4F16C5923AA8B3980FD586"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
         "MsmSig" = "8:_UNDEFINED"
@@ -41,12 +35,6 @@
         {
         "MsmKey" = "8:_0C46C6719F09E6C9C473909FB08F0A0C"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_176270267E1C4A9BB392BA615D761878"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -105,38 +93,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_27AD7E646C6B46A99BDF65330459ED13"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2F9F9EC91534401C9CCA749F74F1B7AE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_2FFBD4E6C91699AE3954071B1C4770FA"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_355BF2793B9D44248E07D0B022AABEA9"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_39C92E8093FF4B539F3CB9347C057EE8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3C8BB470D9F841FC997BE01474EDE000"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -201,12 +159,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_45D77105B89B4A308ABEDBE11C891BF4"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_475FFE931BB693B233B60D62AD41CD57"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
         "MsmSig" = "8:_UNDEFINED"
@@ -231,24 +183,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5EB9D8B99B08428DA3D93BAFA8C4FD2A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_62C19650EFBE4EF4AFE653982998A235"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_67940BDDA7874A70BE51ACE6C1AB4BE6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_69995E84485188006B2F24143E43F1BC"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
         "MsmSig" = "8:_UNDEFINED"
@@ -261,8 +195,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6E74D96167DB4A7AA982666CE1EB1DA9"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_77681FDFB0BD9813A4515832ABB65545"
+        "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -309,12 +243,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_84CB35AE582E44BDA00A5011B9F7406B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_8D79D1E16D340EDC05AECBC996E42C6F"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
         "MsmSig" = "8:_UNDEFINED"
@@ -351,36 +279,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_94D1E8C7A6A2447D85457F28B944E76B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_97D4C30F043A4D08B32D932F07698817"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9819FA05969047DBBCF308E2051BA6C9"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_98271E454F764FE19A8E7F556FBD794A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_98B22EF7D931417AB5758DC092C6757F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_98E6280F92FA5421149AD4DE752C50CB"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
         "MsmSig" = "8:_UNDEFINED"
@@ -401,18 +299,6 @@
         {
         "MsmKey" = "8:_9D131EB5BFCCD1C8B2D93B66593411C3"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9D693C3F12D844D38EE4A87B015BA093"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A1DB5A61532E41EA9DF78B2CDE094831"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -453,12 +339,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B096FBC2BAD4412089A3E46A562DD7CA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_B0EF10A5A50BA38792073F6FA794974A"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
         "MsmSig" = "8:_UNDEFINED"
@@ -471,13 +351,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B264E8CD0DD044768288510A6871FE4E"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_B2C8419814F3E34DE0ED1DCE8EBB1F99"
+        "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B2C8419814F3E34DE0ED1DCE8EBB1F99"
+        "MsmKey" = "8:_B40E3E4CB07F87185BDCA03275939332"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -491,18 +371,6 @@
         {
         "MsmKey" = "8:_B7D2F1E1B5695E1C1500B08D9B0DCBCD"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B99E185562AE448DAC19ABCCB3232ED5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BBC242D185F949BF946932FCA98981FE"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -633,12 +501,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D502A4906BD64C088A4782106613ED43"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_DAAB264089D84465A6D91DAFF06B81DC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -663,20 +525,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E4E12B9633B446B7830F0CF4B7F56634"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_E592A4DE5AC339B2204998B3ECE303DB"
         "OwnerKey" = "8:_F5AE26BFFCCC4A58BE8628404EB00D5F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E61304C715D74BA891A014D2DBE1A71B"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -753,12 +603,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FC2335766CB0491B8AA8068463494CAC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2500BCC8D261B9E730A3A99E47D21565"
         "MsmSig" = "8:_UNDEFINED"
@@ -803,6 +647,18 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_79CCA60EEE44D32421ADBD2FD4512CC6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_77681FDFB0BD9813A4515832ABB65545"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B40E3E4CB07F87185BDCA03275939332"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1267,26 +1123,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_099256F4306A4E859C48684BDF0FABAA"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\psfile64.exe"
-            "TargetName" = "8:psfile64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0A389B347C4F16C5923AA8B3980FD586"
             {
             "AssemblyRegister" = "3:1"
@@ -1347,26 +1183,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_176270267E1C4A9BB392BA615D761878"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\Eula.txt"
-            "TargetName" = "8:Eula.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_180ACBD8BA204B308C69B9FCB8691374"
@@ -1544,46 +1360,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_27AD7E646C6B46A99BDF65330459ED13"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsLoggedon64.exe"
-            "TargetName" = "8:PsLoggedon64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2F9F9EC91534401C9CCA749F74F1B7AE"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\pslist64.exe"
-            "TargetName" = "8:pslist64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2FFBD4E6C91699AE3954071B1C4770FA"
             {
             "AssemblyRegister" = "3:1"
@@ -1613,66 +1389,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_355BF2793B9D44248E07D0B022AABEA9"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\pssuspend.exe"
-            "TargetName" = "8:pssuspend.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_39C92E8093FF4B539F3CB9347C057EE8"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsLoggedon.exe"
-            "TargetName" = "8:PsLoggedon.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3C8BB470D9F841FC997BE01474EDE000"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\pslist.exe"
-            "TargetName" = "8:pslist.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3F275840E3643F0291F87AEFC3F37470"
@@ -1892,26 +1608,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_45D77105B89B4A308ABEDBE11C891BF4"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\pspasswd64.exe"
-            "TargetName" = "8:pspasswd64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_475FFE931BB693B233B60D62AD41CD57"
             {
             "AssemblyRegister" = "3:1"
@@ -1994,66 +1690,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5EB9D8B99B08428DA3D93BAFA8C4FD2A"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsService.exe"
-            "TargetName" = "8:PsService.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_62C19650EFBE4EF4AFE653982998A235"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\pspasswd.exe"
-            "TargetName" = "8:pspasswd.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_67940BDDA7874A70BE51ACE6C1AB4BE6"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\readlicense.bat"
-            "TargetName" = "8:readlicense.bat"
-            "Tag" = "8:"
-            "Folder" = "8:_61E8C23625904091BFF6F151452CE533"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_69995E84485188006B2F24143E43F1BC"
             {
             "AssemblyRegister" = "3:1"
@@ -2116,12 +1752,23 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6E74D96167DB4A7AA982666CE1EB1DA9"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_77681FDFB0BD9813A4515832ABB65545"
             {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\psping64.exe"
-            "TargetName" = "8:psping64.exe"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Aspose.Cells, Version=4.8.1.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_77681FDFB0BD9813A4515832ABB65545"
+                    {
+                    "Name" = "8:Aspose.Cells.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Aspose.Cells.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
+            "Folder" = "8:_B3F38C11C7F04A87A297AA6753C29C29"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2133,7 +1780,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_77A01B26063CF899F0C8E39E33D6A66E"
@@ -2286,26 +1933,6 @@
             "TargetName" = "8:rsz_autocadicon.ico"
             "Tag" = "8:"
             "Folder" = "8:_E2EAA53BE794423BA302745DA0AEF287"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_84CB35AE582E44BDA00A5011B9F7406B"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\psversion.txt"
-            "TargetName" = "8:psversion.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2484,106 +2111,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_94D1E8C7A6A2447D85457F28B944E76B"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsExec.exe"
-            "TargetName" = "8:PsExec.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97D4C30F043A4D08B32D932F07698817"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\psshutdown.exe"
-            "TargetName" = "8:psshutdown.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9819FA05969047DBBCF308E2051BA6C9"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsGetsid.exe"
-            "TargetName" = "8:PsGetsid.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_98271E454F764FE19A8E7F556FBD794A"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsService64.exe"
-            "TargetName" = "8:PsService64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_98B22EF7D931417AB5758DC092C6757F"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsGetsid64.exe"
-            "TargetName" = "8:PsGetsid64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_98E6280F92FA5421149AD4DE752C50CB"
             {
             "AssemblyRegister" = "3:1"
@@ -2675,46 +2202,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9D693C3F12D844D38EE4A87B015BA093"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsExec64.exe"
-            "TargetName" = "8:PsExec64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1DB5A61532E41EA9DF78B2CDE094831"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsInfo.exe"
-            "TargetName" = "8:PsInfo.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A1EDF99FF4C2FBED381C6CC610A69413"
@@ -2872,26 +2359,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B096FBC2BAD4412089A3E46A562DD7CA"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\psping.exe"
-            "TargetName" = "8:psping.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B0EF10A5A50BA38792073F6FA794974A"
             {
             "AssemblyRegister" = "3:1"
@@ -2923,26 +2390,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B264E8CD0DD044768288510A6871FE4E"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\psfile.exe"
-            "TargetName" = "8:psfile.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B2C8419814F3E34DE0ED1DCE8EBB1F99"
             {
             "AssemblyRegister" = "3:1"
@@ -2957,6 +2404,37 @@
                     }
                 }
             "SourcePath" = "8:System.Text.RegularExpressions.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B3F38C11C7F04A87A297AA6753C29C29"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B40E3E4CB07F87185BDCA03275939332"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:WIN32_Registry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_B40E3E4CB07F87185BDCA03275939332"
+                    {
+                    "Name" = "8:WIN32_Registry.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:WIN32_Registry.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B3F38C11C7F04A87A297AA6753C29C29"
@@ -3023,46 +2501,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B99E185562AE448DAC19ABCCB3232ED5"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\pskill.exe"
-            "TargetName" = "8:pskill.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BBC242D185F949BF946932FCA98981FE"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\PsInfo64.exe"
-            "TargetName" = "8:PsInfo64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BE218CD935FADD3CCE31A6E93F74F627"
@@ -3530,26 +2968,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D502A4906BD64C088A4782106613ED43"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\pssuspend64.exe"
-            "TargetName" = "8:pssuspend64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DAAB264089D84465A6D91DAFF06B81DC"
             {
             "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\netview.bat"
@@ -3632,26 +3050,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E4E12B9633B446B7830F0CF4B7F56634"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\pskill64.exe"
-            "TargetName" = "8:pskill64.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E592A4DE5AC339B2204998B3ECE303DB"
             {
             "AssemblyRegister" = "3:1"
@@ -3681,26 +3079,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E61304C715D74BA891A014D2DBE1A71B"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\Pstools.chm"
-            "TargetName" = "8:Pstools.chm"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E7FEFB08178DC195EB0E7B70789D2B3B"
@@ -3960,26 +3338,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FC2335766CB0491B8AA8068463494CAC"
-            {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\bin\\Release\\BatFile\\PSTools\\psloglist.exe"
-            "TargetName" = "8:psloglist.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_436991BAABC443B6B8E0BE43151A5FAC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -4080,15 +3438,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:LicenseController"
-        "ProductCode" = "8:{71BB8FFC-D64E-4AAE-ABE9-9DAFB2F6DBAB}"
-        "PackageCode" = "8:{8024678B-D6B7-4B6B-B83F-BAB23E358793}"
+        "ProductCode" = "8:{8E66C351-E9D9-4C59-8702-26B107D7BB05}"
+        "PackageCode" = "8:{9A1EA8FF-D4F2-4DAF-BCD4-E30E2C5EAD3D}"
         "UpgradeCode" = "8:{198B0F84-7034-4D42-9ABF-69F4F3C3D647}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.6"
+        "ProductVersion" = "8:1.0.7"
         "Manufacturer" = "8:MasterKey "
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -4658,7 +4016,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F5AE26BFFCCC4A58BE8628404EB00D5F"
             {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\obj\\Release\\MaterialDesignDemo.exe"
+            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\obj\\Release\\LicenseController.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B3F38C11C7F04A87A297AA6753C29C29"

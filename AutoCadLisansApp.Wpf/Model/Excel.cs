@@ -23,20 +23,14 @@ namespace MaterialDesignDemo.Model
 
             sheet.Cells.ImportCustomObjects((System.Collections.ICollection)data,
                                                                             new string[] {
-                                                                            "CheckDate",
-                                                                            "Error",
-                                                                            "Fail",
                                                                             "Installed",
+                                                                            "Uninstalled",
                                                                             "Ip",
-                                                                            "IsFound",
-                                                                            "IsProgress",
-                                                                            "IsUnlicensed",
                                                                             "Name",
+                                                                            "IsFound",
                                                                             "Output",
                                                                             "State",
-                                                                            "Success",
-                                                                            "Uninstalled",
-                                                                            "UpdateDate"
+                                                                            "CheckDate"
                                                                             },
                                                                             true,
                                                                             0,

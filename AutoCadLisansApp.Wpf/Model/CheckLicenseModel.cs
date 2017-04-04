@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace MaterialDesignDemo.Model
 {
-    public class CheckLicenseModel : autocad.masterkey.ws.CheckLicense
+    public class CheckLicenseModel : LicenseController.autocad.masterkey.ws.CheckLicense
     {
         public FileExplorerModel FileExplorerModel { get; set; }
         public List<ApplicationEvent> ApplicationEvents { get; set; }
@@ -111,6 +111,7 @@ namespace MaterialDesignDemo.Model
     {
         private bool _willchecked;
         public string Name { get; set; }
+        public string AvgTime { get; set; }
         public bool WillChecked
         {
             get

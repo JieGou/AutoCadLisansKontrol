@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
              mc:Ignorable="d"               
-             d:DesignHeight="300" d:DesignWidth="600" Loaded="UserControl_Loaded"
+            Loaded="UserControl_Loaded"
              d:DataContext="{d:DesignInstance domain:TextFieldsViewModel, d:IsDesignTimeCreatable=False}">
     <UserControl.Resources>
         <ResourceDictionary>

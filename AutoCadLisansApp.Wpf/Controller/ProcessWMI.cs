@@ -1,6 +1,7 @@
 ﻿using baileySoft.Wmi.Registry;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Management;
 using System.Text;
@@ -180,7 +181,7 @@ namespace MaterialDesignDemo.Controller
         {
             return ManagementDateTimeConverter.ToDateTime(dateTime).ToString();
         }
-        private ManagementScope Connect()
+        public ManagementScope Connect()
         {
             ManagementScope scope = null;
 
@@ -248,7 +249,7 @@ namespace MaterialDesignDemo.Controller
                     product.HelpLink = mo["HelpLink"] == null ? null : mo["HelpLink"].ToString();
                     product.HelpTelephone = mo["HelpTelephone"] == null ? null : mo["HelpTelephone"].ToString();
                     product.IdentifyingNumber = mo["IdentifyingNumber"] == null ? null : mo["IdentifyingNumber"].ToString();
-                    product.InstallDate = mo["InstallDate"] == null ? null : mo["InstallDate"].ToString();
+                    product.InstallDate = mo["InstallDate"] == null ? new DateTime() : DateTime.ParseExact(mo["InstallDate"].ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
                     product.InstallDate2 = mo["InstallDate2"] == null ? null : mo["InstallDate2"].ToString();
                     product.InstallLocation = mo["InstallLocation"] == null ? null : mo["InstallLocation"].ToString();
                     product.InstallSource = mo["InstallSource"] == null ? null : mo["InstallSource"].ToString();
@@ -336,7 +337,7 @@ namespace MaterialDesignDemo.Controller
                 outParams = registry.InvokeMethod("GetStringValue", inParams, null);
                 if (outParams.Properties["sValue"].Value != null)
                 {
-                    item.InstallDate = outParams.Properties["sValue"].Value.ToString();
+                    item.InstallDate = outParams.Properties["sValue"].Value.ToString() == "" ? new DateTime() : DateTime.ParseExact(outParams.Properties["sValue"].Value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
                 }
 
                 inParams["sValueName"] = "Contact";
@@ -466,7 +467,7 @@ namespace MaterialDesignDemo.Controller
             if (IsRemote)
                 SysRegistry = new RegistryRemote(Username, Password, "", RemoteComputerName, "64");
             else
-                SysRegistry = new RegistryLocal();
+                SysRegistry = new RegistryLocal("64");
 
             string registryKey = softwareRegLoc;
 
@@ -688,7 +689,7 @@ namespace MaterialDesignDemo.Controller
         public string EstimatedSize { get; set; }
         public string HelpLink { get; set; }
         public string HelpTelephone { get; set; }
-        public string InstallDate { get; set; }
+        public DateTime InstallDate { get; set; }
         public string InstallLocation { get; set; }
         public string InstallSource { get; set; }
         public string Language { get; set; }
@@ -703,33 +704,33 @@ namespace MaterialDesignDemo.Controller
     }
     public class Win32_Product
     {
-        public string AssignmentType;
-        public string Caption;
-        public string Description;
-        public string IdentifyingNumber;
-        public string InstallDate;
-        public string InstallDate2;
-        public string InstallLocation;
-        public string InstallState;
-        public string HelpLink;
-        public string HelpTelephone;
-        public string InstallSource;
-        public string Language;
-        public string LocalPackage;
-        public string Name;
-        public string PackageCache;
-        public string PackageCode;
-        public string PackageName;
-        public string ProductID;
-        public string RegOwner;
-        public string RegCompany;
-        public string SKUNumber;
-        public string Transforms;
-        public string URLInfoAbout;
-        public string URLUpdateInfo;
-        public string Vendor;
-        public string WordCount;
-        public string Version;
+        public string AssignmentType { get; set; }
+        public string Caption { get; set; }
+        public string Description { get; set; }
+        public string IdentifyingNumber { get; set; }
+        public DateTime InstallDate { get; set; }
+        public string InstallDate2 { get; set; }
+        public string InstallLocation { get; set; }
+        public string InstallState { get; set; }
+        public string HelpLink { get; set; }
+        public string HelpTelephone { get; set; }
+        public string InstallSource { get; set; }
+        public string Language { get; set; }
+        public string LocalPackage { get; set; }
+        public string Name { get; set; }
+        public string PackageCache { get; set; }
+        public string PackageCode { get; set; }
+        public string PackageName { get; set; }
+        public string ProductID { get; set; }
+        public string RegOwner { get; set; }
+        public string RegCompany { get; set; }
+        public string SKUNumber { get; set; }
+        public string Transforms { get; set; }
+        public string URLInfoAbout { get; set; }
+        public string URLUpdateInfo { get; set; }
+        public string Vendor { get; set; }
+        public string WordCount { get; set; }
+        public string Version { get; set; }
     };
     public class ApplicationEvent
     {

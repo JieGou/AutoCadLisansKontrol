@@ -23,13 +23,13 @@ namespace MaterialDesignDemo.Domain
 
 
         
-        private ObservableCollection<autocad.masterkey.ws.Firm> _firm;
+        private ObservableCollection<LicenseController.autocad.masterkey.ws.Firm> _firm;
         public ICommand DeleteClicked { get; set; }
         public ICommand SaveClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand RefreshClicked { get; set; }
 
-        public ObservableCollection<autocad.masterkey.ws.Firm> Firm
+        public ObservableCollection<LicenseController.autocad.masterkey.ws.Firm> Firm
         {
             get { return _firm; }
             set
@@ -47,7 +47,7 @@ namespace MaterialDesignDemo.Domain
                 RefreshClicked = new DelegateCommand(RefreshCommand);
                 AddItemClicked = new DelegateCommand(AddItemCommand);
                 SaveClicked = new DelegateCommand(SaveCommand);
-                Firm = new ObservableCollection<autocad.masterkey.ws.Firm>(client.ListFirm());
+                Firm = new ObservableCollection<LicenseController.autocad.masterkey.ws.Firm>(client.ListFirm());
             }
             catch (System.Exception ex)
             {
@@ -85,12 +85,12 @@ namespace MaterialDesignDemo.Domain
         }
         public void AddItemCommand()
         {
-            Firm.Add(new autocad.masterkey.ws.Firm());
+            Firm.Add(new LicenseController.autocad.masterkey.ws.Firm());
         }
         public void RefreshCommand()
         {
             NotificationIsVisible = false;
-            Firm = new ObservableCollection<autocad.masterkey.ws.Firm>(client.ListFirm());
+            Firm = new ObservableCollection<LicenseController.autocad.masterkey.ws.Firm>(client.ListFirm());
             NotificationIsVisible = true;
             NotificationContent = "Success";
         }

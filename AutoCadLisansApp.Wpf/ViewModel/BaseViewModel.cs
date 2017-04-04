@@ -8,6 +8,6 @@ namespace MaterialDesignDemo.ViewModel
 {
     public class BaseViewModel
     {
-        public autocad.masterkey.ws.Service1Client client = new autocad.masterkey.ws.Service1Client();
+        public LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
     }
 }

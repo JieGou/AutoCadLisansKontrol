@@ -24,8 +24,8 @@ namespace AutoCadLisansKontrol.DAL
         public int FirmId { get; set; }
         public string Name { get; set; }
     
+        public virtual FirmEntity Firm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CheckLicenseEntity> CheckLicense { get; set; }
-        public virtual FirmEntity Firm { get; set; }
     }
 }

@@ -1,10 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/AutoCadWs" />
+  <xs:import schemaLocation="http://localhost:24855/Service1.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs" />
+  <xs:import schemaLocation="http://localhost:24855/Service1.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CheckLicense.Log" />
+  <xs:import schemaLocation="http://localhost:24855/Service1.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/AutoCadLisansKontrol.DAL" />
   <xs:element name="UpsertFirm">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="firm" nillable="true" type="q1:Firm" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="firm" nillable="true" type="q1:Firm" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -23,7 +25,7 @@
   <xs:element name="GetFirmResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="GetFirmResult" nillable="true" type="q2:Firm" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="GetFirmResult" nillable="true" type="q2:Firm" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -35,7 +37,7 @@
   <xs:element name="ListFirmResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="ListFirmResult" nillable="true" type="q3:ArrayOfFirm" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="ListFirmResult" nillable="true" type="q3:ArrayOfFirm" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -54,7 +56,7 @@
   <xs:element name="UpdateFirm">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="firm" nillable="true" type="q4:Firm" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="firm" nillable="true" type="q4:Firm" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -66,7 +68,7 @@
   <xs:element name="UpsertComputer">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="c" nillable="true" type="q5:Computer" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="c" nillable="true" type="q5:Computer" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -87,7 +89,7 @@
   <xs:element name="GetOperationResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="GetOperationResult" nillable="true" type="q6:Operation" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="GetOperationResult" nillable="true" type="q6:Operation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -99,7 +101,7 @@
   <xs:element name="ListAllComputerResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="ListAllComputerResult" nillable="true" type="q7:ArrayOfComputer" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="ListAllComputerResult" nillable="true" type="q7:ArrayOfComputer" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -113,7 +115,7 @@
   <xs:element name="ListComputerResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="ListComputerResult" nillable="true" type="q8:ArrayOfComputer" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="ListComputerResult" nillable="true" type="q8:ArrayOfComputer" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -132,7 +134,7 @@
   <xs:element name="UpdateComputer">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="comp" nillable="true" type="q9:Computer" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="comp" nillable="true" type="q9:Computer" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -144,7 +146,7 @@
   <xs:element name="UpsertOperation">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="opr" nillable="true" type="q10:Operation" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="opr" nillable="true" type="q10:Operation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -161,7 +163,7 @@
   <xs:element name="ListAllOperationResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="ListAllOperationResult" nillable="true" type="q11:ArrayOfOperation" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="ListAllOperationResult" nillable="true" type="q11:ArrayOfOperation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -175,14 +177,14 @@
   <xs:element name="ListOperationResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="ListOperationResult" nillable="true" type="q12:ArrayOfOperation" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="ListOperationResult" nillable="true" type="q12:ArrayOfOperation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteOperation">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="opr" nillable="true" type="q13:Operation" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="opr" nillable="true" type="q13:Operation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -194,7 +196,7 @@
   <xs:element name="UpdateOperation">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="opr" nillable="true" type="q14:Operation" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="opr" nillable="true" type="q14:Operation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -206,11 +208,23 @@
   <xs:element name="UpsertCheckLicense">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="oprdetail" nillable="true" type="q15:CheckLicense" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="oprdetail" nillable="true" type="q15:CheckLicense" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpsertCheckLicenseResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LogToDb">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/CheckLicense.Log" minOccurs="0" name="logs" nillable="true" type="q16:ArrayOfLogData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LogToDbResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
@@ -225,14 +239,14 @@
   <xs:element name="ListCheckLicenseResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="ListCheckLicenseResult" nillable="true" type="q16:ArrayOfCheckLicense" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="ListCheckLicenseResult" nillable="true" type="q17:ArrayOfCheckLicense" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteCheckLicense">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="oprdetail" nillable="true" type="q17:CheckLicense" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="oprdetail" nillable="true" type="q18:CheckLicense" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -244,7 +258,7 @@
   <xs:element name="UpdateCheckLicense">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/AutoCadWs" minOccurs="0" name="oprdetail" nillable="true" type="q18:CheckLicense" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="oprdetail" nillable="true" type="q19:CheckLicense" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -275,6 +289,18 @@
   <xs:element name="DeleteAllLicenseBaseOperationidResponse">
     <xs:complexType>
       <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetControlPoint">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetControlPointResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/AutoCadLisansKontrol.DAL" minOccurs="0" name="GetControlPointResult" nillable="true" type="q20:ArrayOfControlPoint" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 </xs:schema>

@@ -43,11 +43,24 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ExceptionLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AutoCadWs\AutoCadWs\Lib\ExceptionLib.dll</HintPath>
+    </Reference>
+    <Reference Include="OrtecEntitySerialization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AutoCadWs\AutoCadWs\Lib\OrtecEntitySerialization.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="ProtectionConnLib_4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AutoCadWs\AutoCadWs\Lib\ProtectionConnLib_4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -78,10 +91,21 @@
     <Compile Include="DAL\ComputerEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\ControlPoint.cs">
+      <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\DataAccess.cs" />
     <Compile Include="DAL\FirmEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Log\ExtensionMethods.cs" />
+    <Compile Include="DAL\Log\GenericDataContractSerializer.cs" />
+    <Compile Include="DAL\Log\ILog.cs" />
+    <Compile Include="DAL\Log\LogData.cs" />
+    <Compile Include="DAL\Log\LoggerFactory.cs" />
+    <Compile Include="DAL\Log\MssqlLogger.cs" />
+    <Compile Include="DAL\Log\OracleLogger.cs" />
+    <Compile Include="DAL\Log\Response.cs" />
     <Compile Include="DAL\MssqlDbAccess.cs" />
     <Compile Include="DAL\OperationEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
@@ -116,6 +140,9 @@
       <DependentUpon>AUTOCADLICENSE.edmx</DependentUpon>
       <LastGenOutput>AUTOCADLICENSE.cs</LastGenOutput>
     </Content>
+    <Content Include="Lib\ExceptionLib.dll" />
+    <Content Include="Lib\OrtecEntitySerialization.dll" />
+    <Content Include="Lib\ProtectionConnLib_4.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

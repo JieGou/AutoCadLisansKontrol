@@ -14,6 +14,7 @@ using Microsoft.Management.Infrastructure;
 using Microsoft.Management.Infrastructure.Options;
 using System.Management;
 using Microsoft.Win32;
+using System.Globalization;
 
 namespace AutoCadLisansKontrol.Test
 {
@@ -21,14 +22,18 @@ namespace AutoCadLisansKontrol.Test
     {
         static void Main(string[] args)
         {
+            List<product> prds = new List<product>;
+            product prd = new product();
+            prd.
+            var datevalue= DateTime.ParseExact(prd.GroupBy(s => s.ProductID).Select(s => s.OrderByDescending(x => x.InstallDate).FirstOrDefault().InstallDate).ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
             //psexecscript();
-            ProcessWMI proc = new ProcessWMI("","","");
+            //ProcessWMI proc = new ProcessWMI("","","");
 
-            string[] software = { "hide.me", "Autod", "3d", "revit", "ecotect", "square one" };
+            //string[] software = { "hide.me", "Autod", "3d", "revit", "ecotect", "square one" };
             //var appevent=proc.GetApplicationEvent(software);
             //var registery =proc.ReadRegisteryusingWMI(software,"CILERTURKMEN","adminciler","ciler471");
             //var product =proc.GetProductWithWMI(software, "", "", "");
-            var dir = proc.DirectoryChecklist();
+            //var dir = proc.DirectoryChecklist();
             ////proc.ExecuteRemoteProcessWMI("HIKMETYARBASI", "adminhikmet", "hikmet67", @"C:\Users\hikmet\Desktop\checklicense.bat", 1000 * 60);
             //var registeryoutput = "";
             //foreach (var item in registery)

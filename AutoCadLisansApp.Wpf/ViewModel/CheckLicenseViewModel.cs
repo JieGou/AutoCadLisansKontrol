@@ -18,14 +18,19 @@ using MaterialDesignDemo.Model;
 using Microsoft.Win32;
 using System.IO;
 using MaterialDesignDemo.Controller;
+using LicenseController.autocad.masterkey.ws;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
     public class CheckLicenseViewModel : BaseViewModel, INotifyPropertyChanged
     {
-
+        List<LogData> logs = new List<LogData>();
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
+
+        private bool _autoSave = true;
+        public bool AutoSave { get { return _autoSave; } set { _autoSave = value; OnPropertyChanged("AutoSave"); } }
+
         private string _notificationContent;
         private bool _notificationIsVisible = false;
         public string NotificationContent { get { return _notificationContent; } set { _notificationContent = value; OnPropertyChanged("NotificationContent"); } }
@@ -37,7 +42,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         private int _totalComputer = 0;
         public int TotalComputer { get { return _totalComputer; } set { _totalComputer = value; OnPropertyChanged("TotalComputer"); } }
 
-        public bool _isremote = true;
+        public bool _isremote = false;
         public bool IsRemote { get { return _isremote; } set { _isremote = value; OnPropertyChanged("IsRemote"); } }
 
 
@@ -54,8 +59,6 @@ namespace MaterialDesignColors.WpfExample.Domain
         private string[] _keys;
         public string UserName { get { return _userName; } set { _userName = value; OnPropertyChanged("UserName"); } }
         public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
-
-
 
         private ObservableCollection<Software> _softwarelist = new ObservableCollection<Software> {
             new Software { DisplayName="Autod"},
@@ -87,16 +90,6 @@ namespace MaterialDesignColors.WpfExample.Domain
             OprId = oprId;
             FirmId = firmId;
             LoadCheckLicenseFromDb();
-            CheckList = new ObservableCollection<MaterialDesignDemo.Model.CheckList>
-            {
-                new MaterialDesignDemo.Model.CheckList { Name="Add or Remove Programs",WillChecked=false},
-                new MaterialDesignDemo.Model.CheckList { Name="Registry Key",WillChecked=false},
-                new MaterialDesignDemo.Model.CheckList { Name="Application Events",WillChecked=false},
-                new MaterialDesignDemo.Model.CheckList { Name="File Explorer",WillChecked=false}
-            };
-
-
-
         }
 
         public ObservableCollection<Software> SoftwareList
@@ -127,8 +120,8 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
-        private ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> _computers;
-        public ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer> Computers
+        private ObservableCollection<LicenseController.autocad.masterkey.ws.Computer> _computers;
+        public ObservableCollection<LicenseController.autocad.masterkey.ws.Computer> Computers
         {
             get
             {
@@ -141,8 +134,8 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
-        private ObservableCollection<CheckList> _checkList;
-        public ObservableCollection<CheckList> CheckList
+        private ObservableCollection<ControlPoint> _checkList;
+        public ObservableCollection<ControlPoint> CheckList
         {
             get
             {
@@ -154,7 +147,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 OnPropertyChanged("CheckList");
             }
         }
-        public MaterialDesignDemo.autocad.masterkey.ws.Operation Operation
+        public LicenseController.autocad.masterkey.ws.Operation Operation
         {
             get
             {
@@ -163,7 +156,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 return client.GetOperation(OprId);
             }
         }
-        public MaterialDesignDemo.autocad.masterkey.ws.Firm Firm
+        public LicenseController.autocad.masterkey.ws.Firm Firm
         {
             get
             {
@@ -193,6 +186,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 default:
                     break;
             }
+
         }
         public void CheckLicenseLocalCommand()
         {
@@ -200,7 +194,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             StartNotification();
 
             _executedComputer = 0;
-            Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>();
+            Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.Computer>();
             var checklicense = new MTObservableCollection<CheckLicenseModel>();
 
             var localcomp = ComputerDetection.ExecuteLocal();
@@ -209,7 +203,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             var cmpid = client.UpsertComputer(localcomp);
 
-            checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId });
+            checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, ApplicationEvents = new List<ApplicationEvent>(), FileExplorerModel = new FileExplorerModel(), RegistryAutoDesk = new List<Software>(), Win32_products = new List<Win32_Product>() });
 
 
             CheckLicenses = checklicense;
@@ -223,14 +217,11 @@ namespace MaterialDesignColors.WpfExample.Domain
                         var tempchc = new CheckLicenseModel();
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
-
-                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
-
+                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
                         });
 
                         System.Action ChildDoOnUiThread = new System.Action(() =>
                         {
-
                             chc.Output = tempchc.Output;
                             chc.IsProgress = false;
                             ExecutedComputer++;
@@ -239,7 +230,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                             {
                                 EndNotification("Operation has finished!!");
                             }
-
+                            if (AutoSave)
+                                SaveCommand();
                         });
 
                         Canceller = new CancellationTokenSource();
@@ -309,7 +301,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             _executedComputer = 0;
 
 
-            Computers = new ObservableCollection<MaterialDesignDemo.autocad.masterkey.ws.Computer>(client.ListComputer(FirmId).ToList());
+            Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.Computer>(client.ListComputer(FirmId).ToList());
             var checklicense = new MTObservableCollection<CheckLicenseModel>();
 
 
@@ -339,7 +331,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
 
-                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
+                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
 
                         });
 
@@ -355,6 +347,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                                 EndNotification("Operation has finished!!");
                             }
 
+                            if (AutoSave)
+                                SaveCommand();
                         });
 
                         Canceller = new CancellationTokenSource();
@@ -374,8 +368,6 @@ namespace MaterialDesignColors.WpfExample.Domain
                                 ChildDoOnUiThread();
                             }
                         }, Canceller.Token);
-
-
                     }
                 }
                 catch (System.Exception ex)
@@ -383,7 +375,6 @@ namespace MaterialDesignColors.WpfExample.Domain
                     EndNotification(ex.Message);
                     return;
                 }
-
             });
 
             System.Action DoOnUiThread = new System.Action(() =>
@@ -422,7 +413,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                 var checklicense = new ObservableCollection<CheckLicenseModel>();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
-                    checklicense = new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x => new CheckLicenseModel { CheckDate = x.CheckDate, ComputerId = x.ComputerId, FirmId = x.FirmId, Id = x.Id, Ip = x.Ip, IsUnlicensed = x.IsUnlicensed, Name = x.Name, OperationId = x.OperationId, Output = x.Output, UpdateDate = x.UpdateDate, State = x.State, Success = (x.State == true ? true : false) }));
+                    CheckList = new ObservableCollection<ControlPoint>(client.GetControlPoint().ToList());
+                    checklicense = new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x => new CheckLicenseModel { CheckDate = x.CheckDate, ComputerId = x.ComputerId, FirmId = x.FirmId, Id = x.Id, Ip = x.Ip, Name = x.Name, OperationId = x.OperationId, Output = x.Output, UpdateDate = x.UpdateDate, State = x.State, Success = (x.State == true ? true : false) }));
                 });
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>
@@ -484,20 +476,18 @@ namespace MaterialDesignColors.WpfExample.Domain
                 TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
-
                     //client.DeleteAllLicenseBaseOperationid(OprId);
                     foreach (var item in CheckLicenses)
                     {
                         counter--;
 
-                        client.UpsertCheckLicense(new MaterialDesignDemo.autocad.masterkey.ws.CheckLicense()
+                        client.UpsertCheckLicense(new LicenseController.autocad.masterkey.ws.CheckLicense()
                         {
                             CheckDate = System.DateTime.Now,
                             ComputerId = item.ComputerId,
                             FirmId = item.FirmId,
                             Id = item.Id,
                             Ip = item.Ip,
-                            IsUnlicensed = item.IsUnlicensed,
                             Name = item.Name,
                             OperationId = item.OperationId,
                             Output = item.Output,

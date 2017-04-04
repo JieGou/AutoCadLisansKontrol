@@ -1,5 +1,5 @@
 ﻿
-using MaterialDesignDemo.autocad.masterkey.ws;
+using LicenseController.autocad.masterkey.ws;
 using MaterialDesignDemo.Model;
 using System;
 using System.Collections.Generic;
@@ -305,10 +305,12 @@ namespace AutoCadLisansKontrol.Controller
         }
         public static ObservableCollection<ComputerModel> FilterComputer(ObservableCollection<ComputerModel> comps)
         {
+
             var tempcomp = new List<ComputerModel>(comps);
             var filter1 = GetNetworkAddress();
             var filter2 = GetSubnetMask(28);
             var filter3 = GetBroadcastAddress(System.Net.IPAddress.Parse(localip), System.Net.IPAddress.Parse(filter2));
+            var localname = ExecuteLocal();
 
             var index = tempcomp.FindIndex(x => x.Ip.Contains(filter1.ToString()));
             if (index != -1) tempcomp.RemoveAt(index);
@@ -319,6 +321,8 @@ namespace AutoCadLisansKontrol.Controller
             index = tempcomp.FindIndex(x => x.Ip.Contains(filter3.ToString()));
             if (index != -1) tempcomp.RemoveAt(index);
 
+            index = tempcomp.FindIndex(x => x.Name == localname.Name.ToString());
+            if (index != -1) tempcomp.RemoveAt(index);
 
             var list = tempcomp.Where(x => x.Ip.StartsWith("255.".ToString())).ToList();
 

@@ -18,28 +18,23 @@ namespace AutoCadLisansKontrol.DAL
         private readonly object _lock = new object();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public string ConnectionString
+        private string ConnectionString
         {
-            get
-            {
-                lock (_lock)
-                {
-                    return System.Configuration.ConfigurationManager.ConnectionStrings["AutocadLicenseDatabase"].ConnectionString;
-                 //   return (@"data source=31.7.35.42\SQLEXPRESS;initial catalog=AUTOCADLICENSE;persist security info=True;user id=sa;password=sa123;MultipleActiveResultSets=True;App=EntityFramework");
-                }
-            }
+            get; set;
+
         }
 
 
-        public MssqlDbAccess()
+        public MssqlDbAccess(string connectionstring)
         {
+            ConnectionString = connectionstring;
         }
 
         private SqlConnection CheckConnection()
         {
             lock (_lock)
             {
-             
+
                 _conn = new SqlConnection(ConnectionString);
                 _conn.Open();
                 return _conn;

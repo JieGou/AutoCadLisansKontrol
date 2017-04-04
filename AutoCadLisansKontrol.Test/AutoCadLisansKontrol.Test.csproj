@@ -52,9 +52,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WIN32_Registry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\hikmet\Desktop\WIN32_Registry\bin\Debug\WIN32_Registry.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProcessWMI.cs" />
+    <Compile Include="product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -62,10 +67,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Desktop\WIN32_Registry\WIN32_Registry\WIN32_Registry.csproj">
-      <Project>{fcfdcae6-674b-4ca9-8e28-5f52b10fc1ee}</Project>
-      <Name>WIN32_Registry</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AutoCadLisansKontrol\AutoCadDAL.csproj">
       <Project>{4fe772c3-5004-4e61-97cd-817e82fe37e2}</Project>
       <Name>AutoCadDAL</Name>
