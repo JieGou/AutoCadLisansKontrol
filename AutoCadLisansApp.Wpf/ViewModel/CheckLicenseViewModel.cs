@@ -19,6 +19,7 @@ using Microsoft.Win32;
 using System.IO;
 using MaterialDesignDemo.Controller;
 using LicenseController.autocad.masterkey.ws;
+using LicenseController.Model;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -84,12 +85,12 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
 
             RunClicked = new DelegateCommand(CheckLicenseCommand);
-            SaveClicked = new DelegateCommand(SaveCommand);
+            SaveClicked = new DelegateCommand(SaveCommandasync);
             CancelClicked = new DelegateCommand(CancelCommand);
-            ExporttoExcelClicked = new DelegateCommand(ExporttoExcelCommand);
             OprId = oprId;
             FirmId = firmId;
             LoadCheckLicenseFromDb();
+            UIContext.Initialize();
         }
 
         public ObservableCollection<Software> SoftwareList
@@ -188,6 +189,10 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
+        async Task ExecuteAsync()
+        {
+
+        }
         public void CheckLicenseLocalCommand()
         {
 
@@ -208,60 +213,65 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             CheckLicenses = checklicense;
             TotalComputer = CheckLicenses.Count;
+
             System.Action DoInBackground = new System.Action(() =>
+        {
+            try
             {
-                try
+                var counter = CheckLicenses.Count;
+                foreach (var chc in CheckLicenses)
                 {
-                    foreach (var chc in CheckLicenses)
+
+                    var tempchc = new CheckLicenseModel();
+                    System.Action ChildDoInBackground = new System.Action(() =>
+                       {
+                           tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
+                       });
+                    System.Action ChildDoOnUiThread = new System.Action(() =>
                     {
-                        var tempchc = new CheckLicenseModel();
-                        System.Action ChildDoInBackground = new System.Action(() =>
+                        chc.Output = tempchc.Output;
+                        chc.IsProgress = false;
+                        ExecutedComputer++;
+
+                        if (ExecutedComputer == TotalComputer)
                         {
-                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
-                        });
-
-                        System.Action ChildDoOnUiThread = new System.Action(() =>
+                            EndNotification("Operation has finished!!");
+                        }
+                        counter--;
+                    });
+                    Canceller = new CancellationTokenSource();
+                    var t3 = Task.Factory.StartNew(() =>
+                    {
+                        using (Canceller.Token.Register(Thread.CurrentThread.Abort))
                         {
-                            chc.Output = tempchc.Output;
-                            chc.IsProgress = false;
-                            ExecutedComputer++;
-
-                            if (ExecutedComputer == TotalComputer)
-                            {
-                                EndNotification("Operation has finished!!");
-                            }
-                            if (AutoSave)
-                                SaveCommand();
-                        });
-
-                        Canceller = new CancellationTokenSource();
-                        var t3 = Task.Factory.StartNew(() =>
-                        {
-                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                            {
-                                ChildDoInBackground();
-                            }
-                        }, Canceller.Token);
-
-                        // when t1 is done run t1..on the Ui thread.
-                        var t4 = t3.ContinueWith(t =>
-                        {
-                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                            {
-                                ChildDoOnUiThread();
-                            }
-                        }, Canceller.Token);
-
-
-                    }
-                }
-                catch (System.Exception ex)
+                            ChildDoInBackground();
+                        }
+                    }, Canceller.Token);
+                    //, TaskCreationOptions.None, UIContext.Current
+                    // when t1 is done run t1..on the Ui thread.
+                    var t4 = t3.ContinueWith(t =>
                 {
-                    EndNotification(ex.Message);
-                    return;
-                }
+                    using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                    {
+                        ChildDoOnUiThread();
+                    }
+                }, Canceller.Token);
 
-            });
+                    //, TaskContinuationOptions.OnlyOnFaulted, UIContext.Current
+                }
+                while (counter != 0)
+                {
+                   
+                }
+                if (AutoSave)
+                    SaveCommandsync();
+            }
+            catch (System.Exception ex)
+            {
+                EndNotification(ex.Message);
+                return;
+            }
+        });
 
             System.Action DoOnUiThread = new System.Action(() =>
             {
@@ -278,6 +288,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                     DoInBackground();
                 }
             }, Canceller.Token);
+            // TaskCreationOptions.LongRunning, UIContext.Current
             // when t1 is done run t1..on the Ui thread.
             var t2 = t1.ContinueWith(t =>
             {
@@ -285,7 +296,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                 {
                     DoOnUiThread();
                 }
-            }, Canceller.Token);
+            }, UIContext.Current);
+            //, TaskContinuationOptions.OnlyOnFaulted, UIContext.Current
             //I assume BitmapFromUri is the slow step.
 
         }
@@ -328,46 +340,26 @@ namespace MaterialDesignColors.WpfExample.Domain
                     foreach (var chc in CheckLicenses)
                     {
                         var tempchc = new CheckLicenseModel();
-                        System.Action ChildDoInBackground = new System.Action(() =>
+
+
+                        tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
+
+
+
+                        chc.Output = tempchc.Output;
+                        chc.IsProgress = false;
+                        ExecutedComputer++;
+
+                        if (ExecutedComputer == TotalComputer)
                         {
+                            EndNotification("Operation has finished!!");
+                        }
 
-                            tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
+                        if (AutoSave)
+                            SaveCommandsync();
 
-                        });
 
-                        System.Action ChildDoOnUiThread = new System.Action(() =>
-                        {
 
-                            chc.Output = tempchc.Output;
-                            chc.IsProgress = false;
-                            ExecutedComputer++;
-
-                            if (ExecutedComputer == TotalComputer)
-                            {
-                                EndNotification("Operation has finished!!");
-                            }
-
-                            if (AutoSave)
-                                SaveCommand();
-                        });
-
-                        Canceller = new CancellationTokenSource();
-                        var t3 = Task.Factory.StartNew(() =>
-                        {
-                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                            {
-                                ChildDoInBackground();
-                            }
-                        }, Canceller.Token);
-
-                        // when t1 is done run t1..on the Ui thread.
-                        var t4 = t3.ContinueWith(t =>
-                        {
-                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                            {
-                                ChildDoOnUiThread();
-                            }
-                        }, Canceller.Token);
                     }
                 }
                 catch (System.Exception ex)
@@ -466,14 +458,59 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
+        public void SaveCommandsync()
+        {
 
-        public void SaveCommand()
+            try
+            {
+                var counter = CheckLicenses.Count;
+                StartNotification();
+
+
+                //client.DeleteAllLicenseBaseOperationid(OprId);
+                foreach (var item in CheckLicenses)
+                {
+                    counter--;
+
+                    client.UpsertCheckLicense(new LicenseController.autocad.masterkey.ws.CheckLicense()
+                    {
+                        CheckDate = System.DateTime.Now,
+                        ComputerId = item.ComputerId,
+                        FirmId = item.FirmId,
+                        Id = item.Id,
+                        Ip = item.Ip,
+                        Name = item.Name,
+                        OperationId = item.OperationId,
+                        Output = item.Output,
+                        UpdateDate = System.DateTime.Now,
+                        State = item.State,
+                        Installed = item.Installed,
+                        Uninstalled = item.Uninstalled
+                    });
+
+                    if (counter == 0)
+                        EndNotification("Results is saved.");
+
+                }
+
+
+                // when t1 is done run t1..on the Ui thread.
+
+            }
+            catch (System.Exception ex)
+            {
+                EndNotification(ex.Message);
+            }
+
+
+        }
+        public void SaveCommandasync()
         {
             try
             {
                 var counter = CheckLicenses.Count;
                 StartNotification();
-                TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
                     //client.DeleteAllLicenseBaseOperationid(OprId);
@@ -503,28 +540,26 @@ namespace MaterialDesignColors.WpfExample.Domain
                     }
                 });
 
-                System.Action ChildDoOnUiThread = new System.Action(() =>
+
+                Canceller = new CancellationTokenSource();
+
+                var t1 = Task.Factory.StartNew(() =>
                 {
-
-                });
-
-                var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
+                    using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                    {
+                        ChildDoInBackground();
+                    }
+                }, Canceller.Token);
                 // when t1 is done run t1..on the Ui thread.
-                var t2 = t1.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
 
             }
             catch (System.Exception ex)
             {
-                NotificationIsVisible = true;
-                NotificationContent = ex.Message;
+                EndNotification(ex.Message);
             }
 
         }
-        public void ExporttoExcelCommand()
-        {
 
-
-        }
         public void StartNotification()
         {
             IsButtonEnable = false;

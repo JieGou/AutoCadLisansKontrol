@@ -373,7 +373,7 @@ namespace AutoCadLisansKontrol.Controller
                     }
                     if (chc.ApplicationEvents.Count > 0)
                     {
-                        chc.UnInstallDate = DateTime.ParseExact(chc.ApplicationEvents.GroupBy(s => s.ComputerName).Select(s => s.OrderByDescending(x => x.TimeWritten.Substring(0, 10)).FirstOrDefault().TimeWritten).ToString(), "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                        chc.UnInstallDate = DateTime.ParseExact(chc.ApplicationEvents.GroupBy(s => s.ComputerName).Select(s => s.OrderByDescending(x => x.TimeWritten).FirstOrDefault().TimeWritten).ToString(), "dd.MM.yyyy", CultureInfo.InvariantCulture);
                         chc.Installed = false;
                         chc.Uninstalled = true;
                         return chc;

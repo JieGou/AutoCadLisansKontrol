@@ -75,18 +75,24 @@ namespace baileySoft.Wmi.Registry
                                              baseKey BaseKey,
                                              string key)
         {
-           
+
             ManagementClass registryTask = new ManagementClass(connectionScope,
                            new ManagementPath("DEFAULT:StdRegProv"), new ObjectGetOptions());
             ManagementBaseObject methodParams = registryTask.GetMethodParameters("EnumKey");
 
             methodParams["hDefKey"] = BaseKey;
             methodParams["sSubKeyName"] = key;
-
-            ManagementBaseObject exitCode = registryTask.InvokeMethod("EnumKey",
+            List<string> subKeys=new List<string>();
+            try
+            {
+                ManagementBaseObject exitCode = registryTask.InvokeMethod("EnumKey",
                                                         methodParams, null);
-            System.String[] subKeys;
-            subKeys = (string[])exitCode["sNames"];
+                subKeys = new List<string>((string[])exitCode["sNames"]);
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+            }
 
             return new List<string>(subKeys);
             //var HKLM32 = RegistryKey.OpenRemoteBaseKey(RegistryHive.LocalMachine, machinename, RegistryView.Registry32);

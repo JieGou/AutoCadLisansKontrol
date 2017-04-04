@@ -17,17 +17,17 @@ namespace baileySoft.Wmi.Registry
 
             foreach (ManagementObject item in searchProcedure.Get())
             {
-                propertiesHolder.Caption = item["Caption"].ToString();
-                propertiesHolder.CurrentSize = item["CurrentSize"].ToString();
-                propertiesHolder.Description = item["Description"].ToString();
-                propertiesHolder.InstallDate = item["InstallDate"].ToString();
-                propertiesHolder.MaximumSize = item["MaximumSize"].ToString();
-                propertiesHolder.Name = item["Name"].ToString();
-                propertiesHolder.ProposedSize = item["ProposedSize"].ToString();
-                propertiesHolder.Status = item["Status"].ToString();
+                propertiesHolder.Caption = item["Caption"]==null?null:item["Caption"].ToString();
+                propertiesHolder.CurrentSize = item["CurrentSize"] == null ? null : item["CurrentSize"].ToString();
+                propertiesHolder.Description = item["Description"] == null ? null : item["Description"].ToString();
+                propertiesHolder.InstallDate = item["InstallDate"] == null ? null : item["InstallDate"].ToString();
+                propertiesHolder.MaximumSize = item["MaximumSize"] == null ? null : item["MaximumSize"].ToString();
+                propertiesHolder.Name = item["Name"] == null ? null : item["Name"].ToString();
+                propertiesHolder.ProposedSize = item["ProposedSize"] == null ? null : item["ProposedSize"].ToString();
+                propertiesHolder.Status = item["Status"] == null ? null : item["Status"].ToString();
             }
         }
-        public static ConnectionOptions RegistryConnectionOptions(string providerArchitecture)
+        public static ConnectionOptions RegistryConnectionOptions()
         {
             ConnectionOptions options = new ConnectionOptions();
             options.Impersonation = ImpersonationLevel.Impersonate;
@@ -37,12 +37,13 @@ namespace baileySoft.Wmi.Registry
         }
         public static ManagementScope ConnectionScope(string machineName,
                                                       ConnectionOptions options,
-                                                      RegistryObject propertiesHolder)
+                                                      RegistryObject propertiesHolder,
+                                                      string provider)
         {
             ManagementScope connectScope = new ManagementScope();
             connectScope.Path = new ManagementPath(@"\\" + machineName + @"\root\DEFAULT:StdRegProv");
             connectScope.Options = options;
-            connectScope.Options.Context.Add("__ProviderArchitecture", 64);
+            connectScope.Options.Context.Add("__ProviderArchitecture", Convert.ToInt32(provider));
             connectScope.Options.Context.Add("__RequiredArchitecture", true);
             try
             {

@@ -76,7 +76,7 @@ namespace baileySoft.Wmi.Registry
         public abstract void CreateValue(baseKey RootKey, string key, string valueName, string value);
         public abstract void DeleteValue(baseKey RootKey, string key, string valueName);
         public abstract void GetRegistryProperties();
-        public abstract bool Connect();
+        public abstract bool Connect(string provider);
        
     }
 }

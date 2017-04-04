@@ -123,10 +123,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="WIN32_Registry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\WIN32_Registry\WIN32_Registry\bin\Debug\WIN32_Registry.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -162,6 +158,7 @@
     <Compile Include="Model\ComputerModel.cs" />
     <Compile Include="Model\Excel.cs" />
     <Compile Include="Model\MTObservableCollection.cs" />
+    <Compile Include="Model\UIContext.cs" />
     <Compile Include="Service References\autocad.masterkey.ws\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -602,6 +599,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WIN32_Registry\WIN32_Registry.csproj">
+      <Project>{fcfdcae6-674b-4ca9-8e28-5f52b10fc1ee}</Project>
+      <Name>WIN32_Registry</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -29,9 +29,9 @@ namespace baileySoft.Wmi.Registry
             this.password = password;
             this.domain = domain;
             this.machineName = machineName;
-            options = RegistryConnection.RegistryConnectionOptions(provider);
+            options = RegistryConnection.RegistryConnectionOptions();
 
-            Connect();
+            Connect(provider);
             GetRegistryProperties();
         }
         #endregion
@@ -147,7 +147,7 @@ namespace baileySoft.Wmi.Registry
                     throw err;
                 }
         }
-        public override bool Connect()
+        public override bool Connect(string provider)
         {
             if (domain != null || userName != null)
             {
@@ -155,7 +155,7 @@ namespace baileySoft.Wmi.Registry
                 options.Password = password;
                 options.Impersonation = ImpersonationLevel.Impersonate;
             }
-            connectionScope = RegistryConnection.ConnectionScope(machineName, options, this);
+            connectionScope = RegistryConnection.ConnectionScope(machineName, options, this,provider);
             return this.IsConnected;
         }
         #endregion     

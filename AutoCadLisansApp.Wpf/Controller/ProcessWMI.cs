@@ -177,9 +177,9 @@ namespace MaterialDesignDemo.Controller
             return getDmtfFromDateTime(dateTimeValue);
         }
 
-        private static string getDateTimeFromDmtfDate(string dateTime)
+        private static DateTime getDateTimeFromDmtfDate(string dateTime)
         {
-            return ManagementDateTimeConverter.ToDateTime(dateTime).ToString();
+            return ManagementDateTimeConverter.ToDateTime(dateTime);
         }
         public ManagementScope Connect()
         {
@@ -223,16 +223,18 @@ namespace MaterialDesignDemo.Controller
             }
             return scope;
         }
-        public List<Win32_Product> GetProductWithWMI(Software[] software)
+        public List<Win32_Product> GetProductWithWMI(Software[] softwares)
         {
             List<Win32_Product> products = new List<Win32_Product>();
 
             ManagementScope scope = Connect();
 
-            SelectQuery CheckProcess = new SelectQuery("SELECT * FROM Win32_Product");
+            SelectQuery CheckProcess = new SelectQuery("SELECT InstallDate,Name FROM Win32_Product");
             using (ManagementObjectSearcher ProcessSearcher = new ManagementObjectSearcher(scope, CheckProcess))
             {
                 var WMIproducts = ProcessSearcher.Get();
+
+                
                 foreach (ManagementObject mo in WMIproducts)
                 {
                     Win32_Product product = new Win32_Product();
@@ -240,38 +242,40 @@ namespace MaterialDesignDemo.Controller
                     product.Name = mo["Name"] == null ? null : mo["Name"].ToString();
                     if (product.Name == null) continue;
 
-                    var param = software.Where(x => product.Name.Contains(x.DisplayName)).FirstOrDefault();
+                    var param = softwares.Where(x => product.Name.Contains(x.DisplayName)).FirstOrDefault();
                     if (param == null) continue;
 
-                    product.AssignmentType = mo["AssignmentType"].ToString();
-                    product.Caption = mo["Caption"] == null ? null : mo["Caption"].ToString();
-                    product.Description = mo["Description"] == null ? null : mo["Description"].ToString();
-                    product.HelpLink = mo["HelpLink"] == null ? null : mo["HelpLink"].ToString();
-                    product.HelpTelephone = mo["HelpTelephone"] == null ? null : mo["HelpTelephone"].ToString();
-                    product.IdentifyingNumber = mo["IdentifyingNumber"] == null ? null : mo["IdentifyingNumber"].ToString();
+                    //product.AssignmentType = mo["AssignmentType"].ToString();
+                    //product.Caption = mo["Caption"] == null ? null : mo["Caption"].ToString();
+                    //product.Description = mo["Description"] == null ? null : mo["Description"].ToString();
+                    //product.HelpLink = mo["HelpLink"] == null ? null : mo["HelpLink"].ToString();
+                    //product.HelpTelephone = mo["HelpTelephone"] == null ? null : mo["HelpTelephone"].ToString();
+                    //product.IdentifyingNumber = mo["IdentifyingNumber"] == null ? null : mo["IdentifyingNumber"].ToString();
                     product.InstallDate = mo["InstallDate"] == null ? new DateTime() : DateTime.ParseExact(mo["InstallDate"].ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
-                    product.InstallDate2 = mo["InstallDate2"] == null ? null : mo["InstallDate2"].ToString();
-                    product.InstallLocation = mo["InstallLocation"] == null ? null : mo["InstallLocation"].ToString();
-                    product.InstallSource = mo["InstallSource"] == null ? null : mo["InstallSource"].ToString();
-                    product.InstallState = mo["InstallState"] == null ? null : mo["InstallState"].ToString();
-                    product.Language = mo["Language"] == null ? null : mo["Language"].ToString();
-                    product.LocalPackage = mo["LocalPackage"] == null ? null : mo["LocalPackage"].ToString();
-                    product.PackageCache = mo["PackageCache"] == null ? null : mo["PackageCache"].ToString();
-                    product.PackageCode = mo["PackageCode"] == null ? null : mo["PackageCode"].ToString();
-                    product.PackageName = mo["PackageName"] == null ? null : mo["PackageName"].ToString();
-                    product.ProductID = mo["ProductID"] == null ? null : mo["ProductID"].ToString();
-                    product.RegCompany = mo["RegCompany"] == null ? null : mo["RegCompany"].ToString();
-                    product.RegOwner = mo["RegOwner"] == null ? null : mo["RegOwner"].ToString();
-                    product.SKUNumber = mo["SKUNumber"] == null ? null : mo["SKUNumber"].ToString();
-                    product.Transforms = mo["Transforms"] == null ? null : mo["Transforms"].ToString();
-                    product.URLInfoAbout = mo["URLInfoAbout"] == null ? null : mo["URLInfoAbout"].ToString();
-                    product.URLUpdateInfo = mo["URLUpdateInfo"] == null ? null : mo["URLUpdateInfo"].ToString();
-                    product.Vendor = mo["Vendor"] == null ? null : mo["Vendor"].ToString();
-                    product.Version = mo["Version"] == null ? null : mo["Version"].ToString();
+                    //product.InstallDate2 = mo["InstallDate2"] == null ? null : mo["InstallDate2"].ToString();
+                    //product.InstallLocation = mo["InstallLocation"] == null ? null : mo["InstallLocation"].ToString();
+                    //product.InstallSource = mo["InstallSource"] == null ? null : mo["InstallSource"].ToString();
+                    //product.InstallState = mo["InstallState"] == null ? null : mo["InstallState"].ToString();
+                    //product.Language = mo["Language"] == null ? null : mo["Language"].ToString();
+                    //product.LocalPackage = mo["LocalPackage"] == null ? null : mo["LocalPackage"].ToString();
+                    //product.PackageCache = mo["PackageCache"] == null ? null : mo["PackageCache"].ToString();
+                    //product.PackageCode = mo["PackageCode"] == null ? null : mo["PackageCode"].ToString();
+                    //product.PackageName = mo["PackageName"] == null ? null : mo["PackageName"].ToString();
+                    //product.ProductID = mo["ProductID"] == null ? null : mo["ProductID"].ToString();
+                    //product.RegCompany = mo["RegCompany"] == null ? null : mo["RegCompany"].ToString();
+                    //product.RegOwner = mo["RegOwner"] == null ? null : mo["RegOwner"].ToString();
+                    //product.SKUNumber = mo["SKUNumber"] == null ? null : mo["SKUNumber"].ToString();
+                    //product.Transforms = mo["Transforms"] == null ? null : mo["Transforms"].ToString();
+                    //product.URLInfoAbout = mo["URLInfoAbout"] == null ? null : mo["URLInfoAbout"].ToString();
+                    //product.URLUpdateInfo = mo["URLUpdateInfo"] == null ? null : mo["URLUpdateInfo"].ToString();
+                    //product.Vendor = mo["Vendor"] == null ? null : mo["Vendor"].ToString();
+                    //product.Version = mo["Version"] == null ? null : mo["Version"].ToString();
 
                     products.Add(product);
                 }
             }
+
+
             return products;
         }
 
@@ -280,11 +284,10 @@ namespace MaterialDesignDemo.Controller
 
             var list32 = ReadUnInstallRegistryusingWMICore(software, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
             var list64 = ReadUnInstallRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
-            var registryautodeskautodesk = ReadRegistrySubkeys(software, @"SOFTWARE\Autodesk");
-            var registryautodeskautodesk64 = ReadRegistrySubkeys(software, @"SOFTWARE\Wow6432Node\Autodesk");
-            var registryflexlmlicensemanager = ReadRegistrySubkeys(software, @"SOFTWARE\flexlm license manager\");
-            var registryflexlmlicensemanager64 = ReadRegistrySubkeys(software, @"SOFTWARE\Wow6432Node\flexlm license manager\");
-
+            var registryautodeskautodesk = ReadRegistrySubkeys(software, @"SOFTWARE\Autodesk", "32");
+            var registryautodeskautodesk64 = ReadRegistrySubkeys(software, @"SOFTWARE\Wow6432Node\Autodesk", "64");
+            var registryflexlmlicensemanager = ReadRegistrySubkeys(software, @"SOFTWARE\flexlm license manager\", "32");
+            var registryflexlmlicensemanager64 = ReadRegistrySubkeys(software, @"SOFTWARE\Wow6432Node\flexlm license manager\", "64");
 
 
             var uniqueList = list32.Concat(list64).Concat(registryautodeskautodesk).Concat(registryautodeskautodesk64).Concat(registryflexlmlicensemanager).Concat(registryflexlmlicensemanager64)
@@ -337,7 +340,7 @@ namespace MaterialDesignDemo.Controller
                 outParams = registry.InvokeMethod("GetStringValue", inParams, null);
                 if (outParams.Properties["sValue"].Value != null)
                 {
-                    item.InstallDate = outParams.Properties["sValue"].Value.ToString() == "" ? new DateTime() : DateTime.ParseExact(outParams.Properties["sValue"].Value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
+                    item.InstallDate = outParams.Properties["sValue"].Value.ToString() == "" ? DateTime.MinValue : DateTime.ParseExact(outParams.Properties["sValue"].Value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
                 }
 
                 inParams["sValueName"] = "Contact";
@@ -458,16 +461,16 @@ namespace MaterialDesignDemo.Controller
 
             return programs;
         }
-        private List<Software> ReadRegistrySubkeys(Software[] software, string softwareRegLoc)
+        private List<Software> ReadRegistrySubkeys(Software[] software, string softwareRegLoc, string provider)
         {
 
             List<Software> list = new List<Software>();
             RegistryObject SysRegistry;
 
             if (IsRemote)
-                SysRegistry = new RegistryRemote(Username, Password, "", RemoteComputerName, "64");
+                SysRegistry = new RegistryRemote(Username, Password, "", RemoteComputerName, provider);
             else
-                SysRegistry = new RegistryLocal("64");
+                SysRegistry = new RegistryLocal(provider);
 
             string registryKey = softwareRegLoc;
 
@@ -681,6 +684,7 @@ namespace MaterialDesignDemo.Controller
     }
     public class Software
     {
+        private DateTime _installdate = DateTime.MinValue;
         public string Comments { get; set; }
         public string Contact { get; set; }
         public string DisplayIcon { get; set; }
@@ -689,7 +693,7 @@ namespace MaterialDesignDemo.Controller
         public string EstimatedSize { get; set; }
         public string HelpLink { get; set; }
         public string HelpTelephone { get; set; }
-        public DateTime InstallDate { get; set; }
+        public DateTime InstallDate { get { return _installdate; } set { _installdate = value; } }
         public string InstallLocation { get; set; }
         public string InstallSource { get; set; }
         public string Language { get; set; }
@@ -742,7 +746,7 @@ namespace MaterialDesignDemo.Controller
         public string Category { get; set; }
         public string SourceName { get; set; }
         public string RecordNumber { get; set; }
-        public string TimeWritten { get; set; }
+        public DateTime TimeWritten { get; set; }
     }
 
     public class Win32_Directory

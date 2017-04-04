@@ -16,8 +16,8 @@ namespace baileySoft.Wmi.Registry
         #region "constructors"
         public RegistryLocal(string provider)
         {
-            options = RegistryConnection.RegistryConnectionOptions(provider);
-            Connect();
+            options = RegistryConnection.RegistryConnectionOptions();
+            Connect(provider);
             GetRegistryProperties();
         }
         #endregion
@@ -134,10 +134,10 @@ namespace baileySoft.Wmi.Registry
                                                                     options, this);
             }
         }
-        public override bool Connect()
+        public override bool Connect(string provider)
         {
             connectionScope = RegistryConnection.ConnectionScope(Environment.MachineName,
-                                                                    options, this);
+                                                                    options, this, provider);
             return this.IsConnected;
         }
         #endregion
