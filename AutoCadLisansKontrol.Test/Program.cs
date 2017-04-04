@@ -22,10 +22,10 @@ namespace AutoCadLisansKontrol.Test
     {
         static void Main(string[] args)
         {
-            List<product> prds = new List<product>;
-            product prd = new product();
-            prd.
-            var datevalue= DateTime.ParseExact(prd.GroupBy(s => s.ProductID).Select(s => s.OrderByDescending(x => x.InstallDate).FirstOrDefault().InstallDate).ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
+            //List<product> prds = new List<product>;
+            //product prd = new product();
+            //prd.
+            //var datevalue= DateTime.ParseExact(prd.GroupBy(s => s.ProductID).Select(s => s.OrderByDescending(x => x.InstallDate).FirstOrDefault().InstallDate).ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
             //psexecscript();
             //ProcessWMI proc = new ProcessWMI("","","");
 
