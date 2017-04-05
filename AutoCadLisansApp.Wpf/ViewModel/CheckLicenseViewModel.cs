@@ -210,7 +210,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
                 foreach (var soft in SoftwareList)
                 {
-                    checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, ApplicationEvents = new List<ApplicationEvent>(), FileExplorerModel = new FileExplorerModel(), RegistryAutoDesk = new List<RegistrySoftware>(), Win32_products = new List<Win32_Product>(), App = soft});
+                    checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, MachineName = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, App = soft});
                 }
 
                 CheckLicenses = checklicense;
@@ -331,7 +331,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                     {
                         foreach (var sft in SoftwareList)
                         {
-                            checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId, App = sft });
+                            checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, MachineName = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId, App = sft });
                         }
                     }
 
@@ -479,7 +479,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                         FirmId = item.FirmId,
                         Id = item.Id,
                         Ip = item.Ip,
-                        Name = item.Name,
+                        MachineName = item.MachineName,
                         OperationId = item.OperationId,
                         Output = item.Output,
                         UpdateDate = System.DateTime.Now,
@@ -525,7 +525,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                             FirmId = item.FirmId,
                             Id = item.Id,
                             Ip = item.Ip,
-                            Name = item.Name,
+                            MachineName = item.MachineName,
                             OperationId = item.OperationId,
                             Output = item.Output,
                             UpdateDate = System.DateTime.Now,

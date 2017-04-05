@@ -100,7 +100,7 @@
                         </StackPanel>
                     </materialDesign:DialogHost.DialogContent>
                     <Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
-                            MinWidth="256" MinHeight="256" ClipToBounds="True">
+                            MinWidth="300" MinHeight="270" ClipToBounds="True">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -152,7 +152,7 @@
                          Grid.Row="2"  Grid.Column="1"    HorizontalAlignment="Right"   Height="256" Width="256">
 
                     <Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
-                            MinWidth="256" MinHeight="256" ClipToBounds="True">
+                            MinWidth="300" MinHeight="270" ClipToBounds="True">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition  Height="*" />
@@ -247,8 +247,8 @@
                     </GroupBox.HeaderTemplate>
                     <Grid Margin="0,0,0,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="90*" />
+                            <RowDefinition Height="10*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -282,14 +282,14 @@
                                             Command="{Binding SaveClicked}" Content="Save" VerticalAlignment="Top" Margin="3" IsEnabled="{Binding IsButtonEnable,Mode=TwoWay}"/>
                         <Button  Grid.Column="4" Style="{StaticResource MaterialDesignRaisedDarkButton}" 
                                             Command="{Binding CancelClicked}" Content="Cancel" VerticalAlignment="Top" IsEnabled="{Binding !(IsButtonEnable),Mode=TwoWay}" Margin="3"/>
-                        <CheckBox Grid.Row="2" Grid.ColumnSpan="4"
+                        <CheckBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
                   x:Name="ClassicModeCheckBox"
                   IsThreeState="False" IsChecked="{Binding Path=AutoSave,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                  Margin="0 8 0 0">When operation finishes, save result.</CheckBox>
+                  >When operation finishes, save result.</CheckBox>
                     </Grid>
-                    
+
                 </GroupBox>
-                
+
                 <GroupBox Grid.Row="2" Grid.Column="0"  Header="Check List" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,1,16,-1" Grid.RowSpan="2">
                     <GroupBox.HeaderTemplate>
                         <DataTemplate>
@@ -345,7 +345,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                
+
                                 <DataGridTemplateColumn Header="Ip" Width="SizeToCells">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -363,12 +363,12 @@
                                 </DataGridTemplateColumn>
 
 
-                                <DataGridTemplateColumn Header="Name" Width="SizeToCells">
+                                <DataGridTemplateColumn Header="MachineName" Width="SizeToCells">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Ip" TextWrapping="Wrap">
+                                            <TextBlock  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="MachineName" TextWrapping="Wrap">
                                                 <TextBlock.Text>
-                                                    <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding Path="MachineName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
                                                             <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
                                                         </Binding.ValidationRules>

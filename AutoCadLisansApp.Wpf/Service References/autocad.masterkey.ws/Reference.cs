@@ -473,7 +473,7 @@ namespace LicenseController.autocad.masterkey.ws {
         private System.Nullable<bool> IsFoundField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
+        private string MachineNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> OperationIdField;
@@ -621,14 +621,14 @@ namespace LicenseController.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
+        public string MachineName {
             get {
-                return this.NameField;
+                return this.MachineNameField;
             }
             set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
+                if ((object.ReferenceEquals(this.MachineNameField, value) != true)) {
+                    this.MachineNameField = value;
+                    this.RaisePropertyChanged("MachineName");
                 }
             }
         }

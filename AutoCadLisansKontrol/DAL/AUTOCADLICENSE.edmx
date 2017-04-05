@@ -85,6 +85,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="AppName" Type="text" />
+          <Property Name="IsEnable" Type="bit" />
         </EntityType>
         <Association Name="FK_CheckLicense_Software">
           <End Role="Software" Type="Self.Software" Multiplicity="0..1" />
@@ -367,6 +368,7 @@
           <Property Name="AppName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FE_ControlList" Relationship="AUTOCADLICENSEModel.FK_FE_ControlList_FE_ControlList" FromRole="Software" ToRole="FE_ControlList" />
           <NavigationProperty Name="CheckLicense" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="SoftwareEntity" ToRole="CheckLicenseEntity" />
+          <Property Name="IsEnable" Type="Boolean" />
         </EntityType>
         <Association Name="FK_FE_ControlList_FE_ControlList">
           <End Type="AUTOCADLICENSEModel.SoftwareEntity" Role="Software" Multiplicity="0..1" />
@@ -485,6 +487,7 @@
           <EntitySetMapping Name="Software">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.SoftwareEntity">
               <MappingFragment StoreEntitySet="Software">
+                <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
                 <ScalarProperty Name="AppName" ColumnName="AppName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

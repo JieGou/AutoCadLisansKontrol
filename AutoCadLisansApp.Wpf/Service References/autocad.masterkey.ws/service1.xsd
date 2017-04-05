@@ -65,7 +65,7 @@
       <xs:element minOccurs="0" name="Installed" nillable="true" type="xs:boolean" />
       <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IsFound" nillable="true" type="xs:boolean" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MachineName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="OperationId" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="Output" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="State" nillable="true" type="xs:boolean" />

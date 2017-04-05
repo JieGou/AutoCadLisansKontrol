@@ -116,7 +116,7 @@ namespace MaterialDesignDemo
 
             if (dialog.ShowDialog() == true)
             {
-                Excel.ExportExcel(checklicensemodel.CheckLicenses.ToList(), dialog.FileName);
+                Excel.ExporttoExcel(checklicensemodel.CheckLicenses.ToList(), dialog.FileName);
             }
 
         }

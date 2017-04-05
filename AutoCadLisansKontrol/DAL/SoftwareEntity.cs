@@ -23,6 +23,7 @@ namespace AutoCadLisansKontrol.DAL
     
         public int Id { get; set; }
         public string AppName { get; set; }
+        public Nullable<bool> IsEnable { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FE_ControlListEntity> FE_ControlList { get; set; }

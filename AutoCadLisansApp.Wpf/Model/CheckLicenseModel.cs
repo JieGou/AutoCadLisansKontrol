@@ -16,14 +16,6 @@ namespace MaterialDesignDemo.Model
         public LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
         public Software App { get; set; }
         public string Description { get; set; }
-        public FileExplorerModel FileExplorerModel { get; set; }
-        public List<ApplicationEvent> ApplicationEvents { get; set; }
-
-        public List<Win32_Product> Win32_products { get; set; }
-
-        public List<RegistrySoftware> UnInstallRegisterySoftwares { get; set; }
-        public List<RegistrySoftware> RegistryAutoDesk { get; set; }
-
 
         private bool _isProgress;
         public bool IsProgress
@@ -135,5 +127,14 @@ namespace MaterialDesignDemo.Model
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+    }
+    public class OutputSniff
+    {
+        public FileExplorerModel FileExplorerModel { get; set; }
+        public List<ApplicationEvent> ApplicationEvents { get; set; }
+
+        public List<Win32_Product> Win32_products { get; set; }
+
+        public List<RegistrySoftware> RegistryAutoDesk { get; set; }
     }
 }
