@@ -153,6 +153,24 @@
   <wsdl:message name="IService1_GetControlPoint_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetControlPointResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_GetAllApplication_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllApplication" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetAllApplication_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllApplicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetFEControlList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFEControlList" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetFEControlList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFEControlListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetApplication_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplication" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetApplication_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationResponse" />
+  </wsdl:message>
   <wsdl:portType name="IService1">
     <wsdl:operation name="UpsertFirm">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpsertFirm" message="tns:IService1_UpsertFirm_InputMessage" />
@@ -249,6 +267,18 @@
     <wsdl:operation name="GetControlPoint">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetControlPoint" message="tns:IService1_GetControlPoint_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetControlPointResponse" message="tns:IService1_GetControlPoint_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllApplication">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetAllApplication" message="tns:IService1_GetAllApplication_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetAllApplicationResponse" message="tns:IService1_GetAllApplication_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFEControlList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetFEControlList" message="tns:IService1_GetFEControlList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetFEControlListResponse" message="tns:IService1_GetFEControlList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplication">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetApplication" message="tns:IService1_GetApplication_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetApplicationResponse" message="tns:IService1_GetApplication_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
@@ -462,6 +492,33 @@
     </wsdl:operation>
     <wsdl:operation name="GetControlPoint">
       <soap:operation soapAction="http://tempuri.org/IService1/GetControlPoint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllApplication">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetAllApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFEControlList">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetFEControlList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplication">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetApplication" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

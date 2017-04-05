@@ -303,4 +303,44 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetAllApplication">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllApplicationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="GetAllApplicationResult" nillable="true" type="q21:ArrayOfSoftware" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFEControlList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="appid" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFEControlListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="GetFEControlListResult" nillable="true" type="q22:ArrayOfFE_ControlList" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetApplication">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" nillable="true" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetApplicationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/LicenseControllerWs" minOccurs="0" name="GetApplicationResult" nillable="true" type="q23:Software" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

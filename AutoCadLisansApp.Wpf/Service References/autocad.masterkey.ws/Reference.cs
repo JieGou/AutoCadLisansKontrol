@@ -446,6 +446,9 @@ namespace LicenseController.autocad.masterkey.ws {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> AppIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<System.DateTime> CheckDateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -497,6 +500,19 @@ namespace LicenseController.autocad.masterkey.ws {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> AppId {
+            get {
+                return this.AppIdField;
+            }
+            set {
+                if ((this.AppIdField.Equals(value) != true)) {
+                    this.AppIdField = value;
+                    this.RaisePropertyChanged("AppId");
+                }
             }
         }
         
@@ -1095,6 +1111,176 @@ namespace LicenseController.autocad.masterkey.ws {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Software", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
+    [System.SerializableAttribute()]
+    public partial class Software : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AppNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AppName {
+            get {
+                return this.AppNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AppNameField, value) != true)) {
+                    this.AppNameField = value;
+                    this.RaisePropertyChanged("AppName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FE_ControlList", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
+    [System.SerializableAttribute()]
+    public partial class FE_ControlList : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> AppIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DriveField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TypeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> AppId {
+            get {
+                return this.AppIdField;
+            }
+            set {
+                if ((this.AppIdField.Equals(value) != true)) {
+                    this.AppIdField = value;
+                    this.RaisePropertyChanged("AppId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Drive {
+            get {
+                return this.DriveField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DriveField, value) != true)) {
+                    this.DriveField = value;
+                    this.RaisePropertyChanged("Drive");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Path {
+            get {
+                return this.PathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PathField, value) != true)) {
+                    this.PathField = value;
+                    this.RaisePropertyChanged("Path");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Type {
+            get {
+                return this.TypeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TypeField, value) != true)) {
+                    this.TypeField = value;
+                    this.RaisePropertyChanged("Type");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="autocad.masterkey.ws.IService1")]
     public interface IService1 {
@@ -1242,6 +1428,24 @@ namespace LicenseController.autocad.masterkey.ws {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetControlPoint", ReplyAction="http://tempuri.org/IService1/GetControlPointResponse")]
         System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ControlPoint[]> GetControlPointAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetAllApplication", ReplyAction="http://tempuri.org/IService1/GetAllApplicationResponse")]
+        LicenseController.autocad.masterkey.ws.Software[] GetAllApplication();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetAllApplication", ReplyAction="http://tempuri.org/IService1/GetAllApplicationResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Software[]> GetAllApplicationAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetFEControlList", ReplyAction="http://tempuri.org/IService1/GetFEControlListResponse")]
+        LicenseController.autocad.masterkey.ws.FE_ControlList[] GetFEControlList(int appid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetFEControlList", ReplyAction="http://tempuri.org/IService1/GetFEControlListResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FE_ControlList[]> GetFEControlListAsync(int appid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetApplication", ReplyAction="http://tempuri.org/IService1/GetApplicationResponse")]
+        LicenseController.autocad.masterkey.ws.Software GetApplication(System.Nullable<int> id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetApplication", ReplyAction="http://tempuri.org/IService1/GetApplicationResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Software> GetApplicationAsync(System.Nullable<int> id);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1461,6 +1665,30 @@ namespace LicenseController.autocad.masterkey.ws {
         
         public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ControlPoint[]> GetControlPointAsync() {
             return base.Channel.GetControlPointAsync();
+        }
+        
+        public LicenseController.autocad.masterkey.ws.Software[] GetAllApplication() {
+            return base.Channel.GetAllApplication();
+        }
+        
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Software[]> GetAllApplicationAsync() {
+            return base.Channel.GetAllApplicationAsync();
+        }
+        
+        public LicenseController.autocad.masterkey.ws.FE_ControlList[] GetFEControlList(int appid) {
+            return base.Channel.GetFEControlList(appid);
+        }
+        
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FE_ControlList[]> GetFEControlListAsync(int appid) {
+            return base.Channel.GetFEControlListAsync(appid);
+        }
+        
+        public LicenseController.autocad.masterkey.ws.Software GetApplication(System.Nullable<int> id) {
+            return base.Channel.GetApplication(id);
+        }
+        
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Software> GetApplicationAsync(System.Nullable<int> id) {
+            return base.Channel.GetApplicationAsync(id);
         }
     }
 }

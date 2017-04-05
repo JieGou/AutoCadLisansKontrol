@@ -116,7 +116,7 @@
                                             <DataTemplate>
                                                 <TextBlock TextWrapping="Wrap" x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Name">
                                                     <TextBlock.Text>
-                                                        <Binding Path="DisplayName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding Path="AppName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                                             <Binding.ValidationRules>
                                                                 <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
                                                             </Binding.ValidationRules>
@@ -330,7 +330,22 @@
                                  EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                             ></materialDesign:MaterialDataGridTextColumn>
 
-
+                                <DataGridTemplateColumn Header="AppName" Width="SizeToCells">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock  x:Name="AppName"   materialDesign:HintAssist.Hint="App.AppName" TextWrapping="Wrap">
+                                                <TextBlock.Text>
+                                                    <Binding Path="App.AppName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
                                 <DataGridTemplateColumn Header="Ip" Width="SizeToCells">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

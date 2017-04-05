@@ -1,4 +1,5 @@
-﻿using MaterialDesignDemo.Controller;
+﻿using LicenseController.autocad.masterkey.ws;
+using MaterialDesignDemo.Controller;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +13,16 @@ namespace MaterialDesignDemo.Model
 {
     public class CheckLicenseModel : LicenseController.autocad.masterkey.ws.CheckLicense
     {
+        public LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
+        public Software App { get; set; }
+        public string Description { get; set; }
         public FileExplorerModel FileExplorerModel { get; set; }
         public List<ApplicationEvent> ApplicationEvents { get; set; }
 
         public List<Win32_Product> Win32_products { get; set; }
 
-        public List<Software> UnInstallRegisterySoftwares { get; set; }
-        public List<Software> RegistryAutoDesk { get; set; }
+        public List<RegistrySoftware> UnInstallRegisterySoftwares { get; set; }
+        public List<RegistrySoftware> RegistryAutoDesk { get; set; }
 
 
         private bool _isProgress;

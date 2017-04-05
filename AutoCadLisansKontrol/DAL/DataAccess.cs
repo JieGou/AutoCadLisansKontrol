@@ -488,5 +488,16 @@ namespace AutoCadLisansKontrol.DAL
                     throw new Exception(ex.Message);
             }
         }
+
+        public List<SoftwareEntity> GetSoftware() {
+
+            return dbaccess.Software.ToList();
+        }
+        public List<FE_ControlListEntity> GetFEControlList(int appid)
+        {
+           return dbaccess.FE_ControlList.Where(x => x.AppId == appid).ToList();
+        }
+
+
     }
 }

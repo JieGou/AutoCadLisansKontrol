@@ -29,8 +29,9 @@ namespace MaterialDesignDemo.Model
                                                                             "Name",
                                                                             "IsFound",
                                                                             "Output",
-                                                                            "State",
-                                                                            "CheckDate"
+                                                                            "CheckDate",
+                                                                            "App.AppName",
+                                                                            "App.Id"
                                                                             },
                                                                             true,
                                                                             0,

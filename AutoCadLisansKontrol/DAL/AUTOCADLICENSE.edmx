@@ -24,6 +24,7 @@
           <Property Name="IsFound" Type="bit" />
           <Property Name="InstallDate" Type="datetime" />
           <Property Name="UnInstallDate" Type="datetime" />
+          <Property Name="AppId" Type="int" />
         </EntityType>
         <EntityType Name="Computer">
           <Key>
@@ -49,6 +50,16 @@
           <Property Name="WillChecked" Type="bit" />
           <Property Name="AvgExecTime" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="FE_ControlList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Drive" Type="char" MaxLength="2" />
+          <Property Name="Path" Type="text" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="AppId" Type="int" />
+        </EntityType>
         <EntityType Name="Firm">
           <Key>
             <PropertyRef Name="Id" />
@@ -68,6 +79,25 @@
           <Property Name="FirmId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="Software">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="AppName" Type="text" />
+        </EntityType>
+        <Association Name="FK_CheckLicense_Software">
+          <End Role="Software" Type="Self.Software" Multiplicity="0..1" />
+          <End Role="CheckLicense" Type="Self.CheckLicense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckLicense">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Computer_Firm">
           <End Role="Firm" Type="Self.Firm" Multiplicity="1" />
           <End Role="Computer" Type="Self.Computer" Multiplicity="*" />
@@ -77,6 +107,18 @@
             </Principal>
             <Dependent Role="Computer">
               <PropertyRef Name="FirmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FE_ControlList_FE_ControlList">
+          <End Role="Software" Type="Self.Software" Multiplicity="0..1" />
+          <End Role="FE_ControlList" Type="Self.FE_ControlList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FE_ControlList">
+              <PropertyRef Name="AppId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -120,11 +162,21 @@
           <EntitySet Name="CheckLicense" EntityType="Self.CheckLicense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Computer" EntityType="Self.Computer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ControlPoint" EntityType="Self.ControlPoint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FE_ControlList" EntityType="Self.FE_ControlList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Firm" EntityType="Self.Firm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Operation" EntityType="Self.Operation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Software" EntityType="Self.Software" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CheckLicense_Software" Association="Self.FK_CheckLicense_Software">
+            <End Role="Software" EntitySet="Software" />
+            <End Role="CheckLicense" EntitySet="CheckLicense" />
+          </AssociationSet>
           <AssociationSet Name="FK_Computer_Firm" Association="Self.FK_Computer_Firm">
             <End Role="Firm" EntitySet="Firm" />
             <End Role="Computer" EntitySet="Computer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FE_ControlList_FE_ControlList" Association="Self.FK_FE_ControlList_FE_ControlList">
+            <End Role="Software" EntitySet="Software" />
+            <End Role="FE_ControlList" EntitySet="FE_ControlList" />
           </AssociationSet>
           <AssociationSet Name="FK_Operation_Firm" Association="Self.FK_Operation_Firm">
             <End Role="Firm" EntitySet="Firm" />
@@ -177,6 +229,16 @@
           <AssociationSet Name="FK_OperationDetail_Operation" Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation">
             <End Role="OperationEntity" EntitySet="Operation" />
             <End Role="CheckLicense" EntitySet="CheckLicense" />
+          </AssociationSet>
+          <EntitySet Name="FE_ControlList" EntityType="AUTOCADLICENSEModel.FE_ControlListEntity" />
+          <EntitySet Name="Software" EntityType="AUTOCADLICENSEModel.SoftwareEntity" />
+          <AssociationSet Name="FK_FE_ControlList_FE_ControlList" Association="AUTOCADLICENSEModel.FK_FE_ControlList_FE_ControlList">
+            <End Role="Software" EntitySet="Software" />
+            <End Role="FE_ControlList" EntitySet="FE_ControlList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CheckLicense_Software" Association="AUTOCADLICENSEModel.FK_CheckLicense_Software">
+            <End Role="SoftwareEntity" EntitySet="Software" />
+            <End Role="CheckLicenseEntity" EntitySet="CheckLicense" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ComputerEntity">
@@ -271,6 +333,8 @@
           <Property Name="InstallDate" Type="DateTime" Precision="3" />
           <Property Name="UnInstallDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="OperationEntity" />
+          <Property Name="AppId" Type="Int32" />
+          <NavigationProperty Name="Software" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="CheckLicenseEntity" ToRole="SoftwareEntity" />
         </EntityType>
         <Association Name="FK_OperationDetail_Operation">
           <End Type="AUTOCADLICENSEModel.OperationEntity" Role="OperationEntity" Multiplicity="0..1" />
@@ -281,6 +345,50 @@
             </Principal>
             <Dependent Role="CheckLicense">
               <PropertyRef Name="OperationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FE_ControlListEntity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Drive" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AppId" Type="Int32" />
+          <NavigationProperty Name="Software" Relationship="AUTOCADLICENSEModel.FK_FE_ControlList_FE_ControlList" FromRole="FE_ControlList" ToRole="Software" />
+        </EntityType>
+        <EntityType Name="SoftwareEntity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="AppName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FE_ControlList" Relationship="AUTOCADLICENSEModel.FK_FE_ControlList_FE_ControlList" FromRole="Software" ToRole="FE_ControlList" />
+          <NavigationProperty Name="CheckLicense" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="SoftwareEntity" ToRole="CheckLicenseEntity" />
+        </EntityType>
+        <Association Name="FK_FE_ControlList_FE_ControlList">
+          <End Type="AUTOCADLICENSEModel.SoftwareEntity" Role="Software" Multiplicity="0..1" />
+          <End Type="AUTOCADLICENSEModel.FE_ControlListEntity" Role="FE_ControlList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FE_ControlList">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CheckLicense_Software">
+          <End Type="AUTOCADLICENSEModel.SoftwareEntity" Role="SoftwareEntity" Multiplicity="0..1" />
+          <End Type="AUTOCADLICENSEModel.CheckLicenseEntity" Role="CheckLicenseEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SoftwareEntity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckLicenseEntity">
+              <PropertyRef Name="AppId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -344,6 +452,7 @@
           <EntitySetMapping Name="CheckLicense">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicenseEntity">
               <MappingFragment StoreEntitySet="CheckLicense">
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
                 <ScalarProperty Name="UnInstallDate" ColumnName="UnInstallDate" />
                 <ScalarProperty Name="InstallDate" ColumnName="InstallDate" />
                 <ScalarProperty Name="IsFound" ColumnName="IsFound" />
@@ -358,6 +467,25 @@
                 <ScalarProperty Name="ComputerId" ColumnName="ComputerId" />
                 <ScalarProperty Name="Ip" ColumnName="Ip" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FE_ControlList">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.FE_ControlListEntity">
+              <MappingFragment StoreEntitySet="FE_ControlList">
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Drive" ColumnName="Drive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Software">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.SoftwareEntity">
+              <MappingFragment StoreEntitySet="Software">
+                <ScalarProperty Name="AppName" ColumnName="AppName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

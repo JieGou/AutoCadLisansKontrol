@@ -32,6 +32,8 @@ namespace AutoCadLisansKontrol.DAL
         public virtual DbSet<OperationEntity> Operation { get; set; }
         public virtual DbSet<ControlPoint> ControlPoint { get; set; }
         public virtual DbSet<CheckLicenseEntity> CheckLicense { get; set; }
+        public virtual DbSet<FE_ControlListEntity> FE_ControlList { get; set; }
+        public virtual DbSet<SoftwareEntity> Software { get; set; }
     
         public virtual int SP_DELETE_COMPUTER(Nullable<int> fIRMID)
         {

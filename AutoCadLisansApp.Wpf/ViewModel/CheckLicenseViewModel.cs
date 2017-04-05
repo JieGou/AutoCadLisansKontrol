@@ -61,14 +61,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         public string UserName { get { return _userName; } set { _userName = value; OnPropertyChanged("UserName"); } }
         public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
 
-        private ObservableCollection<Software> _softwarelist = new ObservableCollection<Software> {
-            new Software { DisplayName="Autod"},
-            new Software { DisplayName="3d"},
-            new Software { DisplayName="revit"},
-            new Software { DisplayName="ecotect"},
-            new Software { DisplayName="square one"},
-            new Software { DisplayName="Autoc"}
-        };
+        private ObservableCollection<Software> _softwarelist = new ObservableCollection<Software>();
 
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -206,18 +199,23 @@ namespace MaterialDesignColors.WpfExample.Domain
             localcomp.FirmId = FirmId;
             Computers.Add(localcomp);
 
-            var cmpid = client.UpsertComputer(localcomp);
 
-            checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, ApplicationEvents = new List<ApplicationEvent>(), FileExplorerModel = new FileExplorerModel(), RegistryAutoDesk = new List<Software>(), Win32_products = new List<Win32_Product>() });
-
-
-            CheckLicenses = checklicense;
-            TotalComputer = CheckLicenses.Count;
 
             System.Action DoInBackground = new System.Action(() =>
         {
             try
             {
+                var cmpid = client.UpsertComputer(localcomp);
+
+
+                foreach (var soft in SoftwareList)
+                {
+                    checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, ApplicationEvents = new List<ApplicationEvent>(), FileExplorerModel = new FileExplorerModel(), RegistryAutoDesk = new List<RegistrySoftware>(), Win32_products = new List<Win32_Product>(), App = soft});
+                }
+
+                CheckLicenses = checklicense;
+                TotalComputer = CheckLicenses.Count;
+
                 var counter = CheckLicenses.Count;
                 foreach (var chc in CheckLicenses)
                 {
@@ -225,7 +223,8 @@ namespace MaterialDesignColors.WpfExample.Domain
                     var tempchc = new CheckLicenseModel();
                     System.Action ChildDoInBackground = new System.Action(() =>
                        {
-                           tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
+                           tempchc = LicenseDetection.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
+
                        });
                     System.Action ChildDoOnUiThread = new System.Action(() =>
                     {
@@ -261,7 +260,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 }
                 while (counter != 0)
                 {
-                   
+
                 }
                 if (AutoSave)
                     SaveCommandsync();
@@ -313,37 +312,37 @@ namespace MaterialDesignColors.WpfExample.Domain
             _executedComputer = 0;
 
 
-            Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.Computer>(client.ListComputer(FirmId).ToList());
-            var checklicense = new MTObservableCollection<CheckLicenseModel>();
 
-
-            if (Computers.Count == 0 && IsRemote == true)
-            {
-                EndNotification("Firm of Operation does not contain any computer!");
-                return;
-            }
-
-
-
-            foreach (var item in Computers)
-            {
-                checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId });
-            }
-
-
-            CheckLicenses = checklicense;
-            TotalComputer = CheckLicenses.Count;
             System.Action DoInBackground = new System.Action(() =>
             {
                 try
                 {
+                    Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.Computer>(client.ListComputer(FirmId).ToList());
+                    var checklicense = new MTObservableCollection<CheckLicenseModel>();
+
+
+                    if (Computers.Count == 0 && IsRemote == true)
+                    {
+                        EndNotification("Firm of Operation does not contain any computer!");
+                        return;
+                    }
+
+                    foreach (var item in Computers)
+                    {
+                        foreach (var sft in SoftwareList)
+                        {
+                            checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId, App = sft });
+                        }
+                    }
+
+                    CheckLicenses = checklicense;
+                    TotalComputer = CheckLicenses.Count;
                     foreach (var chc in CheckLicenses)
                     {
                         var tempchc = new CheckLicenseModel();
 
 
-                        tempchc = LicenseDetection.ExecuteWMI(SoftwareList.ToArray(), chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
-
+                        tempchc = LicenseDetection.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
 
 
                         chc.Output = tempchc.Output;
@@ -405,8 +404,9 @@ namespace MaterialDesignColors.WpfExample.Domain
                 var checklicense = new ObservableCollection<CheckLicenseModel>();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
+                    _softwarelist = new ObservableCollection<Software>(client.GetAllApplication().ToList());
                     CheckList = new ObservableCollection<ControlPoint>(client.GetControlPoint().ToList());
-                    checklicense = new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x => new CheckLicenseModel { CheckDate = x.CheckDate, ComputerId = x.ComputerId, FirmId = x.FirmId, Id = x.Id, Ip = x.Ip, Name = x.Name, OperationId = x.OperationId, Output = x.Output, UpdateDate = x.UpdateDate, State = x.State, Success = (x.State == true ? true : false) }));
+                    //checklicense = new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x => new CheckLicenseModel { CheckDate = x.CheckDate, ComputerId = x.ComputerId, FirmId = x.FirmId, Id = x.Id, Ip = x.Ip, Name = x.Name, OperationId = x.OperationId, Output = x.Output, UpdateDate = x.UpdateDate, State = x.State, Success = (x.State == true ? true : false) }));
                 });
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>

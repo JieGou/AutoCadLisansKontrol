@@ -29,7 +29,9 @@ namespace AutoCadLisansKontrol.DAL
         public Nullable<bool> IsFound { get; set; }
         public Nullable<System.DateTime> InstallDate { get; set; }
         public Nullable<System.DateTime> UnInstallDate { get; set; }
+        public Nullable<int> AppId { get; set; }
     
         public virtual OperationEntity Operation { get; set; }
+        public virtual SoftwareEntity Software { get; set; }
     }
 }

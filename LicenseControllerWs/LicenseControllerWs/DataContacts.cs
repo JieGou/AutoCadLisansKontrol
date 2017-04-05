@@ -101,5 +101,22 @@ namespace LicenseControllerWs
 
         [DataMember]
         public Nullable<bool> IsFound { get; set; }
+
+        [DataMember]
+        public Nullable<int> AppId { get; set; }    
+    }
+    public class Software {
+        public int Id { get; set; }
+        public string AppName { get; set; }
+
+    }
+
+    public class FE_ControlList {
+
+        public int Id { get; set; }
+        public string Drive { get; set; }
+        public string Path { get; set; }
+        public string Type { get; set; }
+        public Nullable<int> AppId { get; set; }
     }
 }

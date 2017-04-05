@@ -518,10 +518,16 @@
     <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.ControlPoint.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.FE_ControlList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.Firm.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.Operation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.Software.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\autocad.masterkey.ws\Service1.xsd">

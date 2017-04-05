@@ -1,4 +1,5 @@
 ﻿using baileySoft.Wmi.Registry;
+using LicenseController.autocad.masterkey.ws;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -135,7 +136,7 @@ namespace MaterialDesignDemo.Controller
         }
 
 
-        public List<ApplicationEvent> GetApplicationEvent(Software[] software)
+        public List<ApplicationEvent> GetApplicationEvent(Software software)
         {
             List<ApplicationEvent> list = new List<ApplicationEvent>();
 
@@ -150,8 +151,8 @@ namespace MaterialDesignDemo.Controller
                     ApplicationEvent item = new ApplicationEvent();
 
                     item.Message = log["Message"] == null ? null : log["Message"].ToString();
-                    var param = software.Where(x => item.Message.Contains(x.DisplayName)).FirstOrDefault();
-                    if (param == null) continue;
+                    var param = item.Message.Contains(software.AppName);
+                    if (param == false) continue;
 
                     item.ComputerName = log["ComputerName"] == null ? null : log["ComputerName"].ToString();
                     item.Type = log["Type"] == null ? null : log["Type"].ToString();
@@ -223,7 +224,7 @@ namespace MaterialDesignDemo.Controller
             }
             return scope;
         }
-        public List<Win32_Product> GetProductWithWMI(Software[] softwares)
+        public List<Win32_Product> GetProductWithWMI(Software softwares)
         {
             List<Win32_Product> products = new List<Win32_Product>();
 
@@ -234,7 +235,7 @@ namespace MaterialDesignDemo.Controller
             {
                 var WMIproducts = ProcessSearcher.Get();
 
-                
+
                 foreach (ManagementObject mo in WMIproducts)
                 {
                     Win32_Product product = new Win32_Product();
@@ -242,8 +243,8 @@ namespace MaterialDesignDemo.Controller
                     product.Name = mo["Name"] == null ? null : mo["Name"].ToString();
                     if (product.Name == null) continue;
 
-                    var param = softwares.Where(x => product.Name.Contains(x.DisplayName)).FirstOrDefault();
-                    if (param == null) continue;
+                    var param = product.Name.Contains(softwares.AppName);
+                    if (param == false) continue;
 
                     //product.AssignmentType = mo["AssignmentType"].ToString();
                     //product.Caption = mo["Caption"] == null ? null : mo["Caption"].ToString();
@@ -279,18 +280,16 @@ namespace MaterialDesignDemo.Controller
             return products;
         }
 
-        public List<Software> ReadRegisteryusingWMI(Software[] software)
+        public List<RegistrySoftware> ReadRegisteryusingWMI(Software software)
         {
 
-            var list32 = ReadUnInstallRegistryusingWMICore(software, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
-            var list64 = ReadUnInstallRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
-            var registryautodeskautodesk = ReadRegistrySubkeys(software, @"SOFTWARE\Autodesk", "32");
-            var registryautodeskautodesk64 = ReadRegistrySubkeys(software, @"SOFTWARE\Wow6432Node\Autodesk", "64");
-            var registryflexlmlicensemanager = ReadRegistrySubkeys(software, @"SOFTWARE\flexlm license manager\", "32");
-            var registryflexlmlicensemanager64 = ReadRegistrySubkeys(software, @"SOFTWARE\Wow6432Node\flexlm license manager\", "64");
+            var uninstallregistery32 = ReadUnInstallRegistryusingWMICore(software, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+            var uninstallregistery64 = ReadUnInstallRegistryusingWMICore(software, @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+            var registrysoftware32 = ReadRegistrySubkeys(@"SOFTWARE\" + software.AppName, "32");
+            var registrysoftware64 = ReadRegistrySubkeys(@"SOFTWARE\Wow6432Node\" + software.AppName, "64");
 
 
-            var uniqueList = list32.Concat(list64).Concat(registryautodeskautodesk).Concat(registryautodeskautodesk64).Concat(registryflexlmlicensemanager).Concat(registryflexlmlicensemanager64)
+            var uniqueList = uninstallregistery32.Concat(uninstallregistery64).Concat(registrysoftware32).Concat(registrysoftware64)
                                    .Where(x => x.DisplayName != null)
                                    .GroupBy(item => item.DisplayName)
                                    .Select(group => group.First())
@@ -298,9 +297,9 @@ namespace MaterialDesignDemo.Controller
 
             return uniqueList;
         }
-        private List<Software> ReadUnInstallRegistryusingWMICore(Software[] software, string softwareRegLoc)
+        private List<RegistrySoftware> ReadUnInstallRegistryusingWMICore(Software software, string softwareRegLoc)
         {
-            List<Software> programs = new List<Software>();
+            List<RegistrySoftware> programs = new List<RegistrySoftware>();
 
             ManagementScope scope = Connect();
 
@@ -317,7 +316,7 @@ namespace MaterialDesignDemo.Controller
 
             foreach (string subKeyName in programGuids)
             {
-                var item = new Software();
+                var item = new RegistrySoftware();
                 inParams = registry.GetMethodParameters("GetStringValue");
                 inParams["sSubKeyName"] = softwareRegLoc + @"\" + subKeyName;
 
@@ -327,8 +326,8 @@ namespace MaterialDesignDemo.Controller
                 {
                     item.DisplayName = outParams.Properties["sValue"].Value.ToString();
 
-                    var param = software.Where(x => item.DisplayName.Contains(x.DisplayName)).FirstOrDefault();
-                    if (param == null) continue;
+                    var param = item.DisplayName.Contains(software.AppName);
+                    if (param == false) continue;
                 }
                 else
                 {
@@ -461,10 +460,10 @@ namespace MaterialDesignDemo.Controller
 
             return programs;
         }
-        private List<Software> ReadRegistrySubkeys(Software[] software, string softwareRegLoc, string provider)
+        private List<RegistrySoftware> ReadRegistrySubkeys(string softwareRegLoc, string provider)
         {
 
-            List<Software> list = new List<Software>();
+            List<RegistrySoftware> list = new List<RegistrySoftware>();
             RegistryObject SysRegistry;
 
             if (IsRemote)
@@ -479,7 +478,7 @@ namespace MaterialDesignDemo.Controller
                 foreach (string subKey in SysRegistry.EnumerateKeys(
                             baileySoft.Wmi.Registry.baseKey.HKEY_LOCAL_MACHINE, registryKey))
                 {
-                    list.Add(new Software { DisplayName = softwareRegLoc + "\\" + subKey });
+                    list.Add(new RegistrySoftware { DisplayName = softwareRegLoc + "\\" + subKey });
                     //var sublist = ReadRegistrySubkeys(software, softwareRegLoc + "\\" + subKey, remoteComputerName, username, password);
                     //list = list.Concat(sublist).ToList();
                 }
@@ -491,80 +490,8 @@ namespace MaterialDesignDemo.Controller
             return list;
         }
 
-        public FileExplorerModel DirectoryChecklist()
+        public FileExplorerModel DirectoryChecklist(List<FE_ControlList> directories)
         {
-
-            List<MyDirectory> directories = new List<MyDirectory>();
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autode~1\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autode~1\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autoca~1\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autoca~1\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\*.err", Type = "dir" });//error 
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.err", Type = "file" });//error
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.err", Type = "file" });//erorr
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\Users\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.err", Type = "file" });//erorr
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\programdata\\\\autodesk\\\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\programdata\\\\autodesk\\\\*.html", Type = "file" });//html
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autoca~1\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autoca~1\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autode~1\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autode~1\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autodesk\\\\revit\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autodesk\\\\revit\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\revit\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\revit\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autodesk\\\\AutoCA~1\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autodesk\\\\AutoCA~1\\\\*.lic", Type = "file" });//lic
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullan~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullan~1\\\\applic~1\\\\autodesk\\\\", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\*.html", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kulla~1\\\\applic~1\\\\autodesk\\\\*.err", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\*.html", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\docume~1\\\\alluse~1\\\\applic~1\\\\autodesk\\\\*.err", Type = "dir" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.err", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\roaming\\\\autodesk\\\\*.err", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.err", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\kullanıcılar\\\\Admini~1\\\\appdata\\\\local\\\\autodesk\\\\*.err", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\programdata\\\\autodesk\\\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\programdata\\\\autodesk\\\\*.html", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\\autoca~1\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autoca~1\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\\autode~1\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autode~1\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autodesk\\\\revit\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autodesk\\\\revit\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\revit\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\revit\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\progra~1\\\\autodesk\\\\AutoCA~1\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "d:", Path = "\\\\progra~1\\\\autodesk\\\\AutoCA~1\\\\*.lic", Type = "file" });
-            directories.Add(new MyDirectory { Drive = "c:", Path = "\\\\NBHIKMETY01\\\\", Type = "dir" });
-
 
             FileExplorerModel model = new FileExplorerModel();
 
@@ -621,7 +548,7 @@ namespace MaterialDesignDemo.Controller
                 dir.Hidden = WmiObject["Hidden"] == null ? null : WmiObject["Hidden"].ToString();
                 dir.InstallDate = WmiObject["InstallDate"] == null ? null : WmiObject["InstallDate"].ToString();
                 dir.InUseCount = WmiObject["InUseCount"] == null ? null : WmiObject["InUseCount"].ToString();
-                dir.LastAccessed = WmiObject["LastAccessed"] == null ? null : WmiObject["LastAccessed"].ToString();
+                dir.LastAccessed = WmiObject["LastAccessed"].ToString() == "" ? DateTime.MinValue : DateTime.ParseExact(WmiObject["LastAccessed"].ToString().Substring(0, 8), "yyyyMMdd", CultureInfo.InvariantCulture);
                 dir.LastModified = WmiObject["LastModified"] == null ? null : WmiObject["LastModified"].ToString();
                 dir.files = GetFiles(dir.Path.Replace("\\", "\\\\"), dir.Drive);
                 dirs.Add(dir);
@@ -682,7 +609,7 @@ namespace MaterialDesignDemo.Controller
             return files;
         }
     }
-    public class Software
+    public class RegistrySoftware
     {
         private DateTime _installdate = DateTime.MinValue;
         public string Comments { get; set; }
@@ -777,7 +704,7 @@ namespace MaterialDesignDemo.Controller
         public string FSName { get; set; }
         public string Hidden { get; set; }
         public string InUseCount { get; set; }
-        public string LastAccessed { get; set; }
+        public DateTime LastAccessed { get; set; }
         public string LastModified { get; set; }
         public string Path { get; set; }
         public string Readable { get; set; }

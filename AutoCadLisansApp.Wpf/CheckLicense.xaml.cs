@@ -1,4 +1,5 @@
-﻿using MaterialDesignColors.WpfExample.Domain;
+﻿using LicenseController.autocad.masterkey.ws;
+using MaterialDesignColors.WpfExample.Domain;
 using MaterialDesignDemo.Controller;
 using MaterialDesignDemo.Domain;
 using MaterialDesignDemo.Model;
@@ -66,7 +67,7 @@ namespace MaterialDesignDemo
 
 
             if (!string.IsNullOrWhiteSpace(SoftwareBox.Text))
-                checklicensemodel.SoftwareList.Add(new Software() { DisplayName = SoftwareBox.Text.Trim() });
+                checklicensemodel.SoftwareList.Add(new Software() { AppName = SoftwareBox.Text.Trim() });
 
             SoftwareBox.Text = "";
         }

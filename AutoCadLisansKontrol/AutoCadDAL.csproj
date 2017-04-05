@@ -95,6 +95,9 @@
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\DataAccess.cs" />
+    <Compile Include="DAL\FE_ControlListEntity.cs">
+      <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\FirmEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
@@ -108,6 +111,9 @@
     <Compile Include="DAL\Log\Response.cs" />
     <Compile Include="DAL\MssqlDbAccess.cs" />
     <Compile Include="DAL\OperationEntity.cs">
+      <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SoftwareEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />

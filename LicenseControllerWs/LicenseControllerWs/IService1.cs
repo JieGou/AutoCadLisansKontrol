@@ -63,6 +63,12 @@ namespace LicenseControllerWs
         void DeleteAllLicenseBaseOperationid(int oprId);
         [OperationContract]
         List<ControlPoint> GetControlPoint();
+        [OperationContract]
+        List<Software> GetAllApplication();
+        [OperationContract]
+        List<FE_ControlList> GetFEControlList(int appid);
+        [OperationContract]
+        Software GetApplication(Nullable<int> id);
         // TODO: Add your service operations here
     }
 

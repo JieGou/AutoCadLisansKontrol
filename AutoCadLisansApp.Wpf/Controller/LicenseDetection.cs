@@ -237,9 +237,10 @@ namespace AutoCadLisansKontrol.Controller
             return chc;
         }
 
-        public static CheckLicenseModel ExecuteWMI(Software[] software, CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPoint> checklist, bool isRemote, out List<LogData> logs)
+        public static CheckLicenseModel ExecuteWMIForOneApp( CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPoint> checklist, bool isRemote, out List<LogData> logs)
         {
             var levelid = 0;
+            var software = chc.App; ;
             var installdate = new DateTime();
             var guidId = Guid.NewGuid().ToString();
             logs = new List<LogData>();
@@ -248,7 +249,7 @@ namespace AutoCadLisansKontrol.Controller
             try
             {
                 logs.Add(new LogData { AppName = Settings.Default.AppName, Id = guidId, StartTime = DateTime.Now, Method = "ExecuteWMI", LogDataType = LogDataType.InitiliazeProcess });
-                logs.Add(new LogData { ReqXml = GenericDataContractSerializer<Software[]>.SerializeObject(software), Id = guidId, LevelId = levelid, Method = "ExecuteWMI", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
+                logs.Add(new LogData { ReqXml = GenericDataContractSerializer<Software>.SerializeObject(software), Id = guidId, LevelId = levelid, Method = "ExecuteWMI", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
                 process.Connect();
 
                 chc.IsFound = false;
@@ -256,101 +257,106 @@ namespace AutoCadLisansKontrol.Controller
                 chc.IsFound = false;
                 chc.Success = false;
                 var softwares = "";
-
-                foreach (var item in checklist)
-                {
-                    if (item.Name == "Add or Remove Programs" && item.WillChecked == true)
+               
+                    foreach (var item in checklist)
                     {
-                        var addremove = "";
-                        levelid++;
-                        logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Add or Remove Programs", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
-
-                        var win32product = process.GetProductWithWMI(software);
-                        chc.Win32_products = win32product;
-                        if (win32product.Count > 0)
+                        if (item.Name == "Add or Remove Programs" && item.WillChecked == true)
                         {
-                            addremove += "ADD OR REMOVE PROGRAMS" + "\n\r" + "\n\r";
+                            var addremove = "";
+                            levelid++;
+                            logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Add or Remove Programs", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
 
-                            foreach (var prd in win32product)
+                            var win32product = process.GetProductWithWMI(software);
+                            chc.Win32_products = win32product;
+                            if (win32product.Count > 0)
                             {
-                                addremove += prd.Name + " (Version :" + prd.Version + " InstallData:" + prd.InstallDate + ")" + "\n\r";
+                                addremove += "ADD OR REMOVE PROGRAMS" + "\n\r" + "\n\r";
+
+                                foreach (var prd in win32product)
+                                {
+                                    addremove += prd.Name + " InstallDate : " + prd.InstallDate + ")" + "\n\r";
+                                }
+                                chc.Installed = true;
+                                chc.IsFound = true;
                             }
-                            chc.Installed = true;
-                            chc.IsFound = true;
+                            softwares += addremove;
+                            logs.Add(new LogData { Id = guidId, ResXml = addremove, State = LogDataState.Success, LevelId = levelid, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
+
                         }
-                        softwares += addremove;
-                        logs.Add(new LogData { Id = guidId, ResXml = addremove, State = LogDataState.Success, LevelId = levelid, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
-
-                    }
-                    if (item.Name == "Registry Key" && item.WillChecked == true)
-                    {
-                        var registerys = "";
-                        levelid++;
-                        logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Registry Key", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
-
-                        var registeryproduct = process.ReadRegisteryusingWMI(software);
-                        registerys += "\n\r" + "REGISTERY KEY" + "\n\r" + "\n\r";
-                        chc.RegistryAutoDesk = registeryproduct;
-                        if (registeryproduct.Count > 0)
+                        if (item.Name == "Registry Key" && item.WillChecked == true)
                         {
-                            foreach (var reg in registeryproduct)
+                            var registerys = "";
+                            levelid++;
+                            logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Registry Key", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
+
+                            var registeryproduct = process.ReadRegisteryusingWMI(software);
+                            registerys += "\n\r" + "REGISTERY KEY" + "\n\r" + "\n\r";
+                            chc.RegistryAutoDesk = registeryproduct;
+                            if (registeryproduct.Count > 0)
                             {
-                                registerys += reg.DisplayName + "( Version : " + reg.DisplayVersion + " InstallDate" + reg.InstallDate + ")" + "\n\r";
+                                foreach (var reg in registeryproduct)
+                                {
+                                    registerys += reg.DisplayName + " InstallDate" + reg.InstallDate + ")" + "\n\r";
+                                }
+                                chc.Installed = true;
+                                chc.IsFound = true;
                             }
-                            chc.Installed = true;
-                            chc.IsFound = true;
+                            softwares += registerys;
+                            logs.Add(new LogData { Id = guidId, ResXml = registerys, State = LogDataState.Success, LevelId = levelid, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
+                            levelid++;
                         }
-                        softwares += registerys;
-                        logs.Add(new LogData { Id = guidId, ResXml = registerys, State = LogDataState.Success, LevelId = levelid, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
-                        levelid++;
-                    }
-                    if (item.Name == "Application Events" && item.WillChecked == true)
-                    {
-                        levelid++;
-                        var appevent = "";
-                        logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Application Events", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
-                        var events = process.GetApplicationEvent(software);
-                        appevent += "APPLICATION EVENTS" + "\n\r" + "\n\r";
-                        chc.ApplicationEvents = events;
-                        if (events.Count > 0)
+                        if (item.Name == "Application Events" && item.WillChecked == true)
                         {
-                            foreach (var evt in events)
+                            levelid++;
+                            var appevent = "";
+                            logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Application Events", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
+                            var events = process.GetApplicationEvent(software);
+                            appevent += "APPLICATION EVENTS" + "\n\r" + "\n\r";
+                            chc.ApplicationEvents = events;
+                            if (events.Count > 0)
                             {
-                                appevent += evt.Message + "(" + evt.TimeWritten + ")" + "\n\r";
+                                foreach (var evt in events)
+                                {
+                                    appevent += evt.Message + "(" + evt.TimeWritten + ")" + "\n\r";
+                                }
+                                if (chc.Installed == false)
+                                    chc.Uninstalled = true;
+                                chc.IsFound = true;
                             }
-                            if (chc.Installed == false)
-                                chc.Uninstalled = true;
-                            chc.IsFound = true;
+                            softwares += appevent;
+                            logs.Add(new LogData { Id = guidId, ResXml = appevent, State = LogDataState.Success, LevelId = levelid, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
+
                         }
-                        softwares += appevent;
-                        logs.Add(new LogData { Id = guidId, ResXml = appevent, State = LogDataState.Success, LevelId = levelid, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
-
-                    }
-                    if (item.Name == "File Explorer" && item.WillChecked == true)
-                    {
-                        var fileexplorer = "";
-                        levelid++;
-                        logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "File Explorer", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
-                        var model = process.DirectoryChecklist();
-                        fileexplorer += "FILE EXPLORER" + "\n\r" + "\n\r";
-
-                        if (model.directories.Count > 0 || model.files.Count > 0)
+                        if (item.Name == "File Explorer" && item.WillChecked == true)
                         {
-                            foreach (var dir in model.directories)
-                            {
-                                fileexplorer += dir.Name + "(" + dir.InstallDate + ")" + "\n\r";
-                            }
-                            foreach (var dir in model.files)
-                            {
-                                fileexplorer += dir.Name + "(" + dir.InstallDate + ")" + "\n\r";
-                            }
+                            var fileexplorer = "";
+                            levelid++;
+                            logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "File Explorer", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
+                            fileexplorer += "FILE EXPLORER" + "\n\r" + "\n\r";
+                         
+                                var model = process.DirectoryChecklist(client.GetFEControlList(software.Id).ToList());
 
-                            chc.IsFound = true;
+
+                                if (model.directories.Count > 0 || model.files.Count > 0)
+                                {
+                                    foreach (var dir in model.directories)
+                                    {
+                                        fileexplorer += dir.Name + "(" + dir.InstallDate + ")" + "\n\r";
+                                    }
+                                    foreach (var dir in model.files)
+                                    {
+                                        fileexplorer += dir.Name + "(" + dir.InstallDate + ")" + "\n\r";
+                                    }
+                                    chc.FileExplorerModel = model;
+                                    chc.IsFound = true;
+                                }
+                                
+                            softwares += fileexplorer;
+                            logs.Add(new LogData { Id = guidId, ResXml = fileexplorer, State = LogDataState.Success, LevelId = levelid, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
                         }
-                        softwares += fileexplorer;
-                        logs.Add(new LogData { Id = guidId, ResXml = fileexplorer, State = LogDataState.Success, LevelId = levelid, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
                     }
-                }
+                
+
                 if (chc.IsFound == true)
                 {
                     chc.Output = softwares;
@@ -359,28 +365,29 @@ namespace AutoCadLisansKontrol.Controller
 
                     if (chc.Win32_products.Count > 0)
                     {
-                        chc.InstallDate = DateTime.ParseExact(chc.Win32_products.GroupBy(s => s.ProductID).Select(s => s.OrderByDescending(x => x.InstallDate).FirstOrDefault().InstallDate).ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
+                        chc.InstallDate = chc.Win32_products.GroupBy(s => s.ProductID).Select(s => s.OrderByDescending(x => x.InstallDate).FirstOrDefault().InstallDate).First();
                         chc.Installed = true;
                         chc.Uninstalled = false;
+                        chc.Description = "";
                         return chc;
                     }
                     if (chc.RegistryAutoDesk.Count > 0)
                     {
-                        chc.InstallDate = DateTime.ParseExact(chc.RegistryAutoDesk.Where(x => x.InstallDate != null).GroupBy(s => s.DisplayName).Select(s => s.OrderByDescending(x => x.InstallDate).FirstOrDefault().InstallDate).ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
+                        chc.InstallDate = chc.RegistryAutoDesk.Where(x => x.InstallDate != null).GroupBy(s => s.DisplayName).Select(s => s.OrderByDescending(x => x.InstallDate).FirstOrDefault().InstallDate).First();
                         chc.Installed = true;
                         chc.Uninstalled = false;
                         return chc;
                     }
                     if (chc.ApplicationEvents.Count > 0)
                     {
-                        chc.UnInstallDate = DateTime.ParseExact(chc.ApplicationEvents.GroupBy(s => s.ComputerName).Select(s => s.OrderByDescending(x => x.TimeWritten).FirstOrDefault().TimeWritten).ToString(), "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                        chc.UnInstallDate = chc.ApplicationEvents.GroupBy(s => s.ComputerName).Select(s => s.OrderByDescending(x => x.TimeWritten).FirstOrDefault().TimeWritten).First();
                         chc.Installed = false;
                         chc.Uninstalled = true;
                         return chc;
                     }
                     if (chc.FileExplorerModel.directories.Count > 0)
                     {
-                        chc.UnInstallDate = DateTime.ParseExact(chc.FileExplorerModel.directories.GroupBy(s => s.Name).Select(s => s.OrderByDescending(x => x.LastAccessed.Substring(0, 8)).FirstOrDefault().LastAccessed).ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
+                        chc.UnInstallDate = chc.FileExplorerModel.directories.GroupBy(s => s.Name).Select(s => s.OrderByDescending(x => x.LastAccessed).FirstOrDefault().LastAccessed).First();
                         chc.Installed = false;
                         chc.Uninstalled = true;
                         return chc;

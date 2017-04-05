@@ -95,7 +95,7 @@ namespace LicenseControllerWs
 
         public void UpsertCheckLicense(CheckLicense chck)
         {
-            dbaccess.UpsertCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound });
+            dbaccess.UpsertCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound, AppId = chck.AppId });
         }
         public void LogToDb(List<LogData> logs)
         {
@@ -103,16 +103,16 @@ namespace LicenseControllerWs
         }
         public List<CheckLicense> ListCheckLicense(int id)
         {
-            return dbaccess.ListCheckLicense(id).ConvertAll(chck => new CheckLicense { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound });
+            return dbaccess.ListCheckLicense(id).ConvertAll(chck => new CheckLicense { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound, AppId = chck.AppId });
         }
         public void DeleteCheckLicense(CheckLicense chck)
         {
-            dbaccess.DeleteCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound });
+            dbaccess.DeleteCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound, AppId = chck.AppId });
         }
 
         public void UpdateCheckLicense(CheckLicense chck)
         {
-            dbaccess.UpdateCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound });
+            dbaccess.UpdateCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.Name, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound, AppId = chck.AppId });
         }
 
         public void DeleteAllComputerBaseFormid(int firmId)
@@ -127,6 +127,24 @@ namespace LicenseControllerWs
         public List<ControlPoint> GetControlPoint()
         {
             return dbaccess.GetControlPoint();
+        }
+
+        public List<Software> GetAllApplication()
+        {
+            var apps = dbaccess.GetSoftware().ConvertAll(x => new Software { AppName = x.AppName, Id = x.Id });
+
+            return apps;
+        }
+        public Software GetApplication(Nullable<int> id)
+        {
+            var apps = dbaccess.GetSoftware().Where(x => x.Id == id).Select(x => new Software { AppName = x.AppName, Id = x.Id }).FirstOrDefault();
+
+            return apps;
+        }
+        public List<FE_ControlList> GetFEControlList(int appid)
+        {
+
+            return dbaccess.GetFEControlList(appid).ConvertAll(x => new FE_ControlList { Id = x.Id, AppId = x.AppId, Drive = x.Drive, Path = x.Path, Type = x.Type });
         }
     }
 }
