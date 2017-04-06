@@ -116,6 +116,9 @@
     <Compile Include="DAL\SoftwareEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Users.cs">
+      <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

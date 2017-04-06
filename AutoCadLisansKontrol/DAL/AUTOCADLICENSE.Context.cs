@@ -27,13 +27,14 @@ namespace AutoCadLisansKontrol.DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ComputerEntity> Computer { get; set; }
         public virtual DbSet<FirmEntity> Firm { get; set; }
         public virtual DbSet<OperationEntity> Operation { get; set; }
         public virtual DbSet<ControlPoint> ControlPoint { get; set; }
-        public virtual DbSet<CheckLicenseEntity> CheckLicense { get; set; }
         public virtual DbSet<FE_ControlListEntity> FE_ControlList { get; set; }
         public virtual DbSet<SoftwareEntity> Software { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<CheckLicenseEntity> CheckLicense { get; set; }
+        public virtual DbSet<ComputerEntity> Computer { get; set; }
     
         public virtual int SP_DELETE_COMPUTER(Nullable<int> fIRMID)
         {

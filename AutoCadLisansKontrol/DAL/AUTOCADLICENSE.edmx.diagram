@@ -5,18 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a0c0176e3b36408aa44f82073872c770" Name="Diagram1">
-        <EntityTypeShape EntityType="AUTOCADLICENSEModel.ComputerEntity" Width="1.5" PointX="3" PointY="1.25" />
         <EntityTypeShape EntityType="AUTOCADLICENSEModel.FirmEntity" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="AUTOCADLICENSEModel.OperationEntity" Width="1.5" PointX="3" PointY="6" />
-        <AssociationConnector Association="AUTOCADLICENSEModel.FK_Computer_Firm" />
         <AssociationConnector Association="AUTOCADLICENSEModel.FK_Operation_Firm" />
         <EntityTypeShape EntityType="AUTOCADLICENSEModel.ControlPoint" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="AUTOCADLICENSEModel.CheckLicenseEntity" Width="1.5" PointX="5.25" PointY="5" />
-        <AssociationConnector Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation" />
         <EntityTypeShape EntityType="AUTOCADLICENSEModel.FE_ControlListEntity" Width="1.5" PointX="9.625" PointY="0.875" />
         <EntityTypeShape EntityType="AUTOCADLICENSEModel.SoftwareEntity" Width="1.5" PointX="7.375" PointY="1.25" />
         <AssociationConnector Association="AUTOCADLICENSEModel.FK_FE_ControlList_FE_ControlList" />
+        <EntityTypeShape EntityType="AUTOCADLICENSEModel.Users" Width="1.5" PointX="7.375" PointY="4.75" />
+        <EntityTypeShape EntityType="AUTOCADLICENSEModel.CheckLicenseEntity" Width="1.5" PointX="9.625" PointY="4.375" />
+        <EntityTypeShape EntityType="AUTOCADLICENSEModel.ComputerEntity" Width="1.5" PointX="3" PointY="1.5" />
         <AssociationConnector Association="AUTOCADLICENSEModel.FK_CheckLicense_Software" />
+        <AssociationConnector Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation" />
+        <AssociationConnector Association="AUTOCADLICENSEModel.FK_Computer_Firm" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

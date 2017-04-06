@@ -1285,6 +1285,12 @@ namespace LicenseController.autocad.masterkey.ws {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="autocad.masterkey.ws.IService1")]
     public interface IService1 {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Login", ReplyAction="http://tempuri.org/IService1/LoginResponse")]
+        bool Login(string username, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Login", ReplyAction="http://tempuri.org/IService1/LoginResponse")]
+        System.Threading.Tasks.Task<bool> LoginAsync(string username, string password);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertFirm", ReplyAction="http://tempuri.org/IService1/UpsertFirmResponse")]
         void UpsertFirm(LicenseController.autocad.masterkey.ws.Firm firm);
         
@@ -1473,6 +1479,14 @@ namespace LicenseController.autocad.masterkey.ws {
         
         public Service1Client(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public bool Login(string username, string password) {
+            return base.Channel.Login(username, password);
+        }
+        
+        public System.Threading.Tasks.Task<bool> LoginAsync(string username, string password) {
+            return base.Channel.LoginAsync(username, password);
         }
         
         public void UpsertFirm(LicenseController.autocad.masterkey.ws.Firm firm) {

@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service1" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://31.7.35.42/checklicense/Service1.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://31.7.35.42/checklicense/Service1.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://31.7.35.42/checklicense/Service1.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs" />
+      <xsd:import schemaLocation="http://31.7.35.42/checklicense/Service1.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CheckLicense.Log" />
+      <xsd:import schemaLocation="http://31.7.35.42/checklicense/Service1.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/AutoCadLisansKontrol.DAL" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IService1_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="IService1_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpsertFirm_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpsertFirm" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpsertFirm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpsertFirmResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetFirm_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFirm" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetFirm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFirmResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListFirm_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListFirm" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListFirm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListFirmResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteFirm_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFirm" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteFirm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFirmResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateFirm_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFirm" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateFirm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFirmResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpsertComputer_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpsertComputer" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpsertComputer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpsertComputerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOperation" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListAllComputer_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllComputer" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListAllComputer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllComputerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListComputer_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListComputer" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListComputer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListComputerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteComputer_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteComputer" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteComputer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteComputerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateComputer_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateComputer" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateComputer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateComputerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpsertOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpsertOperation" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpsertOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpsertOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListAllOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllOperation" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListAllOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListAllOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListOperation" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteOperation" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateOperation" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpsertCheckLicense_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpsertCheckLicense" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpsertCheckLicense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpsertCheckLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_LogToDb_InputMessage">
+    <wsdl:part name="parameters" element="tns:LogToDb" />
+  </wsdl:message>
+  <wsdl:message name="IService1_LogToDb_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LogToDbResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListCheckLicense_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListCheckLicense" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ListCheckLicense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListCheckLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteCheckLicense_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCheckLicense" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteCheckLicense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCheckLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateCheckLicense_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCheckLicense" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateCheckLicense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCheckLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteAllComputerBaseFormid_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAllComputerBaseFormid" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteAllComputerBaseFormid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAllComputerBaseFormidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteAllLicenseBaseOperationid_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAllLicenseBaseOperationid" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteAllLicenseBaseOperationid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAllLicenseBaseOperationidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetControlPoint_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetControlPoint" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetControlPoint_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetControlPointResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetAllApplication_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllApplication" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetAllApplication_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllApplicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetFEControlList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFEControlList" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetFEControlList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFEControlListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetApplication_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplication" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetApplication_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IService1">
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/Login" message="tns:IService1_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/LoginResponse" message="tns:IService1_Login_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpsertFirm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpsertFirm" message="tns:IService1_UpsertFirm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpsertFirmResponse" message="tns:IService1_UpsertFirm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFirm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetFirm" message="tns:IService1_GetFirm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetFirmResponse" message="tns:IService1_GetFirm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListFirm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ListFirm" message="tns:IService1_ListFirm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ListFirmResponse" message="tns:IService1_ListFirm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFirm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/DeleteFirm" message="tns:IService1_DeleteFirm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/DeleteFirmResponse" message="tns:IService1_DeleteFirm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFirm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpdateFirm" message="tns:IService1_UpdateFirm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpdateFirmResponse" message="tns:IService1_UpdateFirm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpsertComputer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpsertComputer" message="tns:IService1_UpsertComputer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpsertComputerResponse" message="tns:IService1_UpsertComputer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetOperation" message="tns:IService1_GetOperation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetOperationResponse" message="tns:IService1_GetOperation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllComputer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ListAllComputer" message="tns:IService1_ListAllComputer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ListAllComputerResponse" message="tns:IService1_ListAllComputer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListComputer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ListComputer" message="tns:IService1_ListComputer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ListComputerResponse" message="tns:IService1_ListComputer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteComputer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/DeleteComputer" message="tns:IService1_DeleteComputer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/DeleteComputerResponse" message="tns:IService1_DeleteComputer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateComputer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpdateComputer" message="tns:IService1_UpdateComputer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpdateComputerResponse" message="tns:IService1_UpdateComputer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpsertOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpsertOperation" message="tns:IService1_UpsertOperation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpsertOperationResponse" message="tns:IService1_UpsertOperation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListAllOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ListAllOperation" message="tns:IService1_ListAllOperation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ListAllOperationResponse" message="tns:IService1_ListAllOperation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ListOperation" message="tns:IService1_ListOperation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ListOperationResponse" message="tns:IService1_ListOperation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/DeleteOperation" message="tns:IService1_DeleteOperation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/DeleteOperationResponse" message="tns:IService1_DeleteOperation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpdateOperation" message="tns:IService1_UpdateOperation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpdateOperationResponse" message="tns:IService1_UpdateOperation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpsertCheckLicense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpsertCheckLicense" message="tns:IService1_UpsertCheckLicense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpsertCheckLicenseResponse" message="tns:IService1_UpsertCheckLicense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LogToDb">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/LogToDb" message="tns:IService1_LogToDb_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/LogToDbResponse" message="tns:IService1_LogToDb_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListCheckLicense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ListCheckLicense" message="tns:IService1_ListCheckLicense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ListCheckLicenseResponse" message="tns:IService1_ListCheckLicense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCheckLicense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/DeleteCheckLicense" message="tns:IService1_DeleteCheckLicense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/DeleteCheckLicenseResponse" message="tns:IService1_DeleteCheckLicense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCheckLicense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpdateCheckLicense" message="tns:IService1_UpdateCheckLicense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpdateCheckLicenseResponse" message="tns:IService1_UpdateCheckLicense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAllComputerBaseFormid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/DeleteAllComputerBaseFormid" message="tns:IService1_DeleteAllComputerBaseFormid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/DeleteAllComputerBaseFormidResponse" message="tns:IService1_DeleteAllComputerBaseFormid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAllLicenseBaseOperationid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationid" message="tns:IService1_DeleteAllLicenseBaseOperationid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationidResponse" message="tns:IService1_DeleteAllLicenseBaseOperationid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetControlPoint">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetControlPoint" message="tns:IService1_GetControlPoint_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetControlPointResponse" message="tns:IService1_GetControlPoint_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllApplication">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetAllApplication" message="tns:IService1_GetAllApplication_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetAllApplicationResponse" message="tns:IService1_GetAllApplication_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFEControlList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetFEControlList" message="tns:IService1_GetFEControlList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetFEControlListResponse" message="tns:IService1_GetFEControlList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplication">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetApplication" message="tns:IService1_GetApplication_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetApplicationResponse" message="tns:IService1_GetApplication_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/IService1/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpsertFirm">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpsertFirm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFirm">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetFirm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListFirm">
+      <soap:operation soapAction="http://tempuri.org/IService1/ListFirm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFirm">
+      <soap:operation soapAction="http://tempuri.org/IService1/DeleteFirm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFirm">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpdateFirm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpsertComputer">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpsertComputer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOperation">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetOperation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllComputer">
+      <soap:operation soapAction="http://tempuri.org/IService1/ListAllComputer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListComputer">
+      <soap:operation soapAction="http://tempuri.org/IService1/ListComputer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteComputer">
+      <soap:operation soapAction="http://tempuri.org/IService1/DeleteComputer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateComputer">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpdateComputer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpsertOperation">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpsertOperation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListAllOperation">
+      <soap:operation soapAction="http://tempuri.org/IService1/ListAllOperation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListOperation">
+      <soap:operation soapAction="http://tempuri.org/IService1/ListOperation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOperation">
+      <soap:operation soapAction="http://tempuri.org/IService1/DeleteOperation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOperation">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpdateOperation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpsertCheckLicense">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpsertCheckLicense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogToDb">
+      <soap:operation soapAction="http://tempuri.org/IService1/LogToDb" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListCheckLicense">
+      <soap:operation soapAction="http://tempuri.org/IService1/ListCheckLicense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCheckLicense">
+      <soap:operation soapAction="http://tempuri.org/IService1/DeleteCheckLicense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCheckLicense">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpdateCheckLicense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAllComputerBaseFormid">
+      <soap:operation soapAction="http://tempuri.org/IService1/DeleteAllComputerBaseFormid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAllLicenseBaseOperationid">
+      <soap:operation soapAction="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetControlPoint">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetControlPoint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllApplication">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetAllApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFEControlList">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetFEControlList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplication">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="BasicHttpBinding_IService1" binding="tns:BasicHttpBinding_IService1">
+      <soap:address location="http://31.7.35.42/checklicense/Service1.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

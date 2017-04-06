@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using System.Windows.Data;
 using System;
 using System.Globalization;
+using LicenseController;
 
 namespace MaterialDesignColors.WpfExample
 {
@@ -100,6 +101,13 @@ namespace MaterialDesignColors.WpfExample
             DemoItem item = (DemoItem)DemoItemsListBox.SelectedItem;
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = item;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var newForm = new LoginWindow(); //create your new form.
+            newForm.Show(); //show the new form.
+            this.Close(); //only if you want to close the current form.
         }
     }
 }

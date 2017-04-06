@@ -71,6 +71,13 @@ namespace AutoCadLisansKontrol.DAL
             }
 
         }
+
+        public bool Login(string username, string password)
+        {
+            if (dbaccess.Users.Where(x => x.UserName == username && x.Password == password).FirstOrDefault() != null) return true;
+            return false;
+        }
+
         public FirmEntity GetFirm(int? firmId)
         {
             var item = dbaccess.Firm.Where(x => x.Id == firmId).FirstOrDefault<FirmEntity>();
@@ -375,9 +382,6 @@ namespace AutoCadLisansKontrol.DAL
                     item.UpdateDate = DateTime.Now;
                 }
                 dbaccess.SaveChanges();
-
-
-
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
@@ -489,13 +493,14 @@ namespace AutoCadLisansKontrol.DAL
             }
         }
 
-        public List<SoftwareEntity> GetSoftware() {
+        public List<SoftwareEntity> GetSoftware()
+        {
 
             return dbaccess.Software.ToList();
         }
         public List<FE_ControlListEntity> GetFEControlList(int appid)
         {
-           return dbaccess.FE_ControlList.Where(x => x.AppId == appid).ToList();
+            return dbaccess.FE_ControlList.Where(x => x.AppId == appid).ToList();
         }
 
 

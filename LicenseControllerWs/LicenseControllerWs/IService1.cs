@@ -15,6 +15,8 @@ namespace LicenseControllerWs
     public interface IService1
     {
         [OperationContract]
+        bool Login(string username, string password);
+        [OperationContract]
         void UpsertFirm(Firm firm);
         [OperationContract]
         Firm GetFirm(int? firmId);

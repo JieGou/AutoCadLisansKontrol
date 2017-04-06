@@ -11,7 +11,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="400" />
-          <Property Name="Ip" Type="varchar" MaxLength="50" />
+          <Property Name="Ip" Type="varchar" MaxLength="400" />
           <Property Name="ComputerId" Type="int" />
           <Property Name="Output" Type="text" />
           <Property Name="CheckDate" Type="datetime" />
@@ -32,7 +32,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="1000" />
-          <Property Name="Ip" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Ip" Type="varchar" MaxLength="400" Nullable="false" />
           <Property Name="PyshicalAddress" Type="varchar" MaxLength="1000" />
           <Property Name="IsRootMachine" Type="bit" Nullable="false" />
           <Property Name="Type" Type="varchar" MaxLength="200" Nullable="false" />
@@ -86,6 +86,14 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="AppName" Type="text" />
           <Property Name="IsEnable" Type="bit" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_CheckLicense_Software">
           <End Role="Software" Type="Self.Software" Multiplicity="0..1" />
@@ -167,6 +175,7 @@
           <EntitySet Name="Firm" EntityType="Self.Firm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Operation" EntityType="Self.Operation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Software" EntityType="Self.Software" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CheckLicense_Software" Association="Self.FK_CheckLicense_Software">
             <End Role="Software" EntitySet="Software" />
             <End Role="CheckLicense" EntitySet="CheckLicense" />
@@ -202,13 +211,8 @@
           <FunctionImport Name="SP_DELETE_OPERATION">
           <Parameter Name="OPRID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="Computer" EntityType="AUTOCADLICENSEModel.ComputerEntity" />
           <EntitySet Name="Firm" EntityType="AUTOCADLICENSEModel.FirmEntity" />
           <EntitySet Name="Operation" EntityType="AUTOCADLICENSEModel.OperationEntity" />
-          <AssociationSet Name="FK_Computer_Firm" Association="AUTOCADLICENSEModel.FK_Computer_Firm">
-            <End Role="Firm" EntitySet="Firm" />
-            <End Role="Computer" EntitySet="Computer" />
-          </AssociationSet>
           <AssociationSet Name="FK_Operation_Firm" Association="AUTOCADLICENSEModel.FK_Operation_Firm">
             <End Role="Firm" EntitySet="Firm" />
             <End Role="Operation" EntitySet="Operation" />
@@ -226,38 +230,28 @@
           <Parameter Name="OPRID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="ControlPoint" EntityType="AUTOCADLICENSEModel.ControlPoint" />
-          <EntitySet Name="CheckLicense" EntityType="AUTOCADLICENSEModel.CheckLicenseEntity" />
-          <AssociationSet Name="FK_OperationDetail_Operation" Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation">
-            <End Role="OperationEntity" EntitySet="Operation" />
-            <End Role="CheckLicense" EntitySet="CheckLicense" />
-          </AssociationSet>
           <EntitySet Name="FE_ControlList" EntityType="AUTOCADLICENSEModel.FE_ControlListEntity" />
           <EntitySet Name="Software" EntityType="AUTOCADLICENSEModel.SoftwareEntity" />
           <AssociationSet Name="FK_FE_ControlList_FE_ControlList" Association="AUTOCADLICENSEModel.FK_FE_ControlList_FE_ControlList">
             <End Role="Software" EntitySet="Software" />
             <End Role="FE_ControlList" EntitySet="FE_ControlList" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="AUTOCADLICENSEModel.Users" />
+          <EntitySet Name="CheckLicense" EntityType="AUTOCADLICENSEModel.CheckLicenseEntity" />
+          <EntitySet Name="Computer" EntityType="AUTOCADLICENSEModel.ComputerEntity" />
           <AssociationSet Name="FK_CheckLicense_Software" Association="AUTOCADLICENSEModel.FK_CheckLicense_Software">
             <End Role="SoftwareEntity" EntitySet="Software" />
-            <End Role="CheckLicenseEntity" EntitySet="CheckLicense" />
+            <End Role="CheckLicense" EntitySet="CheckLicense" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationDetail_Operation" Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation">
+            <End Role="OperationEntity" EntitySet="Operation" />
+            <End Role="CheckLicense" EntitySet="CheckLicense" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Computer_Firm" Association="AUTOCADLICENSEModel.FK_Computer_Firm">
+            <End Role="FirmEntity" EntitySet="Firm" />
+            <End Role="Computer" EntitySet="Computer" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="ComputerEntity">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="Ip" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="PyshicalAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="IsRootMachine" Type="Boolean" Nullable="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="IsComputer" Type="Boolean" Nullable="false" />
-          <Property Name="FirmId" Type="Int32" Nullable="false" />
-          <Property Name="IsVisible" Type="Boolean" Nullable="false" />
-          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Firm" Relationship="AUTOCADLICENSEModel.FK_Computer_Firm" FromRole="Computer" ToRole="Firm" />
-        </EntityType>
         <EntityType Name="FirmEntity">
           <Key>
             <PropertyRef Name="Id" />
@@ -268,8 +262,8 @@
           <Property Name="Contact" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="PhoneNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Computer" Relationship="AUTOCADLICENSEModel.FK_Computer_Firm" FromRole="Firm" ToRole="Computer" />
           <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_Operation_Firm" FromRole="Firm" ToRole="Operation" />
+          <NavigationProperty Name="Computer" Relationship="AUTOCADLICENSEModel.FK_Computer_Firm" FromRole="FirmEntity" ToRole="Computer" />
         </EntityType>
         <EntityType Name="OperationEntity">
           <Key>
@@ -281,18 +275,6 @@
           <NavigationProperty Name="Firm" Relationship="AUTOCADLICENSEModel.FK_Operation_Firm" FromRole="Operation" ToRole="Firm" />
           <NavigationProperty Name="CheckLicense" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="OperationEntity" ToRole="CheckLicense" />
         </EntityType>
-        <Association Name="FK_Computer_Firm">
-          <End Type="AUTOCADLICENSEModel.FirmEntity" Role="Firm" Multiplicity="1" />
-          <End Type="AUTOCADLICENSEModel.ComputerEntity" Role="Computer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Firm">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Computer">
-              <PropertyRef Name="FirmId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Operation_Firm">
           <End Type="AUTOCADLICENSEModel.FirmEntity" Role="Firm" Multiplicity="1" />
           <End Type="AUTOCADLICENSEModel.OperationEntity" Role="Operation" Multiplicity="*" />
@@ -314,41 +296,6 @@
           <Property Name="WillChecked" Type="Boolean" />
           <Property Name="AvgExecTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="CheckLicenseEntity">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
-          <Property Name="Ip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ComputerId" Type="Int32" />
-          <Property Name="Output" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CheckDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-          <Property Name="OperationId" Type="Int32" />
-          <Property Name="FirmId" Type="Int32" />
-          <Property Name="State" Type="Boolean" />
-          <Property Name="Installed" Type="Boolean" />
-          <Property Name="Uninstalled" Type="Boolean" />
-          <Property Name="IsFound" Type="Boolean" />
-          <Property Name="InstallDate" Type="DateTime" Precision="3" />
-          <Property Name="UnInstallDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="OperationEntity" />
-          <Property Name="AppId" Type="Int32" />
-          <NavigationProperty Name="Software" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="CheckLicenseEntity" ToRole="SoftwareEntity" />
-        </EntityType>
-        <Association Name="FK_OperationDetail_Operation">
-          <End Type="AUTOCADLICENSEModel.OperationEntity" Role="OperationEntity" Multiplicity="0..1" />
-          <End Type="AUTOCADLICENSEModel.CheckLicenseEntity" Role="CheckLicense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OperationEntity">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CheckLicense">
-              <PropertyRef Name="OperationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FE_ControlListEntity">
           <Key>
             <PropertyRef Name="Id" />
@@ -367,8 +314,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="AppName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FE_ControlList" Relationship="AUTOCADLICENSEModel.FK_FE_ControlList_FE_ControlList" FromRole="Software" ToRole="FE_ControlList" />
-          <NavigationProperty Name="CheckLicense" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="SoftwareEntity" ToRole="CheckLicenseEntity" />
           <Property Name="IsEnable" Type="Boolean" />
+          <NavigationProperty Name="CheckLicense" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="SoftwareEntity" ToRole="CheckLicense" />
         </EntityType>
         <Association Name="FK_FE_ControlList_FE_ControlList">
           <End Type="AUTOCADLICENSEModel.SoftwareEntity" Role="Software" Multiplicity="0..1" />
@@ -382,15 +329,86 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CheckLicenseEntity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="Ip" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="ComputerId" Type="Int32" />
+          <Property Name="Output" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CheckDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="OperationId" Type="Int32" />
+          <Property Name="FirmId" Type="Int32" />
+          <Property Name="State" Type="Boolean" />
+          <Property Name="Installed" Type="Boolean" />
+          <Property Name="Uninstalled" Type="Boolean" />
+          <Property Name="IsFound" Type="Boolean" />
+          <Property Name="InstallDate" Type="DateTime" Precision="3" />
+          <Property Name="UnInstallDate" Type="DateTime" Precision="3" />
+          <Property Name="AppId" Type="Int32" />
+          <NavigationProperty Name="Software" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="CheckLicense" ToRole="SoftwareEntity" />
+          <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="OperationEntity" />
+        </EntityType>
+        <EntityType Name="ComputerEntity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Ip" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="PyshicalAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="IsRootMachine" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsComputer" Type="Boolean" Nullable="false" />
+          <Property Name="FirmId" Type="Int32" Nullable="false" />
+          <Property Name="IsVisible" Type="Boolean" Nullable="false" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Firm" Relationship="AUTOCADLICENSEModel.FK_Computer_Firm" FromRole="Computer" ToRole="FirmEntity" />
+        </EntityType>
         <Association Name="FK_CheckLicense_Software">
           <End Type="AUTOCADLICENSEModel.SoftwareEntity" Role="SoftwareEntity" Multiplicity="0..1" />
-          <End Type="AUTOCADLICENSEModel.CheckLicenseEntity" Role="CheckLicenseEntity" Multiplicity="*" />
+          <End Type="AUTOCADLICENSEModel.CheckLicenseEntity" Role="CheckLicense" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SoftwareEntity">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="CheckLicenseEntity">
+            <Dependent Role="CheckLicense">
               <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationDetail_Operation">
+          <End Type="AUTOCADLICENSEModel.OperationEntity" Role="OperationEntity" Multiplicity="0..1" />
+          <End Type="AUTOCADLICENSEModel.CheckLicenseEntity" Role="CheckLicense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationEntity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckLicense">
+              <PropertyRef Name="OperationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Computer_Firm">
+          <End Type="AUTOCADLICENSEModel.FirmEntity" Role="FirmEntity" Multiplicity="1" />
+          <End Type="AUTOCADLICENSEModel.ComputerEntity" Role="Computer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FirmEntity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Computer">
+              <PropertyRef Name="FirmId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -400,22 +418,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AUTOCADLICENSEModelStoreContainer" CdmEntityContainer="AUTOCADLICENSEEntities1">
-          <EntitySetMapping Name="Computer">
-            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.ComputerEntity">
-              <MappingFragment StoreEntitySet="Computer">
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
-                <ScalarProperty Name="FirmId" ColumnName="FirmId" />
-                <ScalarProperty Name="IsComputer" ColumnName="IsComputer" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="IsRootMachine" ColumnName="IsRootMachine" />
-                <ScalarProperty Name="PyshicalAddress" ColumnName="PyshicalAddress" />
-                <ScalarProperty Name="Ip" ColumnName="Ip" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Firm">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.FirmEntity">
               <MappingFragment StoreEntitySet="Firm">
@@ -451,6 +453,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="FE_ControlList">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.FE_ControlListEntity">
+              <MappingFragment StoreEntitySet="FE_ControlList">
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Drive" ColumnName="Drive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Software">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.SoftwareEntity">
+              <MappingFragment StoreEntitySet="Software">
+                <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+                <ScalarProperty Name="AppName" ColumnName="AppName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CheckLicense">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicenseEntity">
               <MappingFragment StoreEntitySet="CheckLicense">
@@ -473,22 +504,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FE_ControlList">
-            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.FE_ControlListEntity">
-              <MappingFragment StoreEntitySet="FE_ControlList">
-                <ScalarProperty Name="AppId" ColumnName="AppId" />
+          <EntitySetMapping Name="Computer">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.ComputerEntity">
+              <MappingFragment StoreEntitySet="Computer">
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
+                <ScalarProperty Name="FirmId" ColumnName="FirmId" />
+                <ScalarProperty Name="IsComputer" ColumnName="IsComputer" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Path" ColumnName="Path" />
-                <ScalarProperty Name="Drive" ColumnName="Drive" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Software">
-            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.SoftwareEntity">
-              <MappingFragment StoreEntitySet="Software">
-                <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
-                <ScalarProperty Name="AppName" ColumnName="AppName" />
+                <ScalarProperty Name="IsRootMachine" ColumnName="IsRootMachine" />
+                <ScalarProperty Name="PyshicalAddress" ColumnName="PyshicalAddress" />
+                <ScalarProperty Name="Ip" ColumnName="Ip" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

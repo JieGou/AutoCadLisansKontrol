@@ -20,6 +20,10 @@ namespace LicenseControllerWs
     {
         DataAccess dbaccess = new DataAccess();
         readonly ILog _logger = LoggerFactory.CreateLogger(DatabaseType.MsSql);
+
+        public bool Login(string username,string password) {
+          return  dbaccess.Login(username,password);
+        }
         public void UpsertFirm(Firm firm)
         {
             dbaccess.UpsertFirm(new FirmEntity { Address = firm.Address, Contact = firm.Contact, Id = firm.Id, InsertDate = firm.InsertDate, Name = firm.Name, PhoneNo = firm.PhoneNo });

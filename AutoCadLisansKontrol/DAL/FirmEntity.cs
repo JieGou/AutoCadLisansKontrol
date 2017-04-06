@@ -17,8 +17,8 @@ namespace AutoCadLisansKontrol.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public FirmEntity()
         {
-            this.Computer = new HashSet<ComputerEntity>();
             this.Operation = new HashSet<OperationEntity>();
+            this.Computer = new HashSet<ComputerEntity>();
         }
     
         public int Id { get; set; }
@@ -29,8 +29,8 @@ namespace AutoCadLisansKontrol.DAL
         public System.DateTime InsertDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ComputerEntity> Computer { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OperationEntity> Operation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ComputerEntity> Computer { get; set; }
     }
 }

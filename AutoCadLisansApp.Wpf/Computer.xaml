@@ -162,33 +162,33 @@
 
 
 
-                                <DataGridTemplateColumn Header="Ip" Width="SizeToCells">
+                                <DataGridTemplateColumn Header="Ip" Width="125">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Grid.Row="1" Grid.Column="1" 
+                                            <TextBlock Grid.Row="1" Grid.Column="1"  TextWrapping="Wrap"
 				    x:Name="NameTextBox"
 				    materialDesign:HintAssist.Hint="Ip">
-                                                <TextBox.Text>
+                                                <TextBlock.Text>
                                                     <Binding Path="Ip" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
                                                             <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
                                                         </Binding.ValidationRules>
                                                     </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
+                                                </TextBlock.Text>
+                                            </TextBlock>
 
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
-                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name,Mode=TwoWay}" Width="SizeToCells"
-                                                               Header="Name"                                                        
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name,Mode=TwoWay}" Width="125" 
+                                                               Header="Name"                                                         
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
                                                                >
 
                                 </materialDesign:MaterialDataGridTextColumn>
                                 <!-- set a max length to get an indicator in the editor -->
-                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding PyshicalAddress,Mode=TwoWay}" Width="SizeToCells"
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding PyshicalAddress,Mode=TwoWay}" Width="125"
                                                                Header="Fiziksel Adres"                                                        
                                                                MaxLength="255" 
                                                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />

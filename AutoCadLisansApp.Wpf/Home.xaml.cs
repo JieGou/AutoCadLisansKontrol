@@ -56,7 +56,6 @@ namespace MaterialDesignColors.WpfExample
 
         private void Button_Click_Start(object sender, RoutedEventArgs e)
         {
-           
             var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
             mainwindowviewmodel.DemoItem = new DemoItem("Firma", new Firm { DataContext = new FirmViewModel() });
         }

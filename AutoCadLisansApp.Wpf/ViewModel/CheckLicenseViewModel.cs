@@ -43,7 +43,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         private int _totalComputer = 0;
         public int TotalComputer { get { return _totalComputer; } set { _totalComputer = value; OnPropertyChanged("TotalComputer"); } }
 
-        public bool _isremote = false;
+        public bool _isremote = true;
         public bool IsRemote { get { return _isremote; } set { _isremote = value; OnPropertyChanged("IsRemote"); } }
 
 
@@ -210,7 +210,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
                 foreach (var soft in SoftwareList)
                 {
-                    checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, MachineName = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, App = soft});
+                    checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, MachineName = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, App = soft });
                 }
 
                 CheckLicenses = checklicense;
@@ -272,12 +272,6 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
         });
 
-            System.Action DoOnUiThread = new System.Action(() =>
-            {
-
-            });
-
-
             // start the background task
             Canceller = new CancellationTokenSource();
             var t1 = Task.Factory.StartNew(() =>
@@ -287,18 +281,6 @@ namespace MaterialDesignColors.WpfExample.Domain
                     DoInBackground();
                 }
             }, Canceller.Token);
-            // TaskCreationOptions.LongRunning, UIContext.Current
-            // when t1 is done run t1..on the Ui thread.
-            var t2 = t1.ContinueWith(t =>
-            {
-                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                {
-                    DoOnUiThread();
-                }
-            }, UIContext.Current);
-            //, TaskContinuationOptions.OnlyOnFaulted, UIContext.Current
-            //I assume BitmapFromUri is the slow step.
-
         }
         public void CheckLicenseRemoteCommand()
         {
@@ -337,29 +319,55 @@ namespace MaterialDesignColors.WpfExample.Domain
 
                     CheckLicenses = checklicense;
                     TotalComputer = CheckLicenses.Count;
+
+                    var counter = CheckLicenses.Count;
                     foreach (var chc in CheckLicenses)
                     {
+
                         var tempchc = new CheckLicenseModel();
-
-
-                        tempchc = LicenseDetection.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
-
-
-                        chc.Output = tempchc.Output;
-                        chc.IsProgress = false;
-                        ExecutedComputer++;
-
-                        if (ExecutedComputer == TotalComputer)
+                        System.Action ChildDoInBackground = new System.Action(() =>
                         {
-                            EndNotification("Operation has finished!!");
-                        }
+                            tempchc = LicenseDetection.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
 
-                        if (AutoSave)
-                            SaveCommandsync();
+                        });
+                        System.Action ChildDoOnUiThread = new System.Action(() =>
+                        {
+                            chc.Output = tempchc.Output;
+                            chc.IsProgress = false;
+                            ExecutedComputer++;
 
+                            if (ExecutedComputer == TotalComputer)
+                            {
+                                EndNotification("Operation has finished!!");
+                            }
+                            counter--;
+                        });
+                        Canceller = new CancellationTokenSource();
+                        var t3 = Task.Factory.StartNew(() =>
+                        {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoInBackground();
+                            }
+                        }, Canceller.Token);
+                        //, TaskCreationOptions.None, UIContext.Current
+                        // when t1 is done run t1..on the Ui thread.
+                        var t4 = t3.ContinueWith(t =>
+                        {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoOnUiThread();
+                            }
+                        }, Canceller.Token);
 
+                        //, TaskContinuationOptions.OnlyOnFaulted, UIContext.Current
+                    }
+                    while (counter != 0)
+                    {
 
                     }
+                    if (AutoSave)
+                        SaveCommandsync();
                 }
                 catch (System.Exception ex)
                 {
@@ -367,12 +375,6 @@ namespace MaterialDesignColors.WpfExample.Domain
                     return;
                 }
             });
-
-            System.Action DoOnUiThread = new System.Action(() =>
-            {
-
-            });
-
 
             // start the background task
             Canceller = new CancellationTokenSource();
@@ -384,14 +386,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 }
             }, Canceller.Token);
             // when t1 is done run t1..on the Ui thread.
-            var t2 = t1.ContinueWith(t =>
-            {
-                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                {
-                    DoOnUiThread();
-                }
-            }, Canceller.Token);
-            //I assume BitmapFromUri is the slow step.
+
 
         }
         public void LoadCheckLicenseFromDb()
@@ -517,22 +512,30 @@ namespace MaterialDesignColors.WpfExample.Domain
                     foreach (var item in CheckLicenses)
                     {
                         counter--;
-
-                        client.UpsertCheckLicense(new LicenseController.autocad.masterkey.ws.CheckLicense()
+                        try
                         {
-                            CheckDate = System.DateTime.Now,
-                            ComputerId = item.ComputerId,
-                            FirmId = item.FirmId,
-                            Id = item.Id,
-                            Ip = item.Ip,
-                            MachineName = item.MachineName,
-                            OperationId = item.OperationId,
-                            Output = item.Output,
-                            UpdateDate = System.DateTime.Now,
-                            State = item.State,
-                            Installed = item.Installed,
-                            Uninstalled = item.Uninstalled
-                        });
+                            client.UpsertCheckLicense(new LicenseController.autocad.masterkey.ws.CheckLicense()
+                            {
+                                CheckDate = System.DateTime.Now,
+                                ComputerId = item.ComputerId,
+                                FirmId = item.FirmId,
+                                Id = item.Id,
+                                Ip = item.Ip,
+                                MachineName = item.MachineName,
+                                OperationId = item.OperationId,
+                                Output = item.Output,
+                                UpdateDate = System.DateTime.Now,
+                                State = item.State,
+                                Installed = item.Installed,
+                                Uninstalled = item.Uninstalled
+                            });
+                        }
+                        catch (System.Exception ex)
+                        {
+                            var message = ex.Message;
+                        }
+
+                       
 
                         if (counter == 0)
                             EndNotification("Results is saved.");
