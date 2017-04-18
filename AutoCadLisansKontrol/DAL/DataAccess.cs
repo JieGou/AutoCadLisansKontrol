@@ -368,6 +368,10 @@ namespace AutoCadLisansKontrol.DAL
             }
 
         }
+
+
+        #region CHECKLICENSE
+        
         public void UpsertCheckLicense(CheckLicenseEntity oprdetail)
         {
             try
@@ -419,7 +423,8 @@ namespace AutoCadLisansKontrol.DAL
 
         public List<CheckLicenseEntity> ListCheckLicense(int id)
         {
-            return dbaccess.CheckLicense.Where(x => x.OperationId == id).ToList();
+            var data= dbaccess.CheckLicense.Where(x => x.OperationId == id).ToList();
+            return data;
         }
 
         public void DeleteCheckLicense(CheckLicenseEntity oprdetail)
@@ -437,6 +442,9 @@ namespace AutoCadLisansKontrol.DAL
 
             dbaccess.SaveChanges();
         }
+        
+        #endregion
+
 
         public void DeleteAllComputerBaseFormid(int firmId)
         {

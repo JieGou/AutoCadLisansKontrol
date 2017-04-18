@@ -252,7 +252,7 @@ namespace MaterialDesignDemo.Controller
                     //product.HelpLink = mo["HelpLink"] == null ? null : mo["HelpLink"].ToString();
                     //product.HelpTelephone = mo["HelpTelephone"] == null ? null : mo["HelpTelephone"].ToString();
                     //product.IdentifyingNumber = mo["IdentifyingNumber"] == null ? null : mo["IdentifyingNumber"].ToString();
-                    product.InstallDate = mo["InstallDate"] == null ? new DateTime() : DateTime.ParseExact(mo["InstallDate"].ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
+                    product.InstallDate = mo["InstallDate"] == null ? (DateTime?)null : DateTime.ParseExact(mo["InstallDate"].ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
                     //product.InstallDate2 = mo["InstallDate2"] == null ? null : mo["InstallDate2"].ToString();
                     //product.InstallLocation = mo["InstallLocation"] == null ? null : mo["InstallLocation"].ToString();
                     //product.InstallSource = mo["InstallSource"] == null ? null : mo["InstallSource"].ToString();
@@ -339,7 +339,7 @@ namespace MaterialDesignDemo.Controller
                 outParams = registry.InvokeMethod("GetStringValue", inParams, null);
                 if (outParams.Properties["sValue"].Value != null)
                 {
-                    item.InstallDate = outParams.Properties["sValue"].Value.ToString() == "" ? DateTime.MinValue : DateTime.ParseExact(outParams.Properties["sValue"].Value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
+                    item.InstallDate = outParams.Properties["sValue"].Value.ToString() == "" ? (DateTime?)null : DateTime.ParseExact(outParams.Properties["sValue"].Value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture);
                 }
 
                 inParams["sValueName"] = "Contact";
@@ -546,9 +546,9 @@ namespace MaterialDesignDemo.Controller
                 dir.FSCreationClassName = WmiObject["FSCreationClassName"] == null ? null : WmiObject["FSCreationClassName"].ToString();
                 dir.FSName = WmiObject["FSName"] == null ? null : WmiObject["FSName"].ToString();
                 dir.Hidden = WmiObject["Hidden"] == null ? null : WmiObject["Hidden"].ToString();
-                dir.InstallDate = WmiObject["InstallDate"] == null ? null : WmiObject["InstallDate"].ToString();
+                dir.InstallDate = WmiObject["InstallDate"].ToString() == "" ? (DateTime?)null : DateTime.ParseExact(WmiObject["InstallDate"].ToString().Substring(0, 8), "yyyyMMdd", CultureInfo.InvariantCulture);
                 dir.InUseCount = WmiObject["InUseCount"] == null ? null : WmiObject["InUseCount"].ToString();
-                dir.LastAccessed = WmiObject["LastAccessed"].ToString() == "" ? DateTime.MinValue : DateTime.ParseExact(WmiObject["LastAccessed"].ToString().Substring(0, 8), "yyyyMMdd", CultureInfo.InvariantCulture);
+                dir.LastAccessed = WmiObject["LastAccessed"].ToString() == "" ? (DateTime?)null : DateTime.ParseExact(WmiObject["LastAccessed"].ToString().Substring(0, 8), "yyyyMMdd", CultureInfo.InvariantCulture);
                 dir.LastModified = WmiObject["LastModified"] == null ? null : WmiObject["LastModified"].ToString();
                 dir.files = GetFiles(dir.Path.Replace("\\", "\\\\"), dir.Drive);
                 dirs.Add(dir);
@@ -593,7 +593,7 @@ namespace MaterialDesignDemo.Controller
                 item.Hidden = WmiObject["Hidden"] == null ? null : WmiObject["Hidden"].ToString();
                 item.InstallDate = WmiObject["InstallDate"] == null ? null : WmiObject["InstallDate"].ToString();
                 item.InUseCount = WmiObject["InUseCount"] == null ? null : WmiObject["InUseCount"].ToString();
-                item.LastAccessed = WmiObject["LastAccessed"] == null ? null : WmiObject["LastAccessed"].ToString();
+                item.LastAccessed = WmiObject["LastAccessed"].ToString() == "" ? (DateTime?)null : DateTime.ParseExact(WmiObject["LastAccessed"].ToString().Substring(0, 8), "yyyyMMdd", CultureInfo.InvariantCulture);
                 item.LastModified = WmiObject["LastModified"] == null ? null : WmiObject["LastModified"].ToString();
                 item.Manufacturer = WmiObject["Manufacturer"] == null ? null : WmiObject["Manufacturer"].ToString();
                 item.Name = WmiObject["Name"] == null ? null : WmiObject["Name"].ToString();
@@ -611,7 +611,7 @@ namespace MaterialDesignDemo.Controller
     }
     public class RegistrySoftware
     {
-        private DateTime _installdate = DateTime.MinValue;
+        private DateTime? _installdate = DateTime.MinValue;
         public string Comments { get; set; }
         public string Contact { get; set; }
         public string DisplayIcon { get; set; }
@@ -620,7 +620,7 @@ namespace MaterialDesignDemo.Controller
         public string EstimatedSize { get; set; }
         public string HelpLink { get; set; }
         public string HelpTelephone { get; set; }
-        public DateTime InstallDate { get { return _installdate; } set { _installdate = value; } }
+        public DateTime? InstallDate { get { return _installdate; } set { _installdate = value; } }
         public string InstallLocation { get; set; }
         public string InstallSource { get; set; }
         public string Language { get; set; }
@@ -639,7 +639,7 @@ namespace MaterialDesignDemo.Controller
         public string Caption { get; set; }
         public string Description { get; set; }
         public string IdentifyingNumber { get; set; }
-        public DateTime InstallDate { get; set; }
+        public DateTime? InstallDate { get; set; }
         public string InstallDate2 { get; set; }
         public string InstallLocation { get; set; }
         public string InstallState { get; set; }
@@ -681,7 +681,7 @@ namespace MaterialDesignDemo.Controller
         public List<CIM_DataFile> files = new List<CIM_DataFile>();
         public string Caption { get; set; }
         public string Description { get; set; }
-        public string InstallDate { get; set; }
+        public DateTime? InstallDate { get; set; }
         public string Name { get; set; }
         public string Status { get; set; }
         public string AccessMask { get; set; }
@@ -704,7 +704,7 @@ namespace MaterialDesignDemo.Controller
         public string FSName { get; set; }
         public string Hidden { get; set; }
         public string InUseCount { get; set; }
-        public DateTime LastAccessed { get; set; }
+        public DateTime? LastAccessed { get; set; }
         public string LastModified { get; set; }
         public string Path { get; set; }
         public string Readable { get; set; }
@@ -739,7 +739,7 @@ namespace MaterialDesignDemo.Controller
         public string FSName { get; set; }
         public string Hidden { get; set; }
         public string InUseCount { get; set; }
-        public string LastAccessed { get; set; }
+        public DateTime? LastAccessed { get; set; }
         public string LastModified { get; set; }
         public string Path { get; set; }
         public string Readable { get; set; }

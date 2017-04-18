@@ -39,21 +39,29 @@ namespace LicenseController
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var result = client.Login(NameTextBox.Text, password);
-
-            Notification.IsActive = true;
-            if (result)
+            try
             {
-                var newForm = new MainWindow(); //create your new form.
-                newForm.Show(); //show the new form.
-                this.Close(); //only if you want to close the current form.
+                var result = client.Login(NameTextBox.Text, password);
 
-                notificationContent.Content = "Success";
+                Notification.IsActive = true;
+                if (result)
+                {
+                    var newForm = new MainWindow(); //create your new form.
+                    newForm.Show(); //show the new form.
+                    this.Close(); //only if you want to close the current form.
+
+                    notificationContent.Content = "Success";
+                }
+                else
+                {
+                    notificationContent.Content = "Wrong Username or password";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                notificationContent.Content = "Wrong Username or password";
+                MessageBox.Show(ex.Message, "Login Operation");
             }
+           
         }
     }
 }

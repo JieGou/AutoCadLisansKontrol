@@ -25,6 +25,7 @@
           <Property Name="InstallDate" Type="datetime" />
           <Property Name="UnInstallDate" Type="datetime" />
           <Property Name="AppId" Type="int" />
+          <Property Name="LogId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Computer">
           <Key>
@@ -359,6 +360,7 @@
           <Property Name="AppId" Type="Int32" />
           <NavigationProperty Name="Software" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="CheckLicense" ToRole="SoftwareEntity" />
           <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="OperationEntity" />
+          <Property Name="LogId" Type="Guid" />
         </EntityType>
         <EntityType Name="ComputerEntity">
           <Key>
@@ -485,6 +487,7 @@
           <EntitySetMapping Name="CheckLicense">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicenseEntity">
               <MappingFragment StoreEntitySet="CheckLicense">
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
                 <ScalarProperty Name="AppId" ColumnName="AppId" />
                 <ScalarProperty Name="UnInstallDate" ColumnName="UnInstallDate" />
                 <ScalarProperty Name="InstallDate" ColumnName="InstallDate" />

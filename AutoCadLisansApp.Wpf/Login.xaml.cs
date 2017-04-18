@@ -47,21 +47,29 @@ namespace MaterialDesignColors.WpfExample
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var result=client.Login(NameTextBox.Text, password);
-
-            Notification.IsActive = true;
-            if (result)
+            try
             {
+                var result = client.Login(NameTextBox.Text, password);
 
-                var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
-                mainwindowviewmodel.DemoItem = new DemoItem("Home", new Home { DataContext = new Home() });
+                Notification.IsActive = true;
+                if (result)
+                {
 
-                notificationContent.Content = "Success";
+                    var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+                    mainwindowviewmodel.DemoItem = new DemoItem("Home", new Home { DataContext = new Home() });
+
+                    notificationContent.Content = "Success";
+                }
+                else
+                {
+                    notificationContent.Content = "Wrong Username or password";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                notificationContent.Content = "Wrong Username or password";
+                MessageBox.Show(ex.Message, "Login Operation");
             }
+           
         }
     }
 }

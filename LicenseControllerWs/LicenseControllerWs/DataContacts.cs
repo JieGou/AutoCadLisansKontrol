@@ -62,6 +62,7 @@ namespace LicenseControllerWs
         public bool IsVisible { get; set; }
         [DataMember]
         public System.DateTime InsertDate { get; set; }
+
     }
     public class CheckLicense
     {
@@ -103,7 +104,9 @@ namespace LicenseControllerWs
         public Nullable<bool> IsFound { get; set; }
 
         [DataMember]
-        public Nullable<int> AppId { get; set; }    
+        public Nullable<int> AppId { get; set; }
+
+        public Nullable<System.Guid> LogId { get; set; }
     }
     public class Software {
         public int Id { get; set; }

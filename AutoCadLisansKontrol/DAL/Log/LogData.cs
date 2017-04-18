@@ -23,8 +23,10 @@ namespace CheckLicense.Log
         public string Host { get; set; }
         public LogDataType LogDataType { get; set; }
         public int FirmId { get; set; }
-
+        public int OperationId { get; set; }
         public LogDataState State { get; set; }
+
+        public int ComputerId { get; set; }
 
     }
     public enum LogDataType

@@ -20,6 +20,7 @@ using System.IO;
 using MaterialDesignDemo.Controller;
 using LicenseController.autocad.masterkey.ws;
 using LicenseController.Model;
+using MaterialDesignColors.WpfExample.Domain;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -154,8 +155,18 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             get
             {
-                if (OprId == 0) return null;
-                return client.GetFirm(FirmId);
+                LicenseController.autocad.masterkey.ws.Firm firm = null;
+                try
+                {
+
+                    if (OprId == 0) return null;
+                    firm = client.GetFirm(FirmId);
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Login Operation");
+                }
+                return firm;
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -399,9 +410,36 @@ namespace MaterialDesignColors.WpfExample.Domain
                 var checklicense = new ObservableCollection<CheckLicenseModel>();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
-                    _softwarelist = new ObservableCollection<Software>(client.GetAllApplication().ToList());
-                    CheckList = new ObservableCollection<ControlPoint>(client.GetControlPoint().ToList());
-                    //checklicense = new ObservableCollection<CheckLicenseModel>(client.ListCheckLicense(OprId).ToList().ConvertAll(x => new CheckLicenseModel { CheckDate = x.CheckDate, ComputerId = x.ComputerId, FirmId = x.FirmId, Id = x.Id, Ip = x.Ip, Name = x.Name, OperationId = x.OperationId, Output = x.Output, UpdateDate = x.UpdateDate, State = x.State, Success = (x.State == true ? true : false) }));
+                    try
+                    {
+                        _softwarelist = new ObservableCollection<Software>(client.GetAllApplication().ToList());
+                        CheckList = new ObservableCollection<ControlPoint>(client.GetControlPoint().ToList());
+                        var checklist = client.ListCheckLicense(OprId).ToList();
+                        foreach (var item in checklist)
+                        {
+                            var lc=new CheckLicenseModel
+                            {
+                                CheckDate = item.CheckDate,
+                                ComputerId = item.ComputerId,
+                                FirmId = item.FirmId,
+                                Id = item.Id,
+                                Ip = item.Ip,
+                                MachineName = item.MachineName,
+                                OperationId = item.OperationId,
+                                Output = item.Output,
+                                UpdateDate = item.UpdateDate,
+                                State = item.State,
+                                Success = (bool?)item.State,
+                                App = _softwarelist.Where(y => y.Id == item.AppId).FirstOrDefault<Software>()
+                            };
+                            checklicense.Add(lc);
+                        }
+
+                    }
+                    catch (System.Exception ex)
+                    {
+                        var message = ex.Message;
+                    }
                 });
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>
@@ -456,16 +494,17 @@ namespace MaterialDesignColors.WpfExample.Domain
         public void SaveCommandsync()
         {
 
-            try
+            var counter = CheckLicenses.Count;
+            StartNotification();
+
+
+            //client.DeleteAllLicenseBaseOperationid(OprId);
+            foreach (var item in CheckLicenses)
             {
-                var counter = CheckLicenses.Count;
-                StartNotification();
-
-
-                //client.DeleteAllLicenseBaseOperationid(OprId);
-                foreach (var item in CheckLicenses)
+                counter--;
+                try
                 {
-                    counter--;
+
 
                     client.UpsertCheckLicense(new LicenseController.autocad.masterkey.ws.CheckLicense()
                     {
@@ -480,86 +519,89 @@ namespace MaterialDesignColors.WpfExample.Domain
                         UpdateDate = System.DateTime.Now,
                         State = item.State,
                         Installed = item.Installed,
-                        Uninstalled = item.Uninstalled
+                        Uninstalled = item.Uninstalled,
+                        AppId = item.App.Id,
+                        InstallDate = item.InstallDate,
+                        UnInstallDate = item.UnInstallDate,
+                        IsFound = item.IsFound,
+                        LogId = item.LogId
                     });
-
-                    if (counter == 0)
-                        EndNotification("Results is saved.");
-
+                }
+                catch (System.Exception ex)
+                {
+                    EndNotification(ex.Message);
                 }
 
-
-                // when t1 is done run t1..on the Ui thread.
+                if (counter == 0)
+                    EndNotification("Results is saved.");
 
             }
-            catch (System.Exception ex)
-            {
-                EndNotification(ex.Message);
-            }
+
+
+            // when t1 is done run t1..on the Ui thread.
+
+
 
 
         }
         public void SaveCommandasync()
         {
-            try
+
+            var counter = CheckLicenses.Count;
+            StartNotification();
+
+            System.Action ChildDoInBackground = new System.Action(() =>
             {
-                var counter = CheckLicenses.Count;
-                StartNotification();
-
-                System.Action ChildDoInBackground = new System.Action(() =>
+                //client.DeleteAllLicenseBaseOperationid(OprId);
+                foreach (var item in CheckLicenses)
                 {
-                    //client.DeleteAllLicenseBaseOperationid(OprId);
-                    foreach (var item in CheckLicenses)
+                    counter--;
+                    try
                     {
-                        counter--;
-                        try
+                        client.UpsertCheckLicense(new LicenseController.autocad.masterkey.ws.CheckLicense()
                         {
-                            client.UpsertCheckLicense(new LicenseController.autocad.masterkey.ws.CheckLicense()
-                            {
-                                CheckDate = System.DateTime.Now,
-                                ComputerId = item.ComputerId,
-                                FirmId = item.FirmId,
-                                Id = item.Id,
-                                Ip = item.Ip,
-                                MachineName = item.MachineName,
-                                OperationId = item.OperationId,
-                                Output = item.Output,
-                                UpdateDate = System.DateTime.Now,
-                                State = item.State,
-                                Installed = item.Installed,
-                                Uninstalled = item.Uninstalled
-                            });
-                        }
-                        catch (System.Exception ex)
-                        {
-                            var message = ex.Message;
-                        }
-
-                       
-
-                        if (counter == 0)
-                            EndNotification("Results is saved.");
-
+                            CheckDate = System.DateTime.Now,
+                            ComputerId = item.ComputerId,
+                            FirmId = item.FirmId,
+                            Id = item.Id,
+                            Ip = item.Ip,
+                            MachineName = item.MachineName,
+                            OperationId = item.OperationId,
+                            Output = item.Output,
+                            UpdateDate = System.DateTime.Now,
+                            State = item.State,
+                            Installed = item.Installed,
+                            Uninstalled = item.Uninstalled,
+                            AppId = item.App.Id,
+                            InstallDate = item.InstallDate,
+                            UnInstallDate = item.UnInstallDate,
+                            IsFound = item.IsFound,
+                            LogId = item.LogId
+                        });
                     }
-                });
-
-
-                Canceller = new CancellationTokenSource();
-
-                var t1 = Task.Factory.StartNew(() =>
-                {
-                    using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                    catch (System.Exception ex)
                     {
-                        ChildDoInBackground();
+                        EndNotification(ex.Message);
                     }
-                }, Canceller.Token);
-                // when t1 is done run t1..on the Ui thread.
 
-            }
-            catch (System.Exception ex)
+                    if (counter == 0)
+                        EndNotification("Results is saved.");
+
+                }
+            });
+
+
+            Canceller = new CancellationTokenSource();
+
+            var t1 = Task.Factory.StartNew(() =>
             {
-                EndNotification(ex.Message);
-            }
+                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                {
+                    ChildDoInBackground();
+                }
+            }, Canceller.Token);
+            // when t1 is done run t1..on the Ui thread.
+
 
         }
 

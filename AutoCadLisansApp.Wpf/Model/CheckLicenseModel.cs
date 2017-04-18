@@ -13,12 +13,13 @@ namespace MaterialDesignDemo.Model
 {
     public class CheckLicenseModel : LicenseController.autocad.masterkey.ws.CheckLicense
     {
+        private Software _app = new Software();
         public LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
-        public Software App { get; set; }
+        public Software App { get { return _app; } set { _app = value; } }
         public string Description { get; set; }
 
-        private bool _isProgress;
-        public bool IsProgress
+        private System.Nullable<bool> _isProgress;
+        public System.Nullable<bool> IsProgress
         {
             get
             {
@@ -33,25 +34,10 @@ namespace MaterialDesignDemo.Model
                 }
             }
         }
-        private bool _isfound = false;
-        public bool IsFound
-        {
-            get
-            {
-                return this._isfound;
-            }
-            set
-            {
-                if ((this._isfound.Equals(value) != true))
-                {
-                    this._isfound = value;
-                    this.RaisePropertyChanged("IsFound");
-                }
-            }
-        }
+      
 
-        private bool _fail = false;
-        public bool Fail
+        private System.Nullable<bool> _fail = false;
+        public System.Nullable<bool> Fail
         {
             get
             {
@@ -67,8 +53,8 @@ namespace MaterialDesignDemo.Model
             }
         }
 
-        private bool _success = false;
-        public bool Success
+        private System.Nullable<bool> _success = false;
+        public System.Nullable<bool> Success
         {
             get
             {

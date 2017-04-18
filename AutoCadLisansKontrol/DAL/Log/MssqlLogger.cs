@@ -26,7 +26,8 @@ namespace CheckLicense.MssqlLogger
                     new SqlParameter("@P_ID",log.Id),
                     new SqlParameter("@P_STARTTIME",log.StartTime),
                     new SqlParameter("@P_METHOD",log.Method),
-                    new SqlParameter("@P_APPNAME",log.AppName)
+                    new SqlParameter("@P_APPNAME",log.AppName),
+                    new SqlParameter("@P_COMPUTERID",log.ComputerId)
                 });
             }
         }

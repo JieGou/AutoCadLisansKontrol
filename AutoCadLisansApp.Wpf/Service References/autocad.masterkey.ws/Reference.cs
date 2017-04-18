@@ -473,6 +473,9 @@ namespace LicenseController.autocad.masterkey.ws {
         private System.Nullable<bool> IsFoundField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.Guid> LogIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string MachineNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -621,6 +624,19 @@ namespace LicenseController.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.Guid> LogId {
+            get {
+                return this.LogIdField;
+            }
+            set {
+                if ((this.LogIdField.Equals(value) != true)) {
+                    this.LogIdField = value;
+                    this.RaisePropertyChanged("LogId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string MachineName {
             get {
                 return this.MachineNameField;
@@ -734,6 +750,9 @@ namespace LicenseController.autocad.masterkey.ws {
         private string AppNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ComputerIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.DateTime EndTimeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -762,6 +781,9 @@ namespace LicenseController.autocad.masterkey.ws {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string MethodField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int OperationIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ReqXmlField;
@@ -794,6 +816,19 @@ namespace LicenseController.autocad.masterkey.ws {
                 if ((object.ReferenceEquals(this.AppNameField, value) != true)) {
                     this.AppNameField = value;
                     this.RaisePropertyChanged("AppName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ComputerId {
+            get {
+                return this.ComputerIdField;
+            }
+            set {
+                if ((this.ComputerIdField.Equals(value) != true)) {
+                    this.ComputerIdField = value;
+                    this.RaisePropertyChanged("ComputerId");
                 }
             }
         }
@@ -924,6 +959,19 @@ namespace LicenseController.autocad.masterkey.ws {
                 if ((object.ReferenceEquals(this.MethodField, value) != true)) {
                     this.MethodField = value;
                     this.RaisePropertyChanged("Method");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int OperationId {
+            get {
+                return this.OperationIdField;
+            }
+            set {
+                if ((this.OperationIdField.Equals(value) != true)) {
+                    this.OperationIdField = value;
+                    this.RaisePropertyChanged("OperationId");
                 }
             }
         }

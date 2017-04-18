@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,10 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
             return table;
         }
+        public static DateTime? ToNullIfTooEarlyForDb(this DateTime date)
+        {
+            return (date >= (DateTime)SqlDateTime.MinValue) ? date : (DateTime?)null;
+        }
     }
-    
+
 }
