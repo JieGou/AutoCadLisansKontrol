@@ -237,7 +237,7 @@ namespace AutoCadLisansKontrol.Controller
             return chc;
         }
 
-        public static CheckLicenseModel ExecuteWMIForOneApp(CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPoint> checklist, bool isRemote, out List<LogData> logs)
+        public  CheckLicenseModel ExecuteWMIForOneApp(CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPoint> checklist, bool isRemote, out List<LogData> logs)
         {
             var levelid = 0;
             var softwares = "";
@@ -245,7 +245,8 @@ namespace AutoCadLisansKontrol.Controller
             var guids = Guid.NewGuid();
             var guidId = guids.ToString();
             logs = new List<LogData>();
-            ProcessWMI process = new ProcessWMI(chc.MachineName, username, password, isRemote);
+            var remote = chc.MachineName == "" ? chc.Ip : chc.MachineName;
+            ProcessWMI process = new ProcessWMI(remote, username, password, isRemote);
 
             try
             {

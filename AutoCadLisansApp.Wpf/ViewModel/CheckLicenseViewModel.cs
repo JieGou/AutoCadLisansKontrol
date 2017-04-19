@@ -228,13 +228,13 @@ namespace MaterialDesignColors.WpfExample.Domain
                 TotalComputer = CheckLicenses.Count;
 
                 var counter = CheckLicenses.Count;
-                foreach (var chc in CheckLicenses)
+                Paralel.foreach (var chc in CheckLicenses)
                 {
-
+                    LicenseDetection detect = new LicenseDetection();
                     var tempchc = new CheckLicenseModel();
                     System.Action ChildDoInBackground = new System.Action(() =>
                        {
-                           tempchc = LicenseDetection.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
+                           tempchc = detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
 
                        });
                     System.Action ChildDoOnUiThread = new System.Action(() =>
@@ -334,16 +334,16 @@ namespace MaterialDesignColors.WpfExample.Domain
                     var counter = CheckLicenses.Count;
                     foreach (var chc in CheckLicenses)
                     {
-
+                        LicenseDetection detect = new LicenseDetection();
                         var tempchc = new CheckLicenseModel();
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
-                            tempchc = LicenseDetection.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
+                            chc.IsProgress = true;
+                            detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
 
                         });
                         System.Action ChildDoOnUiThread = new System.Action(() =>
                         {
-                            chc.Output = tempchc.Output;
                             chc.IsProgress = false;
                             ExecutedComputer++;
 
@@ -360,7 +360,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                             {
                                 ChildDoInBackground();
                             }
-                        }, Canceller.Token);
+                        }, Canceller.Token,TaskCreationOptions.LongRunning,TaskScheduler.Current);
                         //, TaskCreationOptions.None, UIContext.Current
                         // when t1 is done run t1..on the Ui thread.
                         var t4 = t3.ContinueWith(t =>

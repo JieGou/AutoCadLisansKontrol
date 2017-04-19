@@ -346,7 +346,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <DataGridTemplateColumn Header="Ip" Width="10*">
+                                <DataGridTemplateColumn Header="Ip" Width="150">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Ip" TextWrapping="Wrap">
@@ -363,7 +363,7 @@
                                 </DataGridTemplateColumn>
 
 
-                                <DataGridTemplateColumn Header="MachineName" Width="10*">
+                                <DataGridTemplateColumn Header="MachineName" Width="150">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="MachineName" TextWrapping="Wrap">
