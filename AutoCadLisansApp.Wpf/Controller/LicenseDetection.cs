@@ -29,7 +29,7 @@ namespace AutoCadLisansKontrol.Controller
 {
     public class LicenseDetection
     {
-        public static LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
+        public LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
         static OutputSniff outputs = new OutputSniff();
         public static CheckLicenseModel ExecutePowerShell(CheckLicenseModel chc, string username, string password, int opreationid)
         {
@@ -237,21 +237,21 @@ namespace AutoCadLisansKontrol.Controller
             return chc;
         }
 
-        public  CheckLicenseModel ExecuteWMIForOneApp(CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPoint> checklist, bool isRemote, out List<LogData> logs)
+        public CheckLicenseModel ExecuteWMIForOneApp(CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPoint> checklist, bool isRemote)
         {
             var levelid = 0;
             var softwares = "";
             var software = chc.App; ;
             var guids = Guid.NewGuid();
             var guidId = guids.ToString();
-            logs = new List<LogData>();
+            var logs = new List<LogData>();
             var remote = chc.MachineName == "" ? chc.Ip : chc.MachineName;
             ProcessWMI process = new ProcessWMI(remote, username, password, isRemote);
 
             try
             {
-                logs.Add(new LogData { AppName = Settings.Default.AppName, Id = guidId, StartTime = DateTime.Now, Method = "ExecuteWMI", LogDataType = LogDataType.InitiliazeProcess, ComputerId = (int)chc.ComputerId });
-                logs.Add(new LogData { ReqXml = GenericDataContractSerializer<Software>.SerializeObject(software), Id = guidId, LevelId = levelid, Method = "ExecuteWMI", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess, OperationId = (int)chc.OperationId });
+                logs.Add(new LogData { AppName = remote, Id = guidId, StartTime = DateTime.Now, Method = "ExecuteWMI", LogDataType = LogDataType.InitiliazeProcess, ComputerId = (int)chc.ComputerId });
+                logs.Add(new LogData { AppName = remote, ReqXml = GenericDataContractSerializer<Software>.SerializeObject(software), Id = guidId, LevelId = levelid, Method = "ExecuteWMI", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess, OperationId = (int)chc.OperationId });
                 process.Connect();
                 chc.LogId = guids;
                 chc.Fail = false;
@@ -406,7 +406,7 @@ namespace AutoCadLisansKontrol.Controller
                 chc.Success = true;
                 chc.State = true;
 
-                if (outputs.Win32_products != null)
+                if (outputs.Win32_products != null && outputs.Win32_products.Count > 0)
                 {
                     try
                     {
@@ -421,7 +421,7 @@ namespace AutoCadLisansKontrol.Controller
                     }
 
                 }
-                else if (outputs.RegistryAutoDesk != null)
+                else if (outputs.RegistryAutoDesk != null && outputs.RegistryAutoDesk.Count > 0)
                 {
                     try
                     {
@@ -436,7 +436,7 @@ namespace AutoCadLisansKontrol.Controller
                     }
 
                 }
-                else if (outputs.ApplicationEvents != null)
+                else if (outputs.ApplicationEvents != null && outputs.ApplicationEvents.Count > 0)
                 {
                     try
                     {
@@ -451,7 +451,7 @@ namespace AutoCadLisansKontrol.Controller
                     }
 
                 }
-                else if (outputs.FileExplorerModel != null)
+                else if (outputs.FileExplorerModel != null && outputs.FileExplorerModel.directories.Count > 0)
                 {
                     try
                     {
@@ -468,6 +468,8 @@ namespace AutoCadLisansKontrol.Controller
                 }
 
                 chc.Success = true;
+                chc.Output = softwares;
+                
             }
             catch (Exception ex)
             {
@@ -475,11 +477,22 @@ namespace AutoCadLisansKontrol.Controller
                 chc.Fail = true;
                 chc.Success = false;
                 chc.State = false;
+                chc.Output = softwares;
+                logs.Add(new LogData { AppName = remote, Id = guidId, ResXml = chc.Output, State = LogDataState.Success, LevelId = 0, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
+                logs.Add(new LogData() { AppName = remote, Id = guidId, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateProcess });
+                client.LogToDb(logs.ToArray());
+                return chc;
             }
-            chc.Output = softwares;
-            logs.Add(new LogData { Id = guidId, ResXml = chc.Output, State = LogDataState.Success, LevelId = 0, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
-            logs.Add(new LogData() { Id = guidId, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateProcess });
-            client.LogToDb(logs.ToArray());
+            try
+            {
+                logs.Add(new LogData { AppName = remote, Id = guidId, ResXml = chc.Output, State = LogDataState.Success, LevelId = 0, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
+                logs.Add(new LogData() { AppName = remote, Id = guidId, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateProcess });
+                client.LogToDb(logs.ToArray());
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+            }
             return chc;
         }
 

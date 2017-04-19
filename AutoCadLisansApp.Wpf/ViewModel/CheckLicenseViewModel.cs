@@ -26,7 +26,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 {
     public class CheckLicenseViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        List<LogData> logs = new List<LogData>();
+        
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
 
@@ -228,13 +228,13 @@ namespace MaterialDesignColors.WpfExample.Domain
                 TotalComputer = CheckLicenses.Count;
 
                 var counter = CheckLicenses.Count;
-                Paralel.foreach (var chc in CheckLicenses)
+                foreach (var chc in CheckLicenses)
                 {
                     LicenseDetection detect = new LicenseDetection();
                     var tempchc = new CheckLicenseModel();
                     System.Action ChildDoInBackground = new System.Action(() =>
                        {
-                           tempchc = detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
+                           tempchc = detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
 
                        });
                     System.Action ChildDoOnUiThread = new System.Action(() =>
@@ -338,12 +338,12 @@ namespace MaterialDesignColors.WpfExample.Domain
                         var tempchc = new CheckLicenseModel();
                         System.Action ChildDoInBackground = new System.Action(() =>
                         {
-                            chc.IsProgress = true;
-                            detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote, out logs);
+                            tempchc = detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
 
                         });
                         System.Action ChildDoOnUiThread = new System.Action(() =>
                         {
+                            chc.Output = tempchc.Output;
                             chc.IsProgress = false;
                             ExecutedComputer++;
 
@@ -358,9 +358,11 @@ namespace MaterialDesignColors.WpfExample.Domain
                         {
                             using (Canceller.Token.Register(Thread.CurrentThread.Abort))
                             {
+
                                 ChildDoInBackground();
+
                             }
-                        }, Canceller.Token,TaskCreationOptions.LongRunning,TaskScheduler.Current);
+                        }, Canceller.Token);
                         //, TaskCreationOptions.None, UIContext.Current
                         // when t1 is done run t1..on the Ui thread.
                         var t4 = t3.ContinueWith(t =>
@@ -417,7 +419,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                         var checklist = client.ListCheckLicense(OprId).ToList();
                         foreach (var item in checklist)
                         {
-                            var lc=new CheckLicenseModel
+                            var lc = new CheckLicenseModel
                             {
                                 CheckDate = item.CheckDate,
                                 ComputerId = item.ComputerId,
