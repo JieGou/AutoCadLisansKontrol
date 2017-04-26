@@ -432,7 +432,13 @@ namespace MaterialDesignColors.WpfExample.Domain
                                 UpdateDate = item.UpdateDate,
                                 State = item.State,
                                 Success = (bool?)item.State,
-                                App = _softwarelist.Where(y => y.Id == item.AppId).FirstOrDefault<Software>()
+                                App = _softwarelist.Where(y => y.Id == item.AppId).FirstOrDefault<Software>(),
+                                InstallDate=item.InstallDate,
+                                Description="",
+                                IsFound=item.IsFound,
+                                UnInstallDate=item.UnInstallDate,
+                                Uninstalled=item.Uninstalled,
+                                Installed=item.Installed
                             };
                             checklicense.Add(lc);
                         }
@@ -442,6 +448,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                     {
                         var message = ex.Message;
                     }
+                    EndNotification("Load Finish..");
                 });
 
                 System.Action ChildDoOnUiThread = new System.Action(() =>
@@ -460,7 +467,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 return;
             }
 
-            EndNotification("");
+            
         }
         public void CancelCommand()
         {
