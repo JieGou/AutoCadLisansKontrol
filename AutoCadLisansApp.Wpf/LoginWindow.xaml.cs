@@ -8,12 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.IO.IsolatedStorage;
 
 namespace LicenseController
 {
@@ -26,11 +21,14 @@ namespace LicenseController
         string password = "";
         public LoginWindow()
         {
+            
             InitializeComponent();
+            NameTextBox.Text = App.Current.Properties[0].ToString();
+            PasswordBox.Password = App.Current.Properties[1].ToString();
         }
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-                password = ((PasswordBox)sender).Password;
+            password = ((PasswordBox)sender).Password;
         }
         private void SnackbarMessage_HideSnackClick(object sender, RoutedEventArgs e)
         {
@@ -45,9 +43,11 @@ namespace LicenseController
                 var result = client.Login(NameTextBox.Text, password);
 
                 Notification.IsActive = true;
-                if (result!=null)
+                if (result != null)
                 {
                     GlobalVariable.getInstance().user = result;
+                    App.Current.Properties[0] = NameTextBox.Text;
+                    App.Current.Properties[1] = password;
                     var newForm = new MainWindow(); //create your new form.
                     newForm.Show(); //show the new form.
                     this.Close(); //only if you want to close the current form.
@@ -63,7 +63,7 @@ namespace LicenseController
             {
                 MessageBox.Show(ex.Message, "Login Operation");
             }
-           
+
         }
     }
 }

@@ -123,11 +123,6 @@
                     <TextBox 
                                             x:Name="NameTextBox"
                                             materialDesign:HintAssist.Hint="Name" >
-                        <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                            <Binding.ValidationRules>
-                                <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
                     </TextBox>
 
                     <materialDesign:PackIcon Kind="Key" Foreground="{Binding BorderBrush, ElementName=PasswordBox}" HorizontalAlignment="Left" />

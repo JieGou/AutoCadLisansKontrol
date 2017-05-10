@@ -10,6 +10,7 @@ namespace AutoCadLisansKontrol.DAL
     {
         public static TOut Convert<TOut, TIn>(TIn fromRecord) where TOut : new()
         {
+            if (fromRecord == null) return new TOut();
             var toRecord = new TOut();
             PropertyInfo[] fromFields = null;
             PropertyInfo[] toFields = null;

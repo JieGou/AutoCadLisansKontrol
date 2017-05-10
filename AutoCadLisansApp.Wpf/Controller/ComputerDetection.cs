@@ -75,14 +75,15 @@ namespace AutoCadLisansKontrol.Controller
 
             for (int i = 0; i < lines.Count; i++)
             {
-                networkmachine.Add(new ComputerDTO
+                networkmachine.Add(new ComputerModel
                 {
                     // Ip= GetIpAddressFromName(lines[i]),
                     Name = lines[i],
                     Type = "NetView",
                     //PyshicalAddress="",
                     IsRootMachine = false,
-                    IsComputer = true
+                    IsComputer = true,
+                    IsProgress=true
                 });
             }
             p.WaitForExit();
@@ -120,14 +121,15 @@ namespace AutoCadLisansKontrol.Controller
                 var compline = lines[i].Split(' ').Where(x => x != "").ToList();
 
 
-                networkmachine.Add(new ComputerDTO
+                networkmachine.Add(new ComputerModel
                 {
                     Ip = compline[0],
                     //Name = compline[1],
                     PyshicalAddress = compline[1],
                     Type = "ArpTable",
                     IsRootMachine = false,
-                    IsComputer = true
+                    IsComputer = true,
+                    IsProgress=true
                 });
 
             }
