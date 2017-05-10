@@ -11,6 +11,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TabController.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -236,6 +237,20 @@
                     <ProgressBar  IsIndeterminate="True" Margin="22,24,10,18" Visibility="{Binding ProgressBar,Mode=TwoWay}" />
 
                 </StackPanel>
+                <TabControl  Style="{DynamicResource ResourceKey=styleTabControl}"  Margin="16,0,16,16" >
+                    <TabItem Header="General" Style="{DynamicResource ResourceKey=styleTabItemLeft}">
+                        <TextBlock>The content for General tab.</TextBlock>
+                    </TabItem>
+                    <TabItem Header="Actions" Style="{DynamicResource ResourceKey=styleTabItemDefault}">
+                        <TextBlock>The content for Action tab.</TextBlock>
+                    </TabItem>
+                    <TabItem Header="Options" Style="{DynamicResource ResourceKey=styleTabItemDefault}">
+                        <TextBlock>The content for Options tab.</TextBlock>
+                    </TabItem>
+                    <TabItem Header="Tools" Style="{DynamicResource ResourceKey=styleTabItemRight}">
+                        <TextBlock>The content for Tools tab.</TextBlock>
+                    </TabItem>
+                </TabControl>
                 <GroupBox Grid.Column="0" Grid.Row="1"  Header="Start Sniffing" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
                     <GroupBox.HeaderTemplate>
                         <DataTemplate>

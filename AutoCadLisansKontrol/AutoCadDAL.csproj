@@ -94,11 +94,14 @@
     <Compile Include="DAL\ControlPoint.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\DataAccess.cs" />
+    <Compile Include="DAL\Converter.cs" />
     <Compile Include="DAL\FE_ControlListEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\FirmEntity.cs">
+      <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Firm_User_RL.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Log\ExtensionMethods.cs" />
@@ -113,12 +116,18 @@
     <Compile Include="DAL\OperationEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Service\BaseService.cs" />
+    <Compile Include="DAL\Service\CheckLicenseService.cs" />
+    <Compile Include="DAL\Service\ComputerService.cs" />
+    <Compile Include="DAL\Service\FirmService.cs" />
+    <Compile Include="DAL\Service\OperationService.cs" />
     <Compile Include="DAL\SoftwareEntity.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Users.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\DTO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

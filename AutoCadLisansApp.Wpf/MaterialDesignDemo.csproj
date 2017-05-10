@@ -64,24 +64,6 @@
       <HintPath>..\packages\Infodinamica.Framework.Exportable.1.3.6.30133\lib\net35\Infodinamica.Framework.Exportable.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=1.2.0.26771, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\hikmet\Desktop\MaterialDesignInXamlToolkit-master\MaterialDesignThemes.Wpf\bin\Debug\MaterialDesignThemes.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>C:\Users\hikmet\Desktop\ExportToExcel\ExportToExcel\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>C:\Users\hikmet\Desktop\ExportToExcel\ExportToExcel\bin\Debug\Microsoft.Office.Interop.Word.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism.Composition, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Composition.5.0.0\lib\NET45\Microsoft.Practices.Prism.Composition.dll</HintPath>
       <Private>True</Private>
@@ -190,7 +172,9 @@
     <Compile Include="Model\BoolInverter.cs" />
     <Compile Include="Model\CheckLicenseModel.cs" />
     <Compile Include="Model\ComputerModel.cs" />
+    <Compile Include="Model\Converter.cs" />
     <Compile Include="Model\Excel.cs" />
+    <Compile Include="Model\GlobalVariable.cs" />
     <Compile Include="Model\MTObservableCollection.cs" />
     <Compile Include="Model\UIContext.cs" />
     <Compile Include="Service References\autocad.masterkey.ws\Reference.cs">
@@ -552,41 +536,41 @@
     <None Include="Service References\autocad.masterkey.ws\AutoCadLisansKontrol.DAL.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.CheckLicense.datasource">
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.CheckLicenseDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.Computer.datasource">
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.ComputerDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.ControlPoint.datasource">
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.ControlPointDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.FE_ControlList.datasource">
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.FE_ControlListDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.Firm.datasource">
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.FirmDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.Operation.datasource">
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.OperationDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.Software.datasource">
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.SoftwareDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\Service1.wsdl" />
-    <None Include="Service References\autocad.masterkey.ws\Service15.xsd">
+    <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.UsersDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\autocad.masterkey.ws\Service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\Service151.xsd">
+    <None Include="Service References\autocad.masterkey.ws\Service11.wsdl" />
+    <None Include="Service References\autocad.masterkey.ws\Service11.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\Service152.xsd">
+    <None Include="Service References\autocad.masterkey.ws\Service12.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\Service153.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\autocad.masterkey.ws\Service154.xsd">
+    <None Include="Service References\autocad.masterkey.ws\Service13.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -643,7 +627,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\Aspose.Cells.dll" />
-    <None Include="Service References\autocad.masterkey.ws\Service11.disco" />
+    <None Include="Service References\autocad.masterkey.ws\Service1.disco" />
     <Resource Include="rsz_autocadicon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -653,6 +637,14 @@
     <ProjectReference Include="..\WIN32_Registry\WIN32_Registry.csproj">
       <Project>{fcfdcae6-674b-4ca9-8e28-5f52b10fc1ee}</Project>
       <Name>WIN32_Registry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPF Library\MaterialDesignInXamlToolkit-master\MaterialDesignInXamlToolkit-master\MaterialDesignColors.Wpf\MaterialDesignColors.Wpf.csproj">
+      <Project>{90b53209-c60c-4655-b28d-a1b3e1044ba3}</Project>
+      <Name>MaterialDesignColors.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPF Library\MaterialDesignInXamlToolkit-master\MaterialDesignInXamlToolkit-master\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
+      <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
+      <Name>MaterialDesignThemes.Wpf</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

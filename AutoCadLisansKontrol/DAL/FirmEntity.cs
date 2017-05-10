@@ -19,6 +19,7 @@ namespace AutoCadLisansKontrol.DAL
         {
             this.Operation = new HashSet<OperationEntity>();
             this.Computer = new HashSet<ComputerEntity>();
+            this.Firm_User_RL = new HashSet<Firm_User_RL>();
         }
     
         public int Id { get; set; }
@@ -32,5 +33,9 @@ namespace AutoCadLisansKontrol.DAL
         public virtual ICollection<OperationEntity> Operation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ComputerEntity> Computer { get; set; }
+        public virtual FirmEntity Firm1 { get; set; }
+        public virtual FirmEntity Firm2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Firm_User_RL> Firm_User_RL { get; set; }
     }
 }

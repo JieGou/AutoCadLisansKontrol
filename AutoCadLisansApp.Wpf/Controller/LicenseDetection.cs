@@ -237,7 +237,7 @@ namespace AutoCadLisansKontrol.Controller
             return chc;
         }
 
-        public CheckLicenseModel ExecuteWMIForOneApp(CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPoint> checklist, bool isRemote)
+        public CheckLicenseModel ExecuteWMIForOneApp(CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPointDTO> checklist, bool isRemote)
         {
             var levelid = 0;
             var softwares = "";
@@ -251,7 +251,7 @@ namespace AutoCadLisansKontrol.Controller
             try
             {
                 logs.Add(new LogData { AppName = remote, Id = guidId, StartTime = DateTime.Now, Method = "ExecuteWMI", LogDataType = LogDataType.InitiliazeProcess, ComputerId = (int)chc.ComputerId });
-                logs.Add(new LogData { AppName = remote, ReqXml = GenericDataContractSerializer<Software>.SerializeObject(software), Id = guidId, LevelId = levelid, Method = "ExecuteWMI", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess, OperationId = (int)chc.OperationId });
+                logs.Add(new LogData { AppName = remote, ReqXml = GenericDataContractSerializer<SoftwareDTO>.SerializeObject(software), Id = guidId, LevelId = levelid, Method = "ExecuteWMI", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess, OperationId = (int)chc.OperationId });
                 process.Connect();
                 chc.LogId = guids;
                 chc.Fail = false;
@@ -273,7 +273,7 @@ namespace AutoCadLisansKontrol.Controller
                         {
 
                             levelid++;
-                            logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Add or Remove Programs", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
+                            logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPointDTO>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Add or Remove Programs", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
 
                             var win32product = process.GetProductWithWMI(software);
                             outputs.Win32_products = win32product;
@@ -304,7 +304,7 @@ namespace AutoCadLisansKontrol.Controller
                         try
                         {
                             levelid++;
-                            logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Registry Key", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
+                            logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPointDTO>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Registry Key", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
 
                             var registeryproduct = process.ReadRegisteryusingWMI(software);
                             registerys += "\n\r" + "REGISTERY KEY" + "\n\r" + "\n\r";
@@ -333,7 +333,7 @@ namespace AutoCadLisansKontrol.Controller
                     {
                         levelid++;
                         var appevent = "";
-                        logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Application Events", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
+                        logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPointDTO>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Application Events", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
                         try
                         {
 
@@ -366,7 +366,7 @@ namespace AutoCadLisansKontrol.Controller
                     {
                         var fileexplorer = "";
                         levelid++;
-                        logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPoint>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "File Explorer", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
+                        logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPointDTO>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "File Explorer", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
                         try
                         {
 

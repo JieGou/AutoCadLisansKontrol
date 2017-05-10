@@ -15,9 +15,86 @@ namespace LicenseController.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Firm", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UsersDTO", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs.DAL")]
     [System.SerializableAttribute()]
-    public partial class Firm : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class UsersDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PasswordField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UserNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Password {
+            get {
+                return this.PasswordField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PasswordField, value) != true)) {
+                    this.PasswordField = value;
+                    this.RaisePropertyChanged("Password");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UserName {
+            get {
+                return this.UserNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
+                    this.UserNameField = value;
+                    this.RaisePropertyChanged("UserName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FirmDTO", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs.DAL")]
+    [System.SerializableAttribute()]
+    public partial class FirmDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -39,6 +116,9 @@ namespace LicenseController.autocad.masterkey.ws {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PhoneNoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int UserIdField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -128,6 +208,19 @@ namespace LicenseController.autocad.masterkey.ws {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int UserId {
+            get {
+                return this.UserIdField;
+            }
+            set {
+                if ((this.UserIdField.Equals(value) != true)) {
+                    this.UserIdField = value;
+                    this.RaisePropertyChanged("UserId");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -140,9 +233,9 @@ namespace LicenseController.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Computer", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ComputerDTO", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs.DAL")]
     [System.SerializableAttribute()]
-    public partial class Computer : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ComputerDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -329,9 +422,9 @@ namespace LicenseController.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Operation", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="OperationDTO", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs.DAL")]
     [System.SerializableAttribute()]
-    public partial class Operation : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class OperationDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -340,7 +433,7 @@ namespace LicenseController.autocad.masterkey.ws {
         private int ComputerCountField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private LicenseController.autocad.masterkey.ws.Firm FirmField;
+        private LicenseController.autocad.masterkey.ws.FirmDTO FirmField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int FirmIdField;
@@ -375,7 +468,7 @@ namespace LicenseController.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public LicenseController.autocad.masterkey.ws.Firm Firm {
+        public LicenseController.autocad.masterkey.ws.FirmDTO Firm {
             get {
                 return this.FirmField;
             }
@@ -438,9 +531,9 @@ namespace LicenseController.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CheckLicense", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CheckLicenseDTO", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs.DAL")]
     [System.SerializableAttribute()]
-    public partial class CheckLicense : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class CheckLicenseDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -1068,9 +1161,9 @@ namespace LicenseController.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ControlPoint", Namespace="http://schemas.datacontract.org/2004/07/AutoCadLisansKontrol.DAL")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ControlPointDTO", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs.DAL")]
     [System.SerializableAttribute()]
-    public partial class ControlPoint : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ControlPointDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -1161,9 +1254,9 @@ namespace LicenseController.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Software", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SoftwareDTO", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs.DAL")]
     [System.SerializableAttribute()]
-    public partial class Software : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class SoftwareDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -1173,6 +1266,9 @@ namespace LicenseController.autocad.masterkey.ws {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsEnableField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -1210,6 +1306,19 @@ namespace LicenseController.autocad.masterkey.ws {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsEnable {
+            get {
+                return this.IsEnableField;
+            }
+            set {
+                if ((this.IsEnableField.Equals(value) != true)) {
+                    this.IsEnableField = value;
+                    this.RaisePropertyChanged("IsEnable");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -1222,9 +1331,9 @@ namespace LicenseController.autocad.masterkey.ws {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="FE_ControlList", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FE_ControlListDTO", Namespace="http://schemas.datacontract.org/2004/07/LicenseControllerWs.DAL")]
     [System.SerializableAttribute()]
-    public partial class FE_ControlList : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class FE_ControlListDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -1334,112 +1443,112 @@ namespace LicenseController.autocad.masterkey.ws {
     public interface IService1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Login", ReplyAction="http://tempuri.org/IService1/LoginResponse")]
-        bool Login(string username, string password);
+        LicenseController.autocad.masterkey.ws.UsersDTO Login(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Login", ReplyAction="http://tempuri.org/IService1/LoginResponse")]
-        System.Threading.Tasks.Task<bool> LoginAsync(string username, string password);
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.UsersDTO> LoginAsync(string username, string password);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertFirm", ReplyAction="http://tempuri.org/IService1/UpsertFirmResponse")]
-        void UpsertFirm(LicenseController.autocad.masterkey.ws.Firm firm);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmUpsert", ReplyAction="http://tempuri.org/IService1/FirmUpsertResponse")]
+        void FirmUpsert(LicenseController.autocad.masterkey.ws.FirmDTO firm);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertFirm", ReplyAction="http://tempuri.org/IService1/UpsertFirmResponse")]
-        System.Threading.Tasks.Task UpsertFirmAsync(LicenseController.autocad.masterkey.ws.Firm firm);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmUpsert", ReplyAction="http://tempuri.org/IService1/FirmUpsertResponse")]
+        System.Threading.Tasks.Task FirmUpsertAsync(LicenseController.autocad.masterkey.ws.FirmDTO firm);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetFirm", ReplyAction="http://tempuri.org/IService1/GetFirmResponse")]
-        LicenseController.autocad.masterkey.ws.Firm GetFirm(System.Nullable<int> firmId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmGet", ReplyAction="http://tempuri.org/IService1/FirmGetResponse")]
+        LicenseController.autocad.masterkey.ws.FirmDTO FirmGet(System.Nullable<int> firmId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetFirm", ReplyAction="http://tempuri.org/IService1/GetFirmResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Firm> GetFirmAsync(System.Nullable<int> firmId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmGet", ReplyAction="http://tempuri.org/IService1/FirmGetResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FirmDTO> FirmGetAsync(System.Nullable<int> firmId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListFirm", ReplyAction="http://tempuri.org/IService1/ListFirmResponse")]
-        LicenseController.autocad.masterkey.ws.Firm[] ListFirm();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmList", ReplyAction="http://tempuri.org/IService1/FirmListResponse")]
+        LicenseController.autocad.masterkey.ws.FirmDTO[] FirmList(int userid);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListFirm", ReplyAction="http://tempuri.org/IService1/ListFirmResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Firm[]> ListFirmAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmList", ReplyAction="http://tempuri.org/IService1/FirmListResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FirmDTO[]> FirmListAsync(int userid);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteFirm", ReplyAction="http://tempuri.org/IService1/DeleteFirmResponse")]
-        void DeleteFirm(int firmid);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmDelete", ReplyAction="http://tempuri.org/IService1/FirmDeleteResponse")]
+        void FirmDelete(int firmid);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteFirm", ReplyAction="http://tempuri.org/IService1/DeleteFirmResponse")]
-        System.Threading.Tasks.Task DeleteFirmAsync(int firmid);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmDelete", ReplyAction="http://tempuri.org/IService1/FirmDeleteResponse")]
+        System.Threading.Tasks.Task FirmDeleteAsync(int firmid);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateFirm", ReplyAction="http://tempuri.org/IService1/UpdateFirmResponse")]
-        void UpdateFirm(LicenseController.autocad.masterkey.ws.Firm firm);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmUpdate", ReplyAction="http://tempuri.org/IService1/FirmUpdateResponse")]
+        void FirmUpdate(LicenseController.autocad.masterkey.ws.FirmDTO firm);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateFirm", ReplyAction="http://tempuri.org/IService1/UpdateFirmResponse")]
-        System.Threading.Tasks.Task UpdateFirmAsync(LicenseController.autocad.masterkey.ws.Firm firm);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmUpdate", ReplyAction="http://tempuri.org/IService1/FirmUpdateResponse")]
+        System.Threading.Tasks.Task FirmUpdateAsync(LicenseController.autocad.masterkey.ws.FirmDTO firm);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertComputer", ReplyAction="http://tempuri.org/IService1/UpsertComputerResponse")]
-        int UpsertComputer(LicenseController.autocad.masterkey.ws.Computer c);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerUpsert", ReplyAction="http://tempuri.org/IService1/ComputerUpsertResponse")]
+        int ComputerUpsert(LicenseController.autocad.masterkey.ws.ComputerDTO c);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertComputer", ReplyAction="http://tempuri.org/IService1/UpsertComputerResponse")]
-        System.Threading.Tasks.Task<int> UpsertComputerAsync(LicenseController.autocad.masterkey.ws.Computer c);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerUpsert", ReplyAction="http://tempuri.org/IService1/ComputerUpsertResponse")]
+        System.Threading.Tasks.Task<int> ComputerUpsertAsync(LicenseController.autocad.masterkey.ws.ComputerDTO c);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOperation", ReplyAction="http://tempuri.org/IService1/GetOperationResponse")]
-        LicenseController.autocad.masterkey.ws.Operation GetOperation(int opr);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationGet", ReplyAction="http://tempuri.org/IService1/OperationGetResponse")]
+        LicenseController.autocad.masterkey.ws.OperationDTO OperationGet(int opr);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOperation", ReplyAction="http://tempuri.org/IService1/GetOperationResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation> GetOperationAsync(int opr);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationGet", ReplyAction="http://tempuri.org/IService1/OperationGetResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.OperationDTO> OperationGetAsync(int opr);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListAllComputer", ReplyAction="http://tempuri.org/IService1/ListAllComputerResponse")]
-        LicenseController.autocad.masterkey.ws.Computer[] ListAllComputer();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerListAll", ReplyAction="http://tempuri.org/IService1/ComputerListAllResponse")]
+        LicenseController.autocad.masterkey.ws.ComputerDTO[] ComputerListAll();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListAllComputer", ReplyAction="http://tempuri.org/IService1/ListAllComputerResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Computer[]> ListAllComputerAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerListAll", ReplyAction="http://tempuri.org/IService1/ComputerListAllResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ComputerDTO[]> ComputerListAllAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListComputer", ReplyAction="http://tempuri.org/IService1/ListComputerResponse")]
-        LicenseController.autocad.masterkey.ws.Computer[] ListComputer(System.Nullable<int> firmId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerList", ReplyAction="http://tempuri.org/IService1/ComputerListResponse")]
+        LicenseController.autocad.masterkey.ws.ComputerDTO[] ComputerList(System.Nullable<int> firmId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListComputer", ReplyAction="http://tempuri.org/IService1/ListComputerResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Computer[]> ListComputerAsync(System.Nullable<int> firmId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerList", ReplyAction="http://tempuri.org/IService1/ComputerListResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ComputerDTO[]> ComputerListAsync(System.Nullable<int> firmId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteComputer", ReplyAction="http://tempuri.org/IService1/DeleteComputerResponse")]
-        void DeleteComputer(int Id);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerDelete", ReplyAction="http://tempuri.org/IService1/ComputerDeleteResponse")]
+        void ComputerDelete(int Id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteComputer", ReplyAction="http://tempuri.org/IService1/DeleteComputerResponse")]
-        System.Threading.Tasks.Task DeleteComputerAsync(int Id);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerDelete", ReplyAction="http://tempuri.org/IService1/ComputerDeleteResponse")]
+        System.Threading.Tasks.Task ComputerDeleteAsync(int Id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateComputer", ReplyAction="http://tempuri.org/IService1/UpdateComputerResponse")]
-        void UpdateComputer(LicenseController.autocad.masterkey.ws.Computer comp);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerUpdate", ReplyAction="http://tempuri.org/IService1/ComputerUpdateResponse")]
+        void ComputerUpdate(LicenseController.autocad.masterkey.ws.ComputerDTO comp);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateComputer", ReplyAction="http://tempuri.org/IService1/UpdateComputerResponse")]
-        System.Threading.Tasks.Task UpdateComputerAsync(LicenseController.autocad.masterkey.ws.Computer comp);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerUpdate", ReplyAction="http://tempuri.org/IService1/ComputerUpdateResponse")]
+        System.Threading.Tasks.Task ComputerUpdateAsync(LicenseController.autocad.masterkey.ws.ComputerDTO comp);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertOperation", ReplyAction="http://tempuri.org/IService1/UpsertOperationResponse")]
-        void UpsertOperation(LicenseController.autocad.masterkey.ws.Operation opr);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationUpsert", ReplyAction="http://tempuri.org/IService1/OperationUpsertResponse")]
+        void OperationUpsert(LicenseController.autocad.masterkey.ws.OperationDTO opr);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertOperation", ReplyAction="http://tempuri.org/IService1/UpsertOperationResponse")]
-        System.Threading.Tasks.Task UpsertOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationUpsert", ReplyAction="http://tempuri.org/IService1/OperationUpsertResponse")]
+        System.Threading.Tasks.Task OperationUpsertAsync(LicenseController.autocad.masterkey.ws.OperationDTO opr);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListAllOperation", ReplyAction="http://tempuri.org/IService1/ListAllOperationResponse")]
-        LicenseController.autocad.masterkey.ws.Operation[] ListAllOperation();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationListAll", ReplyAction="http://tempuri.org/IService1/OperationListAllResponse")]
+        LicenseController.autocad.masterkey.ws.OperationDTO[] OperationListAll();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListAllOperation", ReplyAction="http://tempuri.org/IService1/ListAllOperationResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation[]> ListAllOperationAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationListAll", ReplyAction="http://tempuri.org/IService1/OperationListAllResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.OperationDTO[]> OperationListAllAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListOperation", ReplyAction="http://tempuri.org/IService1/ListOperationResponse")]
-        LicenseController.autocad.masterkey.ws.Operation[] ListOperation(int firmid);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationList", ReplyAction="http://tempuri.org/IService1/OperationListResponse")]
+        LicenseController.autocad.masterkey.ws.OperationDTO[] OperationList(int firmid);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListOperation", ReplyAction="http://tempuri.org/IService1/ListOperationResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation[]> ListOperationAsync(int firmid);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationList", ReplyAction="http://tempuri.org/IService1/OperationListResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.OperationDTO[]> OperationListAsync(int firmid);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteOperation", ReplyAction="http://tempuri.org/IService1/DeleteOperationResponse")]
-        void DeleteOperation(LicenseController.autocad.masterkey.ws.Operation opr);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationDelete", ReplyAction="http://tempuri.org/IService1/OperationDeleteResponse")]
+        void OperationDelete(LicenseController.autocad.masterkey.ws.OperationDTO opr);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteOperation", ReplyAction="http://tempuri.org/IService1/DeleteOperationResponse")]
-        System.Threading.Tasks.Task DeleteOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationDelete", ReplyAction="http://tempuri.org/IService1/OperationDeleteResponse")]
+        System.Threading.Tasks.Task OperationDeleteAsync(LicenseController.autocad.masterkey.ws.OperationDTO opr);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateOperation", ReplyAction="http://tempuri.org/IService1/UpdateOperationResponse")]
-        void UpdateOperation(LicenseController.autocad.masterkey.ws.Operation opr);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationUpdate", ReplyAction="http://tempuri.org/IService1/OperationUpdateResponse")]
+        void OperationUpdate(LicenseController.autocad.masterkey.ws.OperationDTO opr);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateOperation", ReplyAction="http://tempuri.org/IService1/UpdateOperationResponse")]
-        System.Threading.Tasks.Task UpdateOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/OperationUpdate", ReplyAction="http://tempuri.org/IService1/OperationUpdateResponse")]
+        System.Threading.Tasks.Task OperationUpdateAsync(LicenseController.autocad.masterkey.ws.OperationDTO opr);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertCheckLicense", ReplyAction="http://tempuri.org/IService1/UpsertCheckLicenseResponse")]
-        void UpsertCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseUpsert", ReplyAction="http://tempuri.org/IService1/CheckLicenseUpsertResponse")]
+        void CheckLicenseUpsert(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpsertCheckLicense", ReplyAction="http://tempuri.org/IService1/UpsertCheckLicenseResponse")]
-        System.Threading.Tasks.Task UpsertCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseUpsert", ReplyAction="http://tempuri.org/IService1/CheckLicenseUpsertResponse")]
+        System.Threading.Tasks.Task CheckLicenseUpsertAsync(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/LogToDb", ReplyAction="http://tempuri.org/IService1/LogToDbResponse")]
         void LogToDb(LicenseController.autocad.masterkey.ws.LogData[] logs);
@@ -1447,59 +1556,59 @@ namespace LicenseController.autocad.masterkey.ws {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/LogToDb", ReplyAction="http://tempuri.org/IService1/LogToDbResponse")]
         System.Threading.Tasks.Task LogToDbAsync(LicenseController.autocad.masterkey.ws.LogData[] logs);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListCheckLicense", ReplyAction="http://tempuri.org/IService1/ListCheckLicenseResponse")]
-        LicenseController.autocad.masterkey.ws.CheckLicense[] ListCheckLicense(int id);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseList", ReplyAction="http://tempuri.org/IService1/CheckLicenseListResponse")]
+        LicenseController.autocad.masterkey.ws.CheckLicenseDTO[] CheckLicenseList(int id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ListCheckLicense", ReplyAction="http://tempuri.org/IService1/ListCheckLicenseResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync(int id);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseList", ReplyAction="http://tempuri.org/IService1/CheckLicenseListResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.CheckLicenseDTO[]> CheckLicenseListAsync(int id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteCheckLicense", ReplyAction="http://tempuri.org/IService1/DeleteCheckLicenseResponse")]
-        void DeleteCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseDelete", ReplyAction="http://tempuri.org/IService1/CheckLicenseDeleteResponse")]
+        void CheckLicenseDelete(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteCheckLicense", ReplyAction="http://tempuri.org/IService1/DeleteCheckLicenseResponse")]
-        System.Threading.Tasks.Task DeleteCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseDelete", ReplyAction="http://tempuri.org/IService1/CheckLicenseDeleteResponse")]
+        System.Threading.Tasks.Task CheckLicenseDeleteAsync(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateCheckLicense", ReplyAction="http://tempuri.org/IService1/UpdateCheckLicenseResponse")]
-        void UpdateCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseUpdate", ReplyAction="http://tempuri.org/IService1/CheckLicenseUpdateResponse")]
+        void CheckLicenseUpdate(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateCheckLicense", ReplyAction="http://tempuri.org/IService1/UpdateCheckLicenseResponse")]
-        System.Threading.Tasks.Task UpdateCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseUpdate", ReplyAction="http://tempuri.org/IService1/CheckLicenseUpdateResponse")]
+        System.Threading.Tasks.Task CheckLicenseUpdateAsync(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteAllComputerBaseFormid", ReplyAction="http://tempuri.org/IService1/DeleteAllComputerBaseFormidResponse")]
-        void DeleteAllComputerBaseFormid(int firmId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerDeleteAllBaseFormid", ReplyAction="http://tempuri.org/IService1/ComputerDeleteAllBaseFormidResponse")]
+        void ComputerDeleteAllBaseFormid(int firmId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteAllComputerBaseFormid", ReplyAction="http://tempuri.org/IService1/DeleteAllComputerBaseFormidResponse")]
-        System.Threading.Tasks.Task DeleteAllComputerBaseFormidAsync(int firmId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerDeleteAllBaseFormid", ReplyAction="http://tempuri.org/IService1/ComputerDeleteAllBaseFormidResponse")]
+        System.Threading.Tasks.Task ComputerDeleteAllBaseFormidAsync(int firmId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationid", ReplyAction="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationidResponse")]
-        void DeleteAllLicenseBaseOperationid(int oprId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseDeleteAllBaseOperationid", ReplyAction="http://tempuri.org/IService1/CheckLicenseDeleteAllBaseOperationidResponse")]
+        void CheckLicenseDeleteAllBaseOperationid(int oprId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationid", ReplyAction="http://tempuri.org/IService1/DeleteAllLicenseBaseOperationidResponse")]
-        System.Threading.Tasks.Task DeleteAllLicenseBaseOperationidAsync(int oprId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetControlPoint", ReplyAction="http://tempuri.org/IService1/GetControlPointResponse")]
-        LicenseController.autocad.masterkey.ws.ControlPoint[] GetControlPoint();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/CheckLicenseDeleteAllBaseOperationid", ReplyAction="http://tempuri.org/IService1/CheckLicenseDeleteAllBaseOperationidResponse")]
+        System.Threading.Tasks.Task CheckLicenseDeleteAllBaseOperationidAsync(int oprId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetControlPoint", ReplyAction="http://tempuri.org/IService1/GetControlPointResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ControlPoint[]> GetControlPointAsync();
+        LicenseController.autocad.masterkey.ws.ControlPointDTO[] GetControlPoint();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetControlPoint", ReplyAction="http://tempuri.org/IService1/GetControlPointResponse")]
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ControlPointDTO[]> GetControlPointAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetAllApplication", ReplyAction="http://tempuri.org/IService1/GetAllApplicationResponse")]
-        LicenseController.autocad.masterkey.ws.Software[] GetAllApplication();
+        LicenseController.autocad.masterkey.ws.SoftwareDTO[] GetAllApplication();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetAllApplication", ReplyAction="http://tempuri.org/IService1/GetAllApplicationResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Software[]> GetAllApplicationAsync();
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.SoftwareDTO[]> GetAllApplicationAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetFEControlList", ReplyAction="http://tempuri.org/IService1/GetFEControlListResponse")]
-        LicenseController.autocad.masterkey.ws.FE_ControlList[] GetFEControlList(int appid);
+        LicenseController.autocad.masterkey.ws.FE_ControlListDTO[] GetFEControlList(int appid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetFEControlList", ReplyAction="http://tempuri.org/IService1/GetFEControlListResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FE_ControlList[]> GetFEControlListAsync(int appid);
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FE_ControlListDTO[]> GetFEControlListAsync(int appid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetApplication", ReplyAction="http://tempuri.org/IService1/GetApplicationResponse")]
-        LicenseController.autocad.masterkey.ws.Software GetApplication(System.Nullable<int> id);
+        LicenseController.autocad.masterkey.ws.SoftwareDTO GetApplication(System.Nullable<int> id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetApplication", ReplyAction="http://tempuri.org/IService1/GetApplicationResponse")]
-        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Software> GetApplicationAsync(System.Nullable<int> id);
+        System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.SoftwareDTO> GetApplicationAsync(System.Nullable<int> id);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1529,148 +1638,148 @@ namespace LicenseController.autocad.masterkey.ws {
                 base(binding, remoteAddress) {
         }
         
-        public bool Login(string username, string password) {
+        public LicenseController.autocad.masterkey.ws.UsersDTO Login(string username, string password) {
             return base.Channel.Login(username, password);
         }
         
-        public System.Threading.Tasks.Task<bool> LoginAsync(string username, string password) {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.UsersDTO> LoginAsync(string username, string password) {
             return base.Channel.LoginAsync(username, password);
         }
         
-        public void UpsertFirm(LicenseController.autocad.masterkey.ws.Firm firm) {
-            base.Channel.UpsertFirm(firm);
+        public void FirmUpsert(LicenseController.autocad.masterkey.ws.FirmDTO firm) {
+            base.Channel.FirmUpsert(firm);
         }
         
-        public System.Threading.Tasks.Task UpsertFirmAsync(LicenseController.autocad.masterkey.ws.Firm firm) {
-            return base.Channel.UpsertFirmAsync(firm);
+        public System.Threading.Tasks.Task FirmUpsertAsync(LicenseController.autocad.masterkey.ws.FirmDTO firm) {
+            return base.Channel.FirmUpsertAsync(firm);
         }
         
-        public LicenseController.autocad.masterkey.ws.Firm GetFirm(System.Nullable<int> firmId) {
-            return base.Channel.GetFirm(firmId);
+        public LicenseController.autocad.masterkey.ws.FirmDTO FirmGet(System.Nullable<int> firmId) {
+            return base.Channel.FirmGet(firmId);
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Firm> GetFirmAsync(System.Nullable<int> firmId) {
-            return base.Channel.GetFirmAsync(firmId);
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FirmDTO> FirmGetAsync(System.Nullable<int> firmId) {
+            return base.Channel.FirmGetAsync(firmId);
         }
         
-        public LicenseController.autocad.masterkey.ws.Firm[] ListFirm() {
-            return base.Channel.ListFirm();
+        public LicenseController.autocad.masterkey.ws.FirmDTO[] FirmList(int userid) {
+            return base.Channel.FirmList(userid);
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Firm[]> ListFirmAsync() {
-            return base.Channel.ListFirmAsync();
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FirmDTO[]> FirmListAsync(int userid) {
+            return base.Channel.FirmListAsync(userid);
         }
         
-        public void DeleteFirm(int firmid) {
-            base.Channel.DeleteFirm(firmid);
+        public void FirmDelete(int firmid) {
+            base.Channel.FirmDelete(firmid);
         }
         
-        public System.Threading.Tasks.Task DeleteFirmAsync(int firmid) {
-            return base.Channel.DeleteFirmAsync(firmid);
+        public System.Threading.Tasks.Task FirmDeleteAsync(int firmid) {
+            return base.Channel.FirmDeleteAsync(firmid);
         }
         
-        public void UpdateFirm(LicenseController.autocad.masterkey.ws.Firm firm) {
-            base.Channel.UpdateFirm(firm);
+        public void FirmUpdate(LicenseController.autocad.masterkey.ws.FirmDTO firm) {
+            base.Channel.FirmUpdate(firm);
         }
         
-        public System.Threading.Tasks.Task UpdateFirmAsync(LicenseController.autocad.masterkey.ws.Firm firm) {
-            return base.Channel.UpdateFirmAsync(firm);
+        public System.Threading.Tasks.Task FirmUpdateAsync(LicenseController.autocad.masterkey.ws.FirmDTO firm) {
+            return base.Channel.FirmUpdateAsync(firm);
         }
         
-        public int UpsertComputer(LicenseController.autocad.masterkey.ws.Computer c) {
-            return base.Channel.UpsertComputer(c);
+        public int ComputerUpsert(LicenseController.autocad.masterkey.ws.ComputerDTO c) {
+            return base.Channel.ComputerUpsert(c);
         }
         
-        public System.Threading.Tasks.Task<int> UpsertComputerAsync(LicenseController.autocad.masterkey.ws.Computer c) {
-            return base.Channel.UpsertComputerAsync(c);
+        public System.Threading.Tasks.Task<int> ComputerUpsertAsync(LicenseController.autocad.masterkey.ws.ComputerDTO c) {
+            return base.Channel.ComputerUpsertAsync(c);
         }
         
-        public LicenseController.autocad.masterkey.ws.Operation GetOperation(int opr) {
-            return base.Channel.GetOperation(opr);
+        public LicenseController.autocad.masterkey.ws.OperationDTO OperationGet(int opr) {
+            return base.Channel.OperationGet(opr);
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation> GetOperationAsync(int opr) {
-            return base.Channel.GetOperationAsync(opr);
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.OperationDTO> OperationGetAsync(int opr) {
+            return base.Channel.OperationGetAsync(opr);
         }
         
-        public LicenseController.autocad.masterkey.ws.Computer[] ListAllComputer() {
-            return base.Channel.ListAllComputer();
+        public LicenseController.autocad.masterkey.ws.ComputerDTO[] ComputerListAll() {
+            return base.Channel.ComputerListAll();
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Computer[]> ListAllComputerAsync() {
-            return base.Channel.ListAllComputerAsync();
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ComputerDTO[]> ComputerListAllAsync() {
+            return base.Channel.ComputerListAllAsync();
         }
         
-        public LicenseController.autocad.masterkey.ws.Computer[] ListComputer(System.Nullable<int> firmId) {
-            return base.Channel.ListComputer(firmId);
+        public LicenseController.autocad.masterkey.ws.ComputerDTO[] ComputerList(System.Nullable<int> firmId) {
+            return base.Channel.ComputerList(firmId);
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Computer[]> ListComputerAsync(System.Nullable<int> firmId) {
-            return base.Channel.ListComputerAsync(firmId);
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ComputerDTO[]> ComputerListAsync(System.Nullable<int> firmId) {
+            return base.Channel.ComputerListAsync(firmId);
         }
         
-        public void DeleteComputer(int Id) {
-            base.Channel.DeleteComputer(Id);
+        public void ComputerDelete(int Id) {
+            base.Channel.ComputerDelete(Id);
         }
         
-        public System.Threading.Tasks.Task DeleteComputerAsync(int Id) {
-            return base.Channel.DeleteComputerAsync(Id);
+        public System.Threading.Tasks.Task ComputerDeleteAsync(int Id) {
+            return base.Channel.ComputerDeleteAsync(Id);
         }
         
-        public void UpdateComputer(LicenseController.autocad.masterkey.ws.Computer comp) {
-            base.Channel.UpdateComputer(comp);
+        public void ComputerUpdate(LicenseController.autocad.masterkey.ws.ComputerDTO comp) {
+            base.Channel.ComputerUpdate(comp);
         }
         
-        public System.Threading.Tasks.Task UpdateComputerAsync(LicenseController.autocad.masterkey.ws.Computer comp) {
-            return base.Channel.UpdateComputerAsync(comp);
+        public System.Threading.Tasks.Task ComputerUpdateAsync(LicenseController.autocad.masterkey.ws.ComputerDTO comp) {
+            return base.Channel.ComputerUpdateAsync(comp);
         }
         
-        public void UpsertOperation(LicenseController.autocad.masterkey.ws.Operation opr) {
-            base.Channel.UpsertOperation(opr);
+        public void OperationUpsert(LicenseController.autocad.masterkey.ws.OperationDTO opr) {
+            base.Channel.OperationUpsert(opr);
         }
         
-        public System.Threading.Tasks.Task UpsertOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr) {
-            return base.Channel.UpsertOperationAsync(opr);
+        public System.Threading.Tasks.Task OperationUpsertAsync(LicenseController.autocad.masterkey.ws.OperationDTO opr) {
+            return base.Channel.OperationUpsertAsync(opr);
         }
         
-        public LicenseController.autocad.masterkey.ws.Operation[] ListAllOperation() {
-            return base.Channel.ListAllOperation();
+        public LicenseController.autocad.masterkey.ws.OperationDTO[] OperationListAll() {
+            return base.Channel.OperationListAll();
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation[]> ListAllOperationAsync() {
-            return base.Channel.ListAllOperationAsync();
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.OperationDTO[]> OperationListAllAsync() {
+            return base.Channel.OperationListAllAsync();
         }
         
-        public LicenseController.autocad.masterkey.ws.Operation[] ListOperation(int firmid) {
-            return base.Channel.ListOperation(firmid);
+        public LicenseController.autocad.masterkey.ws.OperationDTO[] OperationList(int firmid) {
+            return base.Channel.OperationList(firmid);
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Operation[]> ListOperationAsync(int firmid) {
-            return base.Channel.ListOperationAsync(firmid);
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.OperationDTO[]> OperationListAsync(int firmid) {
+            return base.Channel.OperationListAsync(firmid);
         }
         
-        public void DeleteOperation(LicenseController.autocad.masterkey.ws.Operation opr) {
-            base.Channel.DeleteOperation(opr);
+        public void OperationDelete(LicenseController.autocad.masterkey.ws.OperationDTO opr) {
+            base.Channel.OperationDelete(opr);
         }
         
-        public System.Threading.Tasks.Task DeleteOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr) {
-            return base.Channel.DeleteOperationAsync(opr);
+        public System.Threading.Tasks.Task OperationDeleteAsync(LicenseController.autocad.masterkey.ws.OperationDTO opr) {
+            return base.Channel.OperationDeleteAsync(opr);
         }
         
-        public void UpdateOperation(LicenseController.autocad.masterkey.ws.Operation opr) {
-            base.Channel.UpdateOperation(opr);
+        public void OperationUpdate(LicenseController.autocad.masterkey.ws.OperationDTO opr) {
+            base.Channel.OperationUpdate(opr);
         }
         
-        public System.Threading.Tasks.Task UpdateOperationAsync(LicenseController.autocad.masterkey.ws.Operation opr) {
-            return base.Channel.UpdateOperationAsync(opr);
+        public System.Threading.Tasks.Task OperationUpdateAsync(LicenseController.autocad.masterkey.ws.OperationDTO opr) {
+            return base.Channel.OperationUpdateAsync(opr);
         }
         
-        public void UpsertCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
-            base.Channel.UpsertCheckLicense(oprdetail);
+        public void CheckLicenseUpsert(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail) {
+            base.Channel.CheckLicenseUpsert(oprdetail);
         }
         
-        public System.Threading.Tasks.Task UpsertCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
-            return base.Channel.UpsertCheckLicenseAsync(oprdetail);
+        public System.Threading.Tasks.Task CheckLicenseUpsertAsync(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail) {
+            return base.Channel.CheckLicenseUpsertAsync(oprdetail);
         }
         
         public void LogToDb(LicenseController.autocad.masterkey.ws.LogData[] logs) {
@@ -1681,75 +1790,75 @@ namespace LicenseController.autocad.masterkey.ws {
             return base.Channel.LogToDbAsync(logs);
         }
         
-        public LicenseController.autocad.masterkey.ws.CheckLicense[] ListCheckLicense(int id) {
-            return base.Channel.ListCheckLicense(id);
+        public LicenseController.autocad.masterkey.ws.CheckLicenseDTO[] CheckLicenseList(int id) {
+            return base.Channel.CheckLicenseList(id);
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.CheckLicense[]> ListCheckLicenseAsync(int id) {
-            return base.Channel.ListCheckLicenseAsync(id);
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.CheckLicenseDTO[]> CheckLicenseListAsync(int id) {
+            return base.Channel.CheckLicenseListAsync(id);
         }
         
-        public void DeleteCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
-            base.Channel.DeleteCheckLicense(oprdetail);
+        public void CheckLicenseDelete(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail) {
+            base.Channel.CheckLicenseDelete(oprdetail);
         }
         
-        public System.Threading.Tasks.Task DeleteCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
-            return base.Channel.DeleteCheckLicenseAsync(oprdetail);
+        public System.Threading.Tasks.Task CheckLicenseDeleteAsync(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail) {
+            return base.Channel.CheckLicenseDeleteAsync(oprdetail);
         }
         
-        public void UpdateCheckLicense(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
-            base.Channel.UpdateCheckLicense(oprdetail);
+        public void CheckLicenseUpdate(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail) {
+            base.Channel.CheckLicenseUpdate(oprdetail);
         }
         
-        public System.Threading.Tasks.Task UpdateCheckLicenseAsync(LicenseController.autocad.masterkey.ws.CheckLicense oprdetail) {
-            return base.Channel.UpdateCheckLicenseAsync(oprdetail);
+        public System.Threading.Tasks.Task CheckLicenseUpdateAsync(LicenseController.autocad.masterkey.ws.CheckLicenseDTO oprdetail) {
+            return base.Channel.CheckLicenseUpdateAsync(oprdetail);
         }
         
-        public void DeleteAllComputerBaseFormid(int firmId) {
-            base.Channel.DeleteAllComputerBaseFormid(firmId);
+        public void ComputerDeleteAllBaseFormid(int firmId) {
+            base.Channel.ComputerDeleteAllBaseFormid(firmId);
         }
         
-        public System.Threading.Tasks.Task DeleteAllComputerBaseFormidAsync(int firmId) {
-            return base.Channel.DeleteAllComputerBaseFormidAsync(firmId);
+        public System.Threading.Tasks.Task ComputerDeleteAllBaseFormidAsync(int firmId) {
+            return base.Channel.ComputerDeleteAllBaseFormidAsync(firmId);
         }
         
-        public void DeleteAllLicenseBaseOperationid(int oprId) {
-            base.Channel.DeleteAllLicenseBaseOperationid(oprId);
+        public void CheckLicenseDeleteAllBaseOperationid(int oprId) {
+            base.Channel.CheckLicenseDeleteAllBaseOperationid(oprId);
         }
         
-        public System.Threading.Tasks.Task DeleteAllLicenseBaseOperationidAsync(int oprId) {
-            return base.Channel.DeleteAllLicenseBaseOperationidAsync(oprId);
+        public System.Threading.Tasks.Task CheckLicenseDeleteAllBaseOperationidAsync(int oprId) {
+            return base.Channel.CheckLicenseDeleteAllBaseOperationidAsync(oprId);
         }
         
-        public LicenseController.autocad.masterkey.ws.ControlPoint[] GetControlPoint() {
+        public LicenseController.autocad.masterkey.ws.ControlPointDTO[] GetControlPoint() {
             return base.Channel.GetControlPoint();
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ControlPoint[]> GetControlPointAsync() {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.ControlPointDTO[]> GetControlPointAsync() {
             return base.Channel.GetControlPointAsync();
         }
         
-        public LicenseController.autocad.masterkey.ws.Software[] GetAllApplication() {
+        public LicenseController.autocad.masterkey.ws.SoftwareDTO[] GetAllApplication() {
             return base.Channel.GetAllApplication();
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Software[]> GetAllApplicationAsync() {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.SoftwareDTO[]> GetAllApplicationAsync() {
             return base.Channel.GetAllApplicationAsync();
         }
         
-        public LicenseController.autocad.masterkey.ws.FE_ControlList[] GetFEControlList(int appid) {
+        public LicenseController.autocad.masterkey.ws.FE_ControlListDTO[] GetFEControlList(int appid) {
             return base.Channel.GetFEControlList(appid);
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FE_ControlList[]> GetFEControlListAsync(int appid) {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.FE_ControlListDTO[]> GetFEControlListAsync(int appid) {
             return base.Channel.GetFEControlListAsync(appid);
         }
         
-        public LicenseController.autocad.masterkey.ws.Software GetApplication(System.Nullable<int> id) {
+        public LicenseController.autocad.masterkey.ws.SoftwareDTO GetApplication(System.Nullable<int> id) {
             return base.Channel.GetApplication(id);
         }
         
-        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.Software> GetApplicationAsync(System.Nullable<int> id) {
+        public System.Threading.Tasks.Task<LicenseController.autocad.masterkey.ws.SoftwareDTO> GetApplicationAsync(System.Nullable<int> id) {
             return base.Channel.GetApplicationAsync(id);
         }
     }

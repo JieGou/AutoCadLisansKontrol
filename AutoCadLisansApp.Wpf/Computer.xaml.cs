@@ -58,7 +58,7 @@ namespace MaterialDesignColors.WpfExample
                     try
                     {
 
-                        client.DeleteComputer(id);
+                        client.ComputerDelete(id);
 
                         var removeditem = userviewmodel.Computers.SingleOrDefault(x => x.Id==(id));
 

@@ -1,4 +1,5 @@
 ﻿
+using LicenseController.Model;
 using MaterialDesignDemo.ViewModel;
 using Microsoft.Practices.Prism.Commands;
 using System.Collections.ObjectModel;
@@ -15,12 +16,12 @@ namespace MaterialDesignDemo.Domain
         public string NotificationContent { get { return _notificationContent; } set { _notificationContent = value; OnPropertyChanged("NotificationContent"); } }
         public bool NotificationIsVisible { get { return _notificationIsVisible; } set { _notificationIsVisible = value; OnPropertyChanged("NotificationIsVisible"); } }
 
-        private ObservableCollection<LicenseController.autocad.masterkey.ws.Operation> _opr;
+        private ObservableCollection<LicenseController.autocad.masterkey.ws.OperationDTO> _opr;
         public ICommand SaveClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand RefreshClicked { get; set; }
-        private LicenseController.autocad.masterkey.ws.Firm _selectedfirm;
-        public LicenseController.autocad.masterkey.ws.Firm SelectedFirm
+        private LicenseController.autocad.masterkey.ws.FirmDTO _selectedfirm;
+        public LicenseController.autocad.masterkey.ws.FirmDTO SelectedFirm
         {
             get { return _selectedfirm; }
             set
@@ -29,8 +30,8 @@ namespace MaterialDesignDemo.Domain
                 OnPropertyChanged("SelectedFirm");
             }
         }
-        public ObservableCollection<LicenseController.autocad.masterkey.ws.Firm> Firm { get { return new ObservableCollection<LicenseController.autocad.masterkey.ws.Firm>(client.ListFirm()); } }
-        public ObservableCollection<LicenseController.autocad.masterkey.ws.Operation> Operation
+        public ObservableCollection<LicenseController.autocad.masterkey.ws.FirmDTO> Firm { get { return new ObservableCollection<LicenseController.autocad.masterkey.ws.FirmDTO>(client.FirmList(GlobalVariable.getInstance().user.Id)); } }
+        public ObservableCollection<LicenseController.autocad.masterkey.ws.OperationDTO> Operation
         {
             get { return _opr; }
             set
@@ -41,16 +42,16 @@ namespace MaterialDesignDemo.Domain
         }
         public OperationViewModel(int firmid)
         {
-            SelectedFirm = client.GetFirm(firmid);
+            SelectedFirm = client.FirmGet(firmid);
             RefreshClicked = new DelegateCommand(RefreshCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             SaveClicked = new DelegateCommand(SaveCommand);
-            var list = client.ListOperation(firmid);
+            var list = client.OperationList(firmid);
             foreach (var item in list)
             {
                 item.Firm = SelectedFirm;
             }
-            Operation = new ObservableCollection<LicenseController.autocad.masterkey.ws.Operation>(list);
+            Operation = new ObservableCollection<LicenseController.autocad.masterkey.ws.OperationDTO>(list);
 
         }
 
@@ -69,7 +70,7 @@ namespace MaterialDesignDemo.Domain
                 foreach (var item in Operation)
                 {
                     item.FirmId = SelectedFirm.Id;
-                    client.UpsertOperation(item);
+                    client.OperationUpsert(item);
                 }
                 RefreshCommand();
                 NotificationIsVisible = true;
@@ -83,16 +84,16 @@ namespace MaterialDesignDemo.Domain
         }
         public void AddItemCommand()
         {
-            Operation.Add(new LicenseController.autocad.masterkey.ws.Operation() { FirmId = SelectedFirm.Id,Firm=SelectedFirm });
+            Operation.Add(new LicenseController.autocad.masterkey.ws.OperationDTO() { FirmId = SelectedFirm.Id,Firm=SelectedFirm });
         }
         public void RefreshCommand()
         {
-            var list = client.ListOperation(SelectedFirm.Id);
+            var list = client.OperationList(SelectedFirm.Id);
             foreach (var item in list)
             {
                 item.Firm = SelectedFirm;
             }
-            Operation = new ObservableCollection<LicenseController.autocad.masterkey.ws.Operation>(list);
+            Operation = new ObservableCollection<LicenseController.autocad.masterkey.ws.OperationDTO>(list);
         }
     }
 }

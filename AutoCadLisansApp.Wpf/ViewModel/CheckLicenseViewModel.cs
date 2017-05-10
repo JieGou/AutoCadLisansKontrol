@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -7,20 +6,12 @@ using Microsoft.Practices.Prism.Commands;
 using System.Windows;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Threading;
-using System.Windows.Data;
-using System.Collections;
 using System.Threading;
 using MaterialDesignDemo.ViewModel;
 using AutoCadLisansKontrol.Controller;
-using MaterialDesignDemo;
 using MaterialDesignDemo.Model;
-using Microsoft.Win32;
-using System.IO;
-using MaterialDesignDemo.Controller;
 using LicenseController.autocad.masterkey.ws;
 using LicenseController.Model;
-using MaterialDesignColors.WpfExample.Domain;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -62,7 +53,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         public string UserName { get { return _userName; } set { _userName = value; OnPropertyChanged("UserName"); } }
         public string Password { get { return _password; } set { _password = value; OnPropertyChanged("Password"); } }
 
-        private ObservableCollection<Software> _softwarelist = new ObservableCollection<Software>();
+        private ObservableCollection<SoftwareDTO> _softwarelist = new ObservableCollection<SoftwareDTO>();
 
         private Visibility _progressbar = Visibility.Hidden;
         public Visibility ProgressBar
@@ -87,7 +78,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             UIContext.Initialize();
         }
 
-        public ObservableCollection<Software> SoftwareList
+        public ObservableCollection<SoftwareDTO> SoftwareList
         {
             get
             {
@@ -115,8 +106,8 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
-        private ObservableCollection<LicenseController.autocad.masterkey.ws.Computer> _computers;
-        public ObservableCollection<LicenseController.autocad.masterkey.ws.Computer> Computers
+        private ObservableCollection<LicenseController.autocad.masterkey.ws.ComputerDTO> _computers;
+        public ObservableCollection<LicenseController.autocad.masterkey.ws.ComputerDTO> Computers
         {
             get
             {
@@ -129,8 +120,8 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
-        private ObservableCollection<ControlPoint> _checkList;
-        public ObservableCollection<ControlPoint> CheckList
+        private ObservableCollection<ControlPointDTO> _checkList;
+        public ObservableCollection<ControlPointDTO> CheckList
         {
             get
             {
@@ -142,25 +133,25 @@ namespace MaterialDesignColors.WpfExample.Domain
                 OnPropertyChanged("CheckList");
             }
         }
-        public LicenseController.autocad.masterkey.ws.Operation Operation
+        public LicenseController.autocad.masterkey.ws.OperationDTO Operation
         {
             get
             {
                 if (OprId == 0) return null;
 
-                return client.GetOperation(OprId);
+                return client.OperationGet(OprId);
             }
         }
-        public LicenseController.autocad.masterkey.ws.Firm Firm
+        public LicenseController.autocad.masterkey.ws.FirmDTO Firm
         {
             get
             {
-                LicenseController.autocad.masterkey.ws.Firm firm = null;
+                LicenseController.autocad.masterkey.ws.FirmDTO firm = null;
                 try
                 {
 
                     if (OprId == 0) return null;
-                    firm = client.GetFirm(FirmId);
+                    firm = client.FirmGet(FirmId);
                 }
                 catch (System.Exception ex)
                 {
@@ -203,7 +194,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             StartNotification();
 
             _executedComputer = 0;
-            Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.Computer>();
+            Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.ComputerDTO>();
             var checklicense = new MTObservableCollection<CheckLicenseModel>();
 
             var localcomp = ComputerDetection.ExecuteLocal();
@@ -216,7 +207,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             try
             {
-                var cmpid = client.UpsertComputer(localcomp);
+                var cmpid = client.ComputerUpsert(localcomp);
 
 
                 foreach (var soft in SoftwareList)
@@ -310,7 +301,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
                 try
                 {
-                    Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.Computer>(client.ListComputer(FirmId).ToList());
+                    Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.ComputerDTO>(client.ComputerList(FirmId).ToList());
                     var checklicense = new MTObservableCollection<CheckLicenseModel>();
 
 
@@ -414,9 +405,9 @@ namespace MaterialDesignColors.WpfExample.Domain
                 {
                     try
                     {
-                        _softwarelist = new ObservableCollection<Software>(client.GetAllApplication().ToList());
-                        CheckList = new ObservableCollection<ControlPoint>(client.GetControlPoint().ToList());
-                        var checklist = client.ListCheckLicense(OprId).ToList();
+                        _softwarelist = new ObservableCollection<SoftwareDTO>(client.GetAllApplication().ToList());
+                        CheckList = new ObservableCollection<ControlPointDTO>(client.GetControlPoint().ToList());
+                        var checklist = client.CheckLicenseList(OprId).ToList();
                         foreach (var item in checklist)
                         {
                             var lc = new CheckLicenseModel
@@ -432,7 +423,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                                 UpdateDate = item.UpdateDate,
                                 State = item.State,
                                 Success = (bool?)item.State,
-                                App = _softwarelist.Where(y => y.Id == item.AppId).FirstOrDefault<Software>(),
+                                App = _softwarelist.Where(y => y.Id == item.AppId).FirstOrDefault<SoftwareDTO>(),
                                 InstallDate=item.InstallDate,
                                 Description="",
                                 IsFound=item.IsFound,
@@ -515,7 +506,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 {
 
 
-                    client.UpsertCheckLicense(new LicenseController.autocad.masterkey.ws.CheckLicense()
+                    client.CheckLicenseUpsert(new LicenseController.autocad.masterkey.ws.CheckLicenseDTO()
                     {
                         CheckDate = System.DateTime.Now,
                         ComputerId = item.ComputerId,
@@ -567,7 +558,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                     counter--;
                     try
                     {
-                        client.UpsertCheckLicense(new LicenseController.autocad.masterkey.ws.CheckLicense()
+                        client.CheckLicenseUpsert(new LicenseController.autocad.masterkey.ws.CheckLicenseDTO()
                         {
                             CheckDate = System.DateTime.Now,
                             ComputerId = item.ComputerId,

@@ -136,7 +136,7 @@ namespace MaterialDesignDemo.Controller
         }
 
 
-        public List<ApplicationEvent> GetApplicationEvent(Software software)
+        public List<ApplicationEvent> GetApplicationEvent(SoftwareDTO software)
         {
             List<ApplicationEvent> list = new List<ApplicationEvent>();
 
@@ -224,7 +224,7 @@ namespace MaterialDesignDemo.Controller
             }
             return scope;
         }
-        public List<Win32_Product> GetProductWithWMI(Software softwares)
+        public List<Win32_Product> GetProductWithWMI(SoftwareDTO softwares)
         {
             List<Win32_Product> products = new List<Win32_Product>();
 
@@ -280,7 +280,7 @@ namespace MaterialDesignDemo.Controller
             return products;
         }
 
-        public List<RegistrySoftware> ReadRegisteryusingWMI(Software software)
+        public List<RegistrySoftware> ReadRegisteryusingWMI(SoftwareDTO software)
         {
 
             var uninstallregistery32 = ReadUnInstallRegistryusingWMICore(software, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
@@ -297,7 +297,7 @@ namespace MaterialDesignDemo.Controller
 
             return uniqueList;
         }
-        private List<RegistrySoftware> ReadUnInstallRegistryusingWMICore(Software software, string softwareRegLoc)
+        private List<RegistrySoftware> ReadUnInstallRegistryusingWMICore(SoftwareDTO software, string softwareRegLoc)
         {
             List<RegistrySoftware> programs = new List<RegistrySoftware>();
 
@@ -490,7 +490,7 @@ namespace MaterialDesignDemo.Controller
             return list;
         }
 
-        public FileExplorerModel DirectoryChecklist(List<FE_ControlList> directories)
+        public FileExplorerModel DirectoryChecklist(List<FE_ControlListDTO> directories)
         {
 
             FileExplorerModel model = new FileExplorerModel();

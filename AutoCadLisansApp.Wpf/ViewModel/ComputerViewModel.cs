@@ -110,12 +110,12 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
         }
-        public LicenseController.autocad.masterkey.ws.Firm Firm
+        public LicenseController.autocad.masterkey.ws.FirmDTO Firm
         {
             get
             {
                 if (FirmId == 0) return null;
-                return client.GetFirm(FirmId);
+                return client.FirmGet(FirmId);
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -222,7 +222,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 }
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
-                    computer = new ObservableCollection<ComputerModel>(client.ListComputer(FirmId).ToList().ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type }));
+                    computer = new ObservableCollection<ComputerModel>(client.ComputerList(FirmId).ToList().ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type }));
                     _executedComputer = computer.Count;
                     _totalComputer = computer.Count;
                     EndNotification("Computers is loaded.");
@@ -265,14 +265,14 @@ namespace MaterialDesignColors.WpfExample.Domain
                 {
                     try
                     {
-                        client.DeleteAllComputerBaseFormid(FirmId);
+                        client.ComputerDeleteAllBaseFormid(FirmId);
                         var counter = Computers.Count;
                         foreach (var item in Computers)
                         {
                             counter--;
                             item.FirmId = FirmId;
 
-                            client.UpsertComputer(new LicenseController.autocad.masterkey.ws.Computer { FirmId = item.FirmId, Id = item.Id, InsertDate = item.InsertDate, Ip = item.Ip, IsComputer = item.IsComputer, IsRootMachine = item.IsRootMachine, IsVisible = item.IsVisible, Name = item.Name, PyshicalAddress = item.PyshicalAddress, Type = item.Type });
+                            client.ComputerUpsert(new LicenseController.autocad.masterkey.ws.ComputerDTO { FirmId = item.FirmId, Id = item.Id, InsertDate = item.InsertDate, Ip = item.Ip, IsComputer = item.IsComputer, IsRootMachine = item.IsRootMachine, IsVisible = item.IsVisible, Name = item.Name, PyshicalAddress = item.PyshicalAddress, Type = item.Type });
                             if (counter == 0)
                             {
                                 LoadComputerFromDb();

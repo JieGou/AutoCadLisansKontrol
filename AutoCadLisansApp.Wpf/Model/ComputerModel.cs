@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace MaterialDesignDemo.Model
 {
-    public class ComputerModel:Computer
+    public class ComputerModel:ComputerDTO
     {
         private bool _isProgress;
         public bool IsProgress

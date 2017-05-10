@@ -1,4 +1,5 @@
 ﻿
+using LicenseController.Model;
 using MaterialDesignDemo.ViewModel;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 
 namespace MaterialDesignDemo.Domain
 {
-    public class FirmViewModel :BaseViewModel, INotifyPropertyChanged
+    public class FirmViewModel : BaseViewModel, INotifyPropertyChanged
     {
 
 
@@ -22,14 +23,14 @@ namespace MaterialDesignDemo.Domain
         public bool NotificationIsVisible { get { return _notificationIsVisible; } set { _notificationIsVisible = value; OnPropertyChanged("NotificationIsVisible"); } }
 
 
-        
-        private ObservableCollection<LicenseController.autocad.masterkey.ws.Firm> _firm;
+
+        private ObservableCollection<LicenseController.autocad.masterkey.ws.FirmDTO> _firm;
         public ICommand DeleteClicked { get; set; }
         public ICommand SaveClicked { get; set; }
         public ICommand AddItemClicked { get; set; }
         public ICommand RefreshClicked { get; set; }
 
-        public ObservableCollection<LicenseController.autocad.masterkey.ws.Firm> Firm
+        public ObservableCollection<LicenseController.autocad.masterkey.ws.FirmDTO> Firm
         {
             get { return _firm; }
             set
@@ -47,11 +48,12 @@ namespace MaterialDesignDemo.Domain
                 RefreshClicked = new DelegateCommand(RefreshCommand);
                 AddItemClicked = new DelegateCommand(AddItemCommand);
                 SaveClicked = new DelegateCommand(SaveCommand);
-                Firm = new ObservableCollection<LicenseController.autocad.masterkey.ws.Firm>(client.ListFirm());
+                var firms =client.FirmList(GlobalVariable.getInstance().user.Id);
+                Firm = new ObservableCollection<LicenseController.autocad.masterkey.ws.FirmDTO>(firms);
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show(ex.Message) ;
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -70,7 +72,8 @@ namespace MaterialDesignDemo.Domain
             {
                 foreach (var item in Firm)
                 {
-                    client.UpsertFirm(item);
+                    item.UserId = GlobalVariable.getInstance().user.Id;
+                    client.FirmUpsert(item);
                 }
                 RefreshCommand();
             }
@@ -85,17 +88,17 @@ namespace MaterialDesignDemo.Domain
         }
         public void AddItemCommand()
         {
-            Firm.Add(new LicenseController.autocad.masterkey.ws.Firm());
+            Firm.Add(new LicenseController.autocad.masterkey.ws.FirmDTO());
         }
         public void RefreshCommand()
         {
             NotificationIsVisible = false;
-            Firm = new ObservableCollection<LicenseController.autocad.masterkey.ws.Firm>(client.ListFirm());
+            Firm = new ObservableCollection<LicenseController.autocad.masterkey.ws.FirmDTO>(client.FirmList(GlobalVariable.getInstance().user.Id));
             NotificationIsVisible = true;
             NotificationContent = "Success";
         }
 
 
     }
-    
+
 }

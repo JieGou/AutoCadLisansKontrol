@@ -54,7 +54,7 @@ namespace MaterialDesignDemo
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             FirmId = (int)(((Button)sender).CommandParameter);
-            var localfirm = (LicenseController.autocad.masterkey.ws.Firm)grdfirm.SelectedItem;
+            var localfirm = (LicenseController.autocad.masterkey.ws.FirmDTO)grdfirm.SelectedItem;
             if (localfirm.Id == 0)
             {
                 var userviewmodel = (FirmViewModel)this.DataContext;
@@ -77,7 +77,7 @@ namespace MaterialDesignDemo
                 case MessageBoxResult.Yes:
                     try
                     {
-                        client.DeleteFirm(FirmId);
+                        client.FirmDelete(FirmId);
 
                         var removeditem = userviewmodel.Firm.SingleOrDefault(x => x.Id == FirmId);
 

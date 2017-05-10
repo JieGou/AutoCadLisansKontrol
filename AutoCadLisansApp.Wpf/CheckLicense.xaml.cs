@@ -48,7 +48,7 @@ namespace MaterialDesignDemo
 
         private void OutputButton_Click(object sender, RoutedEventArgs e)
         {
-            var chechlicenseitem = (LicenseController.autocad.masterkey.ws.CheckLicense)grdCheckList.SelectedItem;
+            var chechlicenseitem = (LicenseController.autocad.masterkey.ws.CheckLicenseDTO)grdCheckList.SelectedItem;
 
             string output = (string)(((Button)sender).CommandParameter);
 
@@ -67,7 +67,7 @@ namespace MaterialDesignDemo
 
 
             if (!string.IsNullOrWhiteSpace(SoftwareBox.Text))
-                checklicensemodel.SoftwareList.Add(new Software() { AppName = SoftwareBox.Text.Trim() });
+                checklicensemodel.SoftwareList.Add(new SoftwareDTO() { AppName = SoftwareBox.Text.Trim() });
 
             SoftwareBox.Text = "";
         }

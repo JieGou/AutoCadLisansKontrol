@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LicenseController.Model;
 
 namespace MaterialDesignColors.WpfExample
 {
@@ -52,13 +53,14 @@ namespace MaterialDesignColors.WpfExample
                 var result = client.Login(NameTextBox.Text, password);
 
                 Notification.IsActive = true;
-                if (result)
+                if (result!=null)
                 {
 
                     var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
                     mainwindowviewmodel.DemoItem = new DemoItem("Home", new Home { DataContext = new Home() });
 
                     notificationContent.Content = "Success";
+                    GlobalVariable.getInstance().user = result;
                 }
                 else
                 {

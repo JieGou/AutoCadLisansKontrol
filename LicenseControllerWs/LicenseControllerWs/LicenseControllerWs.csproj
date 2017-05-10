@@ -112,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\ExtensionMethods.cs" />
-    <Compile Include="DataContacts.cs" />
     <Compile Include="ParameterInspector\ClientInfo.cs" />
     <Compile Include="ParameterInspector\IParameterInspector.cs" />
     <Compile Include="ParameterInspector\MessageBehaviourExtension.cs" />

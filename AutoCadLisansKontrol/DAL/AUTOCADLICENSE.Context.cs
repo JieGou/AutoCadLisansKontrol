@@ -35,6 +35,7 @@ namespace AutoCadLisansKontrol.DAL
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<CheckLicenseEntity> CheckLicense { get; set; }
         public virtual DbSet<ComputerEntity> Computer { get; set; }
+        public virtual DbSet<Firm_User_RL> Firm_User_RL { get; set; }
     
         public virtual int SP_DELETE_COMPUTER(Nullable<int> fIRMID)
         {

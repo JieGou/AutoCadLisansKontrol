@@ -1,5 +1,6 @@
 ﻿using AutoCadLisansKontrol.DAL;
 using CheckLicense.Log;
+using LicenseControllerWs.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,62 +16,62 @@ namespace LicenseControllerWs
     public interface IService1
     {
         [OperationContract]
-        bool Login(string username, string password);
+        UsersDTO Login(string username, string password);
         [OperationContract]
-        void UpsertFirm(Firm firm);
+        void FirmUpsert(FirmDTO firm);
         [OperationContract]
-        Firm GetFirm(int? firmId);
+        FirmDTO FirmGet(int? firmId);
         [OperationContract]
-        List<Firm> ListFirm();
+        List<FirmDTO> FirmList(int userid);
         [OperationContract]
-        void DeleteFirm(int firmid);
+        void FirmDelete(int firmid);
         [OperationContract]
-        void UpdateFirm(Firm firm);
+        void FirmUpdate(FirmDTO firm);
         [OperationContract]
-        int UpsertComputer(Computer c);
+        int ComputerUpsert(ComputerDTO c);
         [OperationContract]
-        Operation GetOperation(int opr);
+        OperationDTO OperationGet(int opr);
         [OperationContract]
-        List<Computer> ListAllComputer();
+        List<ComputerDTO> ComputerListAll();
         [OperationContract]
-        List<Computer> ListComputer(int? firmId);
+        List<ComputerDTO> ComputerList(int? firmId);
         [OperationContract]
-        void DeleteComputer(int Id);
+        void ComputerDelete(int Id);
         [OperationContract]
-        void UpdateComputer(Computer comp);
+        void ComputerUpdate(ComputerDTO comp);
         [OperationContract]
-        void UpsertOperation(Operation opr);
+        void OperationUpsert(OperationDTO opr);
         [OperationContract]
-        List<Operation> ListAllOperation();
+        List<OperationDTO> OperationListAll();
         [OperationContract]
-        List<Operation> ListOperation(int firmid);
+        List<OperationDTO> OperationList(int firmid);
         [OperationContract]
-        void DeleteOperation(Operation opr);
+        void OperationDelete(OperationDTO opr);
         [OperationContract]
-        void UpdateOperation(Operation opr);
+        void OperationUpdate(OperationDTO opr);
         [OperationContract]
-        void UpsertCheckLicense(CheckLicense oprdetail);
+        void CheckLicenseUpsert(CheckLicenseDTO oprdetail);
         [OperationContract]
         void LogToDb(List<LogData> logs);
         [OperationContract]
-        List<CheckLicense> ListCheckLicense(int id);
+        List<CheckLicenseDTO> CheckLicenseList(int id);
 
         [OperationContract]
-        void DeleteCheckLicense(CheckLicense oprdetail);
+        void CheckLicenseDelete(CheckLicenseDTO oprdetail);
         [OperationContract]
-        void UpdateCheckLicense(CheckLicense oprdetail);
+        void CheckLicenseUpdate(CheckLicenseDTO oprdetail);
         [OperationContract]
-        void DeleteAllComputerBaseFormid(int firmId);
+        void ComputerDeleteAllBaseFormid(int firmId);
         [OperationContract]
-        void DeleteAllLicenseBaseOperationid(int oprId);
+        void CheckLicenseDeleteAllBaseOperationid(int oprId);
         [OperationContract]
-        List<ControlPoint> GetControlPoint();
+        List<ControlPointDTO> GetControlPoint();
         [OperationContract]
-        List<Software> GetAllApplication();
+        List<SoftwareDTO> GetAllApplication();
         [OperationContract]
-        List<FE_ControlList> GetFEControlList(int appid);
+        List<FE_ControlListDTO> GetFEControlList(int appid);
         [OperationContract]
-        Software GetApplication(Nullable<int> id);
+        SoftwareDTO GetApplication(Nullable<int> id);
         // TODO: Add your service operations here
     }
 

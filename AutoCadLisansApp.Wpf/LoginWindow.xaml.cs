@@ -1,4 +1,5 @@
-﻿using MaterialDesignColors.WpfExample;
+﻿using LicenseController.Model;
+using MaterialDesignColors.WpfExample;
 using MaterialDesignColors.WpfExample.Domain;
 using System;
 using System.Collections.Generic;
@@ -44,8 +45,9 @@ namespace LicenseController
                 var result = client.Login(NameTextBox.Text, password);
 
                 Notification.IsActive = true;
-                if (result)
+                if (result!=null)
                 {
+                    GlobalVariable.getInstance().user = result;
                     var newForm = new MainWindow(); //create your new form.
                     newForm.Show(); //show the new form.
                     this.Close(); //only if you want to close the current form.

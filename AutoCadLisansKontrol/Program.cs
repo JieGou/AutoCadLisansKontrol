@@ -12,9 +12,6 @@ namespace AutoCadLisansKontrol
     {
         static void Main(string[] args)
         {
-            DataAccess dbaccess = new DataAccess();
-            var list =dbaccess.ListFirm();
-            var firm = list;
         }
     }
 }

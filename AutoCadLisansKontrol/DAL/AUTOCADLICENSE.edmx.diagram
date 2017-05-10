@@ -18,6 +18,10 @@
         <AssociationConnector Association="AUTOCADLICENSEModel.FK_CheckLicense_Software" />
         <AssociationConnector Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation" />
         <AssociationConnector Association="AUTOCADLICENSEModel.FK_Computer_Firm" />
+        <EntityTypeShape EntityType="AUTOCADLICENSEModel.Firm_User_RL" Width="1.5" PointX="12.625" PointY="4.375" />
+        <AssociationConnector Association="AUTOCADLICENSEModel.FK_Firm_Firm" />
+        <AssociationConnector Association="AUTOCADLICENSEModel.FK_Firm_User_RL_Firm" />
+        <AssociationConnector Association="AUTOCADLICENSEModel.FK_Firm_User_RL_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

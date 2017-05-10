@@ -11,11 +11,11 @@ using System.Windows;
 
 namespace MaterialDesignDemo.Model
 {
-    public class CheckLicenseModel : LicenseController.autocad.masterkey.ws.CheckLicense
+    public class CheckLicenseModel : LicenseController.autocad.masterkey.ws.CheckLicenseDTO
     {
-        private Software _app = new Software();
+        private SoftwareDTO _app = new SoftwareDTO();
         public LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
-        public Software App { get { return _app; } set { _app = value; } }
+        public SoftwareDTO App { get { return _app; } set { _app = value; } }
         public string Description { get; set; }
 
         private System.Nullable<bool> _isProgress;

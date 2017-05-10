@@ -1,4 +1,5 @@
 ﻿
+using AutoCadLisansKontrol.DAL;
 using LicenseController.autocad.masterkey.ws;
 using MaterialDesignDemo.Model;
 using System;
@@ -22,9 +23,9 @@ namespace AutoCadLisansKontrol.Controller
     {
         static object thisLock = new object();
         private static string localip;
-        public static Computer ExecuteLocal()
+        public static ComputerDTO ExecuteLocal()
         {
-            var localcomp = new Computer
+            var localcomp = new ComputerDTO
             {
                 Ip = GetLocalIp(),
                 Name = GetLocalMachineName(),
@@ -41,9 +42,10 @@ namespace AutoCadLisansKontrol.Controller
             var arp = GetComputerFromNetView();
 
             arp.AddRange(net);
-            return arp.ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type, IsProgress = true });
+            return Converter.Convert<ComputerModel, ComputerDTO>(arp);
+            //return arp.ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type, IsProgress = true });
         }
-        private static List<Computer> GetComputerFromNetView()
+        private static List<ComputerDTO> GetComputerFromNetView()
         {
             Process p = new Process();
             // Redirect the output stream of the child process.
@@ -69,11 +71,11 @@ namespace AutoCadLisansKontrol.Controller
             }
             lines = lines.Where(x => !multiple.Contains(x)).ToList();
 
-            List<Computer> networkmachine = new List<Computer>();
+            List<ComputerDTO> networkmachine = new List<ComputerDTO>();
 
             for (int i = 0; i < lines.Count; i++)
             {
-                networkmachine.Add(new Computer
+                networkmachine.Add(new ComputerDTO
                 {
                     // Ip= GetIpAddressFromName(lines[i]),
                     Name = lines[i],
@@ -88,7 +90,7 @@ namespace AutoCadLisansKontrol.Controller
             return networkmachine.ToList();
         }
 
-        private static List<Computer> GetComputerFromArpTable()
+        private static List<ComputerDTO> GetComputerFromArpTable()
         {
             Process p = new Process();
             // Redirect the output stream of the child process.
@@ -112,13 +114,13 @@ namespace AutoCadLisansKontrol.Controller
             index = lines.FindIndex(x => x.Contains("arp -a"));
             lines.RemoveAt(index);
 
-            List<Computer> networkmachine = new List<Computer>();
+            List<ComputerDTO> networkmachine = new List<ComputerDTO>();
             for (int i = 1; i < lines.Count; i++)
             {
                 var compline = lines[i].Split(' ').Where(x => x != "").ToList();
 
 
-                networkmachine.Add(new Computer
+                networkmachine.Add(new ComputerDTO
                 {
                     Ip = compline[0],
                     //Name = compline[1],

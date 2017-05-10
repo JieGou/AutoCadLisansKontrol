@@ -1,5 +1,7 @@
 ﻿using AutoCadLisansKontrol.DAL;
+using AutoCadLisansKontrol.DAL.Service;
 using CheckLicense.Log;
+using LicenseControllerWs.DAL;
 using LicenseControllerWs.ParameterInspector;
 using ProtectionConnLib_4.DataAccessModel;
 using System;
@@ -18,138 +20,153 @@ namespace LicenseControllerWs
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service1 : IService1
     {
-        DataAccess dbaccess = new DataAccess();
+        BaseService baseservice = new BaseService();
+        CheckLicenseService checklicenseservice = new CheckLicenseService();
+        ComputerService computerService = new ComputerService();
+        FirmService firmService = new FirmService();
+        OperationService operationService = new OperationService();
+
+
         readonly ILog _logger = LoggerFactory.CreateLogger(DatabaseType.MsSql);
 
-        public bool Login(string username,string password) {
-          return  dbaccess.Login(username,password);
-        }
-        public void UpsertFirm(Firm firm)
+        public UsersDTO Login(string username, string password)
         {
-            dbaccess.UpsertFirm(new FirmEntity { Address = firm.Address, Contact = firm.Contact, Id = firm.Id, InsertDate = firm.InsertDate, Name = firm.Name, PhoneNo = firm.PhoneNo });
+            return baseservice.Login(username, password);
         }
-
-        public Firm GetFirm(int? firmId)
+        public void FirmUpsert(FirmDTO firm)
         {
-            var firm = dbaccess.GetFirm(firmId);
-            return new Firm { Address = firm.Address, Contact = firm.Contact, Id = firm.Id, InsertDate = firm.InsertDate, Name = firm.Name, PhoneNo = firm.PhoneNo };
+            firmService.Upsert(firm);
         }
 
-        public List<Firm> ListFirm()
+        public FirmDTO FirmGet(int? firmId)
         {
-            return dbaccess.ListFirm().ConvertAll(x => new Firm() { Address = x.Address, Contact = x.Contact, Id = x.Id, InsertDate = x.InsertDate, Name = x.Name, PhoneNo = x.PhoneNo });
-        }
-        public void DeleteFirm(int firmid)
-        {
-            dbaccess.DeleteFirm(firmid);
-        }
-        public void UpdateFirm(Firm firm)
-        {
-            dbaccess.UpdateFirm((new FirmEntity { Address = firm.Address, Contact = firm.Contact, Id = firm.Id, InsertDate = firm.InsertDate, Name = firm.Name, PhoneNo = firm.PhoneNo }));
-        }
-        public int UpsertComputer(Computer comp)
-        {
-            return dbaccess.UpsertComputer(new ComputerEntity { FirmId = comp.FirmId, Id = comp.Id, Name = comp.Name, InsertDate = comp.InsertDate, Ip = comp.Ip, IsComputer = comp.IsComputer, IsRootMachine = comp.IsRootMachine, IsVisible = comp.IsVisible, PyshicalAddress = comp.PyshicalAddress, Type = comp.Type });
-        }
-        public Operation GetOperation(int opr)
-        {
-            var operation = dbaccess.GetOperation(opr);
-            return new Operation { Name = operation.Name, FirmId = operation.FirmId, Id = operation.Id };
-        }
-        public List<Computer> ListAllComputer()
-        {
-            return dbaccess.ListComputer().ConvertAll(x => new Computer { Id = x.Id, FirmId = x.FirmId, Name = x.Name, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, PyshicalAddress = x.PyshicalAddress, Type = x.Type });
-        }
-        public List<Computer> ListComputer(int? firmId)
-        {
-            return dbaccess.ListComputer(firmId).ConvertAll(x => new Computer { Id = x.Id, FirmId = x.FirmId, Name = x.Name, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, PyshicalAddress = x.PyshicalAddress, Type = x.Type });
-        }
-        public void DeleteComputer(int Id)
-        {
-            dbaccess.DeleteComputer(Id);
-        }
-        public void UpdateComputer(Computer comp)
-        {
-            dbaccess.UpdateComputer(new ComputerEntity { FirmId = comp.FirmId, Id = comp.Id, Name = comp.Name, InsertDate = comp.InsertDate, Ip = comp.Ip, IsComputer = comp.IsComputer, IsRootMachine = comp.IsRootMachine, IsVisible = comp.IsVisible, PyshicalAddress = comp.PyshicalAddress, Type = comp.Type });
-        }
-        public void UpsertOperation(Operation opr)
-        {
-            dbaccess.UpsertOperation(new OperationEntity { FirmId = opr.FirmId, Id = opr.Id, Name = opr.Name });
+            return firmService.Get(firmId);
         }
 
-        public List<Operation> ListAllOperation()
+        public List<FirmDTO> FirmList(int userid)
         {
-            return dbaccess.ListOperation().ConvertAll(x => new Operation { FirmId = x.FirmId, Id = x.Id, Name = x.Name });
+            var firm = new List<FirmDTO>();
+            try
+            {
+                firm = firmService.List(userid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return firm;
         }
-        public List<Operation> ListOperation(int firmid)
+        public void FirmDelete(int firmid)
         {
-            return dbaccess.ListOperation(firmid).ConvertAll(x => new Operation { FirmId = x.FirmId, Id = x.Id, Name = x.Name, ComputerCount = ListComputer(firmid).Count });
+            firmService.Delete(firmid);
         }
-
-        public void DeleteOperation(Operation opr)
+        public void FirmUpdate(FirmDTO firm)
         {
-            dbaccess.DeleteOperation(new OperationEntity { Name = opr.Name, Id = opr.Id, FirmId = opr.FirmId });
+            firmService.Update(firm);
         }
-
-        public void UpdateOperation(Operation opr)
+        public int ComputerUpsert(ComputerDTO comp)
         {
-            dbaccess.UpdateOperation(new OperationEntity { Name = opr.Name, Id = opr.Id, FirmId = opr.FirmId });
+            return computerService.Upsert(comp);
         }
-
-
-        public void UpsertCheckLicense(CheckLicense chck)
+        public OperationDTO OperationGet(int opr)
         {
-            dbaccess.UpsertCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.MachineName, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound, AppId = chck.AppId,LogId=chck.LogId });
+            var operation = operationService.Get(opr);
+            return operation;
         }
-       
-        public List<CheckLicense> ListCheckLicense(int id)
+        public List<ComputerDTO> ComputerListAll()
         {
-            return dbaccess.ListCheckLicense(id).ConvertAll(chck => new CheckLicense { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, MachineName = chck.Name, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound, AppId = chck.AppId, LogId = chck.LogId });
+            return computerService.List();
         }
-        public void DeleteCheckLicense(CheckLicense chck)
+        public List<ComputerDTO> ComputerList(int? firmId)
         {
-            dbaccess.DeleteCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.MachineName, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound, AppId = chck.AppId, LogId = chck.LogId });
+            return computerService.List(firmId);
         }
-
-        public void UpdateCheckLicense(CheckLicense chck)
+        public void ComputerDelete(int Id)
         {
-            dbaccess.UpdateCheckLicense(new CheckLicenseEntity { Id = chck.Id, CheckDate = chck.CheckDate, ComputerId = chck.ComputerId, OperationId = chck.OperationId, Output = chck.Output, UpdateDate = chck.UpdateDate, FirmId = chck.FirmId, Name = chck.MachineName, Ip = chck.Ip, State = chck.State, InstallDate = chck.InstallDate, Installed = chck.Installed, Uninstalled = chck.Uninstalled, UnInstallDate = chck.UnInstallDate, IsFound = chck.IsFound, AppId = chck.AppId, LogId = chck.LogId });
+            computerService.Delete(Id);
         }
-
-        public void DeleteAllComputerBaseFormid(int firmId)
+        public void ComputerUpdate(ComputerDTO comp)
         {
-            dbaccess.DeleteAllComputerBaseFormid(firmId);
+            computerService.Update(comp);
         }
-
-        public void DeleteAllLicenseBaseOperationid(int oprId)
+        public void OperationUpsert(OperationDTO opr)
         {
-            dbaccess.DeleteAllLicenseBaseOperationid(oprId);
-        }
-        public List<ControlPoint> GetControlPoint()
-        {
-            return dbaccess.GetControlPoint();
+            operationService.Upsert(opr);
         }
 
-        public List<Software> GetAllApplication()
+        public List<OperationDTO> OperationListAll()
         {
-            var apps = dbaccess.GetSoftware().Where(x=>x.IsEnable==true).ToList().ConvertAll(x => new Software { AppName = x.AppName, Id = x.Id });
+            return operationService.List();
+        }
+        public List<OperationDTO> OperationList(int firmid)
+        {
+            return operationService.List(firmid);
+        }
+
+        public void OperationDelete(OperationDTO opr)
+        {
+            operationService.Delete(opr);
+        }
+
+        public void OperationUpdate(OperationDTO opr)
+        {
+            operationService.Update(opr);
+        }
+
+
+        public void CheckLicenseUpsert(CheckLicenseDTO chck)
+        {
+            checklicenseservice.Upsert(chck);
+        }
+
+        public List<CheckLicenseDTO> CheckLicenseList(int id)
+        {
+            return checklicenseservice.List(id);
+        }
+        public void CheckLicenseDelete(CheckLicenseDTO chck)
+        {
+            checklicenseservice.Delete(chck);
+        }
+
+        public void CheckLicenseUpdate(CheckLicenseDTO chck)
+        {
+            checklicenseservice.Update(chck);
+        }
+
+        public void ComputerDeleteAllBaseFormid(int firmId)
+        {
+            computerService.DeleteAllBaseFormid(firmId);
+        }
+
+        public void CheckLicenseDeleteAllBaseOperationid(int oprId)
+        {
+            checklicenseservice.DeleteAllBaseOperationid(oprId);
+        }
+        public List<ControlPointDTO> GetControlPoint()
+        {
+            return baseservice.GetControlPoint();
+        }
+
+        public List<SoftwareDTO> GetAllApplication()
+        {
+            var apps = baseservice.GetSoftware().Where(x => x.IsEnable == true).ToList();
 
             return apps;
         }
-        public Software GetApplication(Nullable<int> id)
+        public SoftwareDTO GetApplication(Nullable<int> id)
         {
-            var apps = dbaccess.GetSoftware().Where(x => x.Id == id).Select(x => new Software { AppName = x.AppName, Id = x.Id }).FirstOrDefault();
+            var apps = baseservice.GetSoftware().Where(x => x.Id == id).FirstOrDefault();
 
             return apps;
         }
-        public List<FE_ControlList> GetFEControlList(int appid)
+        public List<FE_ControlListDTO> GetFEControlList(int appid)
         {
 
-            return dbaccess.GetFEControlList(appid).ConvertAll(x => new FE_ControlList { Id = x.Id, AppId = x.AppId, Drive = x.Drive, Path = x.Path, Type = x.Type });
+            return baseservice.GetFEControlList(appid);
         }
         public void LogToDb(List<LogData> logs)
         {
-            dbaccess.LogToDb(logs);
+            baseservice.LogToDb(logs);
         }
     }
 }

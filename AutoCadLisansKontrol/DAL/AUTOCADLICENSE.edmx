@@ -72,6 +72,14 @@
           <Property Name="PhoneNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="InsertDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Firm_User_RL">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FirmId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="Operation">
           <Key>
             <PropertyRef Name="Id" />
@@ -132,6 +140,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Firm_Firm">
+          <End Role="Firm" Type="Self.Firm" Multiplicity="1" />
+          <End Role="Firm1" Type="Self.Firm" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Firm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Firm1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Firm_User_RL_Firm">
+          <End Role="Firm" Type="Self.Firm" Multiplicity="0..1" />
+          <End Role="Firm_User_RL" Type="Self.Firm_User_RL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Firm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Firm_User_RL">
+              <PropertyRef Name="FirmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Firm_User_RL_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Firm_User_RL" Type="Self.Firm_User_RL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Firm_User_RL">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Operation_Firm">
           <End Role="Firm" Type="Self.Firm" Multiplicity="1" />
           <End Role="Operation" Type="Self.Operation" Multiplicity="*" />
@@ -174,6 +218,7 @@
           <EntitySet Name="ControlPoint" EntityType="Self.ControlPoint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FE_ControlList" EntityType="Self.FE_ControlList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Firm" EntityType="Self.Firm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Firm_User_RL" EntityType="Self.Firm_User_RL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Operation" EntityType="Self.Operation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Software" EntityType="Self.Software" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -188,6 +233,18 @@
           <AssociationSet Name="FK_FE_ControlList_FE_ControlList" Association="Self.FK_FE_ControlList_FE_ControlList">
             <End Role="Software" EntitySet="Software" />
             <End Role="FE_ControlList" EntitySet="FE_ControlList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Firm_Firm" Association="Self.FK_Firm_Firm">
+            <End Role="Firm" EntitySet="Firm" />
+            <End Role="Firm1" EntitySet="Firm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Firm_User_RL_Firm" Association="Self.FK_Firm_User_RL_Firm">
+            <End Role="Firm" EntitySet="Firm" />
+            <End Role="Firm_User_RL" EntitySet="Firm_User_RL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Firm_User_RL_Users" Association="Self.FK_Firm_User_RL_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Firm_User_RL" EntitySet="Firm_User_RL" />
           </AssociationSet>
           <AssociationSet Name="FK_Operation_Firm" Association="Self.FK_Operation_Firm">
             <End Role="Firm" EntitySet="Firm" />
@@ -252,6 +309,19 @@
             <End Role="FirmEntity" EntitySet="Firm" />
             <End Role="Computer" EntitySet="Computer" />
           </AssociationSet>
+          <EntitySet Name="Firm_User_RL" EntityType="AUTOCADLICENSEModel.Firm_User_RL" />
+          <AssociationSet Name="FK_Firm_Firm" Association="AUTOCADLICENSEModel.FK_Firm_Firm">
+            <End Role="FirmEntity" EntitySet="Firm" />
+            <End Role="FirmEntity1" EntitySet="Firm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Firm_User_RL_Firm" Association="AUTOCADLICENSEModel.FK_Firm_User_RL_Firm">
+            <End Role="FirmEntity" EntitySet="Firm" />
+            <End Role="Firm_User_RL" EntitySet="Firm_User_RL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Firm_User_RL_Users" Association="AUTOCADLICENSEModel.FK_Firm_User_RL_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Firm_User_RL" EntitySet="Firm_User_RL" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="FirmEntity">
           <Key>
@@ -265,6 +335,9 @@
           <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_Operation_Firm" FromRole="Firm" ToRole="Operation" />
           <NavigationProperty Name="Computer" Relationship="AUTOCADLICENSEModel.FK_Computer_Firm" FromRole="FirmEntity" ToRole="Computer" />
+          <NavigationProperty Name="Firm1" Relationship="AUTOCADLICENSEModel.FK_Firm_Firm" FromRole="FirmEntity" ToRole="FirmEntity1" />
+          <NavigationProperty Name="Firm2" Relationship="AUTOCADLICENSEModel.FK_Firm_Firm" FromRole="FirmEntity1" ToRole="FirmEntity" />
+          <NavigationProperty Name="Firm_User_RL" Relationship="AUTOCADLICENSEModel.FK_Firm_User_RL_Firm" FromRole="FirmEntity" ToRole="Firm_User_RL" />
         </EntityType>
         <EntityType Name="OperationEntity">
           <Key>
@@ -337,6 +410,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Firm_User_RL" Relationship="AUTOCADLICENSEModel.FK_Firm_User_RL_Users" FromRole="Users" ToRole="Firm_User_RL" />
         </EntityType>
         <EntityType Name="CheckLicenseEntity">
           <Key>
@@ -411,6 +485,52 @@
             </Principal>
             <Dependent Role="Computer">
               <PropertyRef Name="FirmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Firm_User_RL">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FirmId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Firm" Relationship="AUTOCADLICENSEModel.FK_Firm_User_RL_Firm" FromRole="Firm_User_RL" ToRole="FirmEntity" />
+          <NavigationProperty Name="Users" Relationship="AUTOCADLICENSEModel.FK_Firm_User_RL_Users" FromRole="Firm_User_RL" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_Firm_Firm">
+          <End Type="AUTOCADLICENSEModel.FirmEntity" Role="FirmEntity" Multiplicity="1" />
+          <End Type="AUTOCADLICENSEModel.FirmEntity" Role="FirmEntity1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FirmEntity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FirmEntity1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Firm_User_RL_Firm">
+          <End Type="AUTOCADLICENSEModel.FirmEntity" Role="FirmEntity" Multiplicity="0..1" />
+          <End Type="AUTOCADLICENSEModel.Firm_User_RL" Role="Firm_User_RL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FirmEntity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Firm_User_RL">
+              <PropertyRef Name="FirmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Firm_User_RL_Users">
+          <End Type="AUTOCADLICENSEModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="AUTOCADLICENSEModel.Firm_User_RL" Role="Firm_User_RL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Firm_User_RL">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -520,6 +640,15 @@
                 <ScalarProperty Name="Ip" ColumnName="Ip" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Firm_User_RL">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.Firm_User_RL">
+              <MappingFragment StoreEntitySet="Firm_User_RL">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirmId" ColumnName="FirmId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

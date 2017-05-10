@@ -32,7 +32,7 @@ namespace MaterialDesignDemo
 
         private void CheckLicenseButton_Click(object sender, RoutedEventArgs e)
         {
-            var localoperation = (LicenseController.autocad.masterkey.ws.Operation)grdOperation.SelectedItem;
+            var localoperation = (LicenseController.autocad.masterkey.ws.OperationDTO)grdOperation.SelectedItem;
             if (localoperation.Id == 0)
             {
                 var userviewmodel = (OperationViewModel)DataContext;
@@ -53,7 +53,7 @@ namespace MaterialDesignDemo
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             
-            var localoperation = (LicenseController.autocad.masterkey.ws.Operation)grdOperation.SelectedItem;
+            var localoperation = (LicenseController.autocad.masterkey.ws.OperationDTO)grdOperation.SelectedItem;
             if (localoperation.Id == 0)
             {
                 var userviewmodel = (OperationViewModel)this.DataContext;
@@ -62,7 +62,7 @@ namespace MaterialDesignDemo
             }
             ShowDialog(localoperation);
         }
-        private void ShowDialog(LicenseController.autocad.masterkey.ws.Operation opr)
+        private void ShowDialog(LicenseController.autocad.masterkey.ws.OperationDTO opr)
         {
 
 
@@ -73,7 +73,7 @@ namespace MaterialDesignDemo
                 case MessageBoxResult.Yes:
                     try
                     {
-                        client.DeleteOperation(opr);
+                        client.OperationDelete(opr);
 
                         var removeditem = userviewmodel.Operation.SingleOrDefault(x => x.Id == opr.Id);
 

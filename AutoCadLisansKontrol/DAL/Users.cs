@@ -14,8 +14,17 @@ namespace AutoCadLisansKontrol.DAL
     
     public partial class Users
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Users()
+        {
+            this.Firm_User_RL = new HashSet<Firm_User_RL>();
+        }
+    
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Firm_User_RL> Firm_User_RL { get; set; }
     }
 }
