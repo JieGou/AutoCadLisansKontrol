@@ -28,6 +28,8 @@ namespace LicenseControllerWs
         [OperationContract]
         void FirmUpdate(FirmDTO firm);
         [OperationContract]
+        string ComputersUpsert(List<ComputerDTO> c);
+        [OperationContract]
         int ComputerUpsert(ComputerDTO c);
         [OperationContract]
         OperationDTO OperationGet(int opr);

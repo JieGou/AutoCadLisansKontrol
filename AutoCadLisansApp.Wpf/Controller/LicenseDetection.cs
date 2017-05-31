@@ -68,7 +68,7 @@ namespace AutoCadLisansKontrol.Controller
             var securepassword = ConvertToSecureString(password);
             string shellUri = "http://schemas.microsoft.com/powershell/Microsoft.PowerShell";
             PSCredential remoteCredential = new PSCredential(username, securepassword);
-            WSManConnectionInfo connectionInfo = new WSManConnectionInfo(false, chc.MachineName, 5985, "/wsman", shellUri, remoteCredential);
+            WSManConnectionInfo connectionInfo = new WSManConnectionInfo(false, chc.Name, 5985, "/wsman", shellUri, remoteCredential);
 
             string output = "";
             try
@@ -133,9 +133,9 @@ namespace AutoCadLisansKontrol.Controller
             var ReadFileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\readlicense.bat";
             var TestConnectionFileName = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\TestConnection.bat";
 
-            var checkscript = @" -c -f \\" + chc.MachineName + " -u " + username + " -p " + password + " " + CheckFileName;
-            var readscript = @"-c -f \\" + chc.MachineName + " -u " + username + " -p " + password + " " + ReadFileName;
-            var testconnectionscript = @"-c -f \\" + chc.MachineName + " -u " + username + " -p " + password + " ipconfig";
+            var checkscript = @" -c -f \\" + chc.Name + " -u " + username + " -p " + password + " " + CheckFileName;
+            var readscript = @"-c -f \\" + chc.Name + " -u " + username + " -p " + password + " " + ReadFileName;
+            var testconnectionscript = @"-c -f \\" + chc.Name + " -u " + username + " -p " + password + " ipconfig";
 
 
             //scripts.Add(new RemoteCommand { Key = "testconnection", command = readscript, timeout = 1000 * 60 });
@@ -245,7 +245,7 @@ namespace AutoCadLisansKontrol.Controller
             var guids = Guid.NewGuid();
             var guidId = guids.ToString();
             var logs = new List<LogData>();
-            var remote = chc.MachineName == "" ? chc.Ip : chc.MachineName;
+            var remote = chc.Name == "" ? chc.Ip : chc.Name;
             ProcessWMI process = new ProcessWMI(remote, username, password, isRemote);
 
             try
@@ -287,6 +287,7 @@ namespace AutoCadLisansKontrol.Controller
                                 }
                                 chc.Installed = true;
                                 chc.IsFound = true;
+                                chc.SerialNumber = win32product[0].ProductID;
                             }
                         }
                         catch (Exception ex)
@@ -469,7 +470,7 @@ namespace AutoCadLisansKontrol.Controller
 
                 chc.Success = true;
                 chc.Output = softwares;
-                
+
             }
             catch (Exception ex)
             {

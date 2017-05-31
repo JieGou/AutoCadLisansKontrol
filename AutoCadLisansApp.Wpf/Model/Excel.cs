@@ -53,32 +53,41 @@ namespace MaterialDesignDemo.Model
             try
             {
                 Workbook book = new Workbook();
-
-                book.Worksheets.Clear();
+                var filename = System.IO.Directory.GetCurrentDirectory() + @"\BatFile\Output Template.xlsx";
+                book.Open(filename);
                 //Add a new Sheet "Data";
-                Worksheet sheet = book.Worksheets.Add("Result of Sniff");
+                Worksheet sheet = book.Worksheets[0];
+                //sheet.Name = "Result of Sniff";
                 string[] columns = { "AppName", "Ip", "MachineName", "Description", "Installed", "Uninstalled", "InstallDate", "UnInstalledDate", "IsFound", "Output", "CheckDate", };
 
 
-                for (int j = 0; j < columns.Length; j++)
-                {
-                    book.Worksheets[0].Cells[0, j].PutValue(columns[j]);
-                }
+                //for (int j = 0; j < columns.Length; j++)
+                //{
+                //    book.Worksheets[0].Cells[0, j].PutValue(columns[j]);
+                //}
 
 
                 for (int i = 0; i < data.Count; i++)
                 {
-                    book.Worksheets[0].Cells[i + 1, 0].PutValue(data[i].App.AppName);
-                    book.Worksheets[0].Cells[i + 1, 1].PutValue(data[i].Ip);
-                    book.Worksheets[0].Cells[i + 1, 2].PutValue(data[i].MachineName);
-                    book.Worksheets[0].Cells[i + 1, 3].PutValue(data[i].Description);
-                    book.Worksheets[0].Cells[i + 1, 4].PutValue(data[i].Installed);
-                    book.Worksheets[0].Cells[i + 1, 5].PutValue(data[i].Uninstalled);
-                    book.Worksheets[0].Cells[i + 1, 6].PutValue(data[i].InstallDate.ToString());
-                    book.Worksheets[0].Cells[i + 1, 7].PutValue(data[i].UnInstallDate.ToString());
-                    book.Worksheets[0].Cells[i + 1, 8].PutValue(data[i].IsFound);
-                    book.Worksheets[0].Cells[i + 1, 9].PutValue(data[i].Output);
-                    book.Worksheets[0].Cells[i + 1, 10].PutValue(data[i].CheckDate.ToString());
+                    try
+                    {
+                        book.Worksheets[0].Cells[i + 1, 0].PutValue(data[i].Ip + "\\" + data[i].Name);
+                        book.Worksheets[0].Cells[i + 1, 1].PutValue(data[i].App.AppName);
+                        book.Worksheets[0].Cells[i + 1, 2].PutValue(data[i].SerialNumber);
+                        book.Worksheets[0].Cells[i + 1, 3].PutValue(CategorizeProcessResult(data[i].Output, data[i].App.AppName));
+                        book.Worksheets[0].Cells[i + 1, 4].PutValue(data[i].CheckDate);
+                        book.Worksheets[0].Cells[i + 1, 5].PutValue(data[i].Installed);
+                        book.Worksheets[0].Cells[i + 1, 6].PutValue(data[i].Uninstalled);
+                        book.Worksheets[0].Cells[i + 1, 7].PutValue(data[i].InstallDate.ToString());
+                        book.Worksheets[0].Cells[i + 1, 8].PutValue(data[i].UnInstallDate.ToString());
+                        book.Worksheets[0].Cells[i + 1, 9].PutValue(data[i].Output);
+                    }
+                    catch (Exception ex)
+                    {
+                        var message = ex.Message;
+                        book.Worksheets[0].Cells[i + 1, 9].PutValue(message);
+                    }
+                    
                 }
 
                 book.Worksheets[0].AutoFitColumns();
@@ -93,6 +102,38 @@ namespace MaterialDesignDemo.Model
             catch (Exception ex)
             {
                 var messaage = ex.Message;
+            }
+
+        }
+        public static string CategorizeProcessResult(string output, string application)
+        {
+            try
+            {
+                if (output.Contains("Access is denied."))
+                {
+                    return "User not authorized to login computer.";
+                }
+                else if (output.Contains("The RPC server is unavailable."))
+                {
+                    return "Remote computer doesn't respond. Maybe it is switched off or WMI service is not running on it.";
+                }
+                else if (output.Contains(application))
+                {
+                    return "Product found";
+                }
+                else if (!output.Contains(application))
+                {
+                    return "No Product found";
+                }
+                else
+                {
+                    return "UnKnownError";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return "Unknown Error : " + ex.Message;
             }
 
         }

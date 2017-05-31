@@ -45,56 +45,7 @@
     </Window.Resources>
     <Grid>
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
-            <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
-                <!--<materialDesign:DrawerHost.LeftDrawerContent>
-                    <DockPanel MinWidth="212">
-                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
-                                    DockPanel.Dock="Top"
-                                    HorizontalAlignment="Right" Margin="16"
-                                    IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                        <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="{Binding SelectedIndex}" SelectionChanged="DemoItemsListBox_SelectionChanged"                      
-                             ItemsSource="{Binding DemoItems,Mode=TwoWay}"
-                             PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate DataType="domain:DemoItem">
-                                    <TextBlock Text="{Binding Name}" Margin="32 0 32 0" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </DockPanel>
-                </materialDesign:DrawerHost.LeftDrawerContent>-->
-                <DockPanel>
-                    <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                            Mode="PrimaryMid" DockPanel.Dock="Top">
-                        <DockPanel>
-                            <!--<ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
-                                        x:Name="MenuToggleButton"/>-->
-                            <!--<materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
-                                <StackPanel>
-                                    --><!--<Button Content="Hello World" Click="MenuPopupButton_OnClick"/>
-                                <Button Content="Nice Popup" Click="MenuPopupButton_OnClick"/>--><!--
-                                    <Button Content="Sign Out" Click="Button_Click" />
-                                    --><!--<Separator/>-->
-                                    <!--<Button Content="Goodbye" Click="MenuPopupButton_OnClick"/>--><!--
-                                </StackPanel>
-                            </materialDesign:PopupBox>-->
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"></TextBlock>
-                        </DockPanel>
-                    </materialDesign:ColorZone>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <!--<domain1:DocumentationLinks DataContext="{Binding ElementName=DemoItemsListBox, Path=SelectedItem}"
-                                                Margin="0 0 0 16"
-                                                />-->
-                        <ContentControl Name="contentControlArea" Margin="16" Content="{Binding DemoItem.Content,Mode=TwoWay}"
-                                    Grid.Row="1" />
-                        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" Grid.Row="1" />
-                    </Grid>
-                </DockPanel>
-            </materialDesign:DrawerHost>
+            
         </materialDesign:DialogHost>
 
         <Grid VerticalAlignment="Center">
@@ -102,12 +53,11 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
             <materialDesign:Snackbar Name="Notification"  >
                 <materialDesign:SnackbarMessage Name="notificationContent" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
             </materialDesign:Snackbar>
 
-            <GroupBox Grid.Row="1" Header="Login" Style="{DynamicResource MaterialDesignCardGroupBox}" Width="300" Height="200" VerticalAlignment="Top">
+            <GroupBox Grid.Row="1" Header="Login" Style="{DynamicResource MaterialDesignCardGroupBox}" Width="300" Height="250" VerticalAlignment="Top">
                 <GroupBox.HeaderTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -133,12 +83,14 @@
 
 
                     <Button Grid.Column="2" Style="{StaticResource MaterialDesignRaisedDarkButton}"  
-                                            Click="Button_Click"  Content="Sign in " VerticalAlignment="Top" Margin="3"/>
+                                            Click="Button_Click"  Content="Sign in " VerticalAlignment="Top" Margin="20"/>
+                    <CheckBox Name="chkrememberme" Content="Remember me" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top"/>
                 </StackPanel>
 
 
 
             </GroupBox>
+            
         </Grid>
     </Grid>
 </Window>

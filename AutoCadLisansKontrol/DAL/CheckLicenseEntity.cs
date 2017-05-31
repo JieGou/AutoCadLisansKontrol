@@ -31,6 +31,7 @@ namespace AutoCadLisansKontrol.DAL
         public Nullable<System.DateTime> UnInstallDate { get; set; }
         public Nullable<int> AppId { get; set; }
         public Nullable<System.Guid> LogId { get; set; }
+        public string SerialNumber { get; set; }
     
         public virtual SoftwareEntity Software { get; set; }
         public virtual OperationEntity Operation { get; set; }

@@ -22,11 +22,15 @@ namespace AutoCadLisansKontrol.DAL
             {
                 foreach (var toField in toFields)
                 {
-                    if (fromField.Name == toField.Name)
+                    var totype = toField.PropertyType;
+                    var fromtype = fromField.PropertyType;
+                    if (fromField.Name == toField.Name&& fromField.PropertyType==toField.PropertyType)
                     {
-                        toField.SetValue(toRecord, fromField.GetValue(fromRecord, null), null);
+                        //if (fromField.PropertyType.IsPrimitive)
+                            toField.SetValue(toRecord, fromField.GetValue(fromRecord, null), null);
                         break;
                     }
+
                 }
 
             }

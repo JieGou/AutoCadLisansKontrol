@@ -560,17 +560,17 @@
     <None Include="Service References\autocad.masterkey.ws\LicenseController.autocad.masterkey.ws.UsersDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\Service1.xsd">
+    <None Include="Service References\autocad.masterkey.ws\Service1.wsdl" />
+    <None Include="Service References\autocad.masterkey.ws\Service14.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\Service11.wsdl" />
-    <None Include="Service References\autocad.masterkey.ws\Service11.xsd">
+    <None Include="Service References\autocad.masterkey.ws\Service141.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\Service12.xsd">
+    <None Include="Service References\autocad.masterkey.ws\Service142.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\autocad.masterkey.ws\Service13.xsd">
+    <None Include="Service References\autocad.masterkey.ws\Service143.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -627,7 +627,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\Aspose.Cells.dll" />
-    <None Include="Service References\autocad.masterkey.ws\Service1.disco" />
+    <None Include="Service References\autocad.masterkey.ws\Service11.disco" />
     <Resource Include="rsz_autocadicon.ico" />
   </ItemGroup>
   <ItemGroup>

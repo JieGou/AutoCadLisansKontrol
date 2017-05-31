@@ -27,6 +27,7 @@ namespace AutoCadLisansKontrol.DAL.Service
                 }
                 else
                 {
+                    item.FirmId = model.FirmId;
                     item.Id = model.Id;
                     item.Name = model.Name;
                 }

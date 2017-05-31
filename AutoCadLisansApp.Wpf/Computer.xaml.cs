@@ -1,7 +1,10 @@
 ﻿
+using LicenseController.autocad.masterkey.ws;
 using MaterialDesignColors.WpfExample.Domain;
+using MaterialDesignDemo;
 using MaterialDesignDemo.Domain;
 using MaterialDesignDemo.Model;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -118,6 +121,31 @@ namespace MaterialDesignColors.WpfExample
         private void scrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+        }
+        private void CheckLicenseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var localoperation = (LicenseController.autocad.masterkey.ws.OperationDTO)grdOperationonComputerpage.SelectedItem;
+           
+            var mainwindowviewmodel = Window.GetWindow(this).DataContext as MainWindowViewModel;
+            mainwindowviewmodel.DemoItem = new DemoItem("CheckLicense", new CheckLicense { DataContext = new CheckLicenseViewModel(localoperation.Id, localoperation.FirmId) });
+        }
+        private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
+        {
+            
+            if (!Equals(eventArgs.Parameter, true)) return;
+
+            var computermodel = (ComputerViewModel)DataContext;
+
+
+            if (!string.IsNullOrWhiteSpace(OperationBox.Text)) { 
+                computermodel.Operation.Add(new OperationDTO() { Name = OperationBox.Text.Trim(),FirmId= computermodel.FirmId });
+                OperationViewModel operation = new OperationViewModel(computermodel.FirmId);
+                operation.Operation = computermodel.Operation;
+                operation.SaveCommand();
+            }
+        
+
+            OperationBox.Text = "";
         }
     }
 }

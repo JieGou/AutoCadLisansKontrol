@@ -21,6 +21,7 @@ namespace AutoCadLisansKontrol.Controller
 {
     public class ComputerDetection
     {
+        public static int FirmId { get; set; }
         static object thisLock = new object();
         private static string localip;
         public static ComputerDTO ExecuteLocal()
@@ -32,7 +33,8 @@ namespace AutoCadLisansKontrol.Controller
                 Type = "Local",
                 //PyshicalAddress="",
                 IsRootMachine = false,
-                IsComputer = true
+                IsComputer = true,
+                InsertDate = DateTime.Now
             };
             return localcomp;
         }
@@ -42,10 +44,10 @@ namespace AutoCadLisansKontrol.Controller
             var arp = GetComputerFromNetView();
 
             arp.AddRange(net);
-            return Converter.Convert<ComputerModel, ComputerDTO>(arp);
+            return arp;
             //return arp.ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type, IsProgress = true });
         }
-        private static List<ComputerDTO> GetComputerFromNetView()
+        private static List<ComputerModel> GetComputerFromNetView()
         {
             Process p = new Process();
             // Redirect the output stream of the child process.
@@ -71,7 +73,7 @@ namespace AutoCadLisansKontrol.Controller
             }
             lines = lines.Where(x => !multiple.Contains(x)).ToList();
 
-            List<ComputerDTO> networkmachine = new List<ComputerDTO>();
+            List<ComputerModel> networkmachine = new List<ComputerModel>();
 
             for (int i = 0; i < lines.Count; i++)
             {
@@ -83,7 +85,9 @@ namespace AutoCadLisansKontrol.Controller
                     //PyshicalAddress="",
                     IsRootMachine = false,
                     IsComputer = true,
-                    IsProgress=true
+                    IsProgress=true,
+                    InsertDate=DateTime.Now,
+                    FirmId= FirmId
                 });
             }
             p.WaitForExit();
@@ -91,7 +95,7 @@ namespace AutoCadLisansKontrol.Controller
             return networkmachine.ToList();
         }
 
-        private static List<ComputerDTO> GetComputerFromArpTable()
+        private static List<ComputerModel> GetComputerFromArpTable()
         {
             Process p = new Process();
             // Redirect the output stream of the child process.
@@ -115,7 +119,7 @@ namespace AutoCadLisansKontrol.Controller
             index = lines.FindIndex(x => x.Contains("arp -a"));
             lines.RemoveAt(index);
 
-            List<ComputerDTO> networkmachine = new List<ComputerDTO>();
+            List<ComputerModel> networkmachine = new List<ComputerModel>();
             for (int i = 1; i < lines.Count; i++)
             {
                 var compline = lines[i].Split(' ').Where(x => x != "").ToList();
@@ -129,7 +133,8 @@ namespace AutoCadLisansKontrol.Controller
                     Type = "ArpTable",
                     IsRootMachine = false,
                     IsComputer = true,
-                    IsProgress=true
+                    IsProgress=true,
+                    FirmId = FirmId
                 });
 
             }

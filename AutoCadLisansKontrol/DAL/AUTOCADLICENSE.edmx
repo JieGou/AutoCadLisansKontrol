@@ -26,6 +26,7 @@
           <Property Name="UnInstallDate" Type="datetime" />
           <Property Name="AppId" Type="int" />
           <Property Name="LogId" Type="uniqueidentifier" />
+          <Property Name="SerialNumber" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Computer">
           <Key>
@@ -100,7 +101,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -435,6 +436,7 @@
           <NavigationProperty Name="Software" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="CheckLicense" ToRole="SoftwareEntity" />
           <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="OperationEntity" />
           <Property Name="LogId" Type="Guid" />
+          <Property Name="SerialNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ComputerEntity">
           <Key>
@@ -607,6 +609,7 @@
           <EntitySetMapping Name="CheckLicense">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicenseEntity">
               <MappingFragment StoreEntitySet="CheckLicense">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
                 <ScalarProperty Name="LogId" ColumnName="LogId" />
                 <ScalarProperty Name="AppId" ColumnName="AppId" />
                 <ScalarProperty Name="UnInstallDate" ColumnName="UnInstallDate" />

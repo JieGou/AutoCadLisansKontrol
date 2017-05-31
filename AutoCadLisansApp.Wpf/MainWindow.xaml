@@ -4,6 +4,7 @@
         xmlns:wpfExample="clr-namespace:MaterialDesignColors.WpfExample"
         xmlns:domain="clr-namespace:MaterialDesignColors.WpfExample.Domain"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:MaterialDesignColors.WpfExample"
         xmlns:converters="clr-namespace:MaterialDesignDemo.Model"
@@ -84,9 +85,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <!--<domain1:DocumentationLinks DataContext="{Binding ElementName=DemoItemsListBox, Path=SelectedItem}"
+                    <domain1:DocumentationLinks DataContext="{Binding ElementName=DemoItemsListBox, Path=SelectedItem}"
                                                 Margin="0 0 0 16"
-                                                />-->
+                                                />
                     <ContentControl Name="contentControlArea" Margin="16" Content="{Binding DemoItem.Content,Mode=TwoWay}"
                                     Grid.Row="1" />
                     <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" Grid.Row="1" />

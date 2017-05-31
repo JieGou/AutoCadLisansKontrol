@@ -569,13 +569,16 @@ namespace LicenseController.autocad.masterkey.ws {
         private System.Nullable<System.Guid> LogIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string MachineNameField;
+        private string NameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> OperationIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string OutputField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SerialNumberField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<bool> StateField;
@@ -730,14 +733,14 @@ namespace LicenseController.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string MachineName {
+        public string Name {
             get {
-                return this.MachineNameField;
+                return this.NameField;
             }
             set {
-                if ((object.ReferenceEquals(this.MachineNameField, value) != true)) {
-                    this.MachineNameField = value;
-                    this.RaisePropertyChanged("MachineName");
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
                 }
             }
         }
@@ -764,6 +767,19 @@ namespace LicenseController.autocad.masterkey.ws {
                 if ((object.ReferenceEquals(this.OutputField, value) != true)) {
                     this.OutputField = value;
                     this.RaisePropertyChanged("Output");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SerialNumber {
+            get {
+                return this.SerialNumberField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SerialNumberField, value) != true)) {
+                    this.SerialNumberField = value;
+                    this.RaisePropertyChanged("SerialNumber");
                 }
             }
         }
@@ -1478,6 +1494,12 @@ namespace LicenseController.autocad.masterkey.ws {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FirmUpdate", ReplyAction="http://tempuri.org/IService1/FirmUpdateResponse")]
         System.Threading.Tasks.Task FirmUpdateAsync(LicenseController.autocad.masterkey.ws.FirmDTO firm);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputersUpsert", ReplyAction="http://tempuri.org/IService1/ComputersUpsertResponse")]
+        string ComputersUpsert(LicenseController.autocad.masterkey.ws.ComputerDTO[] c);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputersUpsert", ReplyAction="http://tempuri.org/IService1/ComputersUpsertResponse")]
+        System.Threading.Tasks.Task<string> ComputersUpsertAsync(LicenseController.autocad.masterkey.ws.ComputerDTO[] c);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ComputerUpsert", ReplyAction="http://tempuri.org/IService1/ComputerUpsertResponse")]
         int ComputerUpsert(LicenseController.autocad.masterkey.ws.ComputerDTO c);
         
@@ -1684,6 +1706,14 @@ namespace LicenseController.autocad.masterkey.ws {
         
         public System.Threading.Tasks.Task FirmUpdateAsync(LicenseController.autocad.masterkey.ws.FirmDTO firm) {
             return base.Channel.FirmUpdateAsync(firm);
+        }
+        
+        public string ComputersUpsert(LicenseController.autocad.masterkey.ws.ComputerDTO[] c) {
+            return base.Channel.ComputersUpsert(c);
+        }
+        
+        public System.Threading.Tasks.Task<string> ComputersUpsertAsync(LicenseController.autocad.masterkey.ws.ComputerDTO[] c) {
+            return base.Channel.ComputersUpsertAsync(c);
         }
         
         public int ComputerUpsert(LicenseController.autocad.masterkey.ws.ComputerDTO c) {

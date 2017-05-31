@@ -27,7 +27,6 @@ namespace AutoCadLisansKontrol.DAL
                         break;
                     }
                 }
-
             }
             return toRecord;
         }

@@ -1,7 +1,9 @@
 ﻿
+using LicenseController.autocad.masterkey.ws;
 using LicenseController.Model;
 using MaterialDesignDemo.ViewModel;
 using Microsoft.Practices.Prism.Commands;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -46,13 +48,10 @@ namespace MaterialDesignDemo.Domain
             RefreshClicked = new DelegateCommand(RefreshCommand);
             AddItemClicked = new DelegateCommand(AddItemCommand);
             SaveClicked = new DelegateCommand(SaveCommand);
-            var list = client.OperationList(firmid);
-            foreach (var item in list)
-            {
-                item.Firm = SelectedFirm;
-            }
-            Operation = new ObservableCollection<LicenseController.autocad.masterkey.ws.OperationDTO>(list);
-
+            var list = new List<OperationDTO>(client.OperationList(firmid));
+            list.ForEach(x => x.Firm = SelectedFirm);
+            Operation = new ObservableCollection<OperationDTO>(list);
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -84,7 +83,7 @@ namespace MaterialDesignDemo.Domain
         }
         public void AddItemCommand()
         {
-            Operation.Add(new LicenseController.autocad.masterkey.ws.OperationDTO() { FirmId = SelectedFirm.Id,Firm=SelectedFirm });
+            Operation.Add(new LicenseController.autocad.masterkey.ws.OperationDTO() { FirmId = SelectedFirm.Id, Firm = SelectedFirm });
         }
         public void RefreshCommand()
         {

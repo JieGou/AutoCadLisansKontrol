@@ -64,6 +64,10 @@ namespace LicenseControllerWs
         {
             firmService.Update(firm);
         }
+        public string ComputersUpsert(List<ComputerDTO> comp)
+        {
+            return computerService.Upsert(comp);
+        }
         public int ComputerUpsert(ComputerDTO comp)
         {
             return computerService.Upsert(comp);

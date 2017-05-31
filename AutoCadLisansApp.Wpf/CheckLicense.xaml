@@ -237,7 +237,7 @@
                     <ProgressBar  IsIndeterminate="True" Margin="22,24,10,18" Visibility="{Binding ProgressBar,Mode=TwoWay}" />
 
                 </StackPanel>
-                <TabControl  Style="{DynamicResource ResourceKey=styleTabControl}"  Margin="16,0,16,16" >
+                <!--<TabControl  Style="{DynamicResource ResourceKey=styleTabControl}"  Margin="16,0,16,16" >
                     <TabItem Header="General" Style="{DynamicResource ResourceKey=styleTabItemLeft}">
                         <TextBlock>The content for General tab.</TextBlock>
                     </TabItem>
@@ -250,7 +250,7 @@
                     <TabItem Header="Tools" Style="{DynamicResource ResourceKey=styleTabItemRight}">
                         <TextBlock>The content for Tools tab.</TextBlock>
                     </TabItem>
-                </TabControl>
+                </TabControl>-->
                 <GroupBox Grid.Column="0" Grid.Row="1"  Header="Start Sniffing" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
                     <GroupBox.HeaderTemplate>
                         <DataTemplate>
@@ -351,9 +351,7 @@
                                             <TextBlock  x:Name="AppName"   materialDesign:HintAssist.Hint="App.AppName" TextWrapping="Wrap">
                                                 <TextBlock.Text>
                                                     <Binding Path="App.AppName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                                        </Binding.ValidationRules>
+                                                 
                                                     </Binding>
                                                 </TextBlock.Text>
                                             </TextBlock>
@@ -367,9 +365,7 @@
                                             <TextBlock  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Ip" TextWrapping="Wrap">
                                                 <TextBlock.Text>
                                                     <Binding Path="Ip" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                                        </Binding.ValidationRules>
+                                                       
                                                     </Binding>
                                                 </TextBlock.Text>
                                             </TextBlock>
@@ -381,12 +377,10 @@
                                 <DataGridTemplateColumn Header="MachineName" Width="150">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="MachineName" TextWrapping="Wrap">
+                                            <TextBlock  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="Name" TextWrapping="Wrap">
                                                 <TextBlock.Text>
-                                                    <Binding Path="MachineName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                                        </Binding.ValidationRules>
+                                                    <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                     
                                                     </Binding>
                                                 </TextBlock.Text>
                                             </TextBlock>

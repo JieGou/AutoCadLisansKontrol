@@ -102,7 +102,7 @@ namespace LicenseControllerWs.DAL
         [DataMember]
         public Nullable<int> FirmId { get; set; }
         [DataMember]
-        public string MachineName { get; set; }
+        public string Name { get; set; }
         [DataMember]
         public Nullable<bool> State { get; set; }
         [DataMember]
@@ -123,6 +123,8 @@ namespace LicenseControllerWs.DAL
         public Nullable<int> AppId { get; set; }
         [DataMember]
         public Nullable<System.Guid> LogId { get; set; }
+        [DataMember]
+        public string SerialNumber { get; set; }
     }
     [DataContract]
     public class SoftwareDTO

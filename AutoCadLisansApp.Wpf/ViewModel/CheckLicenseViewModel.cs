@@ -12,12 +12,13 @@ using AutoCadLisansKontrol.Controller;
 using MaterialDesignDemo.Model;
 using LicenseController.autocad.masterkey.ws;
 using LicenseController.Model;
+using AutoCadLisansKontrol.DAL;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
     public class CheckLicenseViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        
+
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
 
@@ -212,7 +213,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
                 foreach (var soft in SoftwareList)
                 {
-                    checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, MachineName = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, App = soft });
+                    checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, App = soft });
                 }
 
                 CheckLicenses = checklicense;
@@ -315,7 +316,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                     {
                         foreach (var sft in SoftwareList)
                         {
-                            checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, MachineName = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId, App = sft });
+                            checklicense.Add(new CheckLicenseModel() { ComputerId = item.Id, Name = item.Name, Ip = item.Ip, FirmId = item.FirmId, IsProgress = true, OperationId = OprId, App = sft });
                         }
                     }
 
@@ -407,33 +408,11 @@ namespace MaterialDesignColors.WpfExample.Domain
                     {
                         _softwarelist = new ObservableCollection<SoftwareDTO>(client.GetAllApplication().ToList());
                         CheckList = new ObservableCollection<ControlPointDTO>(client.GetControlPoint().ToList());
-                        var checklist = client.CheckLicenseList(OprId).ToList();
-                        foreach (var item in checklist)
-                        {
-                            var lc = new CheckLicenseModel
-                            {
-                                CheckDate = item.CheckDate,
-                                ComputerId = item.ComputerId,
-                                FirmId = item.FirmId,
-                                Id = item.Id,
-                                Ip = item.Ip,
-                                MachineName = item.MachineName,
-                                OperationId = item.OperationId,
-                                Output = item.Output,
-                                UpdateDate = item.UpdateDate,
-                                State = item.State,
-                                Success = (bool?)item.State,
-                                App = _softwarelist.Where(y => y.Id == item.AppId).FirstOrDefault<SoftwareDTO>(),
-                                InstallDate=item.InstallDate,
-                                Description="",
-                                IsFound=item.IsFound,
-                                UnInstallDate=item.UnInstallDate,
-                                Uninstalled=item.Uninstalled,
-                                Installed=item.Installed
-                            };
-                            checklicense.Add(lc);
-                        }
-
+                        var checklist = Converter.Convert<CheckLicenseModel, CheckLicenseDTO>(client.CheckLicenseList(OprId).ToList());
+                        checklist.ForEach(x => x.App = _softwarelist.Where(y => y.Id == x.AppId).FirstOrDefault<SoftwareDTO>());
+                        checklicense = new ObservableCollection<CheckLicenseModel>(checklist);
+                        TotalComputer = checklist.Count;
+                        ExecutedComputer = checklist.Count;
                     }
                     catch (System.Exception ex)
                     {
@@ -458,7 +437,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 return;
             }
 
-            
+
         }
         public void CancelCommand()
         {
@@ -513,7 +492,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                         FirmId = item.FirmId,
                         Id = item.Id,
                         Ip = item.Ip,
-                        MachineName = item.MachineName,
+                        Name = item.Name,
                         OperationId = item.OperationId,
                         Output = item.Output,
                         UpdateDate = System.DateTime.Now,
@@ -565,7 +544,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                             FirmId = item.FirmId,
                             Id = item.Id,
                             Ip = item.Ip,
-                            MachineName = item.MachineName,
+                            Name = item.Name,
                             OperationId = item.OperationId,
                             Output = item.Output,
                             UpdateDate = System.DateTime.Now,

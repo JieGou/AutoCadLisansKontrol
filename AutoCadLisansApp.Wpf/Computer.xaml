@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain"
-             xmlns:local="clr-namespace:MaterialDesignColors.WpfExample.Domain"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:converters="clr-namespace:MaterialDesignDemo.Model"
              mc:Ignorable="d" >
 
@@ -19,6 +19,15 @@
             <BooleanToVisibilityConverter x:Key="Converter" />
             <converters:BoolInverter x:Key="BoolInverter"/>
             <DropShadowEffect x:Key="z-depth4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
+            <Style x:Key="FocusVisual2">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -52,27 +61,37 @@
                 </Border>
             </StackPanel>
             <StackPanel>
-                <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                    <ProgressBar IsIndeterminate="True" Margin="16 0 0 0" Visibility="{Binding ProgressBar,Mode=TwoWay}"/>
+              
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                <ProgressBar  IsIndeterminate="True" Margin="16 0 0 0" Visibility="{Binding ProgressBar,Mode=TwoWay}"/>
 
-                    <materialDesign:Chip Content="Back"
-                             
+                <materialDesign:Chip Content="Back" 
                              Click="Chip_Click"
                              Margin="16 2" >
                         <materialDesign:Chip.Icon>
                             <materialDesign:PackIcon Kind="KeyboardBackspace" />
                         </materialDesign:Chip.Icon>
                     </materialDesign:Chip>
-
+                    <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}" x:Name="NotificationSnackbar" >
+                        <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
+                    </materialDesign:Snackbar>
                 </StackPanel>
+                
 
-
-                <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"   
-                                              x:Name="NotificationSnackbar" >
-                    <materialDesign:SnackbarMessage  Content="{Binding NotificationContent,Mode=TwoWay}" ActionContent="Remove" ActionClick="SnackbarMessage_HideSnackClick" />
-                </materialDesign:Snackbar>
-                <GroupBox Grid.Column="0" Grid.Row="1"  Header="Start Sniffing" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
+                
+               
+                <GroupBox Grid.Column="0" Grid.Row="1"  Header="Manage Computer" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="16,0,16,16">
                     <GroupBox.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -123,12 +142,12 @@
                     </Grid>
 
                 </GroupBox>
-                <GroupBox   Style="{DynamicResource MaterialDesignCardGroupBox}"  Margin="16">
+                <GroupBox Grid.Row="2" Grid.Column="0"  Style="{DynamicResource MaterialDesignCardGroupBox}"  Margin="16">
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="ImageArea" Height="32" Width="32" VerticalAlignment="Center"  />
                             <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Computer List" FontWeight="Bold" Foreground="White"/>
-                           
+
                         </StackPanel>
                     </GroupBox.Header>
                     <StackPanel>
@@ -146,7 +165,9 @@
                                             EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
                                             >
                                     <DataGridCheckBoxColumn.Header>
-                                        --><!--padding to allow hit test to pass thru for sorting --><!--
+                                        -->
+                                <!--padding to allow hit test to pass thru for sorting -->
+                                <!--
                                         <Border Background="Transparent" Padding="6 0 6 0" HorizontalAlignment="Center">
                                             <CheckBox HorizontalAlignment="Center"                                               
                                           DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"
@@ -252,7 +273,95 @@
                         </DataGrid>
                     </StackPanel>
                 </GroupBox>
+
+                    <materialDesign:DialogHost DialogClosing="Sample1_DialogHost_OnDialogClosing"
+                         Grid.Row="1"  Grid.Column="1"   >
+                        <materialDesign:DialogHost.DialogContent>
+                            <StackPanel Margin="16">
+                                <TextBlock><Run Text="Add a new operation."/></TextBlock>
+                                <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch" x:Name="OperationBox" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsDefault="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand" Content="ACCEPT">
+                                        <Button.CommandParameter>
+                                            <system:Boolean>True</system:Boolean>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand" Content="CANCEL">
+                                        <Button.CommandParameter>
+                                            <system:Boolean>False</system:Boolean>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:DialogHost.DialogContent>
+                        <Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                            ClipToBounds="True">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+
+
+                                <DataGrid Name="grdOperationonComputerpage" ItemsSource="{Binding Operation, Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" Height="220" Width="298" >
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn   IsReadOnly="True" Header="Name" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap"  x:Name="NameTextBox"   materialDesign:HintAssist.Hint="OperationName">
+                                                        <TextBlock.Text>
+                                                            <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding.ValidationRules>
+                                                                    <domain1:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                                </Binding.ValidationRules>
+                                                            </Binding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+
+                                                    <Button Click="CheckLicenseButton_Click" CommandParameter="{Binding Id}" 
+                                                    Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 8 0" Width="70" ToolTip="Start Sniff"  >
+                                                        <materialDesign:PackIcon Kind="Run" />
+                                                    </Button>
+
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1" Effect="{DynamicResource MaterialDesignShadowDepth5}">
+                                    <TextBlock Margin="16"><Run Text="Operation List"/></TextBlock>
+                                </materialDesign:ColorZone>
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"                                
+                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                    VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                                    Grid.Row="0" Margin="0 0 28 -20">
+                                    <Viewbox Width="22" Height="22">
+                                        <Canvas Width="24" Height="24">
+                                            <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" />
+                                        </Canvas>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </materialDesign:DialogHost>
+                </Grid>
             </StackPanel>
+
+            
         </StackPanel>
     </ScrollViewer>
 </UserControl>

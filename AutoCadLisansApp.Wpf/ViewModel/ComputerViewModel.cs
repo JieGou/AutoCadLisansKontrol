@@ -16,6 +16,8 @@ using System;
 using System.Globalization;
 using MaterialDesignDemo.Model;
 using System.Threading;
+using AutoCadLisansKontrol.DAL;
+using LicenseController.autocad.masterkey.ws;
 
 namespace MaterialDesignColors.WpfExample.Domain
 {
@@ -23,6 +25,8 @@ namespace MaterialDesignColors.WpfExample.Domain
     {
         private bool _autoSave = true;
         public bool AutoSave { get { return _autoSave; } set { _autoSave = value; OnPropertyChanged("AutoSave"); } }
+        private ObservableCollection<OperationDTO> _operations;
+        public ObservableCollection<OperationDTO> Operation { get { return _operations; } set { _operations = value; OnPropertyChanged("Operation"); } }
 
         private bool _isButtonEnable = true;
         public bool IsButtonEnable { get { return _isButtonEnable; } set { _isButtonEnable = value; OnPropertyChanged("IsButtonEnable"); } }
@@ -43,7 +47,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         public ICommand LoadDbClicked { get; set; }
         public ICommand SaveClicked { get; set; }
         public ICommand CancelClicked { get; set; }
-        private int FirmId;
+        public int FirmId;
 
 
 
@@ -68,6 +72,9 @@ namespace MaterialDesignColors.WpfExample.Domain
             SaveClicked = new DelegateCommand(SaveCommand);
             CancelClicked = new DelegateCommand(CancelCommand);
             FirmId = firmId;
+            var list = new List<OperationDTO>(client.OperationList(FirmId));
+            list.ForEach(x => x.FirmId = FirmId);
+            Operation = new ObservableCollection<OperationDTO>(list);
             LoadComputerFromDb();
         }
 
@@ -196,7 +203,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         }
         private ObservableCollection<ComputerModel> GenerateDataFromNetwork()
         {
-
+            ComputerDetection.FirmId = FirmId;
             List<ComputerModel> list = ComputerDetection.Execute();
             return new ObservableCollection<ComputerModel>(list);
         }
@@ -267,18 +274,21 @@ namespace MaterialDesignColors.WpfExample.Domain
                     {
                         client.ComputerDeleteAllBaseFormid(FirmId);
                         var counter = Computers.Count;
-                        foreach (var item in Computers)
+                        
+                        var savelog = "";
+                        try
                         {
-                            counter--;
-                            item.FirmId = FirmId;
-
-                            client.ComputerUpsert(new LicenseController.autocad.masterkey.ws.ComputerDTO { FirmId = item.FirmId, Id = item.Id, InsertDate = item.InsertDate, Ip = item.Ip, IsComputer = item.IsComputer, IsRootMachine = item.IsRootMachine, IsVisible = item.IsVisible, Name = item.Name, PyshicalAddress = item.PyshicalAddress, Type = item.Type });
-                            if (counter == 0)
-                            {
-                                LoadComputerFromDb();
-                                EndNotification("Computers is saved");
-                            }
+                            var list = Converter.Convert<ComputerDTO, ComputerModel>(Computers.ToList());
+                            list.ForEach(c => c.FirmId = FirmId);
+                            client.ComputersUpsert(list.ToArray());
                         }
+                        catch (Exception ex)
+                        {
+                            savelog = ex.Message;
+                        }
+                        LoadComputerFromDb();
+                        EndNotification("Computers are saved.");
+
                     }
                     catch (Exception ex)
                     {

@@ -21,10 +21,14 @@ namespace LicenseController
         string password = "";
         public LoginWindow()
         {
-            
+
             InitializeComponent();
-            NameTextBox.Text = App.Current.Properties[0].ToString();
-            PasswordBox.Password = App.Current.Properties[1].ToString();
+            if (App.Current.Properties[2] != null)
+            {
+                NameTextBox.Text = App.Current.Properties[0].ToString();
+                PasswordBox.Password = App.Current.Properties[1].ToString();
+                chkrememberme.IsChecked = Convert.ToBoolean(App.Current.Properties[2]);
+            }
         }
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
@@ -45,9 +49,20 @@ namespace LicenseController
                 Notification.IsActive = true;
                 if (result != null)
                 {
+
                     GlobalVariable.getInstance().user = result;
-                    App.Current.Properties[0] = NameTextBox.Text;
-                    App.Current.Properties[1] = password;
+                    if ((bool)chkrememberme.IsChecked)
+                    {
+                        App.Current.Properties[0] = NameTextBox.Text;
+                        App.Current.Properties[1] = password;
+                        App.Current.Properties[2] = chkrememberme.IsChecked;
+                    }
+                    else
+                    {
+                        App.Current.Properties[0] = null;
+                        App.Current.Properties[1] = null;
+                        App.Current.Properties[2] = null;
+                    }
                     var newForm = new MainWindow(); //create your new form.
                     newForm.Show(); //show the new form.
                     this.Close(); //only if you want to close the current form.

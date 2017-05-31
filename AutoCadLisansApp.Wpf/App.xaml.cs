@@ -30,6 +30,7 @@ namespace MaterialDesignColors.WpfExample
                     //wriet to the isolated storage created in the above code section.
                     srWriter.WriteLine(App.Current.Properties[0].ToString());
                     srWriter.WriteLine(App.Current.Properties[1].ToString());
+                    srWriter.WriteLine(App.Current.Properties[2].ToString());
 
                 }
 

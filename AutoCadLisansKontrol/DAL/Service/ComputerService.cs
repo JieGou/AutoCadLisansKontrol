@@ -9,15 +9,77 @@ namespace AutoCadLisansKontrol.DAL.Service
 {
     public class ComputerService : BaseService
     {
+        public string Upsert(List<ComputerDTO> cmps)
+        {
+            string error = "";
+            foreach (var cmp in cmps)
+            {
+                try
+                {
+                    var model = Converter.Convert<ComputerEntity, ComputerDTO>(cmp);
+
+                    var item = dbaccess.Computer.Where(x => x.Ip == model.Ip && x.FirmId == model.FirmId).FirstOrDefault<ComputerEntity>();
+                    if (item == null)
+                    {
+                        model.InsertDate = DateTime.Now;
+                        dbaccess.Computer.Add(model);
+                    }
+                    else
+                    {
+                        item.IsComputer = model.IsComputer;
+                        item.IsRootMachine = model.IsRootMachine;
+                        item.Name = model.Name;
+                        item.PyshicalAddress = model.PyshicalAddress;
+                        item.IsVisible = model.IsVisible;
+                    }
+
+                    dbaccess.SaveChanges();
+
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    string validationerror = "";
+                    foreach (var eve in ex.EntityValidationErrors)
+                    {
+                        validationerror = "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            validationerror += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
+                        }
+                    }
+
+                    error = (validationerror);
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                {
+                    if (ex.InnerException != null)
+                    {
+
+                        if (ex.InnerException.InnerException != null)
+                        {
+                            throw new Exception(ex.InnerException.InnerException.Message);
+                        }
+                        else
+                        {
+                            throw new Exception(ex.InnerException.Message);
+                        }
+                    }
+                    else
+                        error = ex.Message;
+                }
+            }
+            return error;
+        }
         public int Upsert(ComputerDTO cmp)
         {
             try
             {
-                var model= Converter.Convert<ComputerEntity,ComputerDTO>(cmp);
+                var model = Converter.Convert<ComputerEntity, ComputerDTO>(cmp);
 
                 var item = dbaccess.Computer.Where(x => x.Name == model.Name && x.FirmId == model.FirmId).FirstOrDefault<ComputerEntity>();
                 if (item == null)
                 {
+                    model.InsertDate = DateTime.Now;
                     dbaccess.Computer.Add(model);
                 }
                 else
@@ -31,7 +93,7 @@ namespace AutoCadLisansKontrol.DAL.Service
                 }
 
                 dbaccess.SaveChanges();
-                return item.Id;
+                return dbaccess.Computer.Where(x => x.Name == model.Name && x.FirmId == model.FirmId).FirstOrDefault().Id;
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
