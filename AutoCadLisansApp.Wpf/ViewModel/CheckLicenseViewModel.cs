@@ -255,36 +255,44 @@ namespace MaterialDesignColors.WpfExample.Domain
                     ProgressContent = "Checking Computer...";
                     var counter = CheckLicenses.Count;
 
-
-
-                    System.Action ChildDoInBackground = new System.Action(() =>
+                    foreach (var chc in CheckLicenses)
                     {
-                        foreach (var chc in CheckLicenses)
+
+                        System.Action ChildDoInBackground = new System.Action(() =>
                         {
-                            LicenseDetection detect = new LicenseDetection();
-                            detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
+
+                            using (var detect = new LicenseDetection())
+                            {
+                                detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
+                            }
+                            
+                        });
+                        System.Action ChildDoOnUiThread = new System.Action(() =>
+                        {
                             chc.IsProgress = false;
-
                             counter--;
-                        }
-                        EndNotification("Operation has finished!!");
-                    });
 
-                    Canceller = new CancellationTokenSource();
-                    var t3 = Task.Factory.StartNew(() =>
-                    {
-                        using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            EndNotification("Operation has finished!!");
+                        });
+
+                        Canceller = new CancellationTokenSource();
+                        var t3 = Task.Factory.StartNew(() =>
                         {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoInBackground();
+                            }
+                        }, Canceller.Token);
 
-                            ChildDoInBackground();
-
-                        }
-                    }, Canceller.Token);
-                    //, TaskCreationOptions.None, UIContext.Current
-                    // when t1 is done run t1..on the Ui thread.
-
-                    //, TaskContinuationOptions.OnlyOnFaulted, UIContext.Current
-
+                        var t4 = t3.ContinueWith(t =>
+                        {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoOnUiThread();
+                            }
+                        }, Canceller.Token);
+                       
+                    }
                     while (counter != 0)
                     {
 
@@ -318,7 +326,6 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             try
             {
-                TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
                 var checklicense = new ObservableCollection<CheckLicenseModel>();
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
@@ -344,10 +351,10 @@ namespace MaterialDesignColors.WpfExample.Domain
                     CheckLicenses = checklicense;
                 });
 
-
+                Canceller = new CancellationTokenSource();
                 var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
                 // when t1 is done run t1..on the Ui thread.
-                var t2 = t1.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
+                var t2 = t1.ContinueWith(t => ChildDoOnUiThread(), Canceller.Token);
             }
             catch (System.Exception ex)
             {

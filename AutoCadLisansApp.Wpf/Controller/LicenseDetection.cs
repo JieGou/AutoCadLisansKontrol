@@ -27,7 +27,7 @@ using System.Globalization;
 
 namespace AutoCadLisansKontrol.Controller
 {
-    public class LicenseDetection
+    public class LicenseDetection :IDisposable
     {
         public LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
         static OutputSniff outputs = new OutputSniff();
@@ -404,8 +404,7 @@ namespace AutoCadLisansKontrol.Controller
                         logs.Add(new LogData { Id = guidId, ResXml = fileexplorer, State = LogDataState.Success, LevelId = levelid, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
                     }
                 }
-
-
+                
                 chc.Success = true;
 
                 if (outputs.Win32_products != null && outputs.Win32_products.Count > 0)
@@ -436,7 +435,6 @@ namespace AutoCadLisansKontrol.Controller
                     {
                         chc.Output += "Fail When Get Install Date from RegistryAutoDesk  :" + ex.Message + "\n\r";
                     }
-
                 }
                 else if (outputs.ApplicationEvents != null && outputs.ApplicationEvents.Count > 0)
                 {
@@ -466,9 +464,7 @@ namespace AutoCadLisansKontrol.Controller
                     {
                         chc.Output += "Fail When Get Install Date from FileExplorerModel :" + ex.Message + "\n\r";
                     }
-
                 }
-
                 chc.Success = true;
                 chc.Output = softwares;
 
@@ -489,7 +485,7 @@ namespace AutoCadLisansKontrol.Controller
                 {
                     var message = e.Message;
                 }
-               
+
                 chc.QueryState = CategorizeProcessResult(chc.Output, chc.App.AppName);
                 chc.State = (int)chc.QueryState;
 
@@ -517,23 +513,22 @@ namespace AutoCadLisansKontrol.Controller
                 {
                     return QueryState.User_credentials_cannot_be_used_for_local_connections;
                 }
-                if (output.Contains("failed with the following error Access is denied"))
+                if (output.Contains("failed with the following error Access is denied") || output.Contains("failed with the following error Erişim engellendi"))
                 {
                     return QueryState.User_not_authorized_to_login_computer;
                 }
-                else if (output.Contains("The RPC server is unavailable."))
+                if (output.Contains("failed with the following error The RPC server is unavailable.") || output.Contains("failed with the following error RPC sunucusu kullanılamıyor."))
                 {
                     return QueryState.Remote_computer_doesnt_respond_Maybe_it_is_switched_off_or_WMI_service_is_not_running_on_it;
                 }
-                else if (output.Contains(application))
+                if (output.Contains(application))
                 {
                     return QueryState.Product_found;
                 }
-                else if (!output.Contains(application))
+                if (!output.Contains(application))
                 {
                     return QueryState.No_Product_found;
                 }
-                else
                 {
                     return QueryState.UnKnownState;
                 }
@@ -561,6 +556,11 @@ namespace AutoCadLisansKontrol.Controller
             public string IsRemote { get; set; }
             public string WorkDate { get; set; }
 
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }
