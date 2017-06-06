@@ -526,6 +526,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Lib\Output Template.xlsx" />
     <None Include="packages.config" />
     <None Include="paket.references" />
     <None Include="Properties\Settings.settings">
