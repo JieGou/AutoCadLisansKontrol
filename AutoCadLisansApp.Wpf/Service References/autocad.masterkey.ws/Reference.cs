@@ -103,6 +103,9 @@ namespace LicenseController.autocad.masterkey.ws {
         private string AddressField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ComputerCountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ContactField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -139,6 +142,19 @@ namespace LicenseController.autocad.masterkey.ws {
                 if ((object.ReferenceEquals(this.AddressField, value) != true)) {
                     this.AddressField = value;
                     this.RaisePropertyChanged("Address");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ComputerCount {
+            get {
+                return this.ComputerCountField;
+            }
+            set {
+                if ((this.ComputerCountField.Equals(value) != true)) {
+                    this.ComputerCountField = value;
+                    this.RaisePropertyChanged("ComputerCount");
                 }
             }
         }
@@ -581,7 +597,7 @@ namespace LicenseController.autocad.masterkey.ws {
         private string SerialNumberField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<bool> StateField;
+        private System.Nullable<int> StateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<System.DateTime> UnInstallDateField;
@@ -785,7 +801,7 @@ namespace LicenseController.autocad.masterkey.ws {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<bool> State {
+        public System.Nullable<int> State {
             get {
                 return this.StateField;
             }

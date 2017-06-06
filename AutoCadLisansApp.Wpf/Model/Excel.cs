@@ -74,7 +74,7 @@ namespace MaterialDesignDemo.Model
                         book.Worksheets[0].Cells[i + 1, 0].PutValue(data[i].Ip + "\\" + data[i].Name);
                         book.Worksheets[0].Cells[i + 1, 1].PutValue(data[i].App.AppName);
                         book.Worksheets[0].Cells[i + 1, 2].PutValue(data[i].SerialNumber);
-                        book.Worksheets[0].Cells[i + 1, 3].PutValue(CategorizeProcessResult(data[i].Output, data[i].App.AppName));
+                        book.Worksheets[0].Cells[i + 1, 3].PutValue(ConverttoEnum(data[i].State).ToString());
                         book.Worksheets[0].Cells[i + 1, 4].PutValue(data[i].CheckDate);
                         book.Worksheets[0].Cells[i + 1, 5].PutValue(data[i].Installed);
                         book.Worksheets[0].Cells[i + 1, 6].PutValue(data[i].Uninstalled);
@@ -105,38 +105,32 @@ namespace MaterialDesignDemo.Model
             }
 
         }
-        public static string CategorizeProcessResult(string output, string application)
+        public static QueryState ConverttoEnum(int? value)
         {
-            try
+            if (value == 0)
             {
-                if (output.Contains("Access is denied."))
-                {
-                    return "User not authorized to login computer.";
-                }
-                else if (output.Contains("The RPC server is unavailable."))
-                {
-                    return "Remote computer doesn't respond. Maybe it is switched off or WMI service is not running on it.";
-                }
-                else if (output.Contains(application))
-                {
-                    return "Product found";
-                }
-                else if (!output.Contains(application))
-                {
-                    return "No Product found";
-                }
-                else
-                {
-                    return "UnKnownError";
-                }
+                return QueryState.User_not_authorized_to_login_computer;
             }
-            catch (Exception ex)
+            else if (value == 1)
             {
-
-                return "Unknown Error : " + ex.Message;
+                return QueryState.Remote_computer_doesnt_respond_Maybe_it_is_switched_off_or_WMI_service_is_not_running_on_it;
             }
-
+            else if (value == 2)
+            {
+                return QueryState.Product_found;
+            }
+            else if (value == 3)
+            {
+                return QueryState.No_Product_found;
+            }
+            else if (value == 4)
+            {
+                return QueryState.UnKnownState;
+            }
+            return QueryState.UnKnownState;
         }
+
+
 
 
     }

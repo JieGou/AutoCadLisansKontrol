@@ -137,5 +137,10 @@ namespace MaterialDesignDemo
                 PasswordBox.IsEnabled = true;
             }
         }
+
+        private void grdCheckList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+        }
     }
 }

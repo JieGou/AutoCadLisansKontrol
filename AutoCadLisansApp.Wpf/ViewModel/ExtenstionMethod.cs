@@ -48,6 +48,38 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             return (date >= (DateTime)SqlDateTime.MinValue) ? date : (DateTime?)null;
         }
+        public static bool ValidateIPv4(this string ipString)
+        {
+            if (String.IsNullOrWhiteSpace(ipString))
+            {
+                return false;
+            }
+
+            string[] splitValues = ipString.Split('.');
+            if (splitValues.Length != 4)
+            {
+                return false;
+            }
+
+            byte tempForParsing;
+
+            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
+        }
+        public static T GetAttribute<T>(this Enum value) where T : Attribute
+        {
+            var type = value.GetType();
+            var memberInfo = type.GetMember(value.ToString());
+            var attributes = memberInfo[0].GetCustomAttributes(typeof(T), false);
+            return (T)attributes[0];
+        }
+
+        // This method creates a specific call to the above method, requesting the
+        // Description MetaData attribute.
+        public static string ToName(this Enum value)
+        {
+            var attribute = value.GetAttribute<DescriptionAttribute>();
+            return attribute == null ? value.ToString() : attribute.Description;
+        }
     }
 
 }

@@ -16,7 +16,23 @@ namespace MaterialDesignDemo.Model
         private SoftwareDTO _app = new SoftwareDTO();
         public LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
         public SoftwareDTO App { get { return _app; } set { _app = value; } }
+
+
+        public QueryState QueryState { get; set; }
         public string Description { get; set; }
+
+        public void InitiliazeObject()
+        {
+
+            Fail = false;
+            IsFound = false;
+            Success = false;
+            Installed = false;
+            Uninstalled = false;
+            InstallDate = null;
+            UnInstallDate = null;
+            CheckDate = DateTime.Now;
+        }
 
         private System.Nullable<bool> _isProgress;
         public System.Nullable<bool> IsProgress
@@ -34,7 +50,7 @@ namespace MaterialDesignDemo.Model
                 }
             }
         }
-      
+
 
         private System.Nullable<bool> _fail = false;
         public System.Nullable<bool> Fail
@@ -122,5 +138,14 @@ namespace MaterialDesignDemo.Model
         public List<Win32_Product> Win32_products { get; set; }
 
         public List<RegistrySoftware> RegistryAutoDesk { get; set; }
+    }
+    public enum QueryState
+    {
+        User_not_authorized_to_login_computer = 0,
+        Remote_computer_doesnt_respond_Maybe_it_is_switched_off_or_WMI_service_is_not_running_on_it = 1,
+        Product_found = 2,
+        No_Product_found = 3,
+        UnKnownState = 4,
+        User_credentials_cannot_be_used_for_local_connections = 5
     }
 }

@@ -12,7 +12,7 @@ namespace AutoCadLisansKontrol.DAL
     public class MssqlDbAccess : IDisposable
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static SqlConnection _conn = null;
+        private SqlConnection _conn = null;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly object _lock = new object();
@@ -21,9 +21,7 @@ namespace AutoCadLisansKontrol.DAL
         private string ConnectionString
         {
             get; set;
-
         }
-
 
         public MssqlDbAccess(string connectionstring)
         {

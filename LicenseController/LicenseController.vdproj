@@ -274,13 +274,13 @@
         "Entry"
         {
         "MsmKey" = "8:_7BDA466BF6EC2F96D57F2D006F1A5ED3"
-        "OwnerKey" = "8:_F92672A0D641FD53151F5765D07E4BEB"
+        "OwnerKey" = "8:_84FA7CB1F7B0463A97FCE7E487EEA72D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_7BDA466BF6EC2F96D57F2D006F1A5ED3"
-        "OwnerKey" = "8:_84FA7CB1F7B0463A97FCE7E487EEA72D"
+        "OwnerKey" = "8:_F92672A0D641FD53151F5765D07E4BEB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -688,7 +688,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6900A8C304D5FDF983CDD161E7D1A9D9"
+        "OwnerKey" = "8:_D05A36EBAA58380698EF0DCF19C8B2D8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7BDA466BF6EC2F96D57F2D006F1A5ED3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -815,18 +821,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F92672A0D641FD53151F5765D07E4BEB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7BDA466BF6EC2F96D57F2D006F1A5ED3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D05A36EBAA58380698EF0DCF19C8B2D8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1129,6 +1123,12 @@
         "OwnerKey" = "8:_180998C6E26836756ACE41ABD00DE0B8"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6900A8C304D5FDF983CDD161E7D1A9D9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -1147,6 +1147,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -1163,6 +1171,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -1402,7 +1418,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MaterialDesignThemes.Wpf, Version=1.2.0.31514, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:MaterialDesignThemes.Wpf, Version=1.2.0.206, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_19A878D24342A19F4A9580E6C798886A"
@@ -3704,15 +3720,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:LicenseController"
-        "ProductCode" = "8:{9D7030BB-9651-493D-A2BE-F857AFFF8E3D}"
-        "PackageCode" = "8:{7EAA814B-E476-488D-B03C-FE3D960AEB7E}"
+        "ProductCode" = "8:{079E856C-6D2D-41FC-8FB1-55B1C406DA39}"
+        "PackageCode" = "8:{48B41BB9-5FB2-4913-9E9F-896BA9D23FED}"
         "UpgradeCode" = "8:{39E39F75-953E-475C-9008-F0C8439C9B13}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.2"
+        "ProductVersion" = "8:1.1.3"
         "Manufacturer" = "8:LicenseController"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -4254,7 +4270,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_84FA7CB1F7B0463A97FCE7E487EEA72D"
             {
-            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\obj\\Debug\\LicenseController.exe"
+            "SourcePath" = "8:..\\AutoCadLisansApp.Wpf\\obj\\Release\\LicenseController.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C289EF2BDB2F4E4A9734E09BFE58F79E"

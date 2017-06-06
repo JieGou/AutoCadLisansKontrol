@@ -134,7 +134,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         CancellationTokenSource Canceller = new CancellationTokenSource();
-        public void GenerateCommand()
+        private void GenerateCommand()
         {
             IsButtonEnable = false;
             _executedComputer = 0;
@@ -142,7 +142,7 @@ namespace MaterialDesignColors.WpfExample.Domain
 
             StartNotification();
 
-            TaskScheduler _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
 
             List<ComputerModel> computers = new List<ComputerModel>();
             Computers = GenerateDataFromNetwork();
@@ -174,9 +174,23 @@ namespace MaterialDesignColors.WpfExample.Domain
                                 EndNotification("Network searching has finished!!");
                             }
                         });
-                        var t3 = Task.Factory.StartNew(() => ChildDoInBackground());
+                        Canceller = new CancellationTokenSource();
+                        var t3 = Task.Factory.StartNew(() =>
+                        {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoInBackground();
+                            }
+                        }, Canceller.Token);
+
                         // when t1 is done run t1..on the Ui thread.
-                        var t4 = t3.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
+                        var t4 = t3.ContinueWith(t =>
+                        {
+                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                            {
+                                ChildDoOnUiThread();
+                            }
+                        }, Canceller.Token);
                     }
                 }
                 catch (System.Exception ex)
@@ -190,15 +204,70 @@ namespace MaterialDesignColors.WpfExample.Domain
             {
 
             });
-
+            Canceller = new CancellationTokenSource();
             // start the background task
-            var t1 = Task.Factory.StartNew(() => DoInBackground());
+            var t1 = Task.Factory.StartNew(() =>
+            {
+                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                {
+                    DoInBackground();
+                }
+            }, Canceller.Token);
             // when t1 is done run t1..on the Ui thread.
-            var t2 = t1.ContinueWith(t => DoOnUiThread(), _uiScheduler);
+            var t2 = t1.ContinueWith(t =>
+            {
+                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                {
+                    DoOnUiThread();
+                }
+            }, Canceller.Token);
             //I assume BitmapFromUri is the slow step.
 
             //Now that we have our bitmap, now go to the main thread.
 
+
+        }
+
+        public void GenerateCommandInstantly()
+        {
+            IsButtonEnable = false;
+            _executedComputer = 0;
+            _totalComputer = 0;
+
+            StartNotification();
+            
+            List<ComputerModel> computers = new List<ComputerModel>();
+            Computers = GenerateDataFromNetwork();
+
+            try
+            {
+                TotalComputer = Computers.Count;
+                foreach (var item in Computers)
+                {
+
+                    ComputerDetection.GetAdditionalInfo(item);
+                    
+                    item.IsProgress = false;
+
+                    ExecutedComputer++;
+
+                    if (ExecutedComputer == TotalComputer)
+                    {
+                        Computers = new ObservableCollection<ComputerModel>(Computers.DistinctBy(p => p.Ip).ToList());
+                        Computers = ComputerDetection.FilterComputer(Computers);
+
+                        if (AutoSave&&Computers.Count>0)
+                            SaveCommand();
+                        EndNotification("Network searching has finished!!");
+                    }
+
+                }
+            }
+            catch (System.Exception ex)
+            {
+                EndNotification(ex.Message);
+                return;
+            }
 
         }
         private ObservableCollection<ComputerModel> GenerateDataFromNetwork()
@@ -215,18 +284,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                 StartNotification();
                 var computer = new ObservableCollection<ComputerModel>();
 
-                TaskScheduler _uiScheduler;
-                if (SynchronizationContext.Current != null)
-                {
-                    _uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-                }
-                else
-                {
-                    // If there is no SyncContext for this thread (e.g. we are in a unit test
-                    // or console scenario instead of running in an app), then just use the
-                    // default scheduler because there is no UI thread to sync with.
-                    _uiScheduler = TaskScheduler.Current;
-                }
+
                 System.Action ChildDoInBackground = new System.Action(() =>
                 {
                     computer = new ObservableCollection<ComputerModel>(client.ComputerList(FirmId).ToList().ConvertAll(x => new ComputerModel { FirmId = x.FirmId, Id = x.Id, InsertDate = x.InsertDate, Ip = x.Ip, IsComputer = x.IsComputer, IsRootMachine = x.IsRootMachine, IsVisible = x.IsVisible, Name = x.Name, PyshicalAddress = x.PyshicalAddress, Type = x.Type }));
@@ -239,10 +297,22 @@ namespace MaterialDesignColors.WpfExample.Domain
                 {
                     Computers = computer;
                 });
-
-                var t1 = Task.Factory.StartNew(() => ChildDoInBackground());
+                Canceller = new CancellationTokenSource();
+                var t1 = Task.Factory.StartNew(() =>
+                {
+                    using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                    {
+                        ChildDoInBackground();
+                    }
+                }, Canceller.Token);
                 // when t1 is done run t1..on the Ui thread.
-                var t2 = t1.ContinueWith(t => ChildDoOnUiThread(), _uiScheduler);
+                var t2 = t1.ContinueWith(t =>
+                {
+                    using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                    {
+                        ChildDoOnUiThread();
+                    }
+                }, Canceller.Token);
             }
             catch (System.Exception ex)
             {
@@ -274,7 +344,7 @@ namespace MaterialDesignColors.WpfExample.Domain
                     {
                         client.ComputerDeleteAllBaseFormid(FirmId);
                         var counter = Computers.Count;
-                        
+
                         var savelog = "";
                         try
                         {
@@ -292,12 +362,9 @@ namespace MaterialDesignColors.WpfExample.Domain
                     }
                     catch (Exception ex)
                     {
-
                         EndNotification(ex.Message);
                     }
-
                 });
-
 
                 Canceller = new CancellationTokenSource();
                 var t1 = Task.Factory.StartNew(() =>
@@ -335,6 +402,8 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
             IsButtonEnable = true;
             ProgressBar = Visibility.Hidden;
+            _totalComputer = 0;
+            _executedComputer = 0;
         }
     }
 

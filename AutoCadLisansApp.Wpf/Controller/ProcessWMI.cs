@@ -17,9 +17,9 @@ namespace MaterialDesignDemo.Controller
         public int ExitCode;
         public bool EventArrived;
         public ManualResetEvent mre = new ManualResetEvent(false);
-        string RemoteComputerName;
-        string Username;
-        string Password;
+        public string RemoteComputerName;
+        public string Username;
+        public string Password;
         public bool IsRemote;
         public void ProcessStoptEventArrived(object sender, EventArrivedEventArgs e)
         {

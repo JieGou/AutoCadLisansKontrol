@@ -85,7 +85,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AUTOCADLICENSE.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DAL\CheckLicenseEntity.cs">
+    <Compile Include="DAL\CheckLicense.cs">
       <DependentUpon>AUTOCADLICENSE.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\ComputerEntity.cs">

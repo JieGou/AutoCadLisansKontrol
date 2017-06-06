@@ -39,6 +39,11 @@ namespace MaterialDesignColors.WpfExample.Domain
         public bool _isremote = true;
         public bool IsRemote { get { return _isremote; } set { _isremote = value; OnPropertyChanged("IsRemote"); } }
 
+        public bool _isCompInstantly = true;
+        public bool IsCompInstantly { get { return _isCompInstantly; } set { _isCompInstantly = value; OnPropertyChanged("IsCompInstantly"); } }
+
+        private string _progresscontent = "";
+        public string ProgressContent { get { return _progresscontent; } set { _progresscontent = value; OnPropertyChanged("ProgressContent"); } }
 
         public ICommand RunClicked { get; set; }
         public ICommand SaveClicked { get; set; }
@@ -168,150 +173,33 @@ namespace MaterialDesignColors.WpfExample.Domain
             if (PropertyChanged != null)
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public void CheckLicenseCommand()
+        public MTObservableCollection<CheckLicenseModel> PrepareCheckLicenseModel()
         {
+            var checklicense = new MTObservableCollection<CheckLicenseModel>();
 
             switch (IsRemote)
             {
                 case true:
-                    CheckLicenseRemoteCommand();
-                    break;
-                case false:
-                    CheckLicenseLocalCommand();
-                    break;
 
-                default:
-                    break;
-            }
-
-        }
-        async Task ExecuteAsync()
-        {
-
-        }
-        public void CheckLicenseLocalCommand()
-        {
-
-            StartNotification();
-
-            _executedComputer = 0;
-            Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.ComputerDTO>();
-            var checklicense = new MTObservableCollection<CheckLicenseModel>();
-
-            var localcomp = ComputerDetection.ExecuteLocal();
-            localcomp.FirmId = FirmId;
-            Computers.Add(localcomp);
-
-
-
-            System.Action DoInBackground = new System.Action(() =>
-        {
-            try
-            {
-                var cmpid = client.ComputerUpsert(localcomp);
-
-
-                foreach (var soft in SoftwareList)
-                {
-                    checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, App = soft });
-                }
-
-                CheckLicenses = checklicense;
-                TotalComputer = CheckLicenses.Count;
-
-                var counter = CheckLicenses.Count;
-                foreach (var chc in CheckLicenses)
-                {
-                    LicenseDetection detect = new LicenseDetection();
-                    var tempchc = new CheckLicenseModel();
-                    System.Action ChildDoInBackground = new System.Action(() =>
-                       {
-                           tempchc = detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
-
-                       });
-                    System.Action ChildDoOnUiThread = new System.Action(() =>
+                    switch (IsCompInstantly)
                     {
-                        chc.Output = tempchc.Output;
-                        chc.IsProgress = false;
-                        ExecutedComputer++;
+                        case true:
+                            ProgressContent = "Searching Computer From Network...";
+                            ComputerViewModel compgenerator = new ComputerViewModel(FirmId);
+                            compgenerator.GenerateCommandInstantly();
+                            if (compgenerator.Computers.Count > 0)
+                            {
+                                var comps = Converter.Convert<ComputerDTO, ComputerModel>(compgenerator.Computers.ToList());
+                                Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.ComputerDTO>(comps);
+                            }
+                            break;
+                        case false:
+                            Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.ComputerDTO>(client.ComputerList(FirmId).ToList());
 
-                        if (ExecutedComputer == TotalComputer)
-                        {
-                            EndNotification("Operation has finished!!");
-                        }
-                        counter--;
-                    });
-                    Canceller = new CancellationTokenSource();
-                    var t3 = Task.Factory.StartNew(() =>
-                    {
-                        using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                        {
-                            ChildDoInBackground();
-                        }
-                    }, Canceller.Token);
-                    //, TaskCreationOptions.None, UIContext.Current
-                    // when t1 is done run t1..on the Ui thread.
-                    var t4 = t3.ContinueWith(t =>
-                {
-                    using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                    {
-                        ChildDoOnUiThread();
+                            break;
+                        default:
+                            break;
                     }
-                }, Canceller.Token);
-
-                    //, TaskContinuationOptions.OnlyOnFaulted, UIContext.Current
-                }
-                while (counter != 0)
-                {
-
-                }
-                if (AutoSave)
-                    SaveCommandsync();
-            }
-            catch (System.Exception ex)
-            {
-                EndNotification(ex.Message);
-                return;
-            }
-        });
-
-            // start the background task
-            Canceller = new CancellationTokenSource();
-            var t1 = Task.Factory.StartNew(() =>
-            {
-                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                {
-                    DoInBackground();
-                }
-            }, Canceller.Token);
-        }
-        public void CheckLicenseRemoteCommand()
-        {
-            StartNotification();
-
-            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password) && IsRemote == true)
-            {
-                EndNotification("UserName or Password is empty");
-                return;
-            }
-            _executedComputer = 0;
-
-
-
-            System.Action DoInBackground = new System.Action(() =>
-            {
-                try
-                {
-                    Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.ComputerDTO>(client.ComputerList(FirmId).ToList());
-                    var checklicense = new MTObservableCollection<CheckLicenseModel>();
-
-
-                    if (Computers.Count == 0 && IsRemote == true)
-                    {
-                        EndNotification("Firm of Operation does not contain any computer!");
-                        return;
-                    }
-
                     foreach (var item in Computers)
                     {
                         foreach (var sft in SoftwareList)
@@ -320,53 +208,83 @@ namespace MaterialDesignColors.WpfExample.Domain
                         }
                     }
 
-                    CheckLicenses = checklicense;
-                    TotalComputer = CheckLicenses.Count;
+                    break;
+                case false:
+                    Computers = new ObservableCollection<LicenseController.autocad.masterkey.ws.ComputerDTO>();
 
-                    var counter = CheckLicenses.Count;
-                    foreach (var chc in CheckLicenses)
+
+                    var localcomp = ComputerDetection.ExecuteLocal();
+                    localcomp.FirmId = FirmId;
+                    Computers.Add(localcomp);
+                    var cmpid = client.ComputerUpsert(localcomp);
+
+                    foreach (var soft in SoftwareList)
                     {
-                        LicenseDetection detect = new LicenseDetection();
-                        var tempchc = new CheckLicenseModel();
-                        System.Action ChildDoInBackground = new System.Action(() =>
-                        {
-                            tempchc = detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
-
-                        });
-                        System.Action ChildDoOnUiThread = new System.Action(() =>
-                        {
-                            chc.Output = tempchc.Output;
-                            chc.IsProgress = false;
-                            ExecutedComputer++;
-
-                            if (ExecutedComputer == TotalComputer)
-                            {
-                                EndNotification("Operation has finished!!");
-                            }
-                            counter--;
-                        });
-                        Canceller = new CancellationTokenSource();
-                        var t3 = Task.Factory.StartNew(() =>
-                        {
-                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                            {
-
-                                ChildDoInBackground();
-
-                            }
-                        }, Canceller.Token);
-                        //, TaskCreationOptions.None, UIContext.Current
-                        // when t1 is done run t1..on the Ui thread.
-                        var t4 = t3.ContinueWith(t =>
-                        {
-                            using (Canceller.Token.Register(Thread.CurrentThread.Abort))
-                            {
-                                ChildDoOnUiThread();
-                            }
-                        }, Canceller.Token);
-
-                        //, TaskContinuationOptions.OnlyOnFaulted, UIContext.Current
+                        checklicense.Add(new CheckLicenseModel() { ComputerId = cmpid, Name = localcomp.Name, Ip = localcomp.Ip, FirmId = FirmId, IsProgress = true, OperationId = OprId, App = soft });
                     }
+                    break;
+
+                default:
+                    break;
+            }
+            return checklicense;
+        }
+        public void CheckLicenseCommand()
+        {
+            StartNotification();
+
+            if ((string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password)) && IsRemote == true)
+            {
+                EndNotification("UserName or Password is empty");
+                return;
+            }
+            _executedComputer = 0;
+
+            System.Action DoInBackground = new System.Action(() =>
+            {
+                try
+                {
+                    CheckLicenses = PrepareCheckLicenseModel();
+
+                    if (CheckLicenses.Count == 0 && IsRemote == true)
+                    {
+                        EndNotification("Firm of Operation does not contain any computer!");
+                        return;
+                    }
+                    TotalComputer = CheckLicenses.Count;
+                    ProgressContent = "Checking Computer...";
+                    var counter = CheckLicenses.Count;
+
+
+
+                    System.Action ChildDoInBackground = new System.Action(() =>
+                    {
+                        foreach (var chc in CheckLicenses)
+                        {
+                            LicenseDetection detect = new LicenseDetection();
+                            detect.ExecuteWMIForOneApp(chc, UserName, Password, OprId, CheckList.ToList(), IsRemote);
+                            chc.IsProgress = false;
+
+                            counter--;
+                        }
+                        EndNotification("Operation has finished!!");
+                    });
+
+                    Canceller = new CancellationTokenSource();
+                    var t3 = Task.Factory.StartNew(() =>
+                    {
+                        using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                        {
+
+                            ChildDoInBackground();
+
+                        }
+                    }, Canceller.Token);
+                    //, TaskCreationOptions.None, UIContext.Current
+                    // when t1 is done run t1..on the Ui thread.
+
+                    //, TaskContinuationOptions.OnlyOnFaulted, UIContext.Current
+
                     while (counter != 0)
                     {
 
@@ -599,7 +517,7 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
             IsButtonEnable = true;
             ProgressBar = Visibility.Hidden;
-
+            ProgressContent = "";
         }
     }
 }

@@ -31,7 +31,7 @@ namespace AutoCadLisansKontrol.Controller
     {
         public LicenseController.autocad.masterkey.ws.Service1Client client = new LicenseController.autocad.masterkey.ws.Service1Client();
         static OutputSniff outputs = new OutputSniff();
-        public static CheckLicenseModel ExecutePowerShell(CheckLicenseModel chc, string username, string password, int opreationid)
+        public CheckLicenseModel ExecutePowerShell(CheckLicenseModel chc, string username, string password, int opreationid)
         {
             //Environment.SetEnvironmentVariable("clientname", chc.Ip);
             //Environment.SetEnvironmentVariable("username", username);
@@ -114,7 +114,7 @@ namespace AutoCadLisansKontrol.Controller
             securePassword.MakeReadOnly();
             return securePassword;
         }
-        public static CheckLicenseModel ExecutePsexec(CheckLicenseModel chc, string username, string password, int operationid)
+        public CheckLicenseModel ExecutePsexec(CheckLicenseModel chc, string username, string password, int operationid)
         {
 
             //if (!ProcessWMI.Connect(chc.Name, username, password, out error))
@@ -237,32 +237,25 @@ namespace AutoCadLisansKontrol.Controller
             return chc;
         }
 
-        public CheckLicenseModel ExecuteWMIForOneApp(CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPointDTO> checklist, bool isRemote)
+        public void ExecuteWMIForOneApp(CheckLicenseModel chc, string username, string password, int opreationidi, List<ControlPointDTO> checklist, bool isRemote)
         {
             var levelid = 0;
             var softwares = "";
-            var software = chc.App; ;
+            var software = chc.App;
             var guids = Guid.NewGuid();
             var guidId = guids.ToString();
             var logs = new List<LogData>();
-            var remote = chc.Name == "" ? chc.Ip : chc.Name;
+            var remote = String.IsNullOrEmpty(chc.Name) ? chc.Ip : chc.Name;
+            var xmlreq = new RequestedXml { ComputerName = chc.Name, Ip = chc.Ip, IsRemote = isRemote.ToString(), Password = password, UserName = username, WorkDate = DateTime.Now.ToString("dd-MM-yyyy") };
             ProcessWMI process = new ProcessWMI(remote, username, password, isRemote);
 
             try
             {
                 logs.Add(new LogData { AppName = remote, Id = guidId, StartTime = DateTime.Now, Method = "ExecuteWMI", LogDataType = LogDataType.InitiliazeProcess, ComputerId = (int)chc.ComputerId });
-                logs.Add(new LogData { AppName = remote, ReqXml = GenericDataContractSerializer<SoftwareDTO>.SerializeObject(software), Id = guidId, LevelId = levelid, Method = "ExecuteWMI", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess, OperationId = (int)chc.OperationId });
-                process.Connect();
+                logs.Add(new LogData { AppName = remote, ReqXml = GenericDataContractSerializer<RequestedXml>.SerializeObject(xmlreq), Id = guidId, LevelId = levelid, Method = "ExecuteWMI", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess, OperationId = (int)chc.OperationId });
                 chc.LogId = guids;
-                chc.Fail = false;
-                chc.IsFound = false;
-                chc.Success = false;
-                chc.Installed = false;
-                chc.Uninstalled = false;
-                chc.InstallDate = null;
-                chc.UnInstallDate = null;
-                chc.CheckDate = DateTime.Now;
-                chc.State = true;
+                chc.InitiliazeObject();
+                process.Connect();
 
                 foreach (var item in checklist)
                 {
@@ -271,16 +264,13 @@ namespace AutoCadLisansKontrol.Controller
                         var addremove = "";
                         try
                         {
-
                             levelid++;
                             logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPointDTO>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Add or Remove Programs", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
-
+                            addremove = "ADD OR REMOVE PROGRAMS" + "\n\r" + "\n\r";
                             var win32product = process.GetProductWithWMI(software);
                             outputs.Win32_products = win32product;
                             if (win32product.Count > 0)
                             {
-                                addremove += "ADD OR REMOVE PROGRAMS" + "\n\r" + "\n\r";
-
                                 foreach (var prd in win32product)
                                 {
                                     addremove += prd.Name + " InstallDate : " + prd.InstallDate + ")" + "\n\r";
@@ -289,10 +279,14 @@ namespace AutoCadLisansKontrol.Controller
                                 chc.IsFound = true;
                                 chc.SerialNumber = win32product[0].ProductID;
                             }
+                            else
+                            {
+                                addremove += "Programs are not found" + "\n\r";
+                            }
                         }
                         catch (Exception ex)
                         {
-                            chc.State = false;
+
                             addremove += "Fail : " + ex.Message + "\n\r";
                         }
                         softwares += addremove;
@@ -306,9 +300,10 @@ namespace AutoCadLisansKontrol.Controller
                         {
                             levelid++;
                             logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPointDTO>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Registry Key", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
+                            registerys += "\n\r" + "REGISTERY KEY" + "\n\r" + "\n\r";
 
                             var registeryproduct = process.ReadRegisteryusingWMI(software);
-                            registerys += "\n\r" + "REGISTERY KEY" + "\n\r" + "\n\r";
+
                             outputs.RegistryAutoDesk = registeryproduct;
                             if (registeryproduct.Count > 0)
                             {
@@ -319,10 +314,14 @@ namespace AutoCadLisansKontrol.Controller
                                 chc.Installed = true;
                                 chc.IsFound = true;
                             }
+                            else
+                            {
+                                registerys += "Registry keys are not found." + "\n\r";
+                            }
                         }
                         catch (Exception ex)
                         {
-                            chc.State = false;
+
                             registerys += "Fail : " + ex.Message + "\n\r";
                         }
                         softwares += registerys;
@@ -337,10 +336,10 @@ namespace AutoCadLisansKontrol.Controller
                         logs.Add(new LogData { ReqXml = GenericDataContractSerializer<ControlPointDTO>.SerializeObject(item), Id = guidId, LevelId = levelid, Method = "Application Events", StartTime = DateTime.Now, LogDataType = LogDataType.InitiliazeItemOfProcess });
                         try
                         {
-
+                            appevent += "APPLICATION EVENTS" + "\n\r" + "\n\r";
 
                             var events = process.GetApplicationEvent(software);
-                            appevent += "APPLICATION EVENTS" + "\n\r" + "\n\r";
+
                             outputs.ApplicationEvents = events;
                             if (events.Count > 0)
                             {
@@ -352,11 +351,14 @@ namespace AutoCadLisansKontrol.Controller
                                     chc.Uninstalled = true;
                                 chc.IsFound = true;
                             }
-
+                            else
+                            {
+                                appevent += "Application events are not found" + "\n\r";
+                            }
                         }
                         catch (Exception ex)
                         {
-                            chc.State = false;
+
                             appevent += "Fail : " + ex.Message + "\n\r";
                         }
                         softwares += appevent;
@@ -372,7 +374,7 @@ namespace AutoCadLisansKontrol.Controller
                         {
 
 
-                            fileexplorer += "FILE EXPLORER" + "\n\r" + "\n\r";
+                            fileexplorer += "FILE EXPLORER" + "\n\r" + "\n\r" + "\n\r";
 
                             var model = process.DirectoryChecklist(client.GetFEControlList(software.Id).ToList());
 
@@ -395,7 +397,7 @@ namespace AutoCadLisansKontrol.Controller
                         }
                         catch (Exception ex)
                         {
-                            chc.State = false;
+
                             fileexplorer += "Fail : " + ex.Message + "\n\r";
                         }
                         softwares += fileexplorer;
@@ -405,7 +407,6 @@ namespace AutoCadLisansKontrol.Controller
 
 
                 chc.Success = true;
-                chc.State = true;
 
                 if (outputs.Win32_products != null && outputs.Win32_products.Count > 0)
                 {
@@ -477,24 +478,72 @@ namespace AutoCadLisansKontrol.Controller
                 softwares += "\r\n" + ex.Message;
                 chc.Fail = true;
                 chc.Success = false;
-                chc.State = false;
                 chc.Output = softwares;
                 logs.Add(new LogData { AppName = remote, Id = guidId, ResXml = chc.Output, State = LogDataState.Success, LevelId = 0, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
                 logs.Add(new LogData() { AppName = remote, Id = guidId, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateProcess });
-                client.LogToDb(logs.ToArray());
-                return chc;
+                try
+                {
+                    client.LogToDb(logs.ToArray());
+                }
+                catch (Exception e)
+                {
+                    var message = e.Message;
+                }
+               
+                chc.QueryState = CategorizeProcessResult(chc.Output, chc.App.AppName);
+                chc.State = (int)chc.QueryState;
+
+                return;
             }
             try
             {
                 logs.Add(new LogData { AppName = remote, Id = guidId, ResXml = chc.Output, State = LogDataState.Success, LevelId = 0, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateItemOfProcess });
                 logs.Add(new LogData() { AppName = remote, Id = guidId, EndTime = DateTime.Now, LogDataType = LogDataType.UpdateProcess });
                 client.LogToDb(logs.ToArray());
+                chc.QueryState = CategorizeProcessResult(chc.Output, chc.App.AppName);
+                chc.State = (int)chc.QueryState;
             }
             catch (Exception ex)
             {
                 var message = ex.Message;
             }
-            return chc;
+            return;
+        }
+        public static QueryState CategorizeProcessResult(string output, string application)
+        {
+            try
+            {
+                if (output.Contains("User credentials cannot be used for local connections"))
+                {
+                    return QueryState.User_credentials_cannot_be_used_for_local_connections;
+                }
+                if (output.Contains("failed with the following error Access is denied"))
+                {
+                    return QueryState.User_not_authorized_to_login_computer;
+                }
+                else if (output.Contains("The RPC server is unavailable."))
+                {
+                    return QueryState.Remote_computer_doesnt_respond_Maybe_it_is_switched_off_or_WMI_service_is_not_running_on_it;
+                }
+                else if (output.Contains(application))
+                {
+                    return QueryState.Product_found;
+                }
+                else if (!output.Contains(application))
+                {
+                    return QueryState.No_Product_found;
+                }
+                else
+                {
+                    return QueryState.UnKnownState;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return QueryState.UnKnownState;
+            }
+
         }
 
         internal class RemoteCommand
@@ -502,6 +551,16 @@ namespace AutoCadLisansKontrol.Controller
             public string Key { get; set; }
             public string command { get; set; }
             public int timeout { get; set; }
+        }
+        public class RequestedXml
+        {
+            public string ComputerName { get; set; }
+            public string Ip { get; set; }
+            public string UserName { get; set; }
+            public string Password { get; set; }
+            public string IsRemote { get; set; }
+            public string WorkDate { get; set; }
+
         }
     }
 }

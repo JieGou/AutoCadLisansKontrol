@@ -18,7 +18,7 @@ namespace AutoCadLisansKontrol.DAL
         public SoftwareEntity()
         {
             this.FE_ControlList = new HashSet<FE_ControlListEntity>();
-            this.CheckLicense = new HashSet<CheckLicenseEntity>();
+            this.CheckLicense = new HashSet<CheckLicense>();
         }
     
         public int Id { get; set; }
@@ -28,6 +28,6 @@ namespace AutoCadLisansKontrol.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FE_ControlListEntity> FE_ControlList { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CheckLicenseEntity> CheckLicense { get; set; }
+        public virtual ICollection<CheckLicense> CheckLicense { get; set; }
     }
 }

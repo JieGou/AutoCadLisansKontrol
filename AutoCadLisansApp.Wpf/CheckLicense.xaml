@@ -61,7 +61,7 @@
                 </materialDesign:Card>
             </Border>
         </StackPanel>
-        <ScrollViewer Name="scrollViewer"  Grid.Column="1" MouseWheel="scrollViewer_MouseWheel"  >
+        <ScrollViewer Name="scrollViewer"  Grid.Column="1"  >
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="5*" />
@@ -101,7 +101,7 @@
                         </StackPanel>
                     </materialDesign:DialogHost.DialogContent>
                     <Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
-                            ClipToBounds="True">
+                            >
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -110,7 +110,7 @@
 
 
 
-                            <DataGrid ItemsSource="{Binding SoftwareList,Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" Grid.Row="0" >
+                            <DataGrid ItemsSource="{Binding SoftwareList,Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" Grid.Row="0"  PreviewMouseWheel="grdCheckList_PreviewMouseWheel">
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn  Width="SizeToCells">
                                         <DataGridTemplateColumn.CellTemplate>
@@ -160,7 +160,8 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <DataGrid ItemsSource="{Binding CheckList,Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" Grid.Row="0" >
+                            <DataGrid ItemsSource="{Binding CheckList,Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" Grid.Row="0" PreviewMouseWheel="grdCheckList_PreviewMouseWheel">
+                                
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn  Width="SizeToCells">
                                         <DataGridTemplateColumn.CellTemplate>
@@ -214,12 +215,42 @@
                     </Border>
                 </materialDesign:DialogHost>
 
-                <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" >Local</TextBlock>
-                    <ToggleButton Grid.Row="0" Style="{StaticResource MaterialDesignSwitchAccentToggleButton}" VerticalAlignment="Center" Margin="8 0 0 0"
-                          ToolTip="Connection Type" IsChecked="{Binding IsRemote}" Click="ToggleButton_Click" />
-                    <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" > Remote</TextBlock>
-                </StackPanel>
+
+                <materialDesign:PopupBox Margin="16,0,16,0" StaysOpen="True"  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right">
+                    <Grid Width="300" Margin="8,8,8,8">
+                        <Grid.Resources>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
+                                <Setter Property="Margin" Value="8,8,10,8"/>
+                            </Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                                <Setter Property="materialDesign:HintAssist.IsFloating" Value="True"/>
+                                <Setter Property="Margin" Value="8,8,8,8"/>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Style="{StaticResource MaterialDesignTitleTextBlock}" Margin="8,8,8,16">OPTIONS</TextBlock>
+                        <TextBox IsReadOnly="True" Grid.Column="0" Grid.Row="1"  Text="IsRemote"/>
+                        <TextBox IsReadOnly="True" Grid.Column="0" Grid.Row="2"  Text="IsLocal"/>
+                        <TextBox IsReadOnly="True" Grid.Column="0" Grid.Row="3"  Text="Load Computer From Db"/>
+                        <TextBox IsReadOnly="True" Grid.Column="0" Grid.Row="4"  Text="Generate Computer Instantly"/>
+                        <RadioButton GroupName="RemoteLocal" Grid.Column="1" Grid.Row="1" IsChecked="{Binding IsRemote,Mode=TwoWay}" VerticalAlignment="Bottom" />
+                        <RadioButton GroupName="RemoteLocal" Grid.Column="1" Grid.Row="2" IsChecked="{Binding !IsRemote,Mode=TwoWay}" VerticalAlignment="Bottom" />
+                        <RadioButton GroupName="DbInstant" Grid.Column="1" Grid.Row="3" IsChecked="{Binding !IsCompInstantly,Mode=TwoWay}" VerticalAlignment="Bottom" />
+                        <RadioButton GroupName="DbInstant" Grid.Column="1" Grid.Row="4" IsChecked="{Binding IsCompInstantly,Mode=TwoWay}" VerticalAlignment="Bottom" /> 
+                    </Grid>
+
+                </materialDesign:PopupBox>
+               
                 <StackPanel Grid.Row="0" Grid.Column="0">
                     <materialDesign:Chip Content="Back"
                              
@@ -235,7 +266,7 @@
                     </materialDesign:Snackbar>
 
                     <ProgressBar  IsIndeterminate="True" Margin="22,24,10,18" Visibility="{Binding ProgressBar,Mode=TwoWay}" />
-
+                    <TextBlock Text="{Binding ProgressContent}" Margin="22,24,10,18"></TextBlock>
                 </StackPanel>
                 <!--<TabControl  Style="{DynamicResource ResourceKey=styleTabControl}"  Margin="16,0,16,16" >
                     <TabItem Header="General" Style="{DynamicResource ResourceKey=styleTabItemLeft}">
@@ -337,7 +368,7 @@
                         </StackPanel>
 
                         <DataGrid Grid.Row="1" Grid.ColumnSpan="2"  Margin="0 8 0 0" Name="grdCheckList" ItemsSource="{Binding CheckLicenses,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
-                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" PreviewMouseWheel="grdCheckList_PreviewMouseWheel">
                             <DataGrid.Columns>
 
                                 <materialDesign:MaterialDataGridTextColumn Binding="{Binding ComputerId,Mode=TwoWay}" 

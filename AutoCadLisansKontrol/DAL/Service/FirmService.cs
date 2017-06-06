@@ -21,7 +21,9 @@ namespace AutoCadLisansKontrol.DAL.Service
                     model.InsertDate = DateTime.Now;
                     dbaccess.Firm.Add(model);
                     dbaccess.Firm_User_RL.Add(new Firm_User_RL { FirmId = firm.Id, UserId = firm.UserId });
-                    dbaccess.Firm_User_RL.Add(new Firm_User_RL { FirmId = firm.Id, UserId = 1 });//admin user has to see all firms.....
+
+                    if (firm.UserId!=1)//admin user has to see all firms.....
+                        dbaccess.Firm_User_RL.Add(new Firm_User_RL { FirmId = firm.Id, UserId = 1 });
 
                 }
                 else
@@ -74,11 +76,11 @@ namespace AutoCadLisansKontrol.DAL.Service
         }
         public List<FirmDTO> List(int userid)
         {
-            var list = mssqlappaccess.QueryList<FirmEntity>("SP_SELECT_FIRM", new List<System.Data.SqlClient.SqlParameter>() {
+            var list = mssqlappaccess.QueryList<FirmDTO>("SP_SELECT_FIRM", new List<System.Data.SqlClient.SqlParameter>() {
 
                     new System.Data.SqlClient.SqlParameter("@USERID",userid)
                 });
-            return Converter.Convert<FirmDTO, FirmEntity>(list);
+            return list;
         }
 
         public void Delete(int firmid)

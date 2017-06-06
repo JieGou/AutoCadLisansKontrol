@@ -17,7 +17,7 @@ namespace AutoCadLisansKontrol.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OperationEntity()
         {
-            this.CheckLicense = new HashSet<CheckLicenseEntity>();
+            this.CheckLicense = new HashSet<CheckLicense>();
         }
     
         public int Id { get; set; }
@@ -26,6 +26,6 @@ namespace AutoCadLisansKontrol.DAL
     
         public virtual FirmEntity Firm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CheckLicenseEntity> CheckLicense { get; set; }
+        public virtual ICollection<CheckLicense> CheckLicense { get; set; }
     }
 }

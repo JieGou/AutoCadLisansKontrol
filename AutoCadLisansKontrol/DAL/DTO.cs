@@ -38,6 +38,8 @@ namespace LicenseControllerWs.DAL
         public System.DateTime InsertDate { get; set; }
         [DataMember]
         public int UserId { get; set; }
+        [DataMember]
+        public int ComputerCount { get; set; }
     }
     [DataContract]
     public class OperationDTO
@@ -104,7 +106,7 @@ namespace LicenseControllerWs.DAL
         [DataMember]
         public string Name { get; set; }
         [DataMember]
-        public Nullable<bool> State { get; set; }
+        public Nullable<int> State { get; set; }
         [DataMember]
         public Nullable<bool> Installed { get; set; }
         [DataMember]

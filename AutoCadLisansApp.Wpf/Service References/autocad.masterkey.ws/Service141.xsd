@@ -12,6 +12,7 @@
   <xs:complexType name="FirmDTO">
     <xs:sequence>
       <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ComputerCount" type="xs:int" />
       <xs:element minOccurs="0" name="Contact" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Id" type="xs:int" />
       <xs:element minOccurs="0" name="InsertDate" type="xs:dateTime" />
@@ -80,7 +81,7 @@
       <xs:element minOccurs="0" name="OperationId" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="Output" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SerialNumber" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="State" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="State" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="UnInstallDate" nillable="true" type="xs:dateTime" />
       <xs:element minOccurs="0" name="Uninstalled" nillable="true" type="xs:boolean" />
       <xs:element minOccurs="0" name="UpdateDate" nillable="true" type="xs:dateTime" />

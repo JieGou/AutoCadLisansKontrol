@@ -44,7 +44,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer Name="scrollViewer" MouseWheel="scrollViewer_MouseWheel">
+    <ScrollViewer Name="scrollViewer" >
 
         <StackPanel>
             <materialDesign:Snackbar IsActive="{Binding NotificationIsVisible,Mode=TwoWay}"  
@@ -83,7 +83,9 @@
                 </GroupBox.Header>
 
                 <DataGrid Name="grdfirm" Margin="0 8 0 0" ItemsSource="{Binding Firm,Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
-                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8"  PreviewMouseWheel="grdfirm_PreviewMouseWheel">
+                    
+                    
                     <DataGrid.Columns>
                         <materialDesign:MaterialDataGridTextColumn Binding="{Binding Id,Mode=TwoWay}" 
                                             Header="Id"
@@ -167,8 +169,11 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-
-                        <DataGridTemplateColumn Width="125">
+                        <materialDesign:MaterialDataGridTextColumn Binding="{Binding ComputerCount,Mode=TwoWay}" Width="125" 
+                                                               Header="Computer Count"                                                         
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
+                                                               ></materialDesign:MaterialDataGridTextColumn>
+                            <DataGridTemplateColumn Width="125">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Click="ComputerButton_Click" CommandParameter="{Binding Id}"

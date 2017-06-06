@@ -18,7 +18,7 @@
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="OperationId" Type="int" />
           <Property Name="FirmId" Type="int" />
-          <Property Name="State" Type="bit" />
+          <Property Name="State" Type="int" />
           <Property Name="Installed" Type="bit" />
           <Property Name="Uninstalled" Type="bit" />
           <Property Name="IsFound" Type="bit" />
@@ -296,16 +296,7 @@
             <End Role="FE_ControlList" EntitySet="FE_ControlList" />
           </AssociationSet>
           <EntitySet Name="Users" EntityType="AUTOCADLICENSEModel.Users" />
-          <EntitySet Name="CheckLicense" EntityType="AUTOCADLICENSEModel.CheckLicenseEntity" />
           <EntitySet Name="Computer" EntityType="AUTOCADLICENSEModel.ComputerEntity" />
-          <AssociationSet Name="FK_CheckLicense_Software" Association="AUTOCADLICENSEModel.FK_CheckLicense_Software">
-            <End Role="SoftwareEntity" EntitySet="Software" />
-            <End Role="CheckLicense" EntitySet="CheckLicense" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OperationDetail_Operation" Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation">
-            <End Role="OperationEntity" EntitySet="Operation" />
-            <End Role="CheckLicense" EntitySet="CheckLicense" />
-          </AssociationSet>
           <AssociationSet Name="FK_Computer_Firm" Association="AUTOCADLICENSEModel.FK_Computer_Firm">
             <End Role="FirmEntity" EntitySet="Firm" />
             <End Role="Computer" EntitySet="Computer" />
@@ -322,6 +313,15 @@
           <AssociationSet Name="FK_Firm_User_RL_Users" Association="AUTOCADLICENSEModel.FK_Firm_User_RL_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Firm_User_RL" EntitySet="Firm_User_RL" />
+          </AssociationSet>
+          <EntitySet Name="CheckLicense" EntityType="AUTOCADLICENSEModel.CheckLicense" />
+          <AssociationSet Name="FK_CheckLicense_Software" Association="AUTOCADLICENSEModel.FK_CheckLicense_Software">
+            <End Role="SoftwareEntity" EntitySet="Software" />
+            <End Role="CheckLicense" EntitySet="CheckLicense" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationDetail_Operation" Association="AUTOCADLICENSEModel.FK_OperationDetail_Operation">
+            <End Role="OperationEntity" EntitySet="Operation" />
+            <End Role="CheckLicense" EntitySet="CheckLicense" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="FirmEntity">
@@ -413,31 +413,6 @@
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Firm_User_RL" Relationship="AUTOCADLICENSEModel.FK_Firm_User_RL_Users" FromRole="Users" ToRole="Firm_User_RL" />
         </EntityType>
-        <EntityType Name="CheckLicenseEntity">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
-          <Property Name="Ip" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
-          <Property Name="ComputerId" Type="Int32" />
-          <Property Name="Output" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CheckDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-          <Property Name="OperationId" Type="Int32" />
-          <Property Name="FirmId" Type="Int32" />
-          <Property Name="State" Type="Boolean" />
-          <Property Name="Installed" Type="Boolean" />
-          <Property Name="Uninstalled" Type="Boolean" />
-          <Property Name="IsFound" Type="Boolean" />
-          <Property Name="InstallDate" Type="DateTime" Precision="3" />
-          <Property Name="UnInstallDate" Type="DateTime" Precision="3" />
-          <Property Name="AppId" Type="Int32" />
-          <NavigationProperty Name="Software" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="CheckLicense" ToRole="SoftwareEntity" />
-          <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="OperationEntity" />
-          <Property Name="LogId" Type="Guid" />
-          <Property Name="SerialNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="ComputerEntity">
           <Key>
             <PropertyRef Name="Id" />
@@ -454,30 +429,6 @@
           <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Firm" Relationship="AUTOCADLICENSEModel.FK_Computer_Firm" FromRole="Computer" ToRole="FirmEntity" />
         </EntityType>
-        <Association Name="FK_CheckLicense_Software">
-          <End Type="AUTOCADLICENSEModel.SoftwareEntity" Role="SoftwareEntity" Multiplicity="0..1" />
-          <End Type="AUTOCADLICENSEModel.CheckLicenseEntity" Role="CheckLicense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SoftwareEntity">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CheckLicense">
-              <PropertyRef Name="AppId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OperationDetail_Operation">
-          <End Type="AUTOCADLICENSEModel.OperationEntity" Role="OperationEntity" Multiplicity="0..1" />
-          <End Type="AUTOCADLICENSEModel.CheckLicenseEntity" Role="CheckLicense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OperationEntity">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CheckLicense">
-              <PropertyRef Name="OperationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Computer_Firm">
           <End Type="AUTOCADLICENSEModel.FirmEntity" Role="FirmEntity" Multiplicity="1" />
           <End Type="AUTOCADLICENSEModel.ComputerEntity" Role="Computer" Multiplicity="*" />
@@ -533,6 +484,55 @@
             </Principal>
             <Dependent Role="Firm_User_RL">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CheckLicense">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="Ip" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="ComputerId" Type="Int32" />
+          <Property Name="Output" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CheckDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="OperationId" Type="Int32" />
+          <Property Name="FirmId" Type="Int32" />
+          <Property Name="State" Type="Int32" />
+          <Property Name="Installed" Type="Boolean" />
+          <Property Name="Uninstalled" Type="Boolean" />
+          <Property Name="IsFound" Type="Boolean" />
+          <Property Name="InstallDate" Type="DateTime" Precision="3" />
+          <Property Name="UnInstallDate" Type="DateTime" Precision="3" />
+          <Property Name="AppId" Type="Int32" />
+          <Property Name="LogId" Type="Guid" />
+          <Property Name="SerialNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Software" Relationship="AUTOCADLICENSEModel.FK_CheckLicense_Software" FromRole="CheckLicense" ToRole="SoftwareEntity" />
+          <NavigationProperty Name="Operation" Relationship="AUTOCADLICENSEModel.FK_OperationDetail_Operation" FromRole="CheckLicense" ToRole="OperationEntity" />
+        </EntityType>
+        <Association Name="FK_CheckLicense_Software">
+          <End Type="AUTOCADLICENSEModel.SoftwareEntity" Role="SoftwareEntity" Multiplicity="0..1" />
+          <End Type="AUTOCADLICENSEModel.CheckLicense" Role="CheckLicense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SoftwareEntity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckLicense">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationDetail_Operation">
+          <End Type="AUTOCADLICENSEModel.OperationEntity" Role="OperationEntity" Multiplicity="0..1" />
+          <End Type="AUTOCADLICENSEModel.CheckLicense" Role="CheckLicense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationEntity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckLicense">
+              <PropertyRef Name="OperationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -606,30 +606,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CheckLicense">
-            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicenseEntity">
-              <MappingFragment StoreEntitySet="CheckLicense">
-                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
-                <ScalarProperty Name="LogId" ColumnName="LogId" />
-                <ScalarProperty Name="AppId" ColumnName="AppId" />
-                <ScalarProperty Name="UnInstallDate" ColumnName="UnInstallDate" />
-                <ScalarProperty Name="InstallDate" ColumnName="InstallDate" />
-                <ScalarProperty Name="IsFound" ColumnName="IsFound" />
-                <ScalarProperty Name="Uninstalled" ColumnName="Uninstalled" />
-                <ScalarProperty Name="Installed" ColumnName="Installed" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="FirmId" ColumnName="FirmId" />
-                <ScalarProperty Name="OperationId" ColumnName="OperationId" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="CheckDate" ColumnName="CheckDate" />
-                <ScalarProperty Name="Output" ColumnName="Output" />
-                <ScalarProperty Name="ComputerId" ColumnName="ComputerId" />
-                <ScalarProperty Name="Ip" ColumnName="Ip" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Computer">
             <EntityTypeMapping TypeName="AUTOCADLICENSEModel.ComputerEntity">
               <MappingFragment StoreEntitySet="Computer">
@@ -652,6 +628,30 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="FirmId" ColumnName="FirmId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CheckLicense">
+            <EntityTypeMapping TypeName="AUTOCADLICENSEModel.CheckLicense">
+              <MappingFragment StoreEntitySet="CheckLicense">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="UnInstallDate" ColumnName="UnInstallDate" />
+                <ScalarProperty Name="InstallDate" ColumnName="InstallDate" />
+                <ScalarProperty Name="IsFound" ColumnName="IsFound" />
+                <ScalarProperty Name="Uninstalled" ColumnName="Uninstalled" />
+                <ScalarProperty Name="Installed" ColumnName="Installed" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="FirmId" ColumnName="FirmId" />
+                <ScalarProperty Name="OperationId" ColumnName="OperationId" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CheckDate" ColumnName="CheckDate" />
+                <ScalarProperty Name="Output" ColumnName="Output" />
+                <ScalarProperty Name="ComputerId" ColumnName="ComputerId" />
+                <ScalarProperty Name="Ip" ColumnName="Ip" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
