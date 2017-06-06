@@ -627,6 +627,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="img\rsz_autocadicon.ico" />
     <Content Include="Lib\Aspose.Cells.dll" />
     <None Include="Service References\autocad.masterkey.ws\Service11.disco" />
     <Resource Include="rsz_autocadicon.ico" />
